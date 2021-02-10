@@ -38,7 +38,7 @@ android {
 
 dependencies {
     api project(path: ':scandit-react-native-datacapture-core')
-    api "com.scandit.datacapture:barcode:6.6.2"
+    api "com.scandit.datacapture:barcode:6.6.3"
     
     //noinspection GradleDynamicVersion
     implementation 'com.facebook.react:react-native:+'  // From node_modules
