@@ -4,7 +4,7 @@ import { DefaultSerializeable } from 'scandit-react-native-datacapture-core/js/p
 import { TrackedBarcode } from './Barcode';
 import { BarcodeTracking } from './BarcodeTracking';
 export interface BarcodeTrackingBasicOverlayListener {
-    brushForTrackedBarcode?(overlay: BarcodeTrackingBasicOverlay, trackedBarcode: TrackedBarcode): Optional<Brush>;
+    brushForTrackedBarcode?(overlay: BarcodeTrackingBasicOverlay, trackedBarcode: TrackedBarcode): Brush | null;
     didTapTrackedBarcode?(overlay: BarcodeTrackingBasicOverlay, trackedBarcode: TrackedBarcode): void;
 }
 export declare class BarcodeTrackingBasicOverlay extends DefaultSerializeable implements DataCaptureOverlay {
@@ -15,15 +15,15 @@ export declare class BarcodeTrackingBasicOverlay extends DefaultSerializeable im
     private get view();
     static get defaultBrush(): Brush;
     private _brush;
-    get brush(): Optional<Brush>;
-    set brush(newBrush: Optional<Brush>);
+    get brush(): Brush | null;
+    set brush(newBrush: Brush | null);
     private _shouldShowScanAreaGuides;
-    listener: Optional<BarcodeTrackingBasicOverlayListener>;
+    listener: BarcodeTrackingBasicOverlayListener | null;
     private proxy;
     get shouldShowScanAreaGuides(): boolean;
     set shouldShowScanAreaGuides(shouldShow: boolean);
     static withBarcodeTracking(barcodeTracking: BarcodeTracking): BarcodeTrackingBasicOverlay;
-    static withBarcodeTrackingForView(barcodeTracking: BarcodeTracking, view: Optional<DataCaptureView>): BarcodeTrackingBasicOverlay;
+    static withBarcodeTrackingForView(barcodeTracking: BarcodeTracking, view: DataCaptureView | null): BarcodeTrackingBasicOverlay;
     private constructor();
     setBrushForTrackedBarcode(brush: Brush, trackedBarcode: TrackedBarcode): Promise<void>;
     clearTrackedBarcodeBrushes(): Promise<void>;
