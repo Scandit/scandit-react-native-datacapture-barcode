@@ -5,15 +5,15 @@ export declare class Barcode {
     private _symbology;
     get symbology(): Symbology;
     private _data;
-    get data(): string | null;
+    get data(): Optional<string>;
     private _rawData;
     get rawData(): string;
     private _compositeData;
-    get compositeData(): string | null;
+    get compositeData(): Optional<string>;
     private _compositeRawData;
     get compositeRawData(): string;
     private _addOnData;
-    get addOnData(): string | null;
+    get addOnData(): Optional<string>;
     private _encodingRanges;
     get encodingRanges(): EncodingRange[];
     private _location;

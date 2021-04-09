@@ -7,7 +7,7 @@ export declare class BarcodeTracking extends DefaultSerializeable implements Dat
     private type;
     get isEnabled(): boolean;
     set isEnabled(isEnabled: boolean);
-    get context(): DataCaptureContext | null;
+    get context(): Optional<DataCaptureContext>;
     static get recommendedCameraSettings(): CameraSettings;
     private _isEnabled;
     private settings;
@@ -17,7 +17,7 @@ export declare class BarcodeTracking extends DefaultSerializeable implements Dat
     private listeners;
     private listenerProxy;
     private isInListenerCallback;
-    static forContext(context: DataCaptureContext | null, settings: BarcodeTrackingSettings): BarcodeTracking;
+    static forContext(context: Optional<DataCaptureContext>, settings: BarcodeTrackingSettings): BarcodeTracking;
     private constructor();
     applySettings(settings: BarcodeTrackingSettings): Promise<void>;
     addListener(listener: BarcodeTrackingListener): void;

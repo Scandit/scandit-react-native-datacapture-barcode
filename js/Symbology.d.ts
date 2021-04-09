@@ -26,6 +26,5 @@ export declare enum Symbology {
     Code32 = "code32",
     Lapa4SC = "lapa4sc",
     IATATwoOfFive = "iata2of5",
-    MatrixTwoOfFive = "matrix2of5",
-    USPSIntelligentMail = "uspsIntelligentMail"
+    MatrixTwoOfFive = "matrix2of5"
 }

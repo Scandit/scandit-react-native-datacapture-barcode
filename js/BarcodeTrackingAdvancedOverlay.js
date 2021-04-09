@@ -27,22 +27,10 @@ var BarcodeTrackingAdvancedOverlay = /** @class */ (function (_super) {
     function BarcodeTrackingAdvancedOverlay() {
         var _this = _super.call(this) || this;
         _this.type = 'barcodeTrackingAdvanced';
-        _this._shouldShowScanAreaGuides = false;
         _this.listener = null;
         _this.proxy = BarcodeTrackingAdvancedOverlayProxy_1.BarcodeTrackingAdvancedOverlayProxy.forOverlay(_this);
         return _this;
     }
-    Object.defineProperty(BarcodeTrackingAdvancedOverlay.prototype, "shouldShowScanAreaGuides", {
-        get: function () {
-            return this._shouldShowScanAreaGuides;
-        },
-        set: function (shouldShow) {
-            this._shouldShowScanAreaGuides = shouldShow;
-            this.barcodeTracking.didChange();
-        },
-        enumerable: false,
-        configurable: true
-    });
     Object.defineProperty(BarcodeTrackingAdvancedOverlay.prototype, "view", {
         get: function () {
             return this._view;
@@ -79,9 +67,6 @@ var BarcodeTrackingAdvancedOverlay = /** @class */ (function (_super) {
     BarcodeTrackingAdvancedOverlay.prototype.clearTrackedBarcodeViews = function () {
         return this.proxy.clearTrackedBarcodeViews();
     };
-    __decorate([
-        Serializeable_1.nameForSerialization('shouldShowScanAreaGuides')
-    ], BarcodeTrackingAdvancedOverlay.prototype, "_shouldShowScanAreaGuides", void 0);
     __decorate([
         Serializeable_1.ignoreFromSerialization
     ], BarcodeTrackingAdvancedOverlay.prototype, "barcodeTracking", void 0);

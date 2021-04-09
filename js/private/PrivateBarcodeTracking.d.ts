@@ -2,7 +2,7 @@ import { DataCaptureContext } from 'scandit-react-native-datacapture-core/ts/Dat
 import { PrivateDataCaptureMode } from 'scandit-react-native-datacapture-core/ts/private/PrivateDataCaptureContext';
 import { BarcodeTrackingListener } from '../BarcodeTrackingListener';
 export interface PrivateBarcodeTracking extends PrivateDataCaptureMode {
-    _context: DataCaptureContext | null;
+    _context: Optional<DataCaptureContext>;
     listeners: BarcodeTrackingListener[];
     isInListenerCallback: boolean;
     didChange: () => Promise<void>;

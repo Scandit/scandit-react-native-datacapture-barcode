@@ -98,14 +98,4 @@ class ScanditDataCaptureBarcodeTracking: RCTEventEmitter {
         anchorForTrackedBarcodeLock.reset()
         offsetForTrackedBarcodeLock.reset()
     }
-
-    // Empty methods to unify the logic on the TS side for supporting functionality automatically provided by RN on iOS,
-    // but custom implemented on Android.
-
-    @objc func registerListenerForEvents() { }
-    @objc func unregisterListenerForEvents() { }
-    @objc func registerListenerForAdvancedOverlayEvents() { }
-    @objc func unregisterListenerForAdvancedOverlayEvents() { }
-    @objc func registerListenerForBasicOverlayEvents() { }
-    @objc func unregisterListenerForBasicOverlayEvents() { }
 }

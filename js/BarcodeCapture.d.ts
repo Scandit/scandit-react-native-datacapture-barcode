@@ -7,7 +7,7 @@ import { BarcodeCaptureSettings } from './BarcodeCaptureSettings';
 export declare class BarcodeCapture extends DefaultSerializeable implements DataCaptureMode {
     get isEnabled(): boolean;
     set isEnabled(isEnabled: boolean);
-    get context(): DataCaptureContext | null;
+    get context(): Optional<DataCaptureContext>;
     get feedback(): BarcodeCaptureFeedback;
     set feedback(feedback: BarcodeCaptureFeedback);
     static get recommendedCameraSettings(): CameraSettings;
@@ -21,7 +21,7 @@ export declare class BarcodeCapture extends DefaultSerializeable implements Data
     private listeners;
     private listenerProxy;
     private isInListenerCallback;
-    static forContext(context: DataCaptureContext | null, settings: BarcodeCaptureSettings): BarcodeCapture;
+    static forContext(context: Optional<DataCaptureContext>, settings: BarcodeCaptureSettings): BarcodeCapture;
     private constructor();
     applySettings(settings: BarcodeCaptureSettings): Promise<void>;
     addListener(listener: BarcodeCaptureListener): void;

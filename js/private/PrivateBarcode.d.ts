@@ -3,10 +3,10 @@ import { Barcode, LocalizedOnlyBarcode, TrackedBarcode } from '../Barcode';
 import { EncodingRangeJSON } from './PrivateSymbology+Related';
 export interface BarcodeJSON {
     symbology: string;
-    data: string | null;
+    data: Optional<string>;
     rawData: string;
-    addOnData: string | null;
-    compositeData: string | null;
+    addOnData: Optional<string>;
+    compositeData: Optional<string>;
     compositeRawData: string;
     isGS1DataCarrier: boolean;
     compositeFlag: string;
@@ -33,6 +33,6 @@ export interface TrackedBarcodeJSON {
     location: QuadrilateralJSON;
 }
 export interface PrivateTrackedBarcode {
-    sessionFrameSequenceID: number | null;
+    sessionFrameSequenceID: Optional<number>;
     fromJSON(json: TrackedBarcodeJSON): TrackedBarcode;
 }

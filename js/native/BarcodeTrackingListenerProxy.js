@@ -22,7 +22,10 @@ var BarcodeTrackingListenerProxy = /** @class */ (function () {
     };
     BarcodeTrackingListenerProxy.prototype.subscribeListener = function () {
         var _this = this;
-        NativeModule.registerListenerForEvents();
+        // We don't need to register as a Listener to the native side on iOS, as it's done automatically by RN under the hood.
+        if (react_native_1.Platform.OS === 'android') {
+            NativeModule.registerListenerForEvents();
+        }
         var listener = EventEmitter.addListener(BarcodeTrackingListenerEventName.didUpdateSession, function (body) {
             var session = BarcodeTrackingSession_1.BarcodeTrackingSession.fromJSON(JSON.parse(body.session));
             _this.notifyListenersOfDidUpdateSession(session);
@@ -31,7 +34,10 @@ var BarcodeTrackingListenerProxy = /** @class */ (function () {
         this.nativeListeners.push(listener);
     };
     BarcodeTrackingListenerProxy.prototype.unsubscribeListener = function () {
-        NativeModule.unregisterListenerForEvents();
+        // We don't need to unregister as a Listener to the native side on iOS, as it's done automatically by RN under the hood.
+        if (react_native_1.Platform.OS === 'android') {
+            NativeModule.unregisterListenerForEvents();
+        }
         this.nativeListeners.forEach(function (listener) { return listener.remove(); });
         this.nativeListeners = [];
     };

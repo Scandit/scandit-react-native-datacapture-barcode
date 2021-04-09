@@ -49,16 +49,4 @@ RCT_EXTERN_METHOD(finishAnchorForTrackedBarcodeCallback : (NSString *)anchorJSON
 
 RCT_EXTERN_METHOD(finishOffsetForTrackedBarcodeCallback : (NSString *)offsetJSON)
 
-RCT_EXTERN_METHOD(registerListenerForEvents)
-
-RCT_EXTERN_METHOD(unregisterListenerForEvents)
-
-RCT_EXTERN_METHOD(registerListenerForAdvancedOverlayEvents)
-
-RCT_EXTERN_METHOD(unregisterListenerForAdvancedOverlayEvents)
-
-RCT_EXTERN_METHOD(registerListenerForBasicOverlayEvents)
-
-RCT_EXTERN_METHOD(unregisterListenerForBasicOverlayEvents)
-
 @end
