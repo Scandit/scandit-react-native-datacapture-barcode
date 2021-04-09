@@ -6,19 +6,22 @@ import { TrackedBarcode } from './Barcode';
 import { BarcodeTracking } from './BarcodeTracking';
 import { BarcodeTrackingAdvancedOverlayView } from './BarcodeTrackingAdvancedOverlayView';
 export interface BarcodeTrackingAdvancedOverlayListener {
-    viewForTrackedBarcode?(overlay: BarcodeTrackingAdvancedOverlay, trackedBarcode: TrackedBarcode): Optional<BarcodeTrackingAdvancedOverlayView>;
+    viewForTrackedBarcode?(overlay: BarcodeTrackingAdvancedOverlay, trackedBarcode: TrackedBarcode): BarcodeTrackingAdvancedOverlayView | null;
     anchorForTrackedBarcode?(overlay: BarcodeTrackingAdvancedOverlay, trackedBarcode: TrackedBarcode): Anchor;
     offsetForTrackedBarcode?(overlay: BarcodeTrackingAdvancedOverlay, trackedBarcode: TrackedBarcode): PointWithUnit;
 }
 export declare class BarcodeTrackingAdvancedOverlay extends DefaultSerializeable implements DataCaptureOverlay {
     private type;
+    private _shouldShowScanAreaGuides;
+    get shouldShowScanAreaGuides(): boolean;
+    set shouldShowScanAreaGuides(shouldShow: boolean);
     private barcodeTracking;
-    listener: Optional<BarcodeTrackingAdvancedOverlayListener>;
+    listener: BarcodeTrackingAdvancedOverlayListener | null;
     private proxy;
     private _view;
     private set view(value);
     private get view();
-    static withBarcodeTrackingForView(barcodeTracking: BarcodeTracking, view: Optional<DataCaptureView>): BarcodeTrackingAdvancedOverlay;
+    static withBarcodeTrackingForView(barcodeTracking: BarcodeTracking, view: DataCaptureView | null): BarcodeTrackingAdvancedOverlay;
     private constructor();
     setViewForTrackedBarcode(view: BarcodeTrackingAdvancedOverlayView, trackedBarcode: TrackedBarcode): Promise<void>;
     setAnchorForTrackedBarcode(anchor: Anchor, trackedBarcode: TrackedBarcode): Promise<void>;

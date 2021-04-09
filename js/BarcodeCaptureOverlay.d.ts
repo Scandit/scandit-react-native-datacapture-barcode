@@ -13,11 +13,11 @@ export declare class BarcodeCaptureOverlay extends DefaultSerializeable implemen
     private _brush;
     get brush(): Brush;
     set brush(newBrush: Brush);
-    get viewfinder(): Optional<Viewfinder>;
-    set viewfinder(newViewfinder: Optional<Viewfinder>);
+    get viewfinder(): Viewfinder | null;
+    set viewfinder(newViewfinder: Viewfinder | null);
     get shouldShowScanAreaGuides(): boolean;
     set shouldShowScanAreaGuides(shouldShow: boolean);
     static withBarcodeCapture(barcodeCapture: BarcodeCapture): BarcodeCaptureOverlay;
-    static withBarcodeCaptureForView(barcodeCapture: BarcodeCapture, view: Optional<DataCaptureView>): BarcodeCaptureOverlay;
+    static withBarcodeCaptureForView(barcodeCapture: BarcodeCapture, view: DataCaptureView | null): BarcodeCaptureOverlay;
     private constructor();
 }

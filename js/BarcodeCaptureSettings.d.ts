@@ -4,7 +4,7 @@ import { Symbology } from './Symbology';
 import { CompositeType, SymbologySettings } from './Symbology+Related';
 export declare class BarcodeCaptureSettings extends DefaultSerializeable {
     codeDuplicateFilter: number;
-    locationSelection: Optional<LocationSelection>;
+    locationSelection: LocationSelection | null;
     enabledCompositeTypes: CompositeType[];
     private properties;
     private symbologies;

@@ -41,10 +41,7 @@ var BarcodeTrackingAdvancedOverlayProxy = /** @class */ (function () {
     };
     BarcodeTrackingAdvancedOverlayProxy.prototype.subscribeListener = function () {
         var _this = this;
-        // We don't need to register as a Listener to the native side on iOS, as it's done automatically by RN under the hood.
-        if (react_native_1.Platform.OS === 'android') {
-            NativeModule.registerListenerForAdvancedOverlayEvents();
-        }
+        NativeModule.registerListenerForAdvancedOverlayEvents();
         var viewForTrackedBarcodeListener = EventEmitter.addListener(BarcodeTrackingAdvancedOverlayListenerEventName.viewForTrackedBarcode, function (body) {
             var trackedBarcode = Barcode_1.TrackedBarcode
                 .fromJSON(JSON.parse(body.trackedBarcode));
@@ -77,10 +74,7 @@ var BarcodeTrackingAdvancedOverlayProxy = /** @class */ (function () {
         this.nativeListeners.push(offsetForTrackedBarcodeListener);
     };
     BarcodeTrackingAdvancedOverlayProxy.prototype.unsubscribeListener = function () {
-        // We don't need to unregister as a Listener to the native side on iOS, as it's done automatically by RN under the hood.
-        if (react_native_1.Platform.OS === 'android') {
-            NativeModule.unregisterListenerForAdvancedOverlayEvents();
-        }
+        NativeModule.unregisterListenerForAdvancedOverlayEvents();
         this.nativeListeners.forEach(function (listener) { return listener.remove(); });
         this.nativeListeners = [];
     };

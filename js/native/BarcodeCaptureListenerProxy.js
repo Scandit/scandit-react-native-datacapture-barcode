@@ -23,10 +23,7 @@ var BarcodeCaptureListenerProxy = /** @class */ (function () {
     };
     BarcodeCaptureListenerProxy.prototype.subscribeListener = function () {
         var _this = this;
-        // We don't need to register as a Listener to the native side on iOS, as it's done automatically by RN under the hood.
-        if (react_native_1.Platform.OS === 'android') {
-            NativeModule.registerListenerForEvents();
-        }
+        NativeModule.registerListenerForEvents();
         var didUpdateSessionListener = EventEmitter.addListener(BarcodeCaptureListenerEventName.didUpdateSession, function (body) {
             var session = BarcodeCaptureSession_1.BarcodeCaptureSession.fromJSON(JSON.parse(body.session));
             _this.notifyListenersOfDidUpdateSession(session);
@@ -41,10 +38,7 @@ var BarcodeCaptureListenerProxy = /** @class */ (function () {
         this.nativeListeners.push(didScanListener);
     };
     BarcodeCaptureListenerProxy.prototype.unsubscribeListener = function () {
-        // We don't need to unregister as a Listener to the native side on iOS, as it's done automatically by RN under the hood.
-        if (react_native_1.Platform.OS === 'android') {
-            NativeModule.unregisterListenerForEvents();
-        }
+        NativeModule.unregisterListenerForEvents();
         this.nativeListeners.forEach(function (listener) { return listener.remove(); });
         this.nativeListeners = [];
     };

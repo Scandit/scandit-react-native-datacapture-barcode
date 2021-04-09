@@ -7,4 +7,8 @@ RCT_EXTERN_METHOD(finishDidUpdateSessionCallback : (BOOL)enabled)
 
 RCT_EXTERN_METHOD(finishDidScanCallback : (BOOL)enabled)
 
+RCT_EXTERN_METHOD(registerListenerForEvents)
+
+RCT_EXTERN_METHOD(unregisterListenerForEvents)
+
 @end
