@@ -30,7 +30,8 @@ class ScanditDataCaptureBarcodeCapture: RCTEventEmitter {
         return SDCSharedMethodQeueue
     }
 
-    @objc func invalidate() {
+    @objc override func invalidate() {
+        super.invalidate()
         unlockLocks()
     }
 

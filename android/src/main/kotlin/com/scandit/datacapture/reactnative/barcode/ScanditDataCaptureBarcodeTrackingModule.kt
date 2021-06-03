@@ -60,11 +60,7 @@ class ScanditDataCaptureBarcodeTrackingModule(
         private const val DEFAULTS_KEY = "Defaults"
 
         private val DEFAULTS: SerializableBarcodeTrackingDefaults by lazy {
-            val settings = BarcodeTrackingSettings()
             val cameraSettings = BarcodeTracking.createRecommendedCameraSettings()
-            val barcodeTracking = BarcodeTracking.forDataCaptureContext(null, settings)
-            val overlay = BarcodeTrackingBasicOverlay.newInstance(barcodeTracking, null)
-
             SerializableBarcodeTrackingDefaults(
                     recommendedCameraSettings = SerializableCameraSettingsDefaults(
                             settings = cameraSettings

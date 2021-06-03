@@ -46,9 +46,6 @@ class ScanditDataCaptureBarcodeCaptureModule(
         private val DEFAULTS: SerializableBarcodeCaptureDefaults by lazy {
             val settings = BarcodeCaptureSettings()
             val cameraSettings = BarcodeCapture.createRecommendedCameraSettings()
-            val barcodeCapture = BarcodeCapture.forDataCaptureContext(null, settings)
-            val overlay = BarcodeCaptureOverlay.newInstance(barcodeCapture, null)
-
             SerializableBarcodeCaptureDefaults(
                     recommendedCameraSettings = SerializableCameraSettingsDefaults(
                             settings = cameraSettings
@@ -58,7 +55,7 @@ class ScanditDataCaptureBarcodeCaptureModule(
                     ),
                     barcodeCaptureOverlay = SerializableBarcodeCaptureOverlayDefaults(
                             defaultBrush = SerializableBrushDefaults(
-                                    brush = BarcodeCaptureOverlay.defaultBrush()
+                                    brush = BarcodeCaptureOverlay.DEFAULT_BRUSH
                             )
                     )
             )

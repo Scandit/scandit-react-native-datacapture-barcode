@@ -88,6 +88,11 @@ var SymbologyDescription = /** @class */ (function () {
         return symbologyDescription;
     };
     SymbologyDescription.forIdentifier = function (identifier) {
+        var identifierIndex = SymbologyDescription.all
+            .findIndex(function (description) { return description.identifier === identifier; });
+        if (identifierIndex === -1) {
+            return null;
+        }
         return new SymbologyDescription(identifier);
     };
     return SymbologyDescription;

@@ -19,7 +19,7 @@ export declare class SymbologyDescription {
     private _supportedExtensions;
     get supportedExtensions(): string[];
     private static fromJSON;
-    static forIdentifier(identifier: string): SymbologyDescription;
+    static forIdentifier(identifier: string): SymbologyDescription | null;
     constructor(symbology: Symbology);
     constructor();
 }
