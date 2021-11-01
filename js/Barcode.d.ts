@@ -28,6 +28,7 @@ export declare class Barcode {
     get symbolCount(): number;
     private _frameID;
     get frameID(): number;
+    private get selectionIdentifier();
     private static fromJSON;
 }
 export declare class LocalizedOnlyBarcode {

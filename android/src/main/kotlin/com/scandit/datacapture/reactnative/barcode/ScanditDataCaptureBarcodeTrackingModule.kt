@@ -10,10 +10,7 @@ import androidx.annotation.VisibleForTesting
 import com.facebook.react.bridge.*
 import com.facebook.react.modules.core.DeviceEventManagerModule
 import com.scandit.datacapture.barcode.tracking.capture.*
-import com.scandit.datacapture.barcode.tracking.ui.overlay.BarcodeTrackingAdvancedOverlay
-import com.scandit.datacapture.barcode.tracking.ui.overlay.BarcodeTrackingAdvancedOverlayListener
-import com.scandit.datacapture.barcode.tracking.ui.overlay.BarcodeTrackingBasicOverlay
-import com.scandit.datacapture.barcode.tracking.ui.overlay.BarcodeTrackingBasicOverlayListener
+import com.scandit.datacapture.barcode.tracking.ui.overlay.*
 import com.scandit.datacapture.core.capture.DataCaptureContext
 import com.scandit.datacapture.core.capture.DataCaptureContextListener
 import com.scandit.datacapture.core.capture.DataCaptureMode
@@ -61,6 +58,7 @@ class ScanditDataCaptureBarcodeTrackingModule(
 
         private val DEFAULTS: SerializableBarcodeTrackingDefaults by lazy {
             val cameraSettings = BarcodeTracking.createRecommendedCameraSettings()
+            val tracking = BarcodeTracking.forDataCaptureContext(null, BarcodeTrackingSettings())
             SerializableBarcodeTrackingDefaults(
                     recommendedCameraSettings = SerializableCameraSettingsDefaults(
                             settings = cameraSettings
@@ -68,7 +66,12 @@ class ScanditDataCaptureBarcodeTrackingModule(
                     trackingBasicOverlayDefaults = SerializableTrackingBasicOverlayDefaults(
                             defaultBrush = SerializableBrushDefaults(
                                     brush = BarcodeTrackingBasicOverlay.DEFAULT_BRUSH
-                            )
+                            ),
+                            defaultStyle = BarcodeTrackingBasicOverlay.newInstance(
+                                tracking,
+                                null
+                            ).style.toJson(),
+                            styles = BarcodeTrackingBasicOverlayStyle.values()
                     )
             )
         }

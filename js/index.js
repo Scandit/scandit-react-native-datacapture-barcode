@@ -24,6 +24,12 @@ __exportStar(require("./BarcodeCaptureListener"), exports);
 __exportStar(require("./BarcodeCaptureOverlay"), exports);
 __exportStar(require("./BarcodeCaptureSession"), exports);
 __exportStar(require("./BarcodeCaptureSettings"), exports);
+__exportStar(require("./BarcodeSelection"), exports);
+__exportStar(require("./BarcodeSelectionFeedback"), exports);
+__exportStar(require("./BarcodeSelectionListener"), exports);
+__exportStar(require("./BarcodeSelectionOverlay"), exports);
+__exportStar(require("./BarcodeSelectionSession"), exports);
+__exportStar(require("./BarcodeSelectionSettings"), exports);
 __exportStar(require("./Symbology"), exports);
 __exportStar(require("./Symbology+Related"), exports);
 //# sourceMappingURL=index.js.map

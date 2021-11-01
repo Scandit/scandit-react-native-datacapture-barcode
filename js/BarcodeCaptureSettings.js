@@ -28,7 +28,7 @@ var BarcodeCaptureSettings = /** @class */ (function (_super) {
     __extends(BarcodeCaptureSettings, _super);
     function BarcodeCaptureSettings() {
         var _this = _super.call(this) || this;
-        _this.codeDuplicateFilter = BarcodeCaptureDefaults_1.BarcodeCaptureDefaults.BarcodeCaptureSettings.codeDuplicatedFilter;
+        _this.codeDuplicateFilter = BarcodeCaptureDefaults_1.BarcodeCaptureDefaults.BarcodeCaptureSettings.codeDuplicateFilter;
         _this.locationSelection = null;
         _this.enabledCompositeTypes = [];
         _this.properties = {};

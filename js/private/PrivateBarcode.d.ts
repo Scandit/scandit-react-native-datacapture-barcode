@@ -17,6 +17,7 @@ export interface BarcodeJSON {
     location: QuadrilateralJSON;
 }
 export interface PrivateBarcode {
+    readonly selectionIdentifier: string;
     fromJSON(json: BarcodeJSON): Barcode;
 }
 export interface LocalizedOnlyBarcodeJSON {

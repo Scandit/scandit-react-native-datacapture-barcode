@@ -16,6 +16,8 @@ enum ScanditDataCaptureBarcodeError: Int, CustomNSError {
     case viewInvalid
     case missingModuleName
     case deserializationError
+    case nilSession
+    case nilMode
 
     var domain: String { return "ScanditDataCaptureBarcodeErrorDomain" }
 
@@ -39,6 +41,10 @@ enum ScanditDataCaptureBarcodeError: Int, CustomNSError {
             return "moduleName is required."
         case .deserializationError:
             return "Unable to deserialize a valid object."
+        case .nilSession:
+            return "Session is null."
+        case .nilMode:
+            return "Mode is null."
         }
     }
 

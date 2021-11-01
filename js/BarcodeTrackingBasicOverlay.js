@@ -19,11 +19,17 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.BarcodeTrackingBasicOverlay = void 0;
+exports.BarcodeTrackingBasicOverlay = exports.BarcodeTrackingBasicOverlayStyle = void 0;
 var Common_1 = require("scandit-react-native-datacapture-core/js/Common");
 var Serializeable_1 = require("scandit-react-native-datacapture-core/js/private/Serializeable");
 var BarcodeTrackingBasicOverlayProxy_1 = require("./native/BarcodeTrackingBasicOverlayProxy");
 var BarcodeTrackingDefaults_1 = require("./private/BarcodeTrackingDefaults");
+var BarcodeTrackingBasicOverlayStyle;
+(function (BarcodeTrackingBasicOverlayStyle) {
+    BarcodeTrackingBasicOverlayStyle["Frame"] = "frame";
+    BarcodeTrackingBasicOverlayStyle["Dot"] = "dot";
+    BarcodeTrackingBasicOverlayStyle["Legacy"] = "legacy";
+})(BarcodeTrackingBasicOverlayStyle = exports.BarcodeTrackingBasicOverlayStyle || (exports.BarcodeTrackingBasicOverlayStyle = {}));
 var BarcodeTrackingBasicOverlay = /** @class */ (function (_super) {
     __extends(BarcodeTrackingBasicOverlay, _super);
     function BarcodeTrackingBasicOverlay() {
@@ -53,7 +59,10 @@ var BarcodeTrackingBasicOverlay = /** @class */ (function (_super) {
     });
     Object.defineProperty(BarcodeTrackingBasicOverlay, "defaultBrush", {
         get: function () {
-            return new Common_1.Brush(BarcodeTrackingDefaults_1.BarcodeTrackingDefaults.BarcodeTrackingBasicOverlay.DefaultBrush.fillColor, BarcodeTrackingDefaults_1.BarcodeTrackingDefaults.BarcodeTrackingBasicOverlay.DefaultBrush.strokeColor, BarcodeTrackingDefaults_1.BarcodeTrackingDefaults.BarcodeTrackingBasicOverlay.DefaultBrush.strokeWidth);
+            // tslint:disable-next-line:no-console
+            console.warn('defaultBrush is deprecated and will be removed in a future release. ' +
+                'Use .brush to get the default for your selected style');
+            return new Common_1.Brush(BarcodeTrackingDefaults_1.BarcodeTrackingDefaults.BarcodeTrackingBasicOverlay.styles[BarcodeTrackingDefaults_1.BarcodeTrackingDefaults.BarcodeTrackingBasicOverlay.defaultStyle].DefaultBrush.fillColor, BarcodeTrackingDefaults_1.BarcodeTrackingDefaults.BarcodeTrackingBasicOverlay.styles[BarcodeTrackingDefaults_1.BarcodeTrackingDefaults.BarcodeTrackingBasicOverlay.defaultStyle].DefaultBrush.strokeColor, BarcodeTrackingDefaults_1.BarcodeTrackingDefaults.BarcodeTrackingBasicOverlay.styles[BarcodeTrackingDefaults_1.BarcodeTrackingDefaults.BarcodeTrackingBasicOverlay.defaultStyle].DefaultBrush.strokeWidth);
         },
         enumerable: false,
         configurable: true
@@ -80,12 +89,24 @@ var BarcodeTrackingBasicOverlay = /** @class */ (function (_super) {
         enumerable: false,
         configurable: true
     });
+    Object.defineProperty(BarcodeTrackingBasicOverlay.prototype, "style", {
+        get: function () {
+            return this._style;
+        },
+        enumerable: false,
+        configurable: true
+    });
     BarcodeTrackingBasicOverlay.withBarcodeTracking = function (barcodeTracking) {
         return BarcodeTrackingBasicOverlay.withBarcodeTrackingForView(barcodeTracking, null);
     };
     BarcodeTrackingBasicOverlay.withBarcodeTrackingForView = function (barcodeTracking, view) {
+        return this.withBarcodeTrackingForViewWithStyle(barcodeTracking, view, BarcodeTrackingDefaults_1.BarcodeTrackingDefaults.BarcodeTrackingBasicOverlay.defaultStyle);
+    };
+    BarcodeTrackingBasicOverlay.withBarcodeTrackingForViewWithStyle = function (barcodeTracking, view, style) {
         var overlay = new BarcodeTrackingBasicOverlay();
         overlay.barcodeTracking = barcodeTracking;
+        overlay._style = style;
+        overlay._brush = new Common_1.Brush(BarcodeTrackingDefaults_1.BarcodeTrackingDefaults.BarcodeTrackingBasicOverlay.styles[style].DefaultBrush.fillColor, BarcodeTrackingDefaults_1.BarcodeTrackingDefaults.BarcodeTrackingBasicOverlay.styles[style].DefaultBrush.strokeColor, BarcodeTrackingDefaults_1.BarcodeTrackingDefaults.BarcodeTrackingBasicOverlay.styles[style].DefaultBrush.strokeWidth);
         if (view) {
             view.addOverlay(overlay);
         }
@@ -103,6 +124,9 @@ var BarcodeTrackingBasicOverlay = /** @class */ (function (_super) {
     __decorate([
         Serializeable_1.ignoreFromSerialization
     ], BarcodeTrackingBasicOverlay.prototype, "_view", void 0);
+    __decorate([
+        Serializeable_1.nameForSerialization('style')
+    ], BarcodeTrackingBasicOverlay.prototype, "_style", void 0);
     __decorate([
         Serializeable_1.nameForSerialization('defaultBrush')
     ], BarcodeTrackingBasicOverlay.prototype, "_brush", void 0);

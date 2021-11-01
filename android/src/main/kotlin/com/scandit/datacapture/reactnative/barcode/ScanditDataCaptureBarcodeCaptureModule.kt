@@ -13,6 +13,8 @@ import com.facebook.react.bridge.ReactMethod
 import com.facebook.react.modules.core.DeviceEventManagerModule
 import com.scandit.datacapture.barcode.capture.*
 import com.scandit.datacapture.barcode.ui.overlay.BarcodeCaptureOverlay
+import com.scandit.datacapture.barcode.ui.overlay.BarcodeCaptureOverlayStyle
+import com.scandit.datacapture.barcode.ui.overlay.toJson
 import com.scandit.datacapture.core.capture.DataCaptureContext
 import com.scandit.datacapture.core.capture.DataCaptureContextListener
 import com.scandit.datacapture.core.capture.DataCaptureMode
@@ -46,6 +48,7 @@ class ScanditDataCaptureBarcodeCaptureModule(
         private val DEFAULTS: SerializableBarcodeCaptureDefaults by lazy {
             val settings = BarcodeCaptureSettings()
             val cameraSettings = BarcodeCapture.createRecommendedCameraSettings()
+            val capture = BarcodeCapture.forDataCaptureContext(null, settings)
             SerializableBarcodeCaptureDefaults(
                     recommendedCameraSettings = SerializableCameraSettingsDefaults(
                             settings = cameraSettings
@@ -56,7 +59,12 @@ class ScanditDataCaptureBarcodeCaptureModule(
                     barcodeCaptureOverlay = SerializableBarcodeCaptureOverlayDefaults(
                             defaultBrush = SerializableBrushDefaults(
                                     brush = BarcodeCaptureOverlay.DEFAULT_BRUSH
-                            )
+                            ),
+                            defaultStyle = BarcodeCaptureOverlay.newInstance(
+                                capture,
+                                null
+                            ).style.toJson(),
+                            styles = BarcodeCaptureOverlayStyle.values()
                     )
             )
         }

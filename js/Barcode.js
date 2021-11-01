@@ -71,6 +71,11 @@ var Barcode = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
+    Object.defineProperty(Barcode.prototype, "selectionIdentifier", {
+        get: function () { return this.data + this.symbology; },
+        enumerable: false,
+        configurable: true
+    });
     Barcode.fromJSON = function (json) {
         var barcode = new Barcode();
         barcode._symbology = json.symbology;
