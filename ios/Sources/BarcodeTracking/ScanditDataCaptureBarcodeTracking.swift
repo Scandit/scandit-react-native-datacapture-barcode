@@ -78,6 +78,8 @@ class ScanditDataCaptureBarcodeTracking: RCTEventEmitter {
 
     internal let decoder = JSONDecoder()
 
+    internal var offset: [Int: PointWithUnit] = [:]
+
     override init() {
         super.init()
         registerDeserializer()

@@ -39,7 +39,9 @@ extension ScanditDataCaptureBarcodeTracking: BarcodeTrackingAdvancedOverlayDeleg
         guard let offset = offsetForTrackedBarcodeLock.wait(afterDoing: {
             return sendEvent(withName: .offsetForTrackedBarcode, body: body)
         }) else {
-            return .zero
+            let barcodeOffset = self.offset[trackedBarcode.identifier]
+            self.offset.removeValue(forKey: trackedBarcode.identifier)
+            return barcodeOffset ?? .zero
         }
 
         return offset

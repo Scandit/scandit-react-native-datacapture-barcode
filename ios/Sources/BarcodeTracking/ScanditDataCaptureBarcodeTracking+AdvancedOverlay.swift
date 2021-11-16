@@ -106,6 +106,7 @@ extension ScanditDataCaptureBarcodeTracking {
             lastFrameSequenceId == frameSequenceId else {
                 let error = ScanditDataCaptureBarcodeError.invalidSequenceId
                 reject(String(error.code), error.message, error)
+                self.offset[trackedBarcodeId] = nil
                 return
         }
 
@@ -113,12 +114,14 @@ extension ScanditDataCaptureBarcodeTracking {
             let trackedBarcode = lastTrackedBarcodes[NSNumber(value: trackedBarcodeId)] else {
                 let error = ScanditDataCaptureBarcodeError.trackedBarcodeNotFound
                 reject(String(error.code), error.message, error)
+                self.offset[trackedBarcodeId] = nil
                 return
         }
 
         guard let barcodeTrackingAdvanceOverlay = barcodeTrackingAdvanceOverlay else {
             let error = ScanditDataCaptureBarcodeError.nilOverlay
             reject(String(error.code), error.message, error)
+            self.offset[trackedBarcodeId] = nil
             return
         }
 
@@ -127,9 +130,11 @@ extension ScanditDataCaptureBarcodeTracking {
         guard SDCPointWithUnitFromJSONString(offsetJSON, &offset) else {
             let error = ScanditDataCaptureBarcodeError.deserializationError
             reject(String(error.code), error.message, error)
+            self.offset[trackedBarcodeId] = nil
             return
         }
 
+        self.offset[trackedBarcodeId] = offset
         barcodeTrackingAdvanceOverlay.setOffset(offset, for: trackedBarcode)
     }
 
