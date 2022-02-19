@@ -89,21 +89,21 @@ class SerializableBarcodeSelectionBasicOverlayDefaults(
         styles.forEach {
             map[it.toJson()] = mapOf(
                 FIELD_TRACKED_BRUSH to
-                        SerializableBrushDefaults(
-                            BarcodeSelectionBasicOverlay.DEFAULT_TRACKED_BRUSH
-                        ).toJSONObject(),
+                    SerializableBrushDefaults(
+                        BarcodeSelectionBasicOverlay.DEFAULT_TRACKED_BRUSH
+                    ).toJSONObject(),
                 FIELD_AIMED_BRUSH to
-                        SerializableBrushDefaults(
-                            BarcodeSelectionBasicOverlay.DEFAULT_AIMED_BRUSH
-                        ).toJSONObject(),
+                    SerializableBrushDefaults(
+                        BarcodeSelectionBasicOverlay.DEFAULT_AIMED_BRUSH
+                    ).toJSONObject(),
                 FIELD_SELECTING_BRUSH to
-                        SerializableBrushDefaults(
-                            BarcodeSelectionBasicOverlay.DEFAULT_SELECTING_BRUSH
-                        ).toJSONObject(),
+                    SerializableBrushDefaults(
+                        BarcodeSelectionBasicOverlay.DEFAULT_SELECTING_BRUSH
+                    ).toJSONObject(),
                 FIELD_SELECTED_BRUSH to
-                        SerializableBrushDefaults(
-                            BarcodeSelectionBasicOverlay.DEFAULT_SELECTED_BRUSH
-                        ).toJSONObject()
+                    SerializableBrushDefaults(
+                        BarcodeSelectionBasicOverlay.DEFAULT_SELECTED_BRUSH
+                    ).toJSONObject()
             )
         }
 

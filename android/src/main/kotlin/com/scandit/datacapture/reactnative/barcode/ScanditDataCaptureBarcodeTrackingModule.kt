@@ -35,23 +35,23 @@ import com.scandit.datacapture.reactnative.core.utils.reject
 class ScanditDataCaptureBarcodeTrackingModule(
     private val reactContext: ReactApplicationContext,
     @get:VisibleForTesting val barcodeTrackingDeserializer: BarcodeTrackingDeserializer =
-            BarcodeTrackingDeserializer(),
+        BarcodeTrackingDeserializer(),
     eventEmitter: DeviceEventManagerModule.RCTDeviceEventEmitter = LazyEventEmitter(reactContext),
     sessionProvider: (() -> BarcodeTrackingSession?)? = null,
     private val barcodeTrackingListener: RCTBarcodeTrackingListener =
-            RCTBarcodeTrackingListener(eventEmitter),
+        RCTBarcodeTrackingListener(eventEmitter),
     private val barcodeTrackingBasicOverlayListener: RCTBarcodeTrackingBasicOverlayListener =
-            RCTBarcodeTrackingBasicOverlayListener(eventEmitter),
+        RCTBarcodeTrackingBasicOverlayListener(eventEmitter),
     private val barcodeTrackingAdvancedOverlayListener: RCTBarcodeTrackingAdvancedOverlayListener =
-            RCTBarcodeTrackingAdvancedOverlayListener(eventEmitter, reactContext)
+        RCTBarcodeTrackingAdvancedOverlayListener(eventEmitter, reactContext)
 ) : ReactContextBaseJavaModule(reactContext),
-        TreeLifecycleObserver.Callbacks,
-        DataCaptureContextListener,
-        BarcodeTrackingDeserializerListener,
-        BarcodeTrackingListener by barcodeTrackingListener,
-        BarcodeTrackingBasicOverlayListener by barcodeTrackingBasicOverlayListener,
-        BarcodeTrackingAdvancedOverlayListener by barcodeTrackingAdvancedOverlayListener,
-        RCTBarcodeTrackingListener.Callbacks {
+    TreeLifecycleObserver.Callbacks,
+    DataCaptureContextListener,
+    BarcodeTrackingDeserializerListener,
+    BarcodeTrackingListener by barcodeTrackingListener,
+    BarcodeTrackingBasicOverlayListener by barcodeTrackingBasicOverlayListener,
+    BarcodeTrackingAdvancedOverlayListener by barcodeTrackingAdvancedOverlayListener,
+    RCTBarcodeTrackingListener.Callbacks {
 
     companion object {
         private const val DEFAULTS_KEY = "Defaults"
@@ -60,24 +60,24 @@ class ScanditDataCaptureBarcodeTrackingModule(
             val cameraSettings = BarcodeTracking.createRecommendedCameraSettings()
             val tracking = BarcodeTracking.forDataCaptureContext(null, BarcodeTrackingSettings())
             SerializableBarcodeTrackingDefaults(
-                    recommendedCameraSettings = SerializableCameraSettingsDefaults(
-                            settings = cameraSettings
+                recommendedCameraSettings = SerializableCameraSettingsDefaults(
+                    settings = cameraSettings
+                ),
+                trackingBasicOverlayDefaults = SerializableTrackingBasicOverlayDefaults(
+                    defaultBrush = SerializableBrushDefaults(
+                        brush = BarcodeTrackingBasicOverlay.DEFAULT_BRUSH
                     ),
-                    trackingBasicOverlayDefaults = SerializableTrackingBasicOverlayDefaults(
-                            defaultBrush = SerializableBrushDefaults(
-                                    brush = BarcodeTrackingBasicOverlay.DEFAULT_BRUSH
-                            ),
-                            defaultStyle = BarcodeTrackingBasicOverlay.newInstance(
-                                tracking,
-                                null
-                            ).style.toJson(),
-                            styles = BarcodeTrackingBasicOverlayStyle.values()
-                    )
+                    defaultStyle = BarcodeTrackingBasicOverlay.newInstance(
+                        tracking,
+                        null
+                    ).style.toJson(),
+                    styles = BarcodeTrackingBasicOverlayStyle.values()
+                )
             )
         }
 
         private val ERROR_INVALID_SEQUENCE_ID =
-                Error(1, "The sequence id does not match the current sequence id.")
+            Error(1, "The sequence id does not match the current sequence id.")
         private val ERROR_TRACKED_BARCODE_NOT_FOUND = Error(2, "TrackedBarcode not found.")
         private val ERROR_DESERIALIZATION_FAILED = Error(3, "Unable to deserialize a valid object.")
         private val ERROR_NULL_OVERLAY = Error(4, "Overlay is null.")
@@ -146,7 +146,7 @@ class ScanditDataCaptureBarcodeTrackingModule(
     override fun getName(): String = "ScanditDataCaptureBarcodeTracking"
 
     override fun getConstants(): MutableMap<String, Any> = mutableMapOf(
-            DEFAULTS_KEY to DEFAULTS.toWritableMap()
+        DEFAULTS_KEY to DEFAULTS.toWritableMap()
     )
 
     override fun onSessionUpdated(mode: BarcodeTracking, session: BarcodeTrackingSession) {
@@ -212,11 +212,12 @@ class ScanditDataCaptureBarcodeTrackingModule(
 
         try {
             overlay.setBrushForTrackedBarcode(
-                    trackedBarcode,
-                    if (brush != null) BrushDeserializer.fromJson(brush) else null
+                trackedBarcode,
+                if (brush != null) BrushDeserializer.fromJson(brush) else null
             )
             promise.resolve(null)
         } catch (e: RuntimeException) {
+            println(e)
             promise.reject(ERROR_DESERIALIZATION_FAILED)
         }
     }
@@ -266,8 +267,8 @@ class ScanditDataCaptureBarcodeTrackingModule(
 
         UiThreadUtil.runOnUiThread {
             overlay.setViewForTrackedBarcode(
-                    trackedBarcode,
-                    nativeViewFromJson(currentActivity!!, view)
+                trackedBarcode,
+                nativeViewFromJson(currentActivity!!, view)
             )
             promise.resolve(null)
         }
@@ -298,11 +299,12 @@ class ScanditDataCaptureBarcodeTrackingModule(
 
         try {
             overlay.setAnchorForTrackedBarcode(
-                    trackedBarcode,
-                    AnchorDeserializer.fromJson(anchor)
+                trackedBarcode,
+                AnchorDeserializer.fromJson(anchor)
             )
             promise.resolve(null)
         } catch (e: RuntimeException) {
+            println(e)
             promise.reject(ERROR_DESERIALIZATION_FAILED)
         }
     }
@@ -332,11 +334,12 @@ class ScanditDataCaptureBarcodeTrackingModule(
 
         try {
             overlay.setOffsetForTrackedBarcode(
-                    trackedBarcode,
-                    PointWithUnitDeserializer.fromJson(offset)
+                trackedBarcode,
+                PointWithUnitDeserializer.fromJson(offset)
             )
             promise.resolve(null)
         } catch (e: RuntimeException) {
+            println(e)
             promise.reject(ERROR_DESERIALIZATION_FAILED)
         }
     }
@@ -359,14 +362,14 @@ class ScanditDataCaptureBarcodeTrackingModule(
     @ReactMethod
     fun finishAnchorForTrackedBarcodeCallback(anchorJson: String) {
         barcodeTrackingAdvancedOverlayListener.onFinishAnchorCallback(
-                AnchorDeserializer.fromJson(anchorJson)
+            AnchorDeserializer.fromJson(anchorJson)
         )
     }
 
     @ReactMethod
     fun finishOffsetForTrackedBarcodeCallback(offsetJson: String) {
         barcodeTrackingAdvancedOverlayListener.onFinishOffsetCallback(
-                PointWithUnitDeserializer.fromJson(offsetJson)
+            PointWithUnitDeserializer.fromJson(offsetJson)
         )
     }
 
@@ -433,7 +436,8 @@ class ScanditDataCaptureBarcodeTrackingModule(
     ) {
         reactContext.runOnNativeModulesQueueThread {
             if (dataCaptureContext == this.dataCaptureContext &&
-                    dataCaptureMode == barcodeTracking) {
+                dataCaptureMode == barcodeTracking
+            ) {
                 barcodeTracking = null
             }
         }

@@ -34,15 +34,15 @@ import com.scandit.datacapture.reactnative.core.utils.LazyEventEmitter
 class ScanditDataCaptureBarcodeSelectionModule(
     private val reactContext: ReactApplicationContext,
     @get:VisibleForTesting val barcodeSelectionDeserializer: BarcodeSelectionDeserializer =
-            BarcodeSelectionDeserializer(),
+        BarcodeSelectionDeserializer(),
     eventEmitter: DeviceEventManagerModule.RCTDeviceEventEmitter = LazyEventEmitter(reactContext),
     private val barcodeSelectionListener: RCTBarcodeSelectionListener =
         RCTBarcodeSelectionListener(eventEmitter)
 ) : ReactContextBaseJavaModule(reactContext),
-        TreeLifecycleObserver.Callbacks,
-        DataCaptureContextListener,
-        BarcodeSelectionDeserializerListener,
-        BarcodeSelectionListener by barcodeSelectionListener {
+    TreeLifecycleObserver.Callbacks,
+    DataCaptureContextListener,
+    BarcodeSelectionDeserializerListener,
+    BarcodeSelectionListener by barcodeSelectionListener {
 
     companion object {
         private const val DEFAULTS_KEY = "Defaults"
@@ -67,11 +67,11 @@ class ScanditDataCaptureBarcodeSelectionModule(
                     BarcodeSelectionAimerSelection()
                 ),
                 overlayDefaults = SerializableBarcodeSelectionBasicOverlayDefaults(
-                defaultStyle = BarcodeSelectionBasicOverlay.newInstance(
+                    defaultStyle = BarcodeSelectionBasicOverlay.newInstance(
                         selection,
                         null
                     ).style.toJson(),
-                styles = BarcodeSelectionBasicOverlayStyle.values()
+                    styles = BarcodeSelectionBasicOverlayStyle.values()
                 )
             )
         }
@@ -113,7 +113,7 @@ class ScanditDataCaptureBarcodeSelectionModule(
     override fun getName(): String = "ScanditDataCaptureBarcodeSelection"
 
     override fun getConstants(): MutableMap<String, Any> = mutableMapOf(
-            DEFAULTS_KEY to DEFAULTS.toWritableMap()
+        DEFAULTS_KEY to DEFAULTS.toWritableMap()
     )
 
     override fun onSessionUpdated(
@@ -201,7 +201,8 @@ class ScanditDataCaptureBarcodeSelectionModule(
     ) {
         reactContext.runOnNativeModulesQueueThread {
             if (dataCaptureContext == this.dataCaptureContext &&
-                    dataCaptureMode == barcodeSelection) {
+                dataCaptureMode == barcodeSelection
+            ) {
                 barcodeSelection = null
             }
         }

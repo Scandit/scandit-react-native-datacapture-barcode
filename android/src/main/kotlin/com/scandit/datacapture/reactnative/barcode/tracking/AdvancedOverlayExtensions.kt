@@ -14,22 +14,22 @@ import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import com.facebook.react.ReactApplication
 import com.facebook.react.ReactRootView
 import com.facebook.react.bridge.UiThreadUtil
-import java.util.*
 import org.json.JSONArray
 import org.json.JSONObject
+import java.util.*
 
 fun nativeViewFromJson(currentActivity: Activity, viewJson: String): View {
     UiThreadUtil.assertOnUiThread()
     val viewJsonObject = JSONObject(viewJson)
 
     val reactInstanceManager = (currentActivity.application as ReactApplication)
-            .reactNativeHost
-            .reactInstanceManager
+        .reactNativeHost
+        .reactInstanceManager
     return ReactRootView(currentActivity).apply {
         startReactApplication(
-                reactInstanceManager,
-                viewJsonObject.moduleName,
-                viewJsonObject.initialProperties
+            reactInstanceManager,
+            viewJsonObject.moduleName,
+            viewJsonObject.initialProperties
         )
         layoutParams = ViewGroup.LayoutParams(WRAP_CONTENT, WRAP_CONTENT)
     }

@@ -6,11 +6,14 @@
 
 import Foundation
 import ScanditBarcodeCapture
+import ScanditDataCaptureCore
 
 extension ScanditDataCaptureBarcodeTracking: BarcodeTrackingListener {
     func barcodeTracking(_ barcodeTracking: BarcodeTracking,
                          didUpdate session: BarcodeTrackingSession,
                          frameData: FrameData) {
+        ScanditDataCaptureCore.lastFrame = frameData
+        defer { ScanditDataCaptureCore.lastFrame = nil }
 
         let removedTrackedBarcodes = session.removedTrackedBarcodes
         DispatchQueue.main.async {

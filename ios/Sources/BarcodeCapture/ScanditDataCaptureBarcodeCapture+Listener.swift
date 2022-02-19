@@ -6,11 +6,15 @@
 
 import Foundation
 import ScanditBarcodeCapture
+import ScanditDataCaptureCore
 
 extension ScanditDataCaptureBarcodeCapture: BarcodeCaptureListener {
     func barcodeCapture(_ barcodeCapture: BarcodeCapture,
                         didScanIn session: BarcodeCaptureSession,
                         frameData: FrameData) {
+        ScanditDataCaptureCore.lastFrame = frameData
+        defer { ScanditDataCaptureCore.lastFrame = nil }
+
         guard let value = didScanLock.wait(afterDoing: {
             return sendEvent(withName: .didScan, body: ["session": session.jsonString])
         }) else { return }
@@ -25,6 +29,9 @@ extension ScanditDataCaptureBarcodeCapture: BarcodeCaptureListener {
     func barcodeCapture(_ barcodeCapture: BarcodeCapture,
                         didUpdate session: BarcodeCaptureSession,
                         frameData: FrameData) {
+        ScanditDataCaptureCore.lastFrame = frameData
+        defer { ScanditDataCaptureCore.lastFrame = nil }
+
         guard let value = didUpdateSessionLock.wait(afterDoing: {
             return sendEvent(withName: .didUpdateSession, body: ["session": session.jsonString])
         }) else { return }

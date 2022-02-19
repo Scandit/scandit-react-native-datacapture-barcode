@@ -22,9 +22,9 @@ class RCTBarcodeTrackingBasicOverlayListener(
 
     companion object {
         private const val BRUSH_FOR_TRACKED_BARCODE_EVENT_NAME =
-                "barcodeTrackingBasicOverlayListener-brushForTrackedBarcode"
+            "barcodeTrackingBasicOverlayListener-brushForTrackedBarcode"
         private const val ON_TRACKED_BARCODE_TAPPED_EVENT_NAME =
-                "barcodeTrackingBasicOverlayListener-didTapTrackedBarcode"
+            "barcodeTrackingBasicOverlayListener-didTapTrackedBarcode"
 
         private const val FIELD_TRACKED_BARCODE = "trackedBarcode"
     }
@@ -38,7 +38,7 @@ class RCTBarcodeTrackingBasicOverlayListener(
     }
 
     private val brushForTrackedBarcode =
-            EventWithResult<Brush?>(BRUSH_FOR_TRACKED_BARCODE_EVENT_NAME, eventEmitter)
+        EventWithResult<Brush?>(BRUSH_FOR_TRACKED_BARCODE_EVENT_NAME, eventEmitter)
 
     override fun brushForTrackedBarcode(
         overlay: BarcodeTrackingBasicOverlay,
@@ -54,7 +54,7 @@ class RCTBarcodeTrackingBasicOverlayListener(
 
     fun onFinishCallback(brushJson: String?) {
         brushForTrackedBarcode.onResult(
-                if (brushJson != null) BrushDeserializer.fromJson(brushJson) else null
+            if (brushJson != null) BrushDeserializer.fromJson(brushJson) else null
         )
     }
 

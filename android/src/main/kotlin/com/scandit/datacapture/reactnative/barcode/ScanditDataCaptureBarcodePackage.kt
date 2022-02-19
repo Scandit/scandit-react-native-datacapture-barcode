@@ -15,10 +15,10 @@ class ScanditDataCaptureBarcodePackage : ReactPackage {
     override fun createNativeModules(
         reactContext: ReactApplicationContext
     ): MutableList<NativeModule> = mutableListOf(
-            ScanditDataCaptureBarcodeModule(reactContext),
-            ScanditDataCaptureBarcodeCaptureModule(reactContext),
-            ScanditDataCaptureBarcodeTrackingModule(reactContext),
-            ScanditDataCaptureBarcodeSelectionModule(reactContext)
+        ScanditDataCaptureBarcodeModule(reactContext),
+        ScanditDataCaptureBarcodeCaptureModule(reactContext),
+        ScanditDataCaptureBarcodeTrackingModule(reactContext),
+        ScanditDataCaptureBarcodeSelectionModule(reactContext)
     )
 
     override fun createViewManagers(

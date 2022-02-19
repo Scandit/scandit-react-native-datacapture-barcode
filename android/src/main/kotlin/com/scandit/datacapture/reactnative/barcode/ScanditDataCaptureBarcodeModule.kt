@@ -27,11 +27,11 @@ class ScanditDataCaptureBarcodeModule(
             val compositeTypeDescriptions = CompositeTypeDescription.all()
 
             SerializableBarcodeDefaults(
-                    symbologySettingsDefaults = SerializableSymbologySettingsDefaults(
-                            barcodeCaptureSettings = barcodeCaptureSettings
-                    ),
-                    symbologyDescriptions = symbologyDescriptions,
-                    compositeTypeDescriptions = compositeTypeDescriptions
+                symbologySettingsDefaults = SerializableSymbologySettingsDefaults(
+                    barcodeCaptureSettings = barcodeCaptureSettings
+                ),
+                symbologyDescriptions = symbologyDescriptions,
+                compositeTypeDescriptions = compositeTypeDescriptions
             )
         }
     }
@@ -39,6 +39,6 @@ class ScanditDataCaptureBarcodeModule(
     override fun getName(): String = "ScanditDataCaptureBarcode"
 
     override fun getConstants(): MutableMap<String, Any> = mutableMapOf(
-            DEFAULTS_KEY to DEFAULTS.toWritableMap()
+        DEFAULTS_KEY to DEFAULTS.toWritableMap()
     )
 }

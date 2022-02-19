@@ -21,12 +21,18 @@ internal data class SerializableBarcodeDefaults(
 ) : SerializableData {
     override fun toWritableMap(): WritableMap = writableMap {
         putData(FIELD_SYMBOLOGY_SETTINGS_DEFAULTS, symbologySettingsDefaults)
-        putArray(FIELD_SYMBOLOGY_DESCRIPTION_DEFAULTS, writableArray {
-            symbologyDescriptions.forEach { pushString(it.toJson()) }
-        })
-        putArray(FIELD_COMPOSITE_TYPE_DESCRIPTION_DEFAULTS, writableArray {
-            compositeTypeDescriptions.forEach { pushString(it.toJson()) }
-        })
+        putArray(
+            FIELD_SYMBOLOGY_DESCRIPTION_DEFAULTS,
+            writableArray {
+                symbologyDescriptions.forEach { pushString(it.toJson()) }
+            }
+        )
+        putArray(
+            FIELD_COMPOSITE_TYPE_DESCRIPTION_DEFAULTS,
+            writableArray {
+                compositeTypeDescriptions.forEach { pushString(it.toJson()) }
+            }
+        )
     }
 
     companion object {

@@ -32,15 +32,15 @@ import com.scandit.datacapture.reactnative.core.utils.LazyEventEmitter
 class ScanditDataCaptureBarcodeCaptureModule(
     private val reactContext: ReactApplicationContext,
     @get:VisibleForTesting val barcodeCaptureDeserializer: BarcodeCaptureDeserializer =
-            BarcodeCaptureDeserializer(),
+        BarcodeCaptureDeserializer(),
     eventEmitter: DeviceEventManagerModule.RCTDeviceEventEmitter = LazyEventEmitter(reactContext),
     private val barcodeCaptureListener: RCTBarcodeCaptureListener =
-            RCTBarcodeCaptureListener(eventEmitter)
+        RCTBarcodeCaptureListener(eventEmitter)
 ) : ReactContextBaseJavaModule(reactContext),
-        TreeLifecycleObserver.Callbacks,
-        DataCaptureContextListener,
-        BarcodeCaptureDeserializerListener,
-        BarcodeCaptureListener by barcodeCaptureListener {
+    TreeLifecycleObserver.Callbacks,
+    DataCaptureContextListener,
+    BarcodeCaptureDeserializerListener,
+    BarcodeCaptureListener by barcodeCaptureListener {
 
     companion object {
         private const val DEFAULTS_KEY = "Defaults"
@@ -50,22 +50,22 @@ class ScanditDataCaptureBarcodeCaptureModule(
             val cameraSettings = BarcodeCapture.createRecommendedCameraSettings()
             val capture = BarcodeCapture.forDataCaptureContext(null, settings)
             SerializableBarcodeCaptureDefaults(
-                    recommendedCameraSettings = SerializableCameraSettingsDefaults(
-                            settings = cameraSettings
+                recommendedCameraSettings = SerializableCameraSettingsDefaults(
+                    settings = cameraSettings
+                ),
+                barcodeCaptureSettings = SerializableBarcodeCaptureSettingsDefaults(
+                    duplicateFilterInMillis = settings.codeDuplicateFilter.asMillis()
+                ),
+                barcodeCaptureOverlay = SerializableBarcodeCaptureOverlayDefaults(
+                    defaultBrush = SerializableBrushDefaults(
+                        brush = BarcodeCaptureOverlay.DEFAULT_BRUSH
                     ),
-                    barcodeCaptureSettings = SerializableBarcodeCaptureSettingsDefaults(
-                            duplicateFilterInMillis = settings.codeDuplicateFilter.asMillis()
-                    ),
-                    barcodeCaptureOverlay = SerializableBarcodeCaptureOverlayDefaults(
-                            defaultBrush = SerializableBrushDefaults(
-                                    brush = BarcodeCaptureOverlay.DEFAULT_BRUSH
-                            ),
-                            defaultStyle = BarcodeCaptureOverlay.newInstance(
-                                capture,
-                                null
-                            ).style.toJson(),
-                            styles = BarcodeCaptureOverlayStyle.values()
-                    )
+                    defaultStyle = BarcodeCaptureOverlay.newInstance(
+                        capture,
+                        null
+                    ).style.toJson(),
+                    styles = BarcodeCaptureOverlayStyle.values()
+                )
             )
         }
     }
@@ -102,7 +102,7 @@ class ScanditDataCaptureBarcodeCaptureModule(
     override fun getName(): String = "ScanditDataCaptureBarcodeCapture"
 
     override fun getConstants(): MutableMap<String, Any> = mutableMapOf(
-            DEFAULTS_KEY to DEFAULTS.toWritableMap()
+        DEFAULTS_KEY to DEFAULTS.toWritableMap()
     )
 
     @ReactMethod
@@ -152,7 +152,8 @@ class ScanditDataCaptureBarcodeCaptureModule(
     ) {
         reactContext.runOnNativeModulesQueueThread {
             if (dataCaptureContext == this.dataCaptureContext &&
-                    dataCaptureMode == barcodeCapture) {
+                dataCaptureMode == barcodeCapture
+            ) {
                 barcodeCapture = null
             }
         }

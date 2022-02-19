@@ -12,6 +12,7 @@ import com.scandit.datacapture.barcode.selection.capture.BarcodeSelection
 import com.scandit.datacapture.barcode.selection.capture.BarcodeSelectionListener
 import com.scandit.datacapture.barcode.selection.capture.BarcodeSelectionSession
 import com.scandit.datacapture.core.data.FrameData
+import com.scandit.datacapture.reactnative.core.ScanditDataCaptureCoreModule
 import com.scandit.datacapture.reactnative.core.utils.EventWithResult
 import com.scandit.datacapture.reactnative.core.utils.writableMap
 import java.util.concurrent.atomic.AtomicBoolean
@@ -39,16 +40,18 @@ class RCTBarcodeSelectionListener(
     }
 
     private val onBarcodeSelected =
-            EventWithResult<Boolean>(ON_BARCODE_SELECTED_EVENT_NAME, eventEmitter)
+        EventWithResult<Boolean>(ON_BARCODE_SELECTED_EVENT_NAME, eventEmitter)
 
     private val onSessionUpdated =
-            EventWithResult<Boolean>(ON_SESSION_UPDATED_EVENT_NAME, eventEmitter)
+        EventWithResult<Boolean>(ON_SESSION_UPDATED_EVENT_NAME, eventEmitter)
 
     override fun onSelectionUpdated(
         barcodeSelection: BarcodeSelection,
         session: BarcodeSelectionSession,
         frameData: FrameData?
     ) {
+        ScanditDataCaptureCoreModule.lastFrame = frameData
+
         val params = writableMap {
             putString(FIELD_SESSION, session.toJson())
         }
@@ -56,6 +59,7 @@ class RCTBarcodeSelectionListener(
         if (!hasNativeListeners.get()) return
         val enabled = onBarcodeSelected.emitForResult(params, barcodeSelection.isEnabled)
         barcodeSelection.isEnabled = enabled
+        ScanditDataCaptureCoreModule.lastFrame = null
     }
 
     override fun onSessionUpdated(
@@ -63,6 +67,8 @@ class RCTBarcodeSelectionListener(
         session: BarcodeSelectionSession,
         frameData: FrameData?
     ) {
+        ScanditDataCaptureCoreModule.lastFrame = frameData
+
         val params = writableMap {
             putString(FIELD_SESSION, session.toJson())
         }
@@ -70,6 +76,7 @@ class RCTBarcodeSelectionListener(
         if (!hasNativeListeners.get()) return
         val enabled = onSessionUpdated.emitForResult(params, barcodeSelection.isEnabled)
         barcodeSelection.isEnabled = enabled
+        ScanditDataCaptureCoreModule.lastFrame = null
     }
 
     fun onFinishBarcodeSelectedCallback(enabled: Boolean) {

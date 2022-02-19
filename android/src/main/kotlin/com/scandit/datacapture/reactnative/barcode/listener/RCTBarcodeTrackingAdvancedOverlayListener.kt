@@ -28,11 +28,11 @@ class RCTBarcodeTrackingAdvancedOverlayListener(
 
     companion object {
         private const val VIEW_FOR_TRACKED_BARCODE_EVENT_NAME =
-                "barcodeTrackingAdvancedOverlayListener-viewForTrackedBarcode"
+            "barcodeTrackingAdvancedOverlayListener-viewForTrackedBarcode"
         private const val ANCHOR_FOR_TRACKED_BARCODE_EVENT_NAME =
-                "barcodeTrackingAdvancedOverlayListener-anchorForTrackedBarcode"
+            "barcodeTrackingAdvancedOverlayListener-anchorForTrackedBarcode"
         private const val OFFSET_FOR_TRACKED_BARCODE_EVENT_NAME =
-                "barcodeTrackingAdvancedOverlayListener-offsetForTrackedBarcode"
+            "barcodeTrackingAdvancedOverlayListener-offsetForTrackedBarcode"
 
         private const val FIELD_TRACKED_BARCODE = "trackedBarcode"
     }
@@ -48,11 +48,11 @@ class RCTBarcodeTrackingAdvancedOverlayListener(
     }
 
     private val viewForTrackedBarcode =
-            EventWithResult<String?>(VIEW_FOR_TRACKED_BARCODE_EVENT_NAME, eventEmitter)
+        EventWithResult<String?>(VIEW_FOR_TRACKED_BARCODE_EVENT_NAME, eventEmitter)
     private val anchorForTrackedBarcode =
-            EventWithResult<Anchor>(ANCHOR_FOR_TRACKED_BARCODE_EVENT_NAME, eventEmitter)
+        EventWithResult<Anchor>(ANCHOR_FOR_TRACKED_BARCODE_EVENT_NAME, eventEmitter)
     private val offsetForTrackedBarcode =
-            EventWithResult<PointWithUnit>(OFFSET_FOR_TRACKED_BARCODE_EVENT_NAME, eventEmitter)
+        EventWithResult<PointWithUnit>(OFFSET_FOR_TRACKED_BARCODE_EVENT_NAME, eventEmitter)
 
     @UiThread
     override fun viewForTrackedBarcode(

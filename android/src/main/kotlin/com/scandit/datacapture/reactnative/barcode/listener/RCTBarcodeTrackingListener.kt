@@ -11,6 +11,7 @@ import com.scandit.datacapture.barcode.tracking.capture.BarcodeTracking
 import com.scandit.datacapture.barcode.tracking.capture.BarcodeTrackingListener
 import com.scandit.datacapture.barcode.tracking.capture.BarcodeTrackingSession
 import com.scandit.datacapture.core.data.FrameData
+import com.scandit.datacapture.reactnative.core.ScanditDataCaptureCoreModule
 import com.scandit.datacapture.reactnative.core.utils.EventWithResult
 import com.scandit.datacapture.reactnative.core.utils.writableMap
 import java.util.concurrent.atomic.AtomicBoolean
@@ -21,7 +22,7 @@ class RCTBarcodeTrackingListener(
 
     companion object {
         private const val ON_SESSION_UPDATED_EVENT_NAME =
-                "barcodeTrackingListener-didUpdateSession"
+            "barcodeTrackingListener-didUpdateSession"
 
         private const val FIELD_SESSION = "session"
     }
@@ -37,13 +38,15 @@ class RCTBarcodeTrackingListener(
     var callbacks: Callbacks? = null
 
     private val onSessionUpdated =
-            EventWithResult<Boolean>(ON_SESSION_UPDATED_EVENT_NAME, eventEmitter)
+        EventWithResult<Boolean>(ON_SESSION_UPDATED_EVENT_NAME, eventEmitter)
 
     override fun onSessionUpdated(
         mode: BarcodeTracking,
         session: BarcodeTrackingSession,
         data: FrameData
     ) {
+        ScanditDataCaptureCoreModule.lastFrame = data
+
         callbacks?.onSessionUpdated(mode, session)
         val params = writableMap {
             putString(FIELD_SESSION, session.toJson())
@@ -52,6 +55,7 @@ class RCTBarcodeTrackingListener(
         if (!hasNativeListeners.get()) return
         val enabled = onSessionUpdated.emitForResult(params, timeoutResult = mode.isEnabled)
         mode.isEnabled = enabled
+        ScanditDataCaptureCoreModule.lastFrame = null
     }
 
     fun onFinishCallback(enabled: Boolean) {

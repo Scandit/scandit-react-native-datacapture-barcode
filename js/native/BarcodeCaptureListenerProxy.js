@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BarcodeCaptureListenerProxy = void 0;
 var react_native_1 = require("react-native");
+var CameraProxy_1 = require("scandit-react-native-datacapture-core/js/native/CameraProxy");
 var BarcodeCaptureSession_1 = require("../BarcodeCaptureSession");
 // tslint:disable:variable-name
 var NativeModule = react_native_1.NativeModules.ScanditDataCaptureBarcodeCapture;
@@ -48,7 +49,7 @@ var BarcodeCaptureListenerProxy = /** @class */ (function () {
         mode.isInListenerCallback = true;
         mode.listeners.forEach(function (listener) {
             if (listener.didUpdateSession) {
-                listener.didUpdateSession(_this.barcodeCapture, session);
+                listener.didUpdateSession(_this.barcodeCapture, session, CameraProxy_1.CameraProxy.getLastFrame);
             }
         });
         mode.isInListenerCallback = false;
@@ -59,7 +60,7 @@ var BarcodeCaptureListenerProxy = /** @class */ (function () {
         mode.isInListenerCallback = true;
         mode.listeners.forEach(function (listener) {
             if (listener.didScan) {
-                listener.didScan(_this.barcodeCapture, session);
+                listener.didScan(_this.barcodeCapture, session, CameraProxy_1.CameraProxy.getLastFrame);
             }
         });
         mode.isInListenerCallback = false;
