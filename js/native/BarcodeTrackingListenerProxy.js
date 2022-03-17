@@ -21,6 +21,9 @@ var BarcodeTrackingListenerProxy = /** @class */ (function () {
         proxy.barcodeTracking = barcodeTracking;
         return proxy;
     };
+    BarcodeTrackingListenerProxy.prototype.reset = function () {
+        return NativeModule.resetSession();
+    };
     BarcodeTrackingListenerProxy.prototype.subscribeListener = function () {
         var _this = this;
         NativeModule.registerListenerForEvents();

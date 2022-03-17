@@ -12,5 +12,7 @@ export declare class BarcodeTrackingSession {
         [key: string]: TrackedBarcode;
     };
     get frameSequenceID(): number;
+    private listenerProxy;
     private static fromJSON;
+    reset(): Promise<void>;
 }

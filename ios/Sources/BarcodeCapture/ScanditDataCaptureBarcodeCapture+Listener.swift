@@ -15,6 +15,8 @@ extension ScanditDataCaptureBarcodeCapture: BarcodeCaptureListener {
         ScanditDataCaptureCore.lastFrame = frameData
         defer { ScanditDataCaptureCore.lastFrame = nil }
 
+        barcodeCaptureSession = session
+
         guard let value = didScanLock.wait(afterDoing: {
             return sendEvent(withName: .didScan, body: ["session": session.jsonString])
         }) else { return }
@@ -31,6 +33,8 @@ extension ScanditDataCaptureBarcodeCapture: BarcodeCaptureListener {
                         frameData: FrameData) {
         ScanditDataCaptureCore.lastFrame = frameData
         defer { ScanditDataCaptureCore.lastFrame = nil }
+
+        barcodeCaptureSession = session
 
         guard let value = didUpdateSessionLock.wait(afterDoing: {
             return sendEvent(withName: .didUpdateSession, body: ["session": session.jsonString])

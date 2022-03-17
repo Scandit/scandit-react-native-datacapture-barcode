@@ -69,6 +69,9 @@ var BarcodeTrackingSession = /** @class */ (function () {
         }, {});
         return session;
     };
+    BarcodeTrackingSession.prototype.reset = function () {
+        return this.listenerProxy.reset();
+    };
     return BarcodeTrackingSession;
 }());
 exports.BarcodeTrackingSession = BarcodeTrackingSession;

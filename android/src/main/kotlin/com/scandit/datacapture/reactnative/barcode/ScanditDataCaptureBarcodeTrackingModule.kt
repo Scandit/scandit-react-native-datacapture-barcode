@@ -373,6 +373,11 @@ class ScanditDataCaptureBarcodeTrackingModule(
         )
     }
 
+    @ReactMethod
+    fun resetSession() {
+        session?.reset()
+    }
+
     override fun onModeDeserializationFinished(
         deserializer: BarcodeTrackingDeserializer,
         mode: BarcodeTracking,

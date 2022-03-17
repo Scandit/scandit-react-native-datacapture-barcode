@@ -61,4 +61,8 @@ RCT_EXTERN_METHOD(registerListenerForBasicOverlayEvents)
 
 RCT_EXTERN_METHOD(unregisterListenerForBasicOverlayEvents)
 
+RCT_EXTERN_METHOD(resetSession
+                  : (RCTPromiseResolveBlock)resolve rejecter
+                  : (RCTPromiseRejectBlock)reject)
+
 @end

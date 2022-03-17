@@ -11,4 +11,8 @@ RCT_EXTERN_METHOD(registerListenerForEvents)
 
 RCT_EXTERN_METHOD(unregisterListenerForEvents)
 
+RCT_EXTERN_METHOD(resetSession
+                  : (RCTPromiseResolveBlock)resolve rejecter
+                  : (RCTPromiseRejectBlock)reject)
+
 @end

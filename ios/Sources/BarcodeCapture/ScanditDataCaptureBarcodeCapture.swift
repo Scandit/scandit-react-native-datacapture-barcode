@@ -16,10 +16,22 @@ class ScanditDataCaptureBarcodeCapture: RCTEventEmitter {
         CallbackLock<Bool>(name: ScanditDataCaptureBarcodeCaptureEvent.didUpdateSession.rawValue)
     internal let didScanLock =
         CallbackLock<Bool>(name: ScanditDataCaptureBarcodeCaptureEvent.didScan.rawValue)
+    internal var barcodeCaptureSession: BarcodeCaptureSession?
 
     override init() {
         super.init()
         registerDeserializer()
+    }
+
+    @objc(resetSession:rejecter:)
+    func resetSession(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
+        guard let session = barcodeCaptureSession else {
+            let error = ScanditDataCaptureBarcodeError.nilSession
+            reject(String(error.code), error.message, error)
+            return
+        }
+        session.reset()
+        resolve(nil)
     }
 
     override class func requiresMainQueueSetup() -> Bool {

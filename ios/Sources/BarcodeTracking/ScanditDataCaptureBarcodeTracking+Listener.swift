@@ -15,6 +15,8 @@ extension ScanditDataCaptureBarcodeTracking: BarcodeTrackingListener {
         ScanditDataCaptureCore.lastFrame = frameData
         defer { ScanditDataCaptureCore.lastFrame = nil }
 
+        barcodeTrackingSession = session
+
         let removedTrackedBarcodes = session.removedTrackedBarcodes
         DispatchQueue.main.async {
             for barcode in removedTrackedBarcodes {

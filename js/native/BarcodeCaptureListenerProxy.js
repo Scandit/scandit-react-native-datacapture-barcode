@@ -22,6 +22,9 @@ var BarcodeCaptureListenerProxy = /** @class */ (function () {
         proxy.barcodeCapture = barcodeCapture;
         return proxy;
     };
+    BarcodeCaptureListenerProxy.prototype.reset = function () {
+        return NativeModule.resetSession();
+    };
     BarcodeCaptureListenerProxy.prototype.subscribeListener = function () {
         var _this = this;
         NativeModule.registerListenerForEvents();

@@ -35,6 +35,9 @@ var BarcodeCaptureSession = /** @class */ (function () {
         session._frameSequenceID = json.frameSequenceId;
         return session;
     };
+    BarcodeCaptureSession.prototype.reset = function () {
+        return this.listenerProxy.reset();
+    };
     return BarcodeCaptureSession;
 }());
 exports.BarcodeCaptureSession = BarcodeCaptureSession;
