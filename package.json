@@ -1,6 +1,6 @@
 {
   "name": "scandit-react-native-datacapture-barcode",
-  "version": "6.12.0",
+  "version": "6.12.1",
   "description": "Scandit Data Capture SDK for React Native",
   "homepage": "https://github.com/Scandit/scandit-react-native-datacapture-barcode",
   "main": "js/index.js",
@@ -29,6 +29,6 @@
     "typescript": "^3.8.3"
   },
   "dependencies": {
-    "scandit-react-native-datacapture-core": "6.12.0"
+    "scandit-react-native-datacapture-core": "6.12.1"
   }
 }
