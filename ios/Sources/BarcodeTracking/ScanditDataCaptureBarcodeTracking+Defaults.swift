@@ -8,10 +8,10 @@ import Foundation
 import ScanditBarcodeCapture
 import ScanditDataCaptureCore
 
+// MARK: - Barcode Capture overlay with style explicitly set.
 fileprivate extension BarcodeTrackingBasicOverlay {
     static var defaultStyle: BarcodeTrackingBasicOverlayStyle {
-        return BarcodeTrackingBasicOverlay(barcodeTracking:
-                                            BarcodeTracking(context: nil, settings: BarcodeTrackingSettings())).style
+        return BarcodeTrackingBasicOverlayStyle.legacy
     }
 }
 
@@ -38,28 +38,13 @@ extension ScanditDataCaptureBarcodeTracking {
                 "defaultStyle": BarcodeTrackingBasicOverlay.defaultStyle.jsonString,
                 "styles": [
                     BarcodeTrackingBasicOverlayStyle.legacy.jsonString: [
-                        "DefaultBrush": BarcodeTrackingBasicOverlay(
-                                barcodeTracking: BarcodeTracking(
-                                context: nil,
-                                settings: BarcodeTrackingSettings()),
-                            with: BarcodeTrackingBasicOverlayStyle.legacy
-                        ).brush?.rntsdc_dictionary
+                        "DefaultBrush": BarcodeTrackingBasicOverlay.defaultBrush(forStyle: .legacy).rntsdc_dictionary
                     ],
                     BarcodeTrackingBasicOverlayStyle.frame.jsonString: [
-                        "DefaultBrush": BarcodeTrackingBasicOverlay(
-                                barcodeTracking: BarcodeTracking(
-                                context: nil,
-                                settings: BarcodeTrackingSettings()),
-                            with: BarcodeTrackingBasicOverlayStyle.frame
-                        ).brush?.rntsdc_dictionary
+                        "DefaultBrush": BarcodeTrackingBasicOverlay.defaultBrush(forStyle: .frame).rntsdc_dictionary
                     ],
                     BarcodeTrackingBasicOverlayStyle.dot.jsonString: [
-                        "DefaultBrush": BarcodeTrackingBasicOverlay(
-                                barcodeTracking: BarcodeTracking(
-                                context: nil,
-                                settings: BarcodeTrackingSettings()),
-                            with: BarcodeTrackingBasicOverlayStyle.dot
-                        ).brush?.rntsdc_dictionary
+                        "DefaultBrush": BarcodeTrackingBasicOverlay.defaultBrush(forStyle: .dot).rntsdc_dictionary
                     ]
                 ]]
     }

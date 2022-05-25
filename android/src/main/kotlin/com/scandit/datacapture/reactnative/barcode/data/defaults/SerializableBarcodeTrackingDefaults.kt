@@ -7,8 +7,6 @@
 package com.scandit.datacapture.reactnative.barcode.data.defaults
 
 import com.facebook.react.bridge.WritableMap
-import com.scandit.datacapture.barcode.tracking.capture.BarcodeTracking
-import com.scandit.datacapture.barcode.tracking.capture.BarcodeTrackingSettings
 import com.scandit.datacapture.barcode.tracking.ui.overlay.BarcodeTrackingBasicOverlay
 import com.scandit.datacapture.barcode.tracking.ui.overlay.BarcodeTrackingBasicOverlayStyle
 import com.scandit.datacapture.barcode.tracking.ui.overlay.toJson
@@ -54,14 +52,7 @@ internal class SerializableTrackingBasicOverlayDefaults(
         styles.forEach {
             map[it.toJson()] = mapOf(
                 FIELD_BRUSH to SerializableBrushDefaults(
-                    BarcodeTrackingBasicOverlay.newInstance(
-                        BarcodeTracking.forDataCaptureContext(
-                            null,
-                            BarcodeTrackingSettings()
-                        ),
-                        null,
-                        it
-                    ).brush
+                    BarcodeTrackingBasicOverlay.defaultBrush(it)
                 ).toJSONObject()
             )
         }

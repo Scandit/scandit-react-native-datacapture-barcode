@@ -70,7 +70,7 @@ class SerializableBarcodeSelectionSettingsDefaults(
 }
 
 class SerializableBarcodeSelectionBasicOverlayDefaults(
-    private val defaultStyle: String,
+    private val defaultStyle: BarcodeSelectionBasicOverlayStyle,
     private val styles: Array<BarcodeSelectionBasicOverlayStyle>
 ) : SerializableData {
     companion object {
@@ -90,19 +90,19 @@ class SerializableBarcodeSelectionBasicOverlayDefaults(
             map[it.toJson()] = mapOf(
                 FIELD_TRACKED_BRUSH to
                     SerializableBrushDefaults(
-                        BarcodeSelectionBasicOverlay.DEFAULT_TRACKED_BRUSH
+                        BarcodeSelectionBasicOverlay.defaultTrackedBrush(it)
                     ).toJSONObject(),
                 FIELD_AIMED_BRUSH to
                     SerializableBrushDefaults(
-                        BarcodeSelectionBasicOverlay.DEFAULT_AIMED_BRUSH
+                        BarcodeSelectionBasicOverlay.defaultAimedBrush(it)
                     ).toJSONObject(),
                 FIELD_SELECTING_BRUSH to
                     SerializableBrushDefaults(
-                        BarcodeSelectionBasicOverlay.DEFAULT_SELECTING_BRUSH
+                        BarcodeSelectionBasicOverlay.defaultSelectingBrush(it)
                     ).toJSONObject(),
                 FIELD_SELECTED_BRUSH to
                     SerializableBrushDefaults(
-                        BarcodeSelectionBasicOverlay.DEFAULT_SELECTED_BRUSH
+                        BarcodeSelectionBasicOverlay.defaultSelectedBrush(it)
                     ).toJSONObject()
             )
         }
@@ -113,7 +113,7 @@ class SerializableBarcodeSelectionBasicOverlayDefaults(
     override fun toWritableMap(): WritableMap = writableMap {
         putString(
             FIELD_DEFAULT_STYLE,
-            defaultStyle
+            defaultStyle.toJson()
         )
         putData(
             FIELD_STYLES,
@@ -121,30 +121,30 @@ class SerializableBarcodeSelectionBasicOverlayDefaults(
         )
         putString(
             FIELD_DEFAULT_STYLE,
-            defaultStyle
+            defaultStyle.toJson()
         )
         putData(
             FIELD_TRACKED_BRUSH,
             SerializableBrushDefaults(
-                BarcodeSelectionBasicOverlay.DEFAULT_TRACKED_BRUSH
+                BarcodeSelectionBasicOverlay.defaultTrackedBrush(defaultStyle)
             )
         )
         putData(
             FIELD_AIMED_BRUSH,
             SerializableBrushDefaults(
-                BarcodeSelectionBasicOverlay.DEFAULT_AIMED_BRUSH
+                BarcodeSelectionBasicOverlay.defaultAimedBrush(defaultStyle)
             )
         )
         putData(
             FIELD_SELECTING_BRUSH,
             SerializableBrushDefaults(
-                BarcodeSelectionBasicOverlay.DEFAULT_SELECTING_BRUSH
+                BarcodeSelectionBasicOverlay.defaultSelectingBrush(defaultStyle)
             )
         )
         putData(
             FIELD_SELECTED_BRUSH,
             SerializableBrushDefaults(
-                BarcodeSelectionBasicOverlay.DEFAULT_SELECTED_BRUSH
+                BarcodeSelectionBasicOverlay.defaultSelectedBrush(defaultStyle)
             )
         )
     }

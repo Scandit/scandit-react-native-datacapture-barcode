@@ -8,10 +8,10 @@ import Foundation
 import ScanditBarcodeCapture
 import ScanditDataCaptureCore
 
+// MARK: - Barcode Capture overlay with style explicitly set.
 fileprivate extension BarcodeCaptureOverlay {
     static var defaultStyle: BarcodeCaptureOverlayStyle {
-        return BarcodeCaptureOverlay(barcodeCapture:
-                                        BarcodeCapture(context: nil, settings: BarcodeCaptureSettings())).style
+        return BarcodeCaptureOverlayStyle.legacy
     }
 }
 
@@ -40,20 +40,10 @@ extension ScanditDataCaptureBarcodeCapture {
                 "defaultStyle": BarcodeCaptureOverlay.defaultStyle.jsonString,
                 "styles": [
                     BarcodeCaptureOverlayStyle.legacy.jsonString: [
-                        "DefaultBrush": BarcodeCaptureOverlay(
-                                barcodeCapture: BarcodeCapture(
-                                context: nil,
-                                settings: BarcodeCaptureSettings()),
-                            with: BarcodeCaptureOverlayStyle.legacy
-                        ).brush.rntsdc_dictionary
+                        "DefaultBrush": BarcodeCaptureOverlay.defaultBrush(forStyle: BarcodeCaptureOverlayStyle.legacy).rntsdc_dictionary
                     ],
                     BarcodeCaptureOverlayStyle.frame.jsonString: [
-                        "DefaultBrush": BarcodeCaptureOverlay(
-                                barcodeCapture: BarcodeCapture(
-                                context: nil,
-                                settings: BarcodeCaptureSettings()),
-                            with: BarcodeCaptureOverlayStyle.frame
-                        ).brush.rntsdc_dictionary
+                        "DefaultBrush": BarcodeCaptureOverlay.defaultBrush(forStyle: BarcodeCaptureOverlayStyle.frame).rntsdc_dictionary
                     ]
                 ]]
     }

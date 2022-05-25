@@ -36,7 +36,7 @@ var BarcodeCaptureOverlay = /** @class */ (function (_super) {
         _this.type = 'barcodeCapture';
         _this._shouldShowScanAreaGuides = false;
         _this._viewfinder = null;
-        _this._brush = BarcodeCaptureOverlay.defaultBrush;
+        _this._brush = BarcodeCaptureDefaults_1.BarcodeCaptureDefaults.BarcodeCaptureOverlay.DefaultBrush;
         return _this;
     }
     Object.defineProperty(BarcodeCaptureOverlay, "defaultBrush", {

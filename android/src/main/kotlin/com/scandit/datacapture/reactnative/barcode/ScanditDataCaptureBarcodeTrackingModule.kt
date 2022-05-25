@@ -59,18 +59,19 @@ class ScanditDataCaptureBarcodeTrackingModule(
         private val DEFAULTS: SerializableBarcodeTrackingDefaults by lazy {
             val cameraSettings = BarcodeTracking.createRecommendedCameraSettings()
             val tracking = BarcodeTracking.forDataCaptureContext(null, BarcodeTrackingSettings())
+            val defaultStyle = BarcodeTrackingBasicOverlay.newInstance(
+                tracking,
+                null
+            ).style
             SerializableBarcodeTrackingDefaults(
                 recommendedCameraSettings = SerializableCameraSettingsDefaults(
                     settings = cameraSettings
                 ),
                 trackingBasicOverlayDefaults = SerializableTrackingBasicOverlayDefaults(
                     defaultBrush = SerializableBrushDefaults(
-                        brush = BarcodeTrackingBasicOverlay.DEFAULT_BRUSH
+                        brush = BarcodeTrackingBasicOverlay.defaultBrush(defaultStyle)
                     ),
-                    defaultStyle = BarcodeTrackingBasicOverlay.newInstance(
-                        tracking,
-                        null
-                    ).style.toJson(),
+                    defaultStyle = defaultStyle.toJson(),
                     styles = BarcodeTrackingBasicOverlayStyle.values()
                 )
             )

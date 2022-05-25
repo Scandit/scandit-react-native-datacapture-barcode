@@ -50,6 +50,10 @@ class ScanditDataCaptureBarcodeCaptureModule(
             val settings = BarcodeCaptureSettings()
             val cameraSettings = BarcodeCapture.createRecommendedCameraSettings()
             val capture = BarcodeCapture.forDataCaptureContext(null, settings)
+            val defaultStyle = BarcodeCaptureOverlay.newInstance(
+                capture,
+                null
+            ).style
             SerializableBarcodeCaptureDefaults(
                 recommendedCameraSettings = SerializableCameraSettingsDefaults(
                     settings = cameraSettings
@@ -59,12 +63,9 @@ class ScanditDataCaptureBarcodeCaptureModule(
                 ),
                 barcodeCaptureOverlay = SerializableBarcodeCaptureOverlayDefaults(
                     defaultBrush = SerializableBrushDefaults(
-                        brush = BarcodeCaptureOverlay.DEFAULT_BRUSH
+                        brush = BarcodeCaptureOverlay.defaultBrush(defaultStyle)
                     ),
-                    defaultStyle = BarcodeCaptureOverlay.newInstance(
-                        capture,
-                        null
-                    ).style.toJson(),
+                    defaultStyle = defaultStyle.toJson(),
                     styles = BarcodeCaptureOverlayStyle.values()
                 )
             )

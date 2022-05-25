@@ -17,7 +17,6 @@ import com.scandit.datacapture.barcode.selection.capture.*
 import com.scandit.datacapture.barcode.selection.feedback.BarcodeSelectionFeedback
 import com.scandit.datacapture.barcode.selection.ui.overlay.BarcodeSelectionBasicOverlay
 import com.scandit.datacapture.barcode.selection.ui.overlay.BarcodeSelectionBasicOverlayStyle
-import com.scandit.datacapture.barcode.selection.ui.overlay.toJson
 import com.scandit.datacapture.core.capture.DataCaptureContext
 import com.scandit.datacapture.core.capture.DataCaptureContextListener
 import com.scandit.datacapture.core.capture.DataCaptureMode
@@ -70,7 +69,7 @@ class ScanditDataCaptureBarcodeSelectionModule(
                     defaultStyle = BarcodeSelectionBasicOverlay.newInstance(
                         selection,
                         null
-                    ).style.toJson(),
+                    ).style,
                     styles = BarcodeSelectionBasicOverlayStyle.values()
                 )
             )

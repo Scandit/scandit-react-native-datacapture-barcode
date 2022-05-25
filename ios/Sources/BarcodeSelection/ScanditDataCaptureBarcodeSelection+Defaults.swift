@@ -8,29 +8,10 @@ import Foundation
 import ScanditBarcodeCapture
 import ScanditDataCaptureCore
 
+// MARK: - Barcode Capture overlay with style explicitly set.
 fileprivate extension BarcodeSelectionBasicOverlay {
     static var defaultStyle: BarcodeSelectionBasicOverlayStyle {
-        return BarcodeSelectionBasicOverlay(barcodeSelection:
-                    BarcodeSelection(context: nil,
-                                     settings: BarcodeSelectionSettings())).style
-    }
-
-    static var dotStyle: BarcodeSelectionBasicOverlay {
-            return BarcodeSelectionBasicOverlay(
-                    barcodeSelection: BarcodeSelection(
-                    context: nil,
-                    settings: BarcodeSelectionSettings()),
-                    style: BarcodeSelectionBasicOverlayStyle.dot
-            )
-        }
-
-    static var frameStyle: BarcodeSelectionBasicOverlay {
-        return BarcodeSelectionBasicOverlay(
-                barcodeSelection: BarcodeSelection(
-                context: nil,
-                settings: BarcodeSelectionSettings()),
-                style: BarcodeSelectionBasicOverlayStyle.frame
-        )
+        return BarcodeSelectionBasicOverlayStyle.frame
     }
 }
 
@@ -69,16 +50,16 @@ extension ScanditDataCaptureBarcodeSelection {
                 "defaultStyle": BarcodeSelectionBasicOverlay.defaultStyle.jsonString,
                 "styles": [
                     BarcodeSelectionBasicOverlayStyle.dot.jsonString: [
-                        "DefaultTrackedBrush": BarcodeSelectionBasicOverlay.dotStyle.trackedBrush.rntsdc_dictionary,
-                        "DefaultAimedBrush": BarcodeSelectionBasicOverlay.dotStyle.aimedBrush.rntsdc_dictionary,
-                        "DefaultSelectedBrush": BarcodeSelectionBasicOverlay.dotStyle.selectedBrush.rntsdc_dictionary,
-                        "DefaultSelectingBrush": BarcodeSelectionBasicOverlay.dotStyle.selectingBrush.rntsdc_dictionary,
+                        "DefaultTrackedBrush": BarcodeSelectionBasicOverlay.defaultTrackedBrush(forStyle: .dot).rntsdc_dictionary,
+                        "DefaultAimedBrush": BarcodeSelectionBasicOverlay.defaultAimedBrush(forStyle: .dot).rntsdc_dictionary,
+                        "DefaultSelectedBrush": BarcodeSelectionBasicOverlay.defaultSelectedBrush(forStyle: .dot).rntsdc_dictionary,
+                        "DefaultSelectingBrush": BarcodeSelectionBasicOverlay.defaultSelectingBrush(forStyle: .dot).rntsdc_dictionary,
                     ],
                     BarcodeSelectionBasicOverlayStyle.frame.jsonString: [
-                        "DefaultTrackedBrush": BarcodeSelectionBasicOverlay.frameStyle.trackedBrush.rntsdc_dictionary,
-                        "DefaultAimedBrush": BarcodeSelectionBasicOverlay.frameStyle.aimedBrush.rntsdc_dictionary,
-                        "DefaultSelectedBrush": BarcodeSelectionBasicOverlay.frameStyle.selectedBrush.rntsdc_dictionary,
-                        "DefaultSelectingBrush": BarcodeSelectionBasicOverlay.frameStyle.selectingBrush.rntsdc_dictionary
+                        "DefaultTrackedBrush": BarcodeSelectionBasicOverlay.defaultTrackedBrush(forStyle: .frame).rntsdc_dictionary,
+                        "DefaultAimedBrush": BarcodeSelectionBasicOverlay.defaultAimedBrush(forStyle: .frame).rntsdc_dictionary,
+                        "DefaultSelectedBrush": BarcodeSelectionBasicOverlay.defaultSelectedBrush(forStyle: .frame).rntsdc_dictionary,
+                        "DefaultSelectingBrush": BarcodeSelectionBasicOverlay.defaultSelectingBrush(forStyle: .frame).rntsdc_dictionary,
                     ]
                 ]
                 ]
