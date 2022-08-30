@@ -27,6 +27,9 @@ class RCTBarcodeCaptureListener(
         private const val FIELD_SESSION = "session"
     }
 
+    var lastSession: BarcodeCaptureSession? = null
+        private set
+
     private var hasNativeListeners: AtomicBoolean = AtomicBoolean(false)
 
     internal fun setHasNativeListeners(hasListeners: Boolean) {
@@ -34,6 +37,7 @@ class RCTBarcodeCaptureListener(
             onSessionUpdated.onCancel()
             onBarcodeScanned.onCancel()
         }
+        if (!hasListeners) lastSession = null
     }
 
     private val onBarcodeScanned =
@@ -69,6 +73,7 @@ class RCTBarcodeCaptureListener(
         session: BarcodeCaptureSession,
         data: FrameData
     ) {
+        lastSession = session
         ScanditDataCaptureCoreModule.lastFrame = data
 
         val params = writableMap {

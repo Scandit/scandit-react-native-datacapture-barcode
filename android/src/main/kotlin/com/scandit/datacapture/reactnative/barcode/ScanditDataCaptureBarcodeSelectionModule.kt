@@ -13,17 +13,25 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
 import com.facebook.react.modules.core.DeviceEventManagerModule
 import com.scandit.datacapture.barcode.data.SymbologyDescription
-import com.scandit.datacapture.barcode.selection.capture.*
+import com.scandit.datacapture.barcode.selection.capture.BarcodeSelection
+import com.scandit.datacapture.barcode.selection.capture.BarcodeSelectionAimerSelection
+import com.scandit.datacapture.barcode.selection.capture.BarcodeSelectionDeserializer
+import com.scandit.datacapture.barcode.selection.capture.BarcodeSelectionDeserializerListener
+import com.scandit.datacapture.barcode.selection.capture.BarcodeSelectionListener
+import com.scandit.datacapture.barcode.selection.capture.BarcodeSelectionSettings
+import com.scandit.datacapture.barcode.selection.capture.BarcodeSelectionTapSelection
 import com.scandit.datacapture.barcode.selection.feedback.BarcodeSelectionFeedback
 import com.scandit.datacapture.barcode.selection.ui.overlay.BarcodeSelectionBasicOverlay
 import com.scandit.datacapture.barcode.selection.ui.overlay.BarcodeSelectionBasicOverlayStyle
 import com.scandit.datacapture.core.capture.DataCaptureContext
 import com.scandit.datacapture.core.capture.DataCaptureContextListener
 import com.scandit.datacapture.core.capture.DataCaptureMode
-import com.scandit.datacapture.core.data.FrameData
 import com.scandit.datacapture.core.json.JsonValue
-import com.scandit.datacapture.reactnative.barcode.data.defaults.*
+import com.scandit.datacapture.reactnative.barcode.data.defaults.SerializableBarcodeSelectionAimerSelectionDefaults
+import com.scandit.datacapture.reactnative.barcode.data.defaults.SerializableBarcodeSelectionBasicOverlayDefaults
 import com.scandit.datacapture.reactnative.barcode.data.defaults.SerializableBarcodeSelectionDefaults
+import com.scandit.datacapture.reactnative.barcode.data.defaults.SerializableBarcodeSelectionSettingsDefaults
+import com.scandit.datacapture.reactnative.barcode.data.defaults.SerializableBarcodeSelectionTapSelectionDefaults
 import com.scandit.datacapture.reactnative.barcode.listener.RCTBarcodeSelectionListener
 import com.scandit.datacapture.reactnative.core.data.defaults.SerializableCameraSettingsDefaults
 import com.scandit.datacapture.reactnative.core.deserializers.Deserializers
@@ -89,10 +97,6 @@ class ScanditDataCaptureBarcodeSelectionModule(
             field = value?.also { it.addListener(this) }
         }
 
-    @get:VisibleForTesting
-    var session: BarcodeSelectionSession? = null
-        private set
-
     init {
         barcodeSelectionDeserializer.listener = this
         Deserializers.Factory.addModeDeserializer(barcodeSelectionDeserializer)
@@ -115,14 +119,6 @@ class ScanditDataCaptureBarcodeSelectionModule(
         DEFAULTS_KEY to DEFAULTS.toWritableMap()
     )
 
-    override fun onSessionUpdated(
-        barcodeSelection: BarcodeSelection,
-        session: BarcodeSelectionSession,
-        frameData: FrameData?
-    ) {
-        this.session = session
-    }
-
     @ReactMethod
     fun registerListenerForEvents() {
         barcodeSelectionListener.setHasNativeListeners(true)
@@ -143,11 +139,11 @@ class ScanditDataCaptureBarcodeSelectionModule(
         selectionIdentifier: String,
         promise: Promise
     ) {
-        val count = session?.selectedBarcodes?.find {
+        val count = barcodeSelectionListener.lastSession?.selectedBarcodes?.find {
             (it.data ?: "")
                 .plus(SymbologyDescription.create(it.symbology).identifier) == selectionIdentifier
         }?.let {
-            session?.getCount(it)
+            barcodeSelectionListener.lastSession?.getCount(it)
         } ?: 0
 
         barcodeSelectionListener.onCountFinished(count, promise)
@@ -165,7 +161,7 @@ class ScanditDataCaptureBarcodeSelectionModule(
 
     @ReactMethod
     fun resetSession() {
-        session?.reset()
+        barcodeSelectionListener.lastSession?.reset()
     }
 
     @ReactMethod

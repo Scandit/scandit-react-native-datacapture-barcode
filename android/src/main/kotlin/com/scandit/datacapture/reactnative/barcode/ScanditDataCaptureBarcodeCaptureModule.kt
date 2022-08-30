@@ -11,14 +11,17 @@ import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
 import com.facebook.react.modules.core.DeviceEventManagerModule
-import com.scandit.datacapture.barcode.capture.*
+import com.scandit.datacapture.barcode.capture.BarcodeCapture
+import com.scandit.datacapture.barcode.capture.BarcodeCaptureDeserializer
+import com.scandit.datacapture.barcode.capture.BarcodeCaptureDeserializerListener
+import com.scandit.datacapture.barcode.capture.BarcodeCaptureListener
+import com.scandit.datacapture.barcode.capture.BarcodeCaptureSettings
 import com.scandit.datacapture.barcode.ui.overlay.BarcodeCaptureOverlay
 import com.scandit.datacapture.barcode.ui.overlay.BarcodeCaptureOverlayStyle
 import com.scandit.datacapture.barcode.ui.overlay.toJson
 import com.scandit.datacapture.core.capture.DataCaptureContext
 import com.scandit.datacapture.core.capture.DataCaptureContextListener
 import com.scandit.datacapture.core.capture.DataCaptureMode
-import com.scandit.datacapture.core.data.FrameData
 import com.scandit.datacapture.core.json.JsonValue
 import com.scandit.datacapture.reactnative.barcode.data.defaults.SerializableBarcodeCaptureDefaults
 import com.scandit.datacapture.reactnative.barcode.data.defaults.SerializableBarcodeCaptureOverlayDefaults
@@ -85,10 +88,6 @@ class ScanditDataCaptureBarcodeCaptureModule(
             field = value?.also { it.addListener(this) }
         }
 
-    @get:VisibleForTesting
-    var session: BarcodeCaptureSession? = null
-        private set
-
     init {
         barcodeCaptureDeserializer.listener = this
         Deserializers.Factory.addModeDeserializer(barcodeCaptureDeserializer)
@@ -133,15 +132,7 @@ class ScanditDataCaptureBarcodeCaptureModule(
 
     @ReactMethod
     fun resetSession() {
-        session?.reset()
-    }
-
-    override fun onSessionUpdated(
-        barcodeCapture: BarcodeCapture,
-        session: BarcodeCaptureSession,
-        data: FrameData
-    ) {
-        this.session = session
+        barcodeCaptureListener.lastSession?.reset()
     }
 
     override fun onModeDeserializationFinished(
