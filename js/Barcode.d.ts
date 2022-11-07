@@ -28,6 +28,9 @@ export declare class Barcode {
     get symbolCount(): number;
     private _frameID;
     get frameID(): number;
+    get isStructuredAppend(): boolean;
+    private _structuredAppendData;
+    get structuredAppendData(): StructuredAppendData | null;
     private get selectionIdentifier();
     private static fromJSON;
 }
@@ -48,5 +51,22 @@ export declare class TrackedBarcode {
     private sessionFrameSequenceID;
     private _shouldAnimateFromPreviousToNextState;
     get shouldAnimateFromPreviousToNextState(): boolean;
+    private static fromJSON;
+}
+export declare class StructuredAppendData {
+    private _isComplete;
+    get isComplete(): boolean;
+    private _barcodeSetId;
+    get barcodeSetId(): string;
+    private _scannedSegmentCount;
+    get scannedSegmentCount(): number;
+    private _totalSegmentCount;
+    get totalSegmentCount(): number;
+    private _encodingRanges;
+    get encodingRanges(): EncodingRange[];
+    private _completeData;
+    get completeData(): string | null;
+    private _rawCompleteData;
+    get rawCompleteData(): string;
     private static fromJSON;
 }

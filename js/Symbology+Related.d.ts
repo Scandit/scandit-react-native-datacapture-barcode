@@ -1,5 +1,6 @@
 import { DefaultSerializeable } from 'scandit-react-native-datacapture-core/js/private/Serializeable';
 import { Symbology } from './Symbology';
+import { Barcode } from 'Barcode';
 export declare class SymbologyDescription {
     private static defaults;
     static get all(): SymbologyDescription[];
@@ -76,4 +77,8 @@ export declare class Range {
     get step(): number;
     get isFixed(): boolean;
     private static fromJSON;
+}
+export declare class Ean13UpcaClassification {
+    static isUpca(barcode: Barcode): boolean;
+    static isEan13(barcode: Barcode): boolean;
 }

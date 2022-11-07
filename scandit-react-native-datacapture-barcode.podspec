@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   s.requires_arc            = true
   s.module_name             = "ScanditDataCaptureBarcode"
   s.header_dir              = "ScanditDataCaptureBarcode"
-  s.dependency 'ScanditBarcodeCapture', '= 6.14.1'
+  s.dependency 'ScanditBarcodeCapture', '= 6.15.0'
 
   s.dependency "React"
   s.dependency "scandit-react-native-datacapture-core"

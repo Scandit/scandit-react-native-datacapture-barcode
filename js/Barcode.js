@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.TrackedBarcode = exports.LocalizedOnlyBarcode = exports.Barcode = void 0;
+exports.StructuredAppendData = exports.TrackedBarcode = exports.LocalizedOnlyBarcode = exports.Barcode = void 0;
 var Common_1 = require("scandit-react-native-datacapture-core/js/Common");
 var Symbology_Related_1 = require("./Symbology+Related");
 var Barcode = /** @class */ (function () {
@@ -71,6 +71,16 @@ var Barcode = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
+    Object.defineProperty(Barcode.prototype, "isStructuredAppend", {
+        get: function () { return this._structuredAppendData !== null; },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Barcode.prototype, "structuredAppendData", {
+        get: function () { return this._structuredAppendData; },
+        enumerable: false,
+        configurable: true
+    });
     Object.defineProperty(Barcode.prototype, "selectionIdentifier", {
         get: function () { return this.data + this.symbology; },
         enumerable: false,
@@ -91,6 +101,8 @@ var Barcode = /** @class */ (function () {
         barcode._frameID = json.frameId;
         barcode._encodingRanges = json.encodingRanges.map(Symbology_Related_1.EncodingRange.fromJSON);
         barcode._location = Common_1.Quadrilateral.fromJSON(json.location);
+        barcode._structuredAppendData =
+            StructuredAppendData.fromJSON(json.structuredAppendData);
         return barcode;
     };
     return Barcode;
@@ -159,4 +171,59 @@ var TrackedBarcode = /** @class */ (function () {
     return TrackedBarcode;
 }());
 exports.TrackedBarcode = TrackedBarcode;
+var StructuredAppendData = /** @class */ (function () {
+    function StructuredAppendData() {
+    }
+    Object.defineProperty(StructuredAppendData.prototype, "isComplete", {
+        get: function () { return this._isComplete; },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(StructuredAppendData.prototype, "barcodeSetId", {
+        get: function () { return this._barcodeSetId; },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(StructuredAppendData.prototype, "scannedSegmentCount", {
+        get: function () { return this._scannedSegmentCount; },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(StructuredAppendData.prototype, "totalSegmentCount", {
+        get: function () { return this._totalSegmentCount; },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(StructuredAppendData.prototype, "encodingRanges", {
+        get: function () { return this._encodingRanges; },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(StructuredAppendData.prototype, "completeData", {
+        get: function () { return this._completeData; },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(StructuredAppendData.prototype, "rawCompleteData", {
+        get: function () { return this._rawCompleteData; },
+        enumerable: false,
+        configurable: true
+    });
+    StructuredAppendData.fromJSON = function (json) {
+        var structuredAppendData = new StructuredAppendData();
+        if (!json)
+            return null;
+        structuredAppendData._isComplete = json.complete;
+        structuredAppendData._barcodeSetId = json.barcodeSetId;
+        structuredAppendData._scannedSegmentCount = json.scannedSegmentCount;
+        structuredAppendData._totalSegmentCount = json.totalSegmentCount;
+        structuredAppendData._encodingRanges =
+            json.completeDataEncodings.map(Symbology_Related_1.EncodingRange.fromJSON);
+        structuredAppendData._completeData = json.completeDataUtf8String;
+        structuredAppendData._rawCompleteData = json.completeDataRaw;
+        return structuredAppendData;
+    };
+    return StructuredAppendData;
+}());
+exports.StructuredAppendData = StructuredAppendData;
 //# sourceMappingURL=Barcode.js.map

@@ -19,8 +19,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Range = exports.CompositeFlag = exports.EncodingRange = exports.Checksum = exports.CompositeType = exports.SymbologySettings = exports.SymbologyDescription = void 0;
+exports.Ean13UpcaClassification = exports.Range = exports.CompositeFlag = exports.EncodingRange = exports.Checksum = exports.CompositeType = exports.SymbologySettings = exports.SymbologyDescription = void 0;
 var Serializeable_1 = require("scandit-react-native-datacapture-core/js/private/Serializeable");
+var Symbology_1 = require("./Symbology");
 var SymbologyDescription = /** @class */ (function () {
     function SymbologyDescription(symbology) {
         if (!symbology) {
@@ -251,4 +252,24 @@ var Range = /** @class */ (function () {
     return Range;
 }());
 exports.Range = Range;
+var Ean13UpcaClassification = /** @class */ (function () {
+    function Ean13UpcaClassification() {
+    }
+    Ean13UpcaClassification.isUpca = function (barcode) {
+        var _a, _b, _c;
+        if (barcode.symbology !== Symbology_1.Symbology.EAN13UPCA) {
+            return false;
+        }
+        return ((_a = barcode.data) === null || _a === void 0 ? void 0 : _a.length) === 12 || (((_b = barcode.data) === null || _b === void 0 ? void 0 : _b.length) === 13 && ((_c = barcode.data) === null || _c === void 0 ? void 0 : _c.charAt(0)) === '0');
+    };
+    Ean13UpcaClassification.isEan13 = function (barcode) {
+        var _a, _b;
+        if (barcode.symbology !== Symbology_1.Symbology.EAN13UPCA) {
+            return false;
+        }
+        return ((_a = barcode.data) === null || _a === void 0 ? void 0 : _a.length) === 13 && ((_b = barcode.data) === null || _b === void 0 ? void 0 : _b.charAt(0)) !== '0';
+    };
+    return Ean13UpcaClassification;
+}());
+exports.Ean13UpcaClassification = Ean13UpcaClassification;
 //# sourceMappingURL=Symbology+Related.js.map
