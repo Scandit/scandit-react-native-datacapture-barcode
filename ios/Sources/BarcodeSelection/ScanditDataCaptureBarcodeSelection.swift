@@ -45,7 +45,7 @@ class ScanditDataCaptureBarcodeSelection: RCTEventEmitter {
     }
 
     override class func requiresMainQueueSetup() -> Bool {
-        return false
+        return true
     }
 
     override var methodQueue: DispatchQueue! {

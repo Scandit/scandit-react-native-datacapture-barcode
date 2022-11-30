@@ -99,7 +99,7 @@ class ScanditDataCaptureBarcodeTracking: RCTEventEmitter {
     }
 
     override class func requiresMainQueueSetup() -> Bool {
-        return false
+        return true
     }
 
     override var methodQueue: DispatchQueue! {
