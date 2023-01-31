@@ -36,10 +36,8 @@ extension ScanditDataCaptureBarcodeCapture {
     }
 
     var barcodeCaptureOverlayDefaults: [String: Any] {
-        let defaultStyle = BarcodeCaptureOverlay.defaultStyle
-        return ["DefaultBrush": BarcodeCaptureOverlay.defaultBrush(forStyle:
-                                    defaultStyle).rntsdc_dictionary,
-                "defaultStyle": defaultStyle.jsonString,
+        return ["DefaultBrush": BarcodeCaptureOverlay.defaultBrush.rntsdc_dictionary,
+                "defaultStyle": BarcodeCaptureOverlay.defaultStyle.jsonString,
                 "styles": [
                     BarcodeCaptureOverlayStyle.legacy.jsonString: [
                         "DefaultBrush": BarcodeCaptureOverlay.defaultBrush(forStyle: BarcodeCaptureOverlayStyle.legacy).rntsdc_dictionary

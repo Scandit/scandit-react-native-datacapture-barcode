@@ -30,14 +30,6 @@ __exportStar(require("./BarcodeSelectionListener"), exports);
 __exportStar(require("./BarcodeSelectionOverlay"), exports);
 __exportStar(require("./BarcodeSelectionSession"), exports);
 __exportStar(require("./BarcodeSelectionSettings"), exports);
-__exportStar(require("./SparkScan"), exports);
-__exportStar(require("./SparkScanFeedback"), exports);
-__exportStar(require("./SparkScanListener"), exports);
-__exportStar(require("./SparkScanSession"), exports);
-__exportStar(require("./SparkScanSettings"), exports);
-__exportStar(require("./SparkScanView"), exports);
-__exportStar(require("./SparkScanViewFeedback"), exports);
-__exportStar(require("./SparkScanViewSettings"), exports);
 __exportStar(require("./Symbology"), exports);
 __exportStar(require("./Symbology+Related"), exports);
 //# sourceMappingURL=index.js.map

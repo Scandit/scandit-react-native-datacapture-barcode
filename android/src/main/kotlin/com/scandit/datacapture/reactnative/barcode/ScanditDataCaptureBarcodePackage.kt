@@ -10,24 +10,18 @@ import com.facebook.react.ReactPackage
 import com.facebook.react.bridge.NativeModule
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.uimanager.ViewManager
-import com.scandit.datacapture.reactnative.barcode.ui.SparkScanViewManager
 
 class ScanditDataCaptureBarcodePackage : ReactPackage {
-    private val viewManager: SparkScanViewManager by lazy {
-        SparkScanViewManager()
-    }
-
     override fun createNativeModules(
         reactContext: ReactApplicationContext
     ): MutableList<NativeModule> = mutableListOf(
         ScanditDataCaptureBarcodeModule(reactContext),
         ScanditDataCaptureBarcodeCaptureModule(reactContext),
         ScanditDataCaptureBarcodeTrackingModule(reactContext),
-        ScanditDataCaptureBarcodeSelectionModule(reactContext),
-        ScanditDataCaptureSparkScanModule(reactContext, viewManager)
+        ScanditDataCaptureBarcodeSelectionModule(reactContext)
     )
 
     override fun createViewManagers(
         reactContext: ReactApplicationContext
-    ): MutableList<ViewManager<*, *>> = mutableListOf(viewManager)
+    ): MutableList<ViewManager<*, *>> = mutableListOf()
 }
