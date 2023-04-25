@@ -35,7 +35,7 @@ var BarcodeTrackingBasicOverlay = /** @class */ (function (_super) {
     function BarcodeTrackingBasicOverlay() {
         var _this = _super.call(this) || this;
         _this.type = 'barcodeTrackingBasic';
-        _this._brush = BarcodeTrackingBasicOverlay.defaultBrush;
+        _this._brush = BarcodeTrackingDefaults_1.BarcodeTrackingDefaults.BarcodeTrackingBasicOverlay.DefaultBrush;
         _this._shouldShowScanAreaGuides = false;
         _this.listener = null;
         _this.proxy = BarcodeTrackingBasicOverlayProxy_1.BarcodeTrackingBasicOverlayProxy.forOverlay(_this);

@@ -135,6 +135,15 @@ var BarcodeSelection = /** @class */ (function (_super) {
     BarcodeSelection.prototype.unfreezeCamera = function () {
         return this.modeProxy.unfreezeCamera();
     };
+    BarcodeSelection.prototype.selectAimedBarcode = function () {
+        return this.modeProxy.selectAimedBarcode();
+    };
+    BarcodeSelection.prototype.unselectBarcodes = function (barcodes) {
+        return this.modeProxy.unselectBarcodes(barcodes);
+    };
+    BarcodeSelection.prototype.increaseCountForBarcodes = function (barcodes) {
+        return this.modeProxy.increaseCountForBarcodes(barcodes);
+    };
     BarcodeSelection.prototype.didChange = function () {
         if (this.context) {
             return this.context.update();

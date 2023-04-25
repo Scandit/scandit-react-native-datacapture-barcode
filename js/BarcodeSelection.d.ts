@@ -2,6 +2,7 @@ import { CameraSettings } from 'scandit-react-native-datacapture-core/js/Camera+
 import { PointWithUnit } from 'scandit-react-native-datacapture-core/js/Common';
 import { DataCaptureContext, DataCaptureMode } from 'scandit-react-native-datacapture-core/js/DataCaptureContext';
 import { DefaultSerializeable } from 'scandit-react-native-datacapture-core/js/private/Serializeable';
+import { Barcode } from './Barcode';
 import { BarcodeSelectionFeedback } from './BarcodeSelectionFeedback';
 import { BarcodeSelectionListener } from './BarcodeSelectionListener';
 import { BarcodeSelectionSettings } from './BarcodeSelectionSettings';
@@ -33,5 +34,8 @@ export declare class BarcodeSelection extends DefaultSerializeable implements Da
     removeListener(listener: BarcodeSelectionListener): void;
     reset(): Promise<void>;
     unfreezeCamera(): Promise<void>;
+    selectAimedBarcode(): Promise<void>;
+    unselectBarcodes(barcodes: Barcode[]): Promise<void>;
+    increaseCountForBarcodes(barcodes: Barcode[]): Promise<void>;
     private didChange;
 }

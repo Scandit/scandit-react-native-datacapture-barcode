@@ -18,10 +18,8 @@ import com.scandit.datacapture.barcode.spark.capture.SparkScanSettings
 import com.scandit.datacapture.barcode.spark.feedback.SparkScanFeedback
 import com.scandit.datacapture.barcode.spark.feedback.SparkScanViewFeedback
 import com.scandit.datacapture.barcode.spark.serialization.SparkScanDeserializer
-import com.scandit.datacapture.barcode.spark.serialization.SparkScanDeserializerListener
 import com.scandit.datacapture.barcode.spark.ui.SparkScanViewSettings
 import com.scandit.datacapture.core.capture.DataCaptureContext
-import com.scandit.datacapture.core.json.JsonValue
 import com.scandit.datacapture.core.time.TimeInterval
 import com.scandit.datacapture.reactnative.barcode.data.defaults.SerializableSparkScanDefaults
 import com.scandit.datacapture.reactnative.barcode.data.defaults.SerializableSparkScanFeedbackDefaults
@@ -47,12 +45,10 @@ class ScanditDataCaptureSparkScanModule(
     ),
 ) : ReactContextBaseJavaModule(reactContext),
     TreeLifecycleObserver.Callbacks,
-    SparkScanDeserializerListener,
     SparkScanListener by sparkScanListener {
 
     init {
         TreeLifecycleObserver.callbacks += this
-        sparkScanDeserializer.listener = this
     }
 
     private var dataCaptureContext: DataCaptureContext? = null
@@ -306,16 +302,6 @@ class ScanditDataCaptureSparkScanModule(
         return mutableMapOf(
             DEFAULTS_KEY to DEFAULTS.toWritableMap()
         )
-    }
-
-    override fun onModeDeserializationFinished(
-        deserializer: SparkScanDeserializer,
-        mode: SparkScan,
-        json: JsonValue
-    ) {
-        if (json.contains("enabled")) {
-            mode.isEnabled = json.requireByKeyAsBoolean("enabled")
-        }
     }
 
     companion object {

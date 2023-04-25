@@ -16,6 +16,6 @@ class ScanditDataCaptureBarcode: NSObject {
 
     @objc
     var methodQueue: DispatchQueue! {
-        return SDCSharedMethodQeueue
+        return sdcSharedMethodQueue
     }
 }

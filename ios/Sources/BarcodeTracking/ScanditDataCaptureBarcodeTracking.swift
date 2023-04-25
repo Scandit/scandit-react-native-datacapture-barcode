@@ -103,7 +103,7 @@ class ScanditDataCaptureBarcodeTracking: RCTEventEmitter {
     }
 
     override var methodQueue: DispatchQueue! {
-        return SDCSharedMethodQeueue
+        return sdcSharedMethodQueue
     }
 
     @objc override func invalidate() {
@@ -123,11 +123,26 @@ class ScanditDataCaptureBarcodeTracking: RCTEventEmitter {
 
     // Empty methods to unify the logic on the TS side for supporting functionality automatically provided by RN on iOS,
     // but custom implemented on Android.
+    @objc func registerListenerForEvents() {
+        // Empty on purpose
+    }
 
-    @objc func registerListenerForEvents() { }
-    @objc func unregisterListenerForEvents() { }
-    @objc func registerListenerForAdvancedOverlayEvents() { }
-    @objc func unregisterListenerForAdvancedOverlayEvents() { }
-    @objc func registerListenerForBasicOverlayEvents() { }
-    @objc func unregisterListenerForBasicOverlayEvents() { }
+    @objc func unregisterListenerForEvents() {
+        // Empty on purpose
+    }
+    @objc func registerListenerForAdvancedOverlayEvents() {
+        // Empty on purpose
+    }
+
+    @objc func unregisterListenerForAdvancedOverlayEvents() {
+        // Empty on purpose
+    }
+
+    @objc func registerListenerForBasicOverlayEvents() {
+        // Empty on purpose
+    }
+
+    @objc func unregisterListenerForBasicOverlayEvents() {
+        // Empty on purpose
+    }
 }

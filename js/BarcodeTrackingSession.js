@@ -45,26 +45,19 @@ var BarcodeTrackingSession = /** @class */ (function () {
         session._frameSequenceID = json.frameSequenceId;
         session._addedTrackedBarcodes = json.addedTrackedBarcodes
             .map(function (trackedBarcodeJSON) {
-            var trackedBarcode = Barcode_1.TrackedBarcode
-                .fromJSON(trackedBarcodeJSON);
-            trackedBarcode.sessionFrameSequenceID = json.frameSequenceId;
-            return trackedBarcode;
+            return Barcode_1.TrackedBarcode
+                .fromJSON(trackedBarcodeJSON, json.frameSequenceId);
         });
         session._removedTrackedBarcodes = json.removedTrackedBarcodes;
         session._updatedTrackedBarcodes = json.updatedTrackedBarcodes
             .map(function (trackedBarcodeJSON) {
-            var trackedBarcode = Barcode_1.TrackedBarcode
-                .fromJSON(trackedBarcodeJSON);
-            trackedBarcode.sessionFrameSequenceID = json.frameSequenceId;
-            return trackedBarcode;
+            return Barcode_1.TrackedBarcode
+                .fromJSON(trackedBarcodeJSON, json.frameSequenceId);
         });
-        ;
         session._trackedBarcodes = Object.keys(json.trackedBarcodes)
             .reduce(function (trackedBarcodes, identifier) {
-            var trackedBarcode = Barcode_1.TrackedBarcode
-                .fromJSON(json.trackedBarcodes[identifier]);
-            trackedBarcode.sessionFrameSequenceID = json.frameSequenceId;
-            trackedBarcodes[identifier] = trackedBarcode;
+            trackedBarcodes[identifier] = Barcode_1.TrackedBarcode
+                .fromJSON(json.trackedBarcodes[identifier], json.frameSequenceId);
             return trackedBarcodes;
         }, {});
         return session;

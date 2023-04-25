@@ -53,23 +53,23 @@ extension ScanditDataCaptureBarcodeSelection {
                         "DefaultTrackedBrush": BarcodeSelectionBasicOverlay.defaultTrackedBrush(forStyle: .dot).rntsdc_dictionary,
                         "DefaultAimedBrush": BarcodeSelectionBasicOverlay.defaultAimedBrush(forStyle: .dot).rntsdc_dictionary,
                         "DefaultSelectedBrush": BarcodeSelectionBasicOverlay.defaultSelectedBrush(forStyle: .dot).rntsdc_dictionary,
-                        "DefaultSelectingBrush": BarcodeSelectionBasicOverlay.defaultSelectingBrush(forStyle: .dot).rntsdc_dictionary,
+                        "DefaultSelectingBrush": BarcodeSelectionBasicOverlay.defaultSelectingBrush(forStyle: .dot).rntsdc_dictionary
                     ],
                     BarcodeSelectionBasicOverlayStyle.frame.jsonString: [
                         "DefaultTrackedBrush": BarcodeSelectionBasicOverlay.defaultTrackedBrush(forStyle: .frame).rntsdc_dictionary,
                         "DefaultAimedBrush": BarcodeSelectionBasicOverlay.defaultAimedBrush(forStyle: .frame).rntsdc_dictionary,
                         "DefaultSelectedBrush": BarcodeSelectionBasicOverlay.defaultSelectedBrush(forStyle: .frame).rntsdc_dictionary,
-                        "DefaultSelectingBrush": BarcodeSelectionBasicOverlay.defaultSelectingBrush(forStyle: .frame).rntsdc_dictionary,
+                        "DefaultSelectingBrush": BarcodeSelectionBasicOverlay.defaultSelectingBrush(forStyle: .frame).rntsdc_dictionary
                     ]
                 ]
                 ]
     }
 
     var barcodeSelectionSettings: [AnyHashable: Any] {
-        let barcodeSelectionSettings = BarcodeSelectionSettings()
-        return ["codeDuplicateFilter": Int(barcodeSelectionSettings.codeDuplicateFilter * 1000),
-                "singleBarcodeAutoDetection": barcodeSelectionSettings.singleBarcodeAutoDetection,
-                "selectionType": barcodeSelectionSettings.selectionType.jsonString]
+        let settings = BarcodeSelectionSettings()
+        return ["codeDuplicateFilter": Int(settings.codeDuplicateFilter * 1000),
+                "singleBarcodeAutoDetection": settings.singleBarcodeAutoDetection,
+                "selectionType": settings.selectionType.jsonString]
     }
 
     var tapSelection: [AnyHashable: Any] {

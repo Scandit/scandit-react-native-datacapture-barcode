@@ -8,7 +8,7 @@ import ScanditBarcodeCapture
 import ScanditDataCaptureCore
 
 extension SparkScanViewManager {
-    override func constantsToExport() -> [AnyHashable : Any]! {
+    override func constantsToExport() -> [AnyHashable: Any]! {
         ["Defaults": defaults]
     }
 

@@ -48,7 +48,7 @@ class ScanditDataCaptureSparkScan: RCTEventEmitter {
     }
 
     override var methodQueue: DispatchQueue! {
-        SDCSharedMethodQeueue
+        sdcSharedMethodQueue
     }
 
     @objc override func invalidate() {

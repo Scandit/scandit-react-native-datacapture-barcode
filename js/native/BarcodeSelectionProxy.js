@@ -15,6 +15,25 @@ var BarcodeSelectionProxy = /** @class */ (function () {
     BarcodeSelectionProxy.prototype.reset = function () {
         return NativeModule.resetMode();
     };
+    BarcodeSelectionProxy.prototype.selectAimedBarcode = function () {
+        return NativeModule.selectAimedBarcode();
+    };
+    BarcodeSelectionProxy.prototype.unselectBarcodes = function (barcodes) {
+        var barcodesJSON = this.convertBarcodesToJSON(barcodes);
+        return NativeModule.unselectBarcodes(JSON.stringify({ barcodes: barcodesJSON }));
+    };
+    BarcodeSelectionProxy.prototype.increaseCountForBarcodes = function (barcodes) {
+        var barcodesJSON = this.convertBarcodesToJSON(barcodes);
+        return NativeModule.increaseCountForBarcodes(JSON.stringify({ barcodes: barcodesJSON }));
+    };
+    BarcodeSelectionProxy.prototype.convertBarcodesToJSON = function (barcodes) {
+        return barcodes.flat().map(function (barcode) { return ({
+            data: barcode.data,
+            rawData: barcode.rawData,
+            symbology: barcode.symbology,
+            symbolCount: barcode.symbolCount
+        }); });
+    };
     return BarcodeSelectionProxy;
 }());
 exports.BarcodeSelectionProxy = BarcodeSelectionProxy;

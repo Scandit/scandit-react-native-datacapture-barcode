@@ -1,4 +1,15 @@
 "use strict";
+var __values = (this && this.__values) || function(o) {
+    var s = typeof Symbol === "function" && Symbol.iterator, m = s && o[s], i = 0;
+    if (m) return m.call(o);
+    if (o && typeof o.length === "number") return {
+        next: function () {
+            if (o && i >= o.length) o = void 0;
+            return { value: o && o[i++], done: !o };
+        }
+    };
+    throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BarcodeTrackingAdvancedOverlayProxy = void 0;
 var react_native_1 = require("react-native");
@@ -96,6 +107,7 @@ var BarcodeTrackingAdvancedOverlayProxy = /** @class */ (function () {
         return JSON.stringify(viewJSON);
     };
     BarcodeTrackingAdvancedOverlayProxy.prototype.isSerializeable = function (o) {
+        var e_1, _a;
         if (o === undefined || o === null ||
             typeof o === 'boolean' || typeof o === 'number' || typeof o === 'string') {
             return true;
@@ -105,11 +117,20 @@ var BarcodeTrackingAdvancedOverlayProxy = /** @class */ (function () {
             return false;
         }
         if (Array.isArray(o)) {
-            for (var _i = 0, o_1 = o; _i < o_1.length; _i++) {
-                var it = o_1[_i];
-                if (!this.isSerializeable(it)) {
-                    return false;
+            try {
+                for (var o_1 = __values(o), o_1_1 = o_1.next(); !o_1_1.done; o_1_1 = o_1.next()) {
+                    var it = o_1_1.value;
+                    if (!this.isSerializeable(it)) {
+                        return false;
+                    }
                 }
+            }
+            catch (e_1_1) { e_1 = { error: e_1_1 }; }
+            finally {
+                try {
+                    if (o_1_1 && !o_1_1.done && (_a = o_1.return)) _a.call(o_1);
+                }
+                finally { if (e_1) throw e_1.error; }
             }
         }
         else {

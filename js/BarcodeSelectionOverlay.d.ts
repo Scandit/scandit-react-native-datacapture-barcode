@@ -2,14 +2,19 @@ import { Brush } from 'scandit-react-native-datacapture-core/js/Common';
 import { DataCaptureOverlay, DataCaptureView } from 'scandit-react-native-datacapture-core/js/DataCaptureView';
 import { DefaultSerializeable } from 'scandit-react-native-datacapture-core/js/private/Serializeable';
 import { Viewfinder } from 'scandit-react-native-datacapture-core/js/Viewfinder';
+import { Barcode } from './Barcode';
 import { BarcodeSelection } from './BarcodeSelection';
 export declare enum BarcodeSelectionBasicOverlayStyle {
     Frame = "frame",
     Dot = "dot"
 }
+export interface BarcodeSelectionBrushProvider {
+    brushForBarcode?(barcode: Barcode): Brush | null;
+}
 export declare class BarcodeSelectionBasicOverlay extends DefaultSerializeable implements DataCaptureOverlay {
     private type;
     private barcodeSelection;
+    private overlayProxy;
     private view;
     private _shouldShowScanAreaGuides;
     private _shouldShowHints;
@@ -37,4 +42,6 @@ export declare class BarcodeSelectionBasicOverlay extends DefaultSerializeable i
     static withBarcodeSelectionForView(barcodeSelection: BarcodeSelection, view: DataCaptureView | null): BarcodeSelectionBasicOverlay;
     static withBarcodeSelectionForViewWithStyle(barcodeSelection: BarcodeSelection, view: DataCaptureView | null, style: BarcodeSelectionBasicOverlayStyle): BarcodeSelectionBasicOverlay;
     private constructor();
+    setAimedBarcodeBrushProvider(brushProvider: BarcodeSelectionBrushProvider | null): Promise<void>;
+    setTrackedBarcodeBrushProvider(brushProvider: BarcodeSelectionBrushProvider | null): Promise<void>;
 }

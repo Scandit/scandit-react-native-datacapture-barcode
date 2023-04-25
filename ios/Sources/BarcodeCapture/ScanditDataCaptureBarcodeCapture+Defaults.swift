@@ -51,7 +51,7 @@ extension ScanditDataCaptureBarcodeCapture {
     }
 
     var barcodeCaptureSettings: [AnyHashable: Any] {
-        let barcodeCaptureSettings = BarcodeCaptureSettings()
-        return ["codeDuplicateFilter": Int(barcodeCaptureSettings.codeDuplicateFilter * 1000)]
+        let settings = BarcodeCaptureSettings()
+        return ["codeDuplicateFilter": Int(settings.codeDuplicateFilter * 1000)]
     }
 }

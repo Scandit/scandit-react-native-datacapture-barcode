@@ -48,7 +48,8 @@ export declare class TrackedBarcode {
     get location(): Quadrilateral;
     private _identifier;
     get identifier(): number;
-    private sessionFrameSequenceID;
+    private _sessionFrameSequenceID;
+    get sessionFrameSequenceID(): number | null;
     private _shouldAnimateFromPreviousToNextState;
     get shouldAnimateFromPreviousToNextState(): boolean;
     private static fromJSON;

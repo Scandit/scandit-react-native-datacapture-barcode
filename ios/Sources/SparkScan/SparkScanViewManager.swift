@@ -48,24 +48,24 @@ enum SparkScanViewError: CustomNSError {
         switch self {
         case .nilContext:
             return 1
-        case .noParentView(_):
+        case .noParentView:
             return 2
         case .noArguments:
             return 3
-        case .sparkScanDeserializerError(_):
+        case .sparkScanDeserializerError:
             return 4
         case .sparkScanModuleNotLoaded:
             return 5
-        case .sparkScanViewDeserializerError(_):
+        case .sparkScanViewDeserializerError:
             return 6
         case .noSparkScanView:
             return 7
-        case .invalidBrush(_):
+        case .invalidBrush:
             return 8
         }
     }
 
-    var errorUserInfo: [String : Any] {
+    var errorUserInfo: [String: Any] {
         return [NSLocalizedDescriptionKey: message]
     }
 }
@@ -96,13 +96,12 @@ class SparkScanViewManager: RCTViewManager {
     override func view() -> UIView! {
         return RNTSparkScanViewWrapper()
     }
-    
+
     override var bridge: RCTBridge! {
-        get {
-            return super.bridge
-        }
-        set {
-            super.bridge = newValue
+        didSet {
+            if bridge != nil {
+                unregisterRNTContextListener()
+            }
             registerRNTContextListener()
             NotificationCenter.default.addObserver(self,
                                                    selector: #selector(moduleLoaded(notification:)),
@@ -268,21 +267,21 @@ class SparkScanViewManager: RCTViewManager {
             let jsonValue = JSONValue(string: feedbackJson)
             var feedback: SparkScanViewFeedback
             let type = jsonValue.string(forKey: "type")
-            
-            var  visualFeedbackColor: UIColor? = nil
+
+            var  visualFeedbackColor: UIColor?
             if jsonValue.containsKey("visualFeedbackColor") {
                 visualFeedbackColor = UIColor(sdcHexString: jsonValue.string(forKey: "visualFeedbackColor" ))
             }
-            
+
             if type == "success" {
                 feedback = visualFeedbackColor != nil ? SparkScanViewSuccessFeedback(visualFeedbackColor: visualFeedbackColor!) : SparkScanViewSuccessFeedback()
             } else {
                 let timeinterval = jsonValue.timeinterval(forKey: "resumeCapturingDelay")
-                if (visualFeedbackColor != nil) {
+                if visualFeedbackColor != nil {
                     feedback = SparkScanViewErrorFeedback(message: jsonValue.string(forKey: "message"),
                                                           resumeCapturingDelay: timeinterval / 1000,
                                                           visualFeedbackColor: visualFeedbackColor!)
-                }else {
+                } else {
                     feedback = SparkScanViewErrorFeedback(message: jsonValue.string(forKey: "message"),
                                                           resumeCapturingDelay: timeinterval / 1000)
                 }

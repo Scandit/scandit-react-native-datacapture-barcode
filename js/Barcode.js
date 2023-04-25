@@ -152,12 +152,19 @@ var TrackedBarcode = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
+    Object.defineProperty(TrackedBarcode.prototype, "sessionFrameSequenceID", {
+        get: function () {
+            return this._sessionFrameSequenceID;
+        },
+        enumerable: false,
+        configurable: true
+    });
     Object.defineProperty(TrackedBarcode.prototype, "shouldAnimateFromPreviousToNextState", {
         get: function () { return this._shouldAnimateFromPreviousToNextState; },
         enumerable: false,
         configurable: true
     });
-    TrackedBarcode.fromJSON = function (json) {
+    TrackedBarcode.fromJSON = function (json, sessionFrameSequenceID) {
         var trackedBarcode = new TrackedBarcode();
         // The serialization returns the identifier as a string, not a number, which it originally is.
         // This is because the identifier needs to be used as a key in a dictionary, which in JSON can only be a string.
@@ -166,6 +173,7 @@ var TrackedBarcode = /** @class */ (function () {
         trackedBarcode._shouldAnimateFromPreviousToNextState = json.shouldAnimateFromPreviousToNextState;
         trackedBarcode._barcode = Barcode.fromJSON(json.barcode);
         trackedBarcode._location = Common_1.Quadrilateral.fromJSON(json.location);
+        trackedBarcode._sessionFrameSequenceID = sessionFrameSequenceID ? sessionFrameSequenceID : null;
         return trackedBarcode;
     };
     return TrackedBarcode;

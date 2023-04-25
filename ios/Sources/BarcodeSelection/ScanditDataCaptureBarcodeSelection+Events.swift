@@ -9,6 +9,8 @@ import Foundation
 enum ScanditDataCaptureBarcodeSelectionEvent: String, CaseIterable {
     case didUpdateSelection = "barcodeSelectionListener-didUpdateSelection"
     case didUpdateSession = "barcodeSelectionListener-didUpdateSession"
+    case brushForAimedBarcode = "barcodeSelectionAimedBrushProvider-brushForBarcode"
+    case brushForTrackedBarcode = "barcodeSelectionTrackedBrushProvider-brushForBarcode"
 }
 
 extension ScanditDataCaptureBarcodeSelection {

@@ -20,31 +20,53 @@ extension ScanditDataCaptureBarcodeSelection {
 extension ScanditDataCaptureBarcodeSelection: BarcodeSelectionDeserializerDelegate {
     func barcodeSelectionDeserializer(_ deserializer: BarcodeSelectionDeserializer,
                                       didStartDeserializingMode mode: BarcodeSelection,
-                                      from JSONValue: JSONValue) { }
+                                      from jsonValue: JSONValue) {
+        // Empty on purpose
+    }
 
     func barcodeSelectionDeserializer(_ deserializer: BarcodeSelectionDeserializer,
                                       didFinishDeserializingMode mode: BarcodeSelection,
-                                      from JSONValue: JSONValue) {
+                                      from jsonValue: JSONValue) {
         barcodeSelection = mode
         mode.addListener(self)
-        if JSONValue.containsKey("enabled") {
-            mode.isEnabled = JSONValue.bool(forKey: "enabled")
+        if jsonValue.containsKey("enabled") {
+            mode.isEnabled = jsonValue.bool(forKey: "enabled")
         }
     }
 
     func barcodeSelectionDeserializer(_ deserializer: BarcodeSelectionDeserializer,
                                       didStartDeserializingSettings settings: BarcodeSelectionSettings,
-                                      from JSONValue: JSONValue) { }
+                                      from JSONValue: JSONValue) {
+        // Empty on purpose
+    }
 
     func barcodeSelectionDeserializer(_ deserializer: BarcodeSelectionDeserializer,
                                       didFinishDeserializingSettings settings: BarcodeSelectionSettings,
-                                      from JSONValue: JSONValue) { }
+                                      from JSONValue: JSONValue) {
+        // Empty on purpose
+    }
 
     func barcodeSelectionDeserializer(_ deserializer: BarcodeSelectionDeserializer,
                                       didStartDeserializingBasicOverlay overlay: BarcodeSelectionBasicOverlay,
-                                      from JSONValue: JSONValue) { }
+                                      from JSONValue: JSONValue) {
+        // Empty on purpose
+    }
 
     func barcodeSelectionDeserializer(_ deserializer: BarcodeSelectionDeserializer,
                                       didFinishDeserializingBasicOverlay overlay: BarcodeSelectionBasicOverlay,
-                                      from JSONValue: JSONValue) { }
+                                      from JSONValue: JSONValue) {
+        barcodeSelectionBasicOverlay = overlay
+        
+        if let barcodeSelectionBasicOverlay = barcodeSelectionBasicOverlay,
+            let trackedBrushProvider = trackedBrushProvider,
+            trackedBrushProviderFlag {
+            barcodeSelectionBasicOverlay.setTrackedBarcodeBrushProvider(trackedBrushProvider)
+        }
+        
+        if let barcodeSelectionBasicOverlay = barcodeSelectionBasicOverlay,
+            let aimedBrushProvider = aimedBrushProvider,
+            aimedBrushProviderFlag {
+            barcodeSelectionBasicOverlay.setAimedBarcodeBrushProvider(aimedBrushProvider)
+        }
+    }
 }

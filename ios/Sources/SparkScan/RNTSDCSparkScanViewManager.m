@@ -19,7 +19,7 @@ RCT_EXTERN_METHOD(create
                   : (RCTPromiseRejectBlock)reject)
 
 RCT_EXTERN_METHOD(update
-                  : (nonnull NSNumber *)reactTag brush
+                  : (nonnull NSNumber *)reactTag JSONString
                   : (nonnull NSString *)JSONString resolver
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)

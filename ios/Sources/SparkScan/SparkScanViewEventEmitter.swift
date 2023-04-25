@@ -33,7 +33,7 @@ class SparkScanViewEventEmitter: RCTEventEmitter {
     }
 
     override var methodQueue: DispatchQueue! {
-        SDCSharedMethodQeueue
+        sdcSharedMethodQueue
     }
 }
 

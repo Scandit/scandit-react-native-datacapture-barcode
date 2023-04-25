@@ -9,22 +9,28 @@ import ScanditBarcodeCapture
 extension ScanditDataCaptureSparkScan: SparkScanDeserializerDelegate {
     func sparkScanDeserializer(_ deserializer: SparkScanDeserializer,
                                didStartDeserializingMode mode: SparkScan,
-                               from JSONValue: JSONValue) {}
+                               from jsonValue: JSONValue) {
+        // Empty on purpose
+    }
 
     func sparkScanDeserializer(_ deserializer: SparkScanDeserializer,
                                didFinishDeserializingMode mode: SparkScan,
-                               from JSONValue: JSONValue) {
-        if JSONValue.containsKey("enabled") {
-            mode.isEnabled = JSONValue.bool(forKey: "enabled")
+                               from jsonValue: JSONValue) {
+        if jsonValue.containsKey("enabled") {
+            mode.isEnabled = jsonValue.bool(forKey: "enabled")
         }
         sparkScan = mode
     }
 
     func sparkScanDeserializer(_ deserializer: SparkScanDeserializer,
                                didStartDeserializingSettings settings: SparkScanSettings,
-                               from JSONValue: JSONValue) {}
+                               from jsonValue: JSONValue) {
+        // Empty on purpose
+    }
 
     func sparkScanDeserializer(_ deserializer: SparkScanDeserializer,
                                didFinishDeserializingSettings settings: SparkScanSettings,
-                               from JSONValue: JSONValue) {}
+                               from jsonValue: JSONValue) {
+        // Empty on purpose
+    }
 }

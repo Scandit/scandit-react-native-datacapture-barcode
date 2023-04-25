@@ -36,7 +36,7 @@ export interface TrackedBarcodeJSON {
 }
 export interface PrivateTrackedBarcode {
     sessionFrameSequenceID: number | null;
-    fromJSON(json: TrackedBarcodeJSON): TrackedBarcode;
+    fromJSON(json: TrackedBarcodeJSON, frameSequenceID?: number): TrackedBarcode;
 }
 export interface PrivateStructuredAppendData {
     fromJSON(json: StructuredAppendDataJSON | null): StructuredAppendData;

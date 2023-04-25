@@ -24,6 +24,7 @@ var Common_1 = require("scandit-react-native-datacapture-core/js/Common");
 var Serializeable_1 = require("scandit-react-native-datacapture-core/js/private/Serializeable");
 var Viewfinder_1 = require("scandit-react-native-datacapture-core/js/Viewfinder");
 var BarcodeSelectionDefaults_1 = require("./private/BarcodeSelectionDefaults");
+var BarcodeSelectionOverlayProxy_1 = require("./native/BarcodeSelectionOverlayProxy");
 var BarcodeSelectionBasicOverlayStyle;
 (function (BarcodeSelectionBasicOverlayStyle) {
     BarcodeSelectionBasicOverlayStyle["Frame"] = "frame";
@@ -34,6 +35,7 @@ var BarcodeSelectionBasicOverlay = /** @class */ (function (_super) {
     function BarcodeSelectionBasicOverlay() {
         var _this = _super.call(this) || this;
         _this.type = 'barcodeSelectionBasic';
+        _this.overlayProxy = new BarcodeSelectionOverlayProxy_1.BarcodeSelectionOverlayProxy();
         _this._shouldShowScanAreaGuides = false;
         _this._shouldShowHints = true;
         _this._viewfinder = new Viewfinder_1.AimerViewfinder();
@@ -142,9 +144,24 @@ var BarcodeSelectionBasicOverlay = /** @class */ (function (_super) {
         }
         return overlay;
     };
+    BarcodeSelectionBasicOverlay.prototype.setAimedBarcodeBrushProvider = function (brushProvider) {
+        var _this = this;
+        return this.overlayProxy.setAimedBarcodeBrushProvider(brushProvider).then(function () {
+            _this.barcodeSelection.didChange();
+        });
+    };
+    BarcodeSelectionBasicOverlay.prototype.setTrackedBarcodeBrushProvider = function (brushProvider) {
+        var _this = this;
+        return this.overlayProxy.setTrackedBarcodeBrushProvider(brushProvider).then(function () {
+            _this.barcodeSelection.didChange();
+        });
+    };
     __decorate([
         Serializeable_1.ignoreFromSerialization
     ], BarcodeSelectionBasicOverlay.prototype, "barcodeSelection", void 0);
+    __decorate([
+        Serializeable_1.ignoreFromSerialization
+    ], BarcodeSelectionBasicOverlay.prototype, "overlayProxy", void 0);
     __decorate([
         Serializeable_1.ignoreFromSerialization
     ], BarcodeSelectionBasicOverlay.prototype, "view", void 0);

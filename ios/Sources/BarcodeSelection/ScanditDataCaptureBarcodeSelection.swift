@@ -38,6 +38,15 @@ class ScanditDataCaptureBarcodeSelection: RCTEventEmitter {
 
     internal var barcodeSelection: BarcodeSelection?
     internal var barcodeSelectionSession: BarcodeSelectionSession?
+    internal var barcodeSelectionBasicOverlay: BarcodeSelectionBasicOverlay?
+
+    internal var trackedBrushProviderFlag: Bool = false
+    internal var aimedBrushProviderFlag: Bool = false
+
+    internal var trackedBrushProvider: RNTBarcodeSelectionTrackedBrushProvider?
+    internal var aimedBrushProvider: RNTBarcodeSelectionAimedBrushProvider?
+
+    internal let cachedBrushesQueue = DispatchQueue(label: "cachedBrushesQueue")
 
     override init() {
         super.init()
@@ -49,7 +58,7 @@ class ScanditDataCaptureBarcodeSelection: RCTEventEmitter {
     }
 
     override var methodQueue: DispatchQueue! {
-        return SDCSharedMethodQeueue
+        return sdcSharedMethodQueue
     }
 
     @objc override func invalidate() {
@@ -74,6 +83,45 @@ class ScanditDataCaptureBarcodeSelection: RCTEventEmitter {
         resolve(session.count(for: selectionIdentifier))
     }
 
+    @objc(increaseCountForBarcodes:resolver:rejecter:)
+    func increaseCountForBarcodes(barcodesJson: String,
+                                  resolve: RCTPromiseResolveBlock,
+                                  reject: RCTPromiseRejectBlock) {
+        guard let barcodeSelection = barcodeSelection else {
+            let error = ScanditDataCaptureBarcodeError.nilMode
+            reject(String(error.code), error.message, error)
+            return
+        }
+        barcodeSelection.increaseCountForBarcodes(fromJsonString: barcodesJson)
+        resolve(nil)
+    }
+
+    @objc(unselectBarcodes:resolver:rejecter:)
+    func unselectBarcodes(barcodesJson: String,
+                          resolve: RCTPromiseResolveBlock,
+                          reject: RCTPromiseRejectBlock) {
+        guard let barcodeSelection = barcodeSelection else {
+            let error = ScanditDataCaptureBarcodeError.nilMode
+            reject(String(error.code), error.message, error)
+            return
+        }
+        barcodeSelection.unselectBarcodes(fromJsonString: barcodesJson)
+        resolve(nil)
+    }
+
+    @objc(setSelectBarcodeEnabled:enabled:resolver:rejecter:)
+    func setSelectBarcodeEnabled(barcodesJson: String,
+                                 enabled: Bool,
+                                 resolve: RCTPromiseResolveBlock,
+                                 reject: RCTPromiseRejectBlock) {
+        guard let barcodeSelection = barcodeSelection else {
+            let error = ScanditDataCaptureBarcodeError.nilMode
+            reject(String(error.code), error.message, error)
+            return
+        }
+        barcodeSelection.setSelectBarcodeFromJsonString(barcodesJson, enabled: enabled)
+    }
+
     @objc(resetSession:rejecter:)
     func resetSession(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
         guard let session = barcodeSelectionSession else {
@@ -96,6 +144,17 @@ class ScanditDataCaptureBarcodeSelection: RCTEventEmitter {
         resolve(nil)
     }
 
+    @objc(selectAimedBarcode:rejecter:)
+    func selectAimedBarcode(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
+        guard let barcodeSelection = barcodeSelection else {
+            let error = ScanditDataCaptureBarcodeError.nilMode
+            reject(String(error.code), error.message, error)
+            return
+        }
+        barcodeSelection.selectAimedBarcode()
+        resolve(nil)
+    }
+
     @objc(resetMode:rejecter:)
     func resetMode(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
         guard let barcodeSelection = barcodeSelection else {
@@ -107,9 +166,61 @@ class ScanditDataCaptureBarcodeSelection: RCTEventEmitter {
         resolve(nil)
     }
 
+    @objc(finishBrushForAimedBarcodeCallback:selectionIdentifier:resolver:rejecter:)
+    func finishBrushForAimedBarcodeCallback(brushJson: String?,
+                                            selectionIdentifier: String?,
+                                            resolve: RCTPromiseResolveBlock,
+                                            reject: RCTPromiseRejectBlock) {
+        aimedBrushProvider?.onFinishCallback(selectionIdentifier: selectionIdentifier, brushJson: brushJson, resolve: resolve, reject: reject)
+    }
+
+    @objc(setAimedBarcodeBrushProvider:rejecter:)
+    func setAimedBarcodeBrushProvider(resolve: RCTPromiseResolveBlock,
+                                        reject: RCTPromiseRejectBlock) {
+        aimedBrushProvider = RNTBarcodeSelectionAimedBrushProvider(cachedBrushesQueue: cachedBrushesQueue)
+        aimedBrushProvider?.eventEmitter = self
+        aimedBrushProviderFlag = true
+        resolve(nil)
+    }
+    @objc(removeAimedBarcodeBrushProvider:rejecter:)
+    func removeAimedBarcodeBrushProvider(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
+        aimedBrushProviderFlag = false
+        barcodeSelectionBasicOverlay?.setAimedBarcodeBrushProvider(nil)
+        aimedBrushProvider = nil
+        resolve(nil)
+    }
+    @objc(finishBrushForTrackedBarcodeCallback:selectionIdentifier:resolver:rejecter:)
+    func finishBrushForTrackedBarcodeCallback(brushJson: String?,
+                                              selectionIdentifier: String?,
+                                              resolve: RCTPromiseResolveBlock,
+                                              reject: RCTPromiseRejectBlock) {
+        trackedBrushProvider?.onFinishCallback(selectionIdentifier: selectionIdentifier, brushJson: brushJson, resolve: resolve, reject: reject)
+    }
+
+    @objc(setTrackedBarcodeBrushProvider:rejecter:)
+    func setTrackedBarcodeBrushProvider(resolve: RCTPromiseResolveBlock,
+                                        reject: RCTPromiseRejectBlock) {
+        trackedBrushProvider = RNTBarcodeSelectionTrackedBrushProvider(cachedBrushesQueue: cachedBrushesQueue)
+        trackedBrushProvider?.eventEmitter = self
+        trackedBrushProviderFlag = true
+        resolve(nil)
+    }
+
+    @objc(removeTrackedBarcodeBrushProvider:rejecter:)
+    func removeTrackedBarcodeBrushProvider(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
+        trackedBrushProviderFlag = false
+        barcodeSelectionBasicOverlay?.setTrackedBarcodeBrushProvider(nil)
+        trackedBrushProvider = nil
+        resolve(nil)
+    }
+
     // Empty methods to unify the logic on the TS side for supporting functionality automatically provided by RN on iOS,
     // but custom implemented on Android.
+    @objc func registerListenerForEvents() {
+        // Empty on purpose
+    }
 
-    @objc func registerListenerForEvents() { }
-    @objc func unregisterListenerForEvents() { }
+    @objc func unregisterListenerForEvents() {
+        // Empty on purpose
+    }
 }
