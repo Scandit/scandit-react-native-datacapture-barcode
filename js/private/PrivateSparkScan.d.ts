@@ -5,4 +5,5 @@ export interface PrivateSparkScan {
     listeners: SparkScanListener[];
     isInListenerCallback: boolean;
     didChange: () => Promise<void>;
+    unsubscribeNativeListeners: () => void;
 }

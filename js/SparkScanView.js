@@ -294,6 +294,7 @@ var SparkScanView = /** @class */ (function (_super) {
     };
     SparkScanView.prototype.componentWillUnmount = function () {
         this.viewProxy.dispose();
+        this.props.sparkScan.unsubscribeNativeListeners();
     };
     SparkScanView.prototype.prepareScanning = function () {
         this.viewProxy.prepareScanning();

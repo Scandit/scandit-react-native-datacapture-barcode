@@ -74,10 +74,8 @@ var SparkScan = /** @class */ (function (_super) {
             return this.privateContext;
         },
         set: function (newContext) {
-            if (newContext == null) {
-                this.listenerProxy.unsubscribeListener();
-            }
-            else if (this.privateContext == null) {
+            this.listenerProxy.unsubscribeListener();
+            if (this.privateContext == null) {
                 this.listenerProxy.subscribeListener();
             }
             this.privateContext = newContext;
@@ -113,6 +111,9 @@ var SparkScan = /** @class */ (function (_super) {
         else {
             return Promise.resolve();
         }
+    };
+    SparkScan.prototype.unsubscribeNativeListeners = function () {
+        this.listenerProxy.unsubscribeListener();
     };
     __decorate([
         Serializeable_1.nameForSerialization('enabled')
