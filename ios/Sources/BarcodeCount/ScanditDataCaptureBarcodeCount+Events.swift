@@ -7,21 +7,22 @@
 import Foundation
 
 enum ScanditDataCaptureBarcodeCountEvent: String, CaseIterable {
-    case didScanInSession = "barcodeCountListener-scan"
+    case didScanInSession = "BarcodeCountListener.onScan"
 
-    case didUpdateCaptureList = "barcodeCountCaptureListListener-onCaptureListSessionUpdated"
+    case didUpdateCaptureList = "BarcodeCountCaptureListListener.didUpdateSession"
 
-    case brushForRecognizedBarcode = "barcodeCountViewListener-brushForRecognizedBarcode"
-    case brushForRecognizedBarcodeNotInList = "barcodeCountViewListener-brushForRecognizedBarcodeNotInList"
-    case brushForUnrecognizedBarcode = "barcodeCountViewListener-brushForUnrecognizedBarcode"
-    case filteredBarcodeTapped = "barcodeCountViewListener-onFilteredBarcodeTapped"
-    case recognizedBarcodeNotInListTapped = "barcodeCountViewListener-onRecognizedBarcodeNotInListTapped"
-    case recognizedBarcodeTapped = "barcodeCountViewListener-onRecognizedBarcodeTapped"
-    case unrecognizedBarcodeTapped = "barcodeCountViewListener-onUnrecognizedBarcodeTapped"
+    case brushForRecognizedBarcode = "BarcodeCountViewListener.brushForRecognizedBarcode"
+    case brushForRecognizedBarcodeNotInList = "BarcodeCountViewListener.brushForRecognizedBarcodeNotInList"
+    case brushForUnrecognizedBarcode = "BarcodeCountViewListener.brushForUnrecognizedBarcode"
+    case filteredBarcodeTapped = "BarcodeCountViewListener.didTapFilteredBarcode"
+    case recognizedBarcodeNotInListTapped = "BarcodeCountViewListener.didTapRecognizedBarcodeNotInList"
+    case recognizedBarcodeTapped = "BarcodeCountViewListener.didTapRecognizedBarcode"
+    case unrecognizedBarcodeTapped = "BarcodeCountViewListener.didTapUnrecognizedBarcode"
+    case didCompleteCaptureList = "BarcodeCountViewListener.didCompleteCaptureList"
 
-    case singleScanButtonTapped = "barcodeCountViewUiListener-onSingleScanButtonTapped"
-    case listButtonTapped = "barcodeCountViewUiListener-onListButtonTapped"
-    case exitButtonTapped = "barcodeCountViewUiListener-onExitButtonTapped"
+    case singleScanButtonTapped = "BarcodeCountViewUiListener.onSingleScanButtonTapped"
+    case listButtonTapped = "BarcodeCountViewUiListener.onListButtonTapped"
+    case exitButtonTapped = "BarcodeCountViewUiListener.onExitButtonTapped"
 }
 
 extension ScanditDataCaptureBarcodeCount {
@@ -41,7 +42,13 @@ extension ScanditDataCaptureBarcodeCount {
     @discardableResult
     func send(_ event: ScanditDataCaptureBarcodeCountEvent, body: Any) -> Bool {
         guard hasListeners else { return false }
-        sendEvent(withName: event.rawValue, body: body)
+        do {
+            let bodyData = try JSONSerialization.data(withJSONObject: body, options: [])
+            let jsonBody = String(data: bodyData, encoding: .utf8)
+            sendEvent(withName: event.rawValue, body: jsonBody)
+        } catch {
+            sendEvent(withName: event.rawValue, body: body)
+        }
         return true
     }
 }

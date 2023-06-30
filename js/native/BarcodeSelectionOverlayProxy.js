@@ -9,8 +9,8 @@ var EventEmitter = new react_native_1.NativeEventEmitter(NativeModule);
 // tslint:enable:variable-name
 var BarcodeSelectionBrushProviderEventName;
 (function (BarcodeSelectionBrushProviderEventName) {
-    BarcodeSelectionBrushProviderEventName["brushForAimedBarcode"] = "barcodeSelectionAimedBrushProvider-brushForBarcode";
-    BarcodeSelectionBrushProviderEventName["brushForTrackedBarcode"] = "barcodeSelectionTrackedBrushProvider-brushForBarcode";
+    BarcodeSelectionBrushProviderEventName["brushForAimedBarcode"] = "BarcodeSelectionAimedBrushProvider.brushForBarcode";
+    BarcodeSelectionBrushProviderEventName["brushForTrackedBarcode"] = "BarcodeSelectionTrackedBrushProvider.brushForBarcode";
 })(BarcodeSelectionBrushProviderEventName || (BarcodeSelectionBrushProviderEventName = {}));
 var BarcodeSelectionOverlayProxy = /** @class */ (function () {
     function BarcodeSelectionOverlayProxy() {
@@ -25,8 +25,9 @@ var BarcodeSelectionOverlayProxy = /** @class */ (function () {
         }
         var subscriptionResult = NativeModule.setAimedBarcodeBrushProvider();
         this.brushForAimedBarcodeProvider = EventEmitter.addListener(BarcodeSelectionBrushProviderEventName.brushForAimedBarcode, function (body) {
+            var payload = JSON.parse(body);
             var barcode = Barcode_1.Barcode
-                .fromJSON(JSON.parse(body.barcode));
+                .fromJSON(JSON.parse(payload.barcode));
             var brush = null;
             if (brushProvider.brushForBarcode) {
                 brush = brushProvider.brushForBarcode(barcode);
@@ -43,8 +44,9 @@ var BarcodeSelectionOverlayProxy = /** @class */ (function () {
         }
         var subscriptionResult = NativeModule.setTrackedBarcodeBrushProvider();
         this.brushForTrackedBarcodeProvider = EventEmitter.addListener(BarcodeSelectionBrushProviderEventName.brushForTrackedBarcode, function (body) {
+            var payload = JSON.parse(body);
             var barcode = Barcode_1.Barcode
-                .fromJSON(JSON.parse(body.barcode));
+                .fromJSON(JSON.parse(payload.barcode));
             var brush = null;
             if (brushProvider.brushForBarcode) {
                 brush = brushProvider.brushForBarcode(barcode);

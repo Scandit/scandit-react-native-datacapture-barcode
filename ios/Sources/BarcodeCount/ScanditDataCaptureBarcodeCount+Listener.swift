@@ -37,65 +37,144 @@ extension ScanditDataCaptureBarcodeCount: BarcodeCountViewDelegate {
 
     func barcodeCountView(_ view: BarcodeCountView,
                           brushForRecognizedBarcode trackedBarcode: TrackedBarcode) -> Brush? {
-        // TODO: https://scandit.atlassian.net/browse/SDC-16607
-        return view.recognizedBrush
-//        guard hasListeners else { return nil }
-//        let body = ["trackedBarcode": trackedBarcode.jsonString]
-//        let brush = brushForRecognizedBarcodeLock.wait {
-//            return send(.brushForRecognizedBarcode, body: body)
-//        }
-//        return brush
+        guard hasListeners else { return nil }
+        let body = ["trackedBarcode": trackedBarcode.jsonString]
+        send(.brushForRecognizedBarcode, body: body)
+        brushRequests[trackedBarcode.identifier.keyFor(prefix: ScanditDataCaptureBarcodeCountEvent.brushForRecognizedBarcode.rawValue)] = trackedBarcode
+        return nil
     }
 
     func barcodeCountView(_ view: BarcodeCountView,
                           brushForUnrecognizedBarcode trackedBarcode: TrackedBarcode) -> Brush? {
-        // TODO: https://scandit.atlassian.net/browse/SDC-16607
-        return view.unrecognizedBrush
-//        guard hasListeners else { return nil }
-//        let body = ["trackedBarcode": trackedBarcode.jsonString]
-//        let brush = brushForRecognizedBarcodeLock.wait {
-//            return send(.brushForUnrecognizedBarcode, body: body)
-//        }
-//        return brush
+        guard hasListeners else { return nil }
+        let body = ["trackedBarcode": trackedBarcode.jsonString]
+        send(.brushForUnrecognizedBarcode, body: body)
+        brushRequests[trackedBarcode.identifier.keyFor(prefix: ScanditDataCaptureBarcodeCountEvent.brushForUnrecognizedBarcode.rawValue)] = trackedBarcode
+        return nil
     }
 
-    @objc
-    func finishBrushForUnrecognizedBarcodeCallback(jsonString: String?) {
+    @objc(finishBrushForUnrecognizedBarcodeCallback:jsonString:trackedBarcodeId:resolve:reject:)
+    func finishBrushForUnrecognizedBarcodeCallback(
+        reactTag: NSNumber,
+        jsonString: String?,
+        trackedBarcodeId: Int,
+        resolve: @escaping RCTPromiseResolveBlock,
+        reject: @escaping RCTPromiseRejectBlock
+    ) {
         guard let jsonString = jsonString, let brush = Brush(jsonString: jsonString) else {
-            brushForUnrecognizedBarcodeLock.unlock(value: nil)
+            let error = ScanditDataCaptureBarcodeCountViewError.wrongArgument(argument: "brushJson")
+            reject(error.message, String(error.errorCode), error)
             return
         }
-        brushForUnrecognizedBarcodeLock.unlock(value: brush)
+        
+        guard let parentView = self.parentView(tag: reactTag) as? BarcodeCountViewWrapperView else {
+            let error = ScanditDataCaptureBarcodeCountViewError.noParentView(tag: reactTag)
+            reject(error.message, String(error.errorCode), error)
+            return
+        }
+        
+        guard let barcodeCountView = parentView.barcodeCountView else {
+            let error = ScanditDataCaptureBarcodeCountViewError.noBarcodeCountView
+            reject(error.message, String(error.errorCode), error)
+            return
+        }
+        
+        let key = trackedBarcodeId.keyFor(prefix: ScanditDataCaptureBarcodeCountEvent.brushForUnrecognizedBarcode.rawValue)
+        guard let trackedBarcode = brushRequests[key] else {
+            return
+        }
+        
+        brushRequests.removeValue(forKey: key)
+        DispatchQueue.main.async {
+            barcodeCountView.setBrush(brush, forUnrecognizedBarcode: trackedBarcode)
+        }
     }
 
     func barcodeCountView(_ view: BarcodeCountView,
                           brushForRecognizedBarcodeNotInList trackedBarcode: TrackedBarcode) -> Brush? {
-        // TODO: https://scandit.atlassian.net/browse/SDC-16607
-        return view.notInListBrush
-//        guard hasListeners else { return nil }
-//        let body = ["trackedBarcode": trackedBarcode.jsonString]
-//        let brush = brushForRecognizedBarcodeLock.wait {
-//            return send(.brushForRecognizedBarcodeNotInList, body: body)
-//        }
-//        return brush
+        guard hasListeners else { return nil }
+        let body = ["trackedBarcode": trackedBarcode.jsonString]
+        send(.brushForRecognizedBarcodeNotInList, body: body)
+        brushRequests[trackedBarcode.identifier.keyFor(prefix: ScanditDataCaptureBarcodeCountEvent.brushForRecognizedBarcodeNotInList.rawValue)] = trackedBarcode
+        return nil
     }
 
-    @objc
-    func finishBrushForRecognizedBarcodeCallback(jsonString: String?) {
+    @objc(finishBrushForRecognizedBarcodeCallback:jsonString:trackedBarcodeId:resolve:reject:)
+    func finishBrushForRecognizedBarcodeCallback(reactTag: NSNumber,
+                                                 jsonString: String?,
+                                                 trackedBarcodeId: Int,
+                                                 resolve: @escaping RCTPromiseResolveBlock,
+                                                 reject: @escaping RCTPromiseRejectBlock
+    ) {
         guard let jsonString = jsonString, let brush = Brush(jsonString: jsonString) else {
-            brushForRecognizedBarcodeLock.unlock(value: nil)
+            let error = ScanditDataCaptureBarcodeCountViewError.wrongArgument(argument: "brushJson")
+            reject(error.message, String(error.errorCode), error)
             return
         }
-        brushForRecognizedBarcodeLock.unlock(value: brush)
+        
+        guard let parentView = self.parentView(tag: reactTag) as? BarcodeCountViewWrapperView else {
+            let error = ScanditDataCaptureBarcodeCountViewError.noParentView(tag: reactTag)
+            reject(error.message, String(error.errorCode), error)
+            return
+        }
+        
+        guard let barcodeCountView = parentView.barcodeCountView else {
+            let error = ScanditDataCaptureBarcodeCountViewError.noBarcodeCountView
+            reject(error.message, String(error.errorCode), error)
+            return
+        }
+        
+        let key = trackedBarcodeId.keyFor(prefix: ScanditDataCaptureBarcodeCountEvent.brushForRecognizedBarcode.rawValue)
+        guard let trackedBarcode = brushRequests[key] else {
+            return
+        }
+        
+        brushRequests.removeValue(forKey: key)
+        DispatchQueue.main.async {
+            barcodeCountView.setBrush(brush, forRecognizedBarcode: trackedBarcode)
+        }
     }
 
-    @objc
-    func finishBrushForRecognizedBarcodeNotInListCallback(jsonString: String?) {
+    @objc(finishBrushForRecognizedBarcodeNotInListCallback:jsonString:trackedBarcodeId:resolve:reject:)
+    func finishBrushForRecognizedBarcodeNotInListCallback(
+        reactTag: NSNumber,
+        jsonString: String?,
+        trackedBarcodeId: Int,
+        resolve: @escaping RCTPromiseResolveBlock,
+        reject: @escaping RCTPromiseRejectBlock
+    ) {
         guard let jsonString = jsonString, let brush = Brush(jsonString: jsonString) else {
-            brushForRecognizedBarcodeNotInListLock.unlock(value: nil)
+            let error = ScanditDataCaptureBarcodeCountViewError.wrongArgument(argument: "brushJson")
+            reject(error.message, String(error.errorCode), error)
             return
         }
-        brushForRecognizedBarcodeNotInListLock.unlock(value: brush)
+        
+        guard let parentView = self.parentView(tag: reactTag) as? BarcodeCountViewWrapperView else {
+            let error = ScanditDataCaptureBarcodeCountViewError.noParentView(tag: reactTag)
+            reject(error.message, String(error.errorCode), error)
+            return
+        }
+        
+        guard let barcodeCountView = parentView.barcodeCountView else {
+            let error = ScanditDataCaptureBarcodeCountViewError.noBarcodeCountView
+            reject(error.message, String(error.errorCode), error)
+            return
+        }
+        
+        let key = trackedBarcodeId.keyFor(prefix: ScanditDataCaptureBarcodeCountEvent.brushForRecognizedBarcodeNotInList.rawValue)
+        guard let trackedBarcode = brushRequests[key] else {
+            return
+        }
+        
+        brushRequests.removeValue(forKey: key)
+        DispatchQueue.main.async {
+            barcodeCountView.setBrush(brush, forRecognizedBarcodeNotInList: trackedBarcode)
+        }
+    }
+    
+    func captureList(_ captureList: BarcodeCountCaptureList, didCompleteWith session: BarcodeCountCaptureListSession) {
+        guard hasListeners else { return }
+        send(.didCompleteCaptureList, body: [])
     }
 }
 
@@ -155,3 +234,10 @@ extension ScanditDataCaptureBarcodeCount: BarcodeCountCaptureListListener {
         send(.didUpdateCaptureList, body: body)
     }
 }
+
+fileprivate extension Int {
+    func keyFor(prefix: String) -> String {
+        return  "\(prefix)-\(self)"
+    }
+}
+

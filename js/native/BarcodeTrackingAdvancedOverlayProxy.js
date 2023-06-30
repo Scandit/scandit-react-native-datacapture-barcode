@@ -22,9 +22,9 @@ var EventEmitter = new react_native_1.NativeEventEmitter(NativeModule);
 // tslint:enable:variable-name
 var BarcodeTrackingAdvancedOverlayListenerEventName;
 (function (BarcodeTrackingAdvancedOverlayListenerEventName) {
-    BarcodeTrackingAdvancedOverlayListenerEventName["viewForTrackedBarcode"] = "barcodeTrackingAdvancedOverlayListener-viewForTrackedBarcode";
-    BarcodeTrackingAdvancedOverlayListenerEventName["anchorForTrackedBarcode"] = "barcodeTrackingAdvancedOverlayListener-anchorForTrackedBarcode";
-    BarcodeTrackingAdvancedOverlayListenerEventName["offsetForTrackedBarcode"] = "barcodeTrackingAdvancedOverlayListener-offsetForTrackedBarcode";
+    BarcodeTrackingAdvancedOverlayListenerEventName["viewForTrackedBarcode"] = "BarcodeTrackingAdvancedOverlayListener.widgetForTrackedBarcode";
+    BarcodeTrackingAdvancedOverlayListenerEventName["anchorForTrackedBarcode"] = "BarcodeTrackingAdvancedOverlayListener.anchorForTrackedBarcode";
+    BarcodeTrackingAdvancedOverlayListenerEventName["offsetForTrackedBarcode"] = "BarcodeTrackingAdvancedOverlayListener.offsetForTrackedBarcode";
 })(BarcodeTrackingAdvancedOverlayListenerEventName || (BarcodeTrackingAdvancedOverlayListenerEventName = {}));
 var BarcodeTrackingAdvancedOverlayProxy = /** @class */ (function () {
     function BarcodeTrackingAdvancedOverlayProxy() {
@@ -39,13 +39,14 @@ var BarcodeTrackingAdvancedOverlayProxy = /** @class */ (function () {
         return NativeModule.setBrushForTrackedBarcode(JSON.stringify(brush.toJSON()), trackedBarcode.sessionFrameSequenceID, trackedBarcode.identifier);
     };
     BarcodeTrackingAdvancedOverlayProxy.prototype.setViewForTrackedBarcode = function (view, trackedBarcode) {
-        return NativeModule.setViewForTrackedBarcode(this.getJSONStringForView(view), trackedBarcode.sessionFrameSequenceID, trackedBarcode.identifier);
+        var viewJson = this.getJSONStringForView(view);
+        return NativeModule.setViewForTrackedBarcode(viewJson, trackedBarcode.identifier);
     };
     BarcodeTrackingAdvancedOverlayProxy.prototype.setAnchorForTrackedBarcode = function (anchor, trackedBarcode) {
-        return NativeModule.setAnchorForTrackedBarcode(anchor, trackedBarcode.sessionFrameSequenceID, trackedBarcode.identifier);
+        return NativeModule.setAnchorForTrackedBarcode(anchor, trackedBarcode.identifier);
     };
     BarcodeTrackingAdvancedOverlayProxy.prototype.setOffsetForTrackedBarcode = function (offset, trackedBarcode) {
-        return NativeModule.setOffsetForTrackedBarcode(JSON.stringify(offset.toJSON()), trackedBarcode.sessionFrameSequenceID, trackedBarcode.identifier);
+        return NativeModule.setOffsetForTrackedBarcode(JSON.stringify(offset.toJSON()), trackedBarcode.identifier);
     };
     BarcodeTrackingAdvancedOverlayProxy.prototype.clearTrackedBarcodeViews = function () {
         return NativeModule.clearTrackedBarcodeViews();
@@ -54,31 +55,33 @@ var BarcodeTrackingAdvancedOverlayProxy = /** @class */ (function () {
         var _this = this;
         NativeModule.registerListenerForAdvancedOverlayEvents();
         var viewForTrackedBarcodeListener = EventEmitter.addListener(BarcodeTrackingAdvancedOverlayListenerEventName.viewForTrackedBarcode, function (body) {
+            var payload = JSON.parse(body);
             var trackedBarcode = Barcode_1.TrackedBarcode
-                .fromJSON(JSON.parse(body.trackedBarcode));
-            var view = null;
+                .fromJSON(JSON.parse(payload.trackedBarcode));
             if (_this.overlay.listener && _this.overlay.listener.viewForTrackedBarcode) {
-                view = _this.overlay.listener.viewForTrackedBarcode(_this.overlay, trackedBarcode);
+                var view = _this.overlay.listener.viewForTrackedBarcode(_this.overlay, trackedBarcode);
+                NativeModule.setViewForTrackedBarcode(_this.getJSONStringForView(view), trackedBarcode.identifier);
             }
-            NativeModule.finishViewForTrackedBarcodeCallback(_this.getJSONStringForView(view));
         });
         var anchorForTrackedBarcodeListener = EventEmitter.addListener(BarcodeTrackingAdvancedOverlayListenerEventName.anchorForTrackedBarcode, function (body) {
+            var payload = JSON.parse(body);
             var trackedBarcode = Barcode_1.TrackedBarcode
-                .fromJSON(JSON.parse(body.trackedBarcode));
+                .fromJSON(JSON.parse(payload.trackedBarcode));
             var anchor = CommonEnums_1.Anchor.Center;
             if (_this.overlay.listener && _this.overlay.listener.anchorForTrackedBarcode) {
                 anchor = _this.overlay.listener.anchorForTrackedBarcode(_this.overlay, trackedBarcode);
             }
-            NativeModule.finishAnchorForTrackedBarcodeCallback(anchor);
+            _this.setAnchorForTrackedBarcode(anchor, trackedBarcode);
         });
         var offsetForTrackedBarcodeListener = EventEmitter.addListener(BarcodeTrackingAdvancedOverlayListenerEventName.offsetForTrackedBarcode, function (body) {
+            var payload = JSON.parse(body);
             var trackedBarcode = Barcode_1.TrackedBarcode
-                .fromJSON(JSON.parse(body.trackedBarcode));
+                .fromJSON(JSON.parse(payload.trackedBarcode));
             var offset = Common_1.PointWithUnit.zero;
             if (_this.overlay.listener && _this.overlay.listener.offsetForTrackedBarcode) {
                 offset = _this.overlay.listener.offsetForTrackedBarcode(_this.overlay, trackedBarcode);
             }
-            NativeModule.finishOffsetForTrackedBarcodeCallback(JSON.stringify(offset.toJSON()));
+            _this.setOffsetForTrackedBarcode(offset, trackedBarcode);
         });
         this.nativeListeners.push(viewForTrackedBarcodeListener);
         this.nativeListeners.push(anchorForTrackedBarcodeListener);

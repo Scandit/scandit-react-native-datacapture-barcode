@@ -42,12 +42,12 @@ class ScanditDataCaptureBarcodeSelection: RCTEventEmitter {
 
     internal var trackedBrushProviderFlag: Bool = false
     internal var aimedBrushProviderFlag: Bool = false
-
+    
     internal var trackedBrushProvider: RNTBarcodeSelectionTrackedBrushProvider?
     internal var aimedBrushProvider: RNTBarcodeSelectionAimedBrushProvider?
-
+    
     internal let cachedBrushesQueue = DispatchQueue(label: "cachedBrushesQueue")
-
+    
     override init() {
         super.init()
         registerDeserializer()
@@ -165,7 +165,7 @@ class ScanditDataCaptureBarcodeSelection: RCTEventEmitter {
         barcodeSelection.reset()
         resolve(nil)
     }
-
+    
     @objc(finishBrushForAimedBarcodeCallback:selectionIdentifier:resolver:rejecter:)
     func finishBrushForAimedBarcodeCallback(brushJson: String?,
                                             selectionIdentifier: String?,
@@ -173,7 +173,7 @@ class ScanditDataCaptureBarcodeSelection: RCTEventEmitter {
                                             reject: RCTPromiseRejectBlock) {
         aimedBrushProvider?.onFinishCallback(selectionIdentifier: selectionIdentifier, brushJson: brushJson, resolve: resolve, reject: reject)
     }
-
+    
     @objc(setAimedBarcodeBrushProvider:rejecter:)
     func setAimedBarcodeBrushProvider(resolve: RCTPromiseResolveBlock,
                                         reject: RCTPromiseRejectBlock) {
@@ -205,7 +205,7 @@ class ScanditDataCaptureBarcodeSelection: RCTEventEmitter {
         trackedBrushProviderFlag = true
         resolve(nil)
     }
-
+    
     @objc(removeTrackedBarcodeBrushProvider:rejecter:)
     func removeTrackedBarcodeBrushProvider(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
         trackedBrushProviderFlag = false

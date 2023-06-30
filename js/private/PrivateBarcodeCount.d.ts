@@ -36,3 +36,6 @@ export interface BarcodeCountFeedbackJSON {
     success: Feedback;
     failure: Feedback;
 }
+export interface BarcodeBrushForTrackedBarcodeEventPayload {
+    trackedBarcode: string;
+}

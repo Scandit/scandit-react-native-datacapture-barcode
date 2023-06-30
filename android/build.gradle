@@ -8,7 +8,7 @@ def safeExtGet(prop, fallback) {
 
 buildscript {
     ext {
-        kotlin_version = "1.6.21"
+        kotlin_version = "1.7.21"
         agp_version = "7.2.1"
     }
 
@@ -42,10 +42,16 @@ android {
 }
 
 dependencies {
-    def sdk_version = "6.17.2"
+    def sdk_version = "6.18.0"
 
+    println("Version of the native sdk used in this build: ${safeExtGet('global_sdk_version', sdk_version)}")
     api project(path: ':scandit-react-native-datacapture-core')
-    api "com.scandit.datacapture:barcode:$sdk_version"
+    
+    if (findProject(':scandit-datacapture-frameworks-barcode') != null) {
+        api project(":scandit-datacapture-frameworks-barcode")
+    } else {
+        api "com.scandit.datacapture.frameworks:barcode:${safeExtGet('global_sdk_version', sdk_version)}"
+    }
 
     //noinspection GradleDynamicVersion
     implementation 'com.facebook.react:react-native:+'  // From node_modules

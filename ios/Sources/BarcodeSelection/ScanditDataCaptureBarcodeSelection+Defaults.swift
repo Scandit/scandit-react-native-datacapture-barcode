@@ -44,9 +44,6 @@ extension ScanditDataCaptureBarcodeSelection {
 
     var barcodeSelectionBasicOverlayDefaults: [String: Any] {
         return ["DefaultTrackedBrush": BarcodeSelectionBasicOverlay.defaultTrackedBrush.rntsdc_dictionary,
-                "DefaultAimedBrush": BarcodeSelectionBasicOverlay.defaultAimedBrush.rntsdc_dictionary,
-                "DefaultSelectedBrush": BarcodeSelectionBasicOverlay.defaultSelectedBrush.rntsdc_dictionary,
-                "DefaultSelectingBrush": BarcodeSelectionBasicOverlay.defaultSelectingBrush.rntsdc_dictionary,
                 "defaultStyle": BarcodeSelectionBasicOverlay.defaultStyle.jsonString,
                 "styles": [
                     BarcodeSelectionBasicOverlayStyle.dot.jsonString: [

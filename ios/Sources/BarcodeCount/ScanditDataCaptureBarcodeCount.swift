@@ -14,6 +14,7 @@ enum ScanditDataCaptureBarcodeCountViewError: Error, CustomNSError {
     case barcodeCountViewDeserializerError(error: NSError)
     case noBarcodeCountView
     case noParentView(tag: NSNumber)
+    case wrongArgument(argument: NSString)
 
     var message: String {
         switch self {
@@ -31,6 +32,8 @@ enum ScanditDataCaptureBarcodeCountViewError: Error, CustomNSError {
             return "The barcode count view deserializer encountered an error: \(error.localizedDescription)"
         case .noParentView(let tag):
             return "No parent view has been found with the tag: \(tag)"
+        case .wrongArgument(let argument):
+            return "Wrong data passed for argument: \(argument)"
         }
     }
 
@@ -50,6 +53,8 @@ enum ScanditDataCaptureBarcodeCountViewError: Error, CustomNSError {
             return 6
         case .noParentView:
             return 7
+        case .wrongArgument:
+            return 8
         }
     }
 
@@ -62,10 +67,8 @@ enum ScanditDataCaptureBarcodeCountViewError: Error, CustomNSError {
 class ScanditDataCaptureBarcodeCount: RCTEventEmitter {
 
     internal var hasListeners = false
-
-    internal let brushForRecognizedBarcodeLock = CallbackLock<Brush>(name: ScanditDataCaptureBarcodeCountEvent.brushForRecognizedBarcode.rawValue)
-    internal let brushForRecognizedBarcodeNotInListLock = CallbackLock<Brush>(name: ScanditDataCaptureBarcodeCountEvent.brushForRecognizedBarcodeNotInList.rawValue)
-    internal let brushForUnrecognizedBarcodeLock = CallbackLock<Brush>(name: ScanditDataCaptureBarcodeCountEvent.brushForUnrecognizedBarcode.rawValue)
+    internal var brushRequests: [String: TrackedBarcode] = [:]
+    
     internal let didScanInSessionLock = CallbackLock<Bool>(name: ScanditDataCaptureBarcodeCountEvent.didScanInSession.rawValue)
 
     let barcodeCountDeserializer = BarcodeCountDeserializer()
@@ -115,7 +118,7 @@ class ScanditDataCaptureBarcodeCount: RCTEventEmitter {
             }
             let jsonValue = JSONValue(string: jsonString)
             let barcodeCountJson = jsonValue.object(forKey: "BarcodeCount").jsonString()
-            let barcodeCountViewJson = jsonValue.object(forKey: "BarcodeCountView").jsonString()
+            let barcodeCountViewJson = jsonValue.object(forKey: "View").jsonString()
             var barcodeCount: BarcodeCount
             do {
                 barcodeCount = try self.barcodeCountDeserializer.mode(fromJSONString: barcodeCountJson,
@@ -296,14 +299,18 @@ class ScanditDataCaptureBarcodeCount: RCTEventEmitter {
     func unregisterBarcodeCountViewUiListener() {}
 
     func unlockLocks() {
-        brushForRecognizedBarcodeLock.reset()
-        brushForRecognizedBarcodeNotInListLock.reset()
-        brushForUnrecognizedBarcodeLock.reset()
+        brushRequests.removeAll()
         didScanInSessionLock.reset()
     }
 
-    private func parentView(tag: NSNumber) -> UIView? {
-        return bridge.uiManager.view(forReactTag: tag)
+    internal func parentView(tag: NSNumber) -> UIView? {
+        if Thread.isMainThread {
+            return bridge.uiManager.view(forReactTag: tag)
+        }
+        
+        return DispatchQueue.main.sync {
+            bridge.uiManager.view(forReactTag: tag)
+        }
     }
 
     deinit {

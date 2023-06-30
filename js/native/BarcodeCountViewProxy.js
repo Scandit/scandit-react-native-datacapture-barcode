@@ -9,15 +9,17 @@ var EventEmitter = new react_native_1.NativeEventEmitter(NativeModule);
 // tslint:enable:variable-name
 var BarcodeCountViewEventName;
 (function (BarcodeCountViewEventName) {
-    BarcodeCountViewEventName["singleScanButtonTapped"] = "barcodeCountViewUiListener-onSingleScanButtonTapped";
-    BarcodeCountViewEventName["listButtonTapped"] = "barcodeCountViewUiListener-onListButtonTapped";
-    BarcodeCountViewEventName["exitButtonTapped"] = "barcodeCountViewUiListener-onExitButtonTapped";
-    BarcodeCountViewEventName["didUpdateCaptureList"] = "barcodeCountCaptureListListener-sessionUpdated";
-    BarcodeCountViewEventName["filteredBarcodeTapped"] = "barcodeCountViewListener-onFilteredBarcodeTapped";
-    BarcodeCountViewEventName["recognizedBarcodeNotInListTapped"] = "barcodeCountViewListener-onRecognizedBarcodeNotInListTapped";
-    BarcodeCountViewEventName["recognizedBarcodeTapped"] = "barcodeCountViewListener-onRecognizedBarcodeTapped";
-    BarcodeCountViewEventName["unrecognizedBarcodeTapped"] = "barcodeCountViewListener-onUnrecognizedBarcodeTapped";
-    BarcodeCountViewEventName["captureListCompleted"] = "barcodeCountViewListener-onCaptureListCompleted";
+    BarcodeCountViewEventName["singleScanButtonTapped"] = "BarcodeCountViewUiListener.onSingleScanButtonTapped";
+    BarcodeCountViewEventName["listButtonTapped"] = "BarcodeCountViewUiListener.onListButtonTapped";
+    BarcodeCountViewEventName["exitButtonTapped"] = "BarcodeCountViewUiListener.onExitButtonTapped";
+    BarcodeCountViewEventName["brushForRecognizedBarcode"] = "BarcodeCountViewListener.brushForRecognizedBarcode";
+    BarcodeCountViewEventName["brushForRecognizedBarcodeNotInList"] = "BarcodeCountViewListener.brushForRecognizedBarcodeNotInList";
+    BarcodeCountViewEventName["brushForUnrecognizedBarcode"] = "BarcodeCountViewListener.brushForUnrecognizedBarcode";
+    BarcodeCountViewEventName["filteredBarcodeTapped"] = "BarcodeCountViewListener.didTapFilteredBarcode";
+    BarcodeCountViewEventName["recognizedBarcodeNotInListTapped"] = "BarcodeCountViewListener.didTapRecognizedBarcodeNotInList";
+    BarcodeCountViewEventName["recognizedBarcodeTapped"] = "BarcodeCountViewListener.didTapRecognizedBarcode";
+    BarcodeCountViewEventName["unrecognizedBarcodeTapped"] = "BarcodeCountViewListener.didTapUnrecognizedBarcode";
+    BarcodeCountViewEventName["captureListCompleted"] = "BarcodeCountViewListener.didCompleteCaptureList";
 })(BarcodeCountViewEventName || (BarcodeCountViewEventName = {}));
 var BarcodeCountViewProxy = /** @class */ (function () {
     function BarcodeCountViewProxy() {
@@ -45,10 +47,11 @@ var BarcodeCountViewProxy = /** @class */ (function () {
     };
     BarcodeCountViewProxy.prototype.create = function () {
         var barcodeCountView = this.view.toJSON();
-        var json = JSON.stringify({
-            BarcodeCount: this.view.props.barcodeCount.toJSON(),
-            BarcodeCountView: barcodeCountView
-        });
+        // const json = JSON.stringify({
+        //   BarcodeCount: this.view.props.barcodeCount.toJSON(),
+        //   BarcodeCountView: barcodeCountView
+        // });
+        var json = JSON.stringify(barcodeCountView);
         var id = react_native_1.findNodeHandle(this.view);
         return NativeModule.createView(id, json);
     };
@@ -96,6 +99,39 @@ var BarcodeCountViewProxy = /** @class */ (function () {
             (_b = (_a = _this.view.uiListener) === null || _a === void 0 ? void 0 : _a.didTapExitButton) === null || _b === void 0 ? void 0 : _b.call(_a, _this.view);
             _this.isInListenerCallback = false;
         });
+        var brushForRecognizedBarcodeListener = EventEmitter.addListener(BarcodeCountViewEventName.brushForRecognizedBarcode, function (body) {
+            var payload = JSON.parse(body);
+            var trackedBarcode = Barcode_1.TrackedBarcode
+                .fromJSON(JSON.parse(payload.trackedBarcode));
+            var brush = _this.view.recognizedBrush;
+            if (_this.view.listener && _this.view.listener.brushForRecognizedBarcode) {
+                brush = _this.view.listener.brushForRecognizedBarcode(_this.view, trackedBarcode);
+            }
+            var id = react_native_1.findNodeHandle(_this.view);
+            NativeModule.finishBrushForRecognizedBarcodeCallback(id, brush ? JSON.stringify(brush.toJSON()) : null, trackedBarcode.identifier);
+        });
+        var brushForRecognizedBarcodeNotInListListener = EventEmitter.addListener(BarcodeCountViewEventName.brushForRecognizedBarcodeNotInList, function (body) {
+            var payload = JSON.parse(body);
+            var trackedBarcode = Barcode_1.TrackedBarcode
+                .fromJSON(JSON.parse(payload.trackedBarcode));
+            var brush = _this.view.notInListBrush;
+            if (_this.view.listener && _this.view.listener.brushForRecognizedBarcodeNotInList) {
+                brush = _this.view.listener.brushForRecognizedBarcodeNotInList(_this.view, trackedBarcode);
+            }
+            var id = react_native_1.findNodeHandle(_this.view);
+            NativeModule.finishBrushForRecognizedBarcodeNotInListCallback(id, brush ? JSON.stringify(brush.toJSON()) : null, trackedBarcode.identifier);
+        });
+        var brushForUnrecognizedBarcodeListener = EventEmitter.addListener(BarcodeCountViewEventName.brushForUnrecognizedBarcode, function (body) {
+            var payload = JSON.parse(body);
+            var trackedBarcode = Barcode_1.TrackedBarcode
+                .fromJSON(JSON.parse(payload.trackedBarcode));
+            var brush = _this.view.unrecognizedBrush;
+            if (_this.view.listener && _this.view.listener.brushForUnrecognizedBarcode) {
+                brush = _this.view.listener.brushForUnrecognizedBarcode(_this.view, trackedBarcode);
+            }
+            var id = react_native_1.findNodeHandle(_this.view);
+            NativeModule.finishBrushForUnrecognizedBarcodeCallback(id, brush ? JSON.stringify(brush.toJSON()) : null, trackedBarcode.identifier);
+        });
         var filteredBarcodeTappedListener = EventEmitter.addListener(BarcodeCountViewEventName.filteredBarcodeTapped, function (body) {
             var trackedBarcode = Barcode_1.TrackedBarcode
                 .fromJSON(JSON.parse(body));
@@ -132,6 +168,9 @@ var BarcodeCountViewProxy = /** @class */ (function () {
         this.nativeListeners.push(singleScanButtonTappedListener);
         this.nativeListeners.push(listButtonTappedListener);
         this.nativeListeners.push(exitButtonTappedListener);
+        this.nativeListeners.push(brushForRecognizedBarcodeListener);
+        this.nativeListeners.push(brushForRecognizedBarcodeNotInListListener);
+        this.nativeListeners.push(brushForUnrecognizedBarcodeListener);
         this.nativeListeners.push(filteredBarcodeTappedListener);
         this.nativeListeners.push(recognizedBarcodeNotInListTappedListener);
         this.nativeListeners.push(recognizedBarcodeTappedListener);

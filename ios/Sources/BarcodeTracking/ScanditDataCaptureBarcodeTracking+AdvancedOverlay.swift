@@ -9,23 +9,14 @@ import ScanditBarcodeCapture
 import ScanditDataCaptureCore
 
 extension ScanditDataCaptureBarcodeTracking {
-    @objc(setViewForTrackedBarcode:frameSequenceId:trackedBarcodeId:resolver:rejecter:)
+    @objc(setViewForTrackedBarcode:trackedBarcodeId:resolver:rejecter:)
     func setViewForTrackedBarcode(viewJSON: String?,
-                                  frameSequenceId: Int,
                                   trackedBarcodeId: Int,
                                   resolve: RCTPromiseResolveBlock,
                                   reject: RCTPromiseRejectBlock) {
-        guard let lastFrameSequenceId = lastFrameSequenceId,
-            lastFrameSequenceId == frameSequenceId else {
-                let error = ScanditDataCaptureBarcodeError.invalidSequenceId
-                reject(String(error.code), error.message, error)
-                return
-        }
-
-        guard let lastTrackedBarcodes = lastTrackedBarcodes,
+       
+        guard let lastTrackedBarcodes = latestSession?.trackedBarcodes,
             let trackedBarcode = lastTrackedBarcodes[NSNumber(value: trackedBarcodeId)] else {
-                let error = ScanditDataCaptureBarcodeError.trackedBarcodeNotFound
-                reject(String(error.code), error.message, error)
                 return
         }
 
@@ -57,24 +48,14 @@ extension ScanditDataCaptureBarcodeTracking {
         }
     }
 
-    @objc(setAnchorForTrackedBarcode:frameSequenceId:trackedBarcodeId:resolver:rejecter:)
+    @objc(setAnchorForTrackedBarcode:trackedBarcodeId:resolver:rejecter:)
     func setAchorForTrackedBarcode(anchorJSON: String,
-                                   frameSequenceId: Int,
                                    trackedBarcodeId: Int,
                                    resolve: RCTPromiseResolveBlock,
                                    reject: RCTPromiseRejectBlock) {
 
-        guard let lastFrameSequenceId = lastFrameSequenceId,
-            lastFrameSequenceId == frameSequenceId else {
-                let error = ScanditDataCaptureBarcodeError.invalidSequenceId
-                reject(String(error.code), error.message, error)
-                return
-        }
-
-        guard let lastTrackedBarcodes = lastTrackedBarcodes,
+        guard let lastTrackedBarcodes = latestSession?.trackedBarcodes,
             let trackedBarcode = lastTrackedBarcodes[NSNumber(value: trackedBarcodeId)] else {
-                let error = ScanditDataCaptureBarcodeError.trackedBarcodeNotFound
-                reject(String(error.code), error.message, error)
                 return
         }
 
@@ -95,26 +76,14 @@ extension ScanditDataCaptureBarcodeTracking {
         barcodeTrackingAdvanceOverlay.setAnchor(anchor, for: trackedBarcode)
     }
 
-    @objc(setOffsetForTrackedBarcode:frameSequenceId:trackedBarcodeId:resolver:rejecter:)
+    @objc(setOffsetForTrackedBarcode:trackedBarcodeId:resolver:rejecter:)
     func setOffsetForTrackedBarcode(offsetJSON: String,
-                                    frameSequenceId: Int,
                                     trackedBarcodeId: Int,
                                     resolve: RCTPromiseResolveBlock,
                                     reject: RCTPromiseRejectBlock) {
 
-        guard let lastFrameSequenceId = lastFrameSequenceId,
-            lastFrameSequenceId == frameSequenceId else {
-                let error = ScanditDataCaptureBarcodeError.invalidSequenceId
-                reject(String(error.code), error.message, error)
-                self.offset[trackedBarcodeId] = nil
-                return
-        }
-
-        guard let lastTrackedBarcodes = lastTrackedBarcodes,
+        guard let lastTrackedBarcodes = latestSession?.trackedBarcodes,
             let trackedBarcode = lastTrackedBarcodes[NSNumber(value: trackedBarcodeId)] else {
-                let error = ScanditDataCaptureBarcodeError.trackedBarcodeNotFound
-                reject(String(error.code), error.message, error)
-                self.offset[trackedBarcodeId] = nil
                 return
         }
 

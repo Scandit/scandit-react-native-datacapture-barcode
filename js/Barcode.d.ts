@@ -50,7 +50,6 @@ export declare class TrackedBarcode {
     get identifier(): number;
     private _sessionFrameSequenceID;
     get sessionFrameSequenceID(): number | null;
-    private _shouldAnimateFromPreviousToNextState;
     get shouldAnimateFromPreviousToNextState(): boolean;
     private static fromJSON;
 }

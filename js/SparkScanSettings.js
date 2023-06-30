@@ -12,6 +12,12 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SparkScanSettings = void 0;
 var SparkScanDefaults_1 = require("./private/SparkScanDefaults");
@@ -23,12 +29,26 @@ var SparkScanSettings = /** @class */ (function (_super) {
     function SparkScanSettings() {
         var _this = _super.call(this) || this;
         _this.codeDuplicateFilter = SparkScanDefaults_1.SparkScanDefaults.SparkScanSettings.codeDuplicateFilter;
-        _this.singleBarcodeAutoDetection = SparkScanDefaults_1.SparkScanDefaults.SparkScanSettings.singleBarcodeAutoDetection;
+        _this._singleBarcodeAutoDetection = SparkScanDefaults_1.SparkScanDefaults.SparkScanSettings.singleBarcodeAutoDetection;
         _this.locationSelection = SparkScanDefaults_1.SparkScanDefaults.SparkScanSettings.locationSelection(_this.locationSelectionFromJSON);
         _this.properties = {};
         _this.symbologies = {};
         return _this;
     }
+    Object.defineProperty(SparkScanSettings.prototype, "singleBarcodeAutoDetection", {
+        get: function () {
+            // tslint:disable-next-line:no-console
+            console.warn('singleBarcodeAutoDetection is deprecated and will be removed in a future release.');
+            return this._singleBarcodeAutoDetection;
+        },
+        set: function (isEnabled) {
+            // tslint:disable-next-line:no-console
+            console.warn('singleBarcodeAutoDetection is deprecated and will be removed in a future release.');
+            this._singleBarcodeAutoDetection = isEnabled;
+        },
+        enumerable: false,
+        configurable: true
+    });
     Object.defineProperty(SparkScanSettings.prototype, "enabledSymbologies", {
         get: function () {
             var _this = this;
@@ -73,6 +93,9 @@ var SparkScanSettings = /** @class */ (function (_super) {
                 .fromJSON(json);
         }
     };
+    __decorate([
+        Serializeable_1.nameForSerialization('singleBarcodeAutoDetection')
+    ], SparkScanSettings.prototype, "_singleBarcodeAutoDetection", void 0);
     return SparkScanSettings;
 }(Serializeable_1.DefaultSerializeable));
 exports.SparkScanSettings = SparkScanSettings;

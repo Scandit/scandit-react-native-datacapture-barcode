@@ -7,12 +7,12 @@
 import Foundation
 
 enum ScanditDataCaptureBarcodeTrackingEvent: String, CaseIterable {
-    case didUpdateSession = "barcodeTrackingListener-didUpdateSession"
-    case brushForTrackedBarcode = "barcodeTrackingBasicOverlayListener-brushForTrackedBarcode"
-    case didTapTrackedBarcode = "barcodeTrackingBasicOverlayListener-didTapTrackedBarcode"
-    case viewForTrackedBarcode = "barcodeTrackingAdvancedOverlayListener-viewForTrackedBarcode"
-    case anchorForTrackedBarcode = "barcodeTrackingAdvancedOverlayListener-anchorForTrackedBarcode"
-    case offsetForTrackedBarcode = "barcodeTrackingAdvancedOverlayListener-offsetForTrackedBarcode"
+    case didUpdateSession = "BarcodeTrackingListener.didUpdateSession"
+    case brushForTrackedBarcode = "BarcodeTrackingBasicOverlayListener.brushForTrackedBarcode"
+    case didTapTrackedBarcode = "BarcodeTrackingBasicOverlayListener.didTapTrackedBarcode"
+    case viewForTrackedBarcode = "BarcodeTrackingAdvancedOverlayListener.widgetForTrackedBarcode"
+    case anchorForTrackedBarcode = "BarcodeTrackingAdvancedOverlayListener.anchorForTrackedBarcode"
+    case offsetForTrackedBarcode = "BarcodeTrackingAdvancedOverlayListener.offsetForTrackedBarcode"
 }
 
 extension ScanditDataCaptureBarcodeTracking {
@@ -29,9 +29,16 @@ extension ScanditDataCaptureBarcodeTracking {
         unlockLocks()
     }
 
+    @discardableResult
     func sendEvent(withName name: ScanditDataCaptureBarcodeTrackingEvent, body: Any!) -> Bool {
         guard hasListeners else { return false }
-        sendEvent(withName: name.rawValue, body: body)
+        do {
+            let bodyData = try JSONSerialization.data(withJSONObject: body, options: [])
+            let jsonBody = String(data: bodyData, encoding: .utf8)
+            sendEvent(withName: name.rawValue, body: jsonBody)
+        } catch {
+            sendEvent(withName: name.rawValue, body: body)
+        }
         return true
     }
 }

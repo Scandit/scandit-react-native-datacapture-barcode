@@ -9,7 +9,13 @@ import ScanditDataCaptureCore
 
 class BarcodeCountViewWrapperView: UIView {
     var barcodeCountView: BarcodeCountView? {
-        subviews.first { $0 is BarcodeCountView } as? BarcodeCountView
+        if Thread.isMainThread {
+            return subviews.first { $0 is BarcodeCountView } as? BarcodeCountView
+        }
+        
+        return DispatchQueue.main.sync {
+            subviews.first { $0 is BarcodeCountView } as? BarcodeCountView
+        }
     }
 
     override func addSubview(_ view: UIView) {

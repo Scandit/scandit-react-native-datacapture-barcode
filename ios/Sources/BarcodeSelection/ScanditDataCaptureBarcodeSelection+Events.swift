@@ -7,10 +7,10 @@
 import Foundation
 
 enum ScanditDataCaptureBarcodeSelectionEvent: String, CaseIterable {
-    case didUpdateSelection = "barcodeSelectionListener-didUpdateSelection"
-    case didUpdateSession = "barcodeSelectionListener-didUpdateSession"
-    case brushForAimedBarcode = "barcodeSelectionAimedBrushProvider-brushForBarcode"
-    case brushForTrackedBarcode = "barcodeSelectionTrackedBrushProvider-brushForBarcode"
+    case didUpdateSelection = "BarcodeSelectionListener.didUpdateSelection"
+    case didUpdateSession = "BarcodeSelectionListener.didUpdateSession"
+    case brushForAimedBarcode = "BarcodeSelectionAimedBrushProvider.brushForBarcode"
+    case brushForTrackedBarcode = "BarcodeSelectionTrackedBrushProvider.brushForBarcode"
 }
 
 extension ScanditDataCaptureBarcodeSelection {
@@ -29,7 +29,13 @@ extension ScanditDataCaptureBarcodeSelection {
 
     func sendEvent(withName name: ScanditDataCaptureBarcodeSelectionEvent, body: Any!) -> Bool {
         guard hasListeners else { return false }
-        sendEvent(withName: name.rawValue, body: body)
+        do {
+            let bodyData = try JSONSerialization.data(withJSONObject: body, options: [])
+            let jsonBody = String(data: bodyData, encoding: .utf8)
+            sendEvent(withName: name.rawValue, body: jsonBody)
+        } catch {
+            sendEvent(withName: name.rawValue, body: body)
+        }
         return true
     }
 }

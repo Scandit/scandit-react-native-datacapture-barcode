@@ -30,7 +30,6 @@ export interface PrivateLocalizedOnlyBarcode {
 }
 export interface TrackedBarcodeJSON {
     identifier: number;
-    shouldAnimateFromPreviousToNextState: boolean;
     barcode: BarcodeJSON;
     location: QuadrilateralJSON;
 }
@@ -49,4 +48,10 @@ export interface StructuredAppendDataJSON {
     completeDataEncodings: EncodingRangeJSON[];
     completeDataRaw: string;
     completeDataUtf8String: string | null;
+}
+export interface TrackedBarcodeEventPayload {
+    trackedBarcode: string;
+}
+export interface BarcodeEventPayload {
+    barcode: string;
 }

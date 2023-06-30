@@ -23,27 +23,20 @@ exports.BarcodeTrackingDefaults = {
         .fromJSON(BarcodeTracking.Defaults.RecommendedCameraSettings),
     BarcodeTrackingBasicOverlay: {
         defaultStyle: BarcodeTracking.Defaults.BarcodeTrackingBasicOverlay.defaultStyle,
-        DefaultBrush: {
-            fillColor: Common_1.Color
-                .fromJSON(BarcodeTracking.Defaults.BarcodeTrackingBasicOverlay.DefaultBrush.fillColor),
-            strokeColor: Common_1.Color
-                .fromJSON(BarcodeTracking.Defaults.BarcodeTrackingBasicOverlay.DefaultBrush.strokeColor),
-            strokeWidth: BarcodeTracking.Defaults.BarcodeTrackingBasicOverlay.DefaultBrush.strokeWidth,
-        },
         styles: Object
-            .keys(BarcodeTracking.Defaults.BarcodeTrackingBasicOverlay.styles)
+            .keys(BarcodeTracking.Defaults.BarcodeTrackingBasicOverlay.Brushes)
             .reduce(function (previousValue, currentValue) {
             var _a;
             return __assign(__assign({}, previousValue), (_a = {}, _a[currentValue] = {
                 DefaultBrush: {
                     fillColor: Common_1.Color
                         .fromJSON(BarcodeTracking.Defaults.BarcodeTrackingBasicOverlay.
-                        styles[currentValue].DefaultBrush.fillColor),
+                        Brushes[currentValue].fillColor),
                     strokeColor: Common_1.Color
                         .fromJSON(BarcodeTracking.Defaults.BarcodeTrackingBasicOverlay.
-                        styles[currentValue].DefaultBrush.strokeColor),
+                        Brushes[currentValue].strokeColor),
                     strokeWidth: BarcodeTracking.Defaults.BarcodeTrackingBasicOverlay.
-                        styles[currentValue].DefaultBrush.strokeWidth,
+                        Brushes[currentValue].strokeWidth,
                 },
             }, _a));
         }, {}),

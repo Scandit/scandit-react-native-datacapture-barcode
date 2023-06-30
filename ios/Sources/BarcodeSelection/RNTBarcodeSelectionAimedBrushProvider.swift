@@ -28,7 +28,13 @@ class RNTBarcodeSelectionAimedBrushProvider: NSObject, BarcodeSelectionBrushProv
         let body = ["barcode": barcode.jsonString]
         
         if brush == nil {
-            eventEmitter?.sendEvent(withName: ScanditDataCaptureBarcodeSelectionEvent.brushForAimedBarcode.rawValue, body: body)
+            do {
+                let bodyData = try JSONSerialization.data(withJSONObject: body, options: [])
+                let jsonBody = String(data: bodyData, encoding: .utf8)
+                eventEmitter?.sendEvent(withName: ScanditDataCaptureBarcodeSelectionEvent.brushForAimedBarcode.rawValue, body: jsonBody)
+            } catch {
+                eventEmitter?.sendEvent(withName: ScanditDataCaptureBarcodeSelectionEvent.brushForAimedBarcode.rawValue, body: body)
+            }
             return Brush.transparent
         }
         

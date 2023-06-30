@@ -8,3 +8,6 @@ export interface BarcodeCaptureSessionJSON {
 export interface PrivateBarcodeCaptureSession {
     fromJSON(json: BarcodeCaptureSessionJSON): BarcodeCaptureSession;
 }
+export interface BarcodeCaptureSessionEventPayload {
+    session: string;
+}

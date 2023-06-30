@@ -5,8 +5,8 @@
  */
 
 enum ScanditDataCaptureSparkScanEvent: String, CaseIterable {
-    case didUpdateSession = "sparkScanListener-didUpdateSession"
-    case didScan = "sparkScanListener-didScan"
+    case didUpdateSession = "SparkScanListener.didUpdateSession"
+    case didScan = "SparkScanListener.didScan"
 }
 
 extension ScanditDataCaptureSparkScan {
@@ -25,7 +25,13 @@ extension ScanditDataCaptureSparkScan {
 
     func sendEvent(withName name: ScanditDataCaptureSparkScanEvent, body: Any!) -> Bool {
         guard hasListeners else { return false }
-        sendEvent(withName: name.rawValue, body: body)
+        do {
+            let bodyData = try JSONSerialization.data(withJSONObject: body, options: [])
+            let jsonBody = String(data: bodyData, encoding: .utf8)
+            sendEvent(withName: name.rawValue, body: jsonBody)
+        } catch {
+            sendEvent(withName: name.rawValue, body: body)
+        }
         return true
     }
 }

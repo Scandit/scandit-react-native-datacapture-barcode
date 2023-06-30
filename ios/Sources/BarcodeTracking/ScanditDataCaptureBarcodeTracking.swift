@@ -59,8 +59,8 @@ class ScanditDataCaptureBarcodeTracking: RCTEventEmitter {
     internal var hasListeners = false
     internal let didUpdateSessionLock =
         CallbackLock<Bool>(name: ScanditDataCaptureBarcodeTrackingEvent.didUpdateSession.rawValue)
-    internal var lastFrameSequenceId: Int?
-    internal var lastTrackedBarcodes: [NSNumber: TrackedBarcode]?
+
+    internal var latestSession: BarcodeTrackingSession?
 
     // BarcodeTrackingBasicOverlay
     internal var barcodeTrackingBasicOverlay: BarcodeTrackingBasicOverlay?
@@ -69,12 +69,6 @@ class ScanditDataCaptureBarcodeTracking: RCTEventEmitter {
 
     // BarcodeTrackingAdvanceOverlay
     internal var barcodeTrackingAdvanceOverlay: BarcodeTrackingAdvancedOverlay?
-    internal let viewForTrackedBarcodeLock =
-        CallbackLock<JSView>(name: ScanditDataCaptureBarcodeTrackingEvent.viewForTrackedBarcode.rawValue)
-    internal let anchorForTrackedBarcodeLock =
-        CallbackLock<Anchor>(name: ScanditDataCaptureBarcodeTrackingEvent.anchorForTrackedBarcode.rawValue)
-    internal let offsetForTrackedBarcodeLock =
-        CallbackLock<PointWithUnit>(name: ScanditDataCaptureBarcodeTrackingEvent.offsetForTrackedBarcode.rawValue)
 
     internal let decoder = JSONDecoder()
 
@@ -116,9 +110,6 @@ class ScanditDataCaptureBarcodeTracking: RCTEventEmitter {
     internal func unlockLocks() {
         didUpdateSessionLock.reset()
         brushForTrackedBarcodeLock.reset()
-        viewForTrackedBarcodeLock.reset()
-        anchorForTrackedBarcodeLock.reset()
-        offsetForTrackedBarcodeLock.reset()
     }
 
     // Empty methods to unify the logic on the TS side for supporting functionality automatically provided by RN on iOS,

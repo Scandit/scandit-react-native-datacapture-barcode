@@ -43,12 +43,26 @@ RCT_EXTERN_METHOD(updateMode
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(finishBrushForRecognizedBarcodeCallback : (nullable NSString *)jsonString)
+RCT_EXTERN_METHOD(finishBrushForRecognizedBarcodeCallback
+                  : (nonnull NSNumber *)reactTag jsonString
+                  : (nullable NSString *)jsonString trackedBarcodeId
+                  : (NSInteger)trackedBarcodeId resolve
+                  : (RCTPromiseResolveBlock)resolve reject
+                  : (RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(finishBrushForUnrecognizedBarcodeCallback : (nullable NSString *)jsonString)
+RCT_EXTERN_METHOD(finishBrushForUnrecognizedBarcodeCallback
+                  : (nonnull NSNumber *)reactTag jsonString
+                  : (nullable NSString *)jsonString trackedBarcodeId
+                  : (NSInteger)trackedBarcodeId resolve
+                  : (RCTPromiseResolveBlock)resolve reject
+                  : (RCTPromiseRejectBlock)reject)
 
 RCT_EXTERN_METHOD(finishBrushForRecognizedBarcodeNotInListCallback
-                  : (nullable NSString *)jsonString)
+                  : (nonnull NSNumber *)reactTag jsonString
+                  : (nullable NSString *)jsonString trackedBarcodeId
+                  : (NSInteger)trackedBarcodeId resolve
+                  : (RCTPromiseResolveBlock)resolve reject
+                  : (RCTPromiseRejectBlock)reject)
 
 RCT_EXTERN_METHOD(finishOnScan)
 

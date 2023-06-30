@@ -14,14 +14,14 @@ extension ScanditDataCaptureBarcodeTracking {
                                    barcodeId: Int,
                                    resolve: RCTPromiseResolveBlock,
                                    reject: RCTPromiseRejectBlock) {
-        guard let lastFrameSequenceId = lastFrameSequenceId,
+        guard let lastFrameSequenceId = latestSession?.frameSequenceId,
             lastFrameSequenceId == frameSequenceId else {
                 let error = ScanditDataCaptureBarcodeError.invalidSequenceId
                 reject(String(error.code), error.message, error)
                 return
         }
 
-        guard let lastTrackedBarcodes = lastTrackedBarcodes,
+        guard let lastTrackedBarcodes = latestSession?.trackedBarcodes,
             let trackedBarcode = lastTrackedBarcodes[NSNumber(value: barcodeId)] else {
                 let error = ScanditDataCaptureBarcodeError.trackedBarcodeNotFound
                 reject(String(error.code), error.message, error)

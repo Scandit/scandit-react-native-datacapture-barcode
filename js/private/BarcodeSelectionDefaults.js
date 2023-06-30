@@ -46,34 +46,6 @@ exports.BarcodeSelectionDefaults = {
     },
     BarcodeSelectionBasicOverlay: {
         defaultStyle: BarcodeSelection.Defaults.BarcodeSelectionBasicOverlay.defaultStyle,
-        DefaultTrackedBrush: {
-            fillColor: Common_1.Color
-                .fromJSON(BarcodeSelection.Defaults.BarcodeSelectionBasicOverlay.DefaultTrackedBrush.fillColor),
-            strokeColor: Common_1.Color
-                .fromJSON(BarcodeSelection.Defaults.BarcodeSelectionBasicOverlay.DefaultTrackedBrush.strokeColor),
-            strokeWidth: BarcodeSelection.Defaults.BarcodeSelectionBasicOverlay.DefaultTrackedBrush.strokeWidth,
-        },
-        DefaultAimedBrush: {
-            fillColor: Common_1.Color
-                .fromJSON(BarcodeSelection.Defaults.BarcodeSelectionBasicOverlay.DefaultAimedBrush.fillColor),
-            strokeColor: Common_1.Color
-                .fromJSON(BarcodeSelection.Defaults.BarcodeSelectionBasicOverlay.DefaultAimedBrush.strokeColor),
-            strokeWidth: BarcodeSelection.Defaults.BarcodeSelectionBasicOverlay.DefaultAimedBrush.strokeWidth,
-        },
-        DefaultSelectedBrush: {
-            fillColor: Common_1.Color
-                .fromJSON(BarcodeSelection.Defaults.BarcodeSelectionBasicOverlay.DefaultSelectedBrush.fillColor),
-            strokeColor: Common_1.Color
-                .fromJSON(BarcodeSelection.Defaults.BarcodeSelectionBasicOverlay.DefaultSelectedBrush.strokeColor),
-            strokeWidth: BarcodeSelection.Defaults.BarcodeSelectionBasicOverlay.DefaultSelectedBrush.strokeWidth,
-        },
-        DefaultSelectingBrush: {
-            fillColor: Common_1.Color
-                .fromJSON(BarcodeSelection.Defaults.BarcodeSelectionBasicOverlay.DefaultSelectingBrush.fillColor),
-            strokeColor: Common_1.Color
-                .fromJSON(BarcodeSelection.Defaults.BarcodeSelectionBasicOverlay.DefaultSelectingBrush.strokeColor),
-            strokeWidth: BarcodeSelection.Defaults.BarcodeSelectionBasicOverlay.DefaultSelectingBrush.strokeWidth,
-        },
         styles: Object
             .keys(BarcodeSelection.Defaults.BarcodeSelectionBasicOverlay.styles)
             .reduce(function (previousValue, currentValue) {

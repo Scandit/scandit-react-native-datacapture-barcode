@@ -141,6 +141,9 @@ var BarcodeSelection = /** @class */ (function (_super) {
     BarcodeSelection.prototype.unselectBarcodes = function (barcodes) {
         return this.modeProxy.unselectBarcodes(barcodes);
     };
+    BarcodeSelection.prototype.setSelectBarcodeEnabled = function (barcode, enabled) {
+        return this.modeProxy.setSelectBarcodeEnabled(barcode, enabled);
+    };
     BarcodeSelection.prototype.increaseCountForBarcodes = function (barcodes) {
         return this.modeProxy.increaseCountForBarcodes(barcodes);
     };

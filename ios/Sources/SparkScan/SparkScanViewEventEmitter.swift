@@ -8,8 +8,8 @@ import ScanditBarcodeCapture
 import ScanditDataCaptureCore
 
 enum SparkScanViewEvent: String, CaseIterable {
-    case barcodeCountButtonTapped = "barcodeCountButtonTapped"
-    case fastFindButtonTapped = "fastFindButtonTapped"
+    case barcodeCountButtonTapped = "SparkScanViewUiListener.barcodeCountButtonTapped"
+    case fastFindButtonTapped = "SparkScanViewUiListener.fastFindButtonTapped"
 }
 
 @objc(RNTSDCSparkScanViewEventEmitter)

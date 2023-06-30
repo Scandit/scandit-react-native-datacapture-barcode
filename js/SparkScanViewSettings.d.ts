@@ -32,7 +32,7 @@ export declare class SparkScanViewSettings extends DefaultSerializeable {
     soundEnabled: boolean;
     hapticEnabled: boolean;
     hardwareTriggerEnabled: boolean;
-    hardwareTriggerKeyCode: number;
+    hardwareTriggerKeyCode: number | null;
     visualFeedbackEnabled: boolean;
     private scanModeFromJSON;
 }

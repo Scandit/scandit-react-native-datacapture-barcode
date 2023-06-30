@@ -28,8 +28,8 @@ var EventEmitter = new react_native_1.NativeEventEmitter(EventEmitterModule);
 // tslint:enable:variable-name
 var SparkScanViewUiListenerEventName;
 (function (SparkScanViewUiListenerEventName) {
-    SparkScanViewUiListenerEventName["barcodeCountButtonTapped"] = "barcodeCountButtonTapped";
-    SparkScanViewUiListenerEventName["fastFindButtonTapped"] = "fastFindButtonTapped";
+    SparkScanViewUiListenerEventName["barcodeCountButtonTapped"] = "SparkScanViewUiListener.barcodeCountButtonTapped";
+    SparkScanViewUiListenerEventName["fastFindButtonTapped"] = "SparkScanViewUiListener.fastFindButtonTapped";
 })(SparkScanViewUiListenerEventName || (SparkScanViewUiListenerEventName = {}));
 var SparkScanViewProxy = /** @class */ (function () {
     function SparkScanViewProxy() {

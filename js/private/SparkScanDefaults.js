@@ -71,7 +71,7 @@ exports.SparkScanDefaults = {
             defaultHandMode: ViewSettings.defaultHandMode,
             holdToScanEnabled: ViewSettings.holdToScanEnabled,
             hardwareTriggerEnabled: ViewSettings.hardwareTriggerEnabled,
-            hardwareTriggerKeyCode: !!ViewSettings.hardwareTriggerKeyCode ? ViewSettings.hardwareTriggerKeyCode : -1,
+            hardwareTriggerKeyCode: ViewSettings.hardwareTriggerKeyCode,
             visualFeedbackEnabled: !!ViewSettings.visualFeedbackEnabled ? ViewSettings.visualFeedbackEnabled : false
         }
     },

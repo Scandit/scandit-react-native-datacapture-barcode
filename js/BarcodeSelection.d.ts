@@ -36,6 +36,7 @@ export declare class BarcodeSelection extends DefaultSerializeable implements Da
     unfreezeCamera(): Promise<void>;
     selectAimedBarcode(): Promise<void>;
     unselectBarcodes(barcodes: Barcode[]): Promise<void>;
+    setSelectBarcodeEnabled(barcode: Barcode, enabled: boolean): Promise<void>;
     increaseCountForBarcodes(barcodes: Barcode[]): Promise<void>;
     private didChange;
 }

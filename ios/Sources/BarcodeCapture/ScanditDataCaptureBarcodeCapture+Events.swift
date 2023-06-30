@@ -7,8 +7,8 @@
 import Foundation
 
 enum ScanditDataCaptureBarcodeCaptureEvent: String, CaseIterable {
-    case didUpdateSession = "barcodeCaptureListener-didUpdateSession"
-    case didScan = "barcodeCaptureListener-didScan"
+    case didUpdateSession = "BarcodeCaptureListener.didUpdateSession"
+    case didScan = "BarcodeCaptureListener.didScan"
 }
 
 extension ScanditDataCaptureBarcodeCapture {
@@ -27,7 +27,13 @@ extension ScanditDataCaptureBarcodeCapture {
 
     func sendEvent(withName name: ScanditDataCaptureBarcodeCaptureEvent, body: Any!) -> Bool {
         guard hasListeners else { return false }
-        sendEvent(withName: name.rawValue, body: body)
+        do {
+            let bodyData = try JSONSerialization.data(withJSONObject: body, options: [])
+            let jsonBody = String(data: bodyData, encoding: .utf8)
+            sendEvent(withName: name.rawValue, body: jsonBody)
+        } catch {
+            sendEvent(withName: name.rawValue, body: body)
+        }
         return true
     }
 }

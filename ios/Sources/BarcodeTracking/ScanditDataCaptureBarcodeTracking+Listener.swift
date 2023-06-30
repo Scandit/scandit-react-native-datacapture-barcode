@@ -27,8 +27,7 @@ extension ScanditDataCaptureBarcodeTracking: BarcodeTrackingListener {
             }
         }
 
-        lastFrameSequenceId = session.frameSequenceId
-        lastTrackedBarcodes = session.trackedBarcodes
+        latestSession = session
 
         guard let value = didUpdateSessionLock.wait(afterDoing: {
             return sendEvent(withName: .didUpdateSession, body: ["session": session.jsonString])
