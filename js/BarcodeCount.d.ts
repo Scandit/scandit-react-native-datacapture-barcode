@@ -37,4 +37,5 @@ export declare class BarcodeCount extends DefaultSerializeable implements DataCa
     clearAdditionalBarcodes(): Promise<void>;
     static get recommendedCameraSettings(): CameraSettings;
     private didChange;
+    private unsubscribeNativeListeners;
 }

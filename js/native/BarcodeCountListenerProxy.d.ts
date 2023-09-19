@@ -4,7 +4,8 @@ export declare class BarcodeCountListenerProxy {
     private barcodeCount;
     private nativeListeners;
     private _barcodeCountCaptureList;
-    static forBarcodeCount(barcodeTracking: BarcodeCount): BarcodeCountListenerProxy;
+    static forBarcodeCount(barcodeCount: BarcodeCount): BarcodeCountListenerProxy;
+    update(): Promise<void>;
     reset(): Promise<void>;
     subscribeListener(): void;
     unsubscribeListener(): void;

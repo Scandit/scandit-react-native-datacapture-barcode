@@ -3,10 +3,12 @@ var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
         return extendStatics(d, b);
     };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -19,7 +21,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Ean13UpcaClassification = exports.Range = exports.CompositeFlag = exports.EncodingRange = exports.Checksum = exports.CompositeType = exports.SymbologySettings = exports.SymbologyDescription = void 0;
+exports.ArucoDictionary = exports.ArucoMarker = exports.ArucoDictionaryPreset = exports.Ean13UpcaClassification = exports.Range = exports.CompositeFlag = exports.EncodingRange = exports.Checksum = exports.CompositeType = exports.SymbologySettings = exports.SymbologyDescription = void 0;
 var Serializeable_1 = require("scandit-react-native-datacapture-core/js/private/Serializeable");
 var Symbology_1 = require("./Symbology");
 var SymbologyDescription = /** @class */ (function () {
@@ -140,10 +142,10 @@ var SymbologySettings = /** @class */ (function (_super) {
         Serializeable_1.ignoreFromSerialization
     ], SymbologySettings.prototype, "_symbology", void 0);
     __decorate([
-        Serializeable_1.nameForSerialization('enabled')
+        (0, Serializeable_1.nameForSerialization)('enabled')
     ], SymbologySettings.prototype, "isEnabled", void 0);
     __decorate([
-        Serializeable_1.nameForSerialization('colorInvertedEnabled')
+        (0, Serializeable_1.nameForSerialization)('colorInvertedEnabled')
     ], SymbologySettings.prototype, "isColorInvertedEnabled", void 0);
     return SymbologySettings;
 }(Serializeable_1.DefaultSerializeable));
@@ -153,7 +155,7 @@ var CompositeType;
     CompositeType["A"] = "A";
     CompositeType["B"] = "B";
     CompositeType["C"] = "C";
-})(CompositeType = exports.CompositeType || (exports.CompositeType = {}));
+})(CompositeType || (exports.CompositeType = CompositeType = {}));
 var Checksum;
 (function (Checksum) {
     Checksum["Mod10"] = "mod10";
@@ -164,7 +166,7 @@ var Checksum;
     Checksum["Mod103"] = "mod103";
     Checksum["Mod10AndMod11"] = "mod1110";
     Checksum["Mod10AndMod10"] = "mod1010";
-})(Checksum = exports.Checksum || (exports.Checksum = {}));
+})(Checksum || (exports.Checksum = Checksum = {}));
 var EncodingRange = /** @class */ (function () {
     function EncodingRange() {
     }
@@ -201,7 +203,7 @@ var CompositeFlag;
     CompositeFlag["GS1TypeA"] = "gs1TypeA";
     CompositeFlag["GS1TypeB"] = "gs1TypeB";
     CompositeFlag["GS1TypeC"] = "gs1TypeC";
-})(CompositeFlag = exports.CompositeFlag || (exports.CompositeFlag = {}));
+})(CompositeFlag || (exports.CompositeFlag = CompositeFlag = {}));
 var Range = /** @class */ (function () {
     function Range() {
     }
@@ -241,13 +243,13 @@ var Range = /** @class */ (function () {
         return range;
     };
     __decorate([
-        Serializeable_1.nameForSerialization('minimum')
+        (0, Serializeable_1.nameForSerialization)('minimum')
     ], Range.prototype, "_minimum", void 0);
     __decorate([
-        Serializeable_1.nameForSerialization('maximum')
+        (0, Serializeable_1.nameForSerialization)('maximum')
     ], Range.prototype, "_maximum", void 0);
     __decorate([
-        Serializeable_1.nameForSerialization('step')
+        (0, Serializeable_1.nameForSerialization)('step')
     ], Range.prototype, "_step", void 0);
     return Range;
 }());
@@ -272,4 +274,77 @@ var Ean13UpcaClassification = /** @class */ (function () {
     return Ean13UpcaClassification;
 }());
 exports.Ean13UpcaClassification = Ean13UpcaClassification;
+var ArucoDictionaryPreset;
+(function (ArucoDictionaryPreset) {
+    ArucoDictionaryPreset["ArucoDictionaryPreset_5X5_50"] = "5X5_50";
+    ArucoDictionaryPreset["ArucoDictionaryPreset_5X5_100"] = "5X5_100";
+    ArucoDictionaryPreset["ArucoDictionaryPreset_5X5_250"] = "5X5_250";
+    ArucoDictionaryPreset["ArucoDictionaryPreset_5X5_1000"] = "5X5_1000";
+    ArucoDictionaryPreset["ArucoDictionaryPreset_5X5_1023"] = "5X5_1023";
+    ArucoDictionaryPreset["ArucoDictionaryPreset_4X4_250"] = "4X4_250";
+    ArucoDictionaryPreset["ArucoDictionaryPreset_6X6_250"] = "6X6_250";
+})(ArucoDictionaryPreset || (exports.ArucoDictionaryPreset = ArucoDictionaryPreset = {}));
+var ArucoMarker = /** @class */ (function (_super) {
+    __extends(ArucoMarker, _super);
+    function ArucoMarker() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    Object.defineProperty(ArucoMarker.prototype, "size", {
+        get: function () {
+            return this._markerSize;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(ArucoMarker.prototype, "data", {
+        get: function () {
+            return this._markerData;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    ArucoMarker.create = function (markerSize, markerData) {
+        var arucoMarker = new ArucoMarker();
+        arucoMarker._markerSize = markerSize || 0;
+        arucoMarker._markerData = markerData || '';
+        return arucoMarker;
+    };
+    __decorate([
+        (0, Serializeable_1.nameForSerialization)('markerData')
+    ], ArucoMarker.prototype, "_markerData", void 0);
+    __decorate([
+        (0, Serializeable_1.nameForSerialization)('markerSize')
+    ], ArucoMarker.prototype, "_markerSize", void 0);
+    return ArucoMarker;
+}(Serializeable_1.DefaultSerializeable));
+exports.ArucoMarker = ArucoMarker;
+var ArucoDictionary = /** @class */ (function () {
+    function ArucoDictionary() {
+        this._preset = null;
+        this._markers = null;
+        this._markerSize = null;
+    }
+    ArucoDictionary.fromPreset = function (preset) {
+        var arucoDictionary = new ArucoDictionary();
+        arucoDictionary._preset = preset;
+        return arucoDictionary;
+    };
+    ArucoDictionary.createWithMarkers = function (markerSize, markers) {
+        var arucoDictionary = new ArucoDictionary();
+        arucoDictionary._markerSize = markerSize;
+        arucoDictionary._markers = markers;
+        return arucoDictionary;
+    };
+    __decorate([
+        (0, Serializeable_1.nameForSerialization)('preset')
+    ], ArucoDictionary.prototype, "_preset", void 0);
+    __decorate([
+        (0, Serializeable_1.nameForSerialization)('markers')
+    ], ArucoDictionary.prototype, "_markers", void 0);
+    __decorate([
+        (0, Serializeable_1.nameForSerialization)('markerSize')
+    ], ArucoDictionary.prototype, "_markerSize", void 0);
+    return ArucoDictionary;
+}());
+exports.ArucoDictionary = ArucoDictionary;
 //# sourceMappingURL=Symbology+Related.js.map

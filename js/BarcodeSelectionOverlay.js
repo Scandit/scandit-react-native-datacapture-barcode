@@ -3,10 +3,12 @@ var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
         return extendStatics(d, b);
     };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -29,7 +31,7 @@ var BarcodeSelectionBasicOverlayStyle;
 (function (BarcodeSelectionBasicOverlayStyle) {
     BarcodeSelectionBasicOverlayStyle["Frame"] = "frame";
     BarcodeSelectionBasicOverlayStyle["Dot"] = "dot";
-})(BarcodeSelectionBasicOverlayStyle = exports.BarcodeSelectionBasicOverlayStyle || (exports.BarcodeSelectionBasicOverlayStyle = {}));
+})(BarcodeSelectionBasicOverlayStyle || (exports.BarcodeSelectionBasicOverlayStyle = BarcodeSelectionBasicOverlayStyle = {}));
 var BarcodeSelectionBasicOverlay = /** @class */ (function (_super) {
     __extends(BarcodeSelectionBasicOverlay, _super);
     function BarcodeSelectionBasicOverlay() {
@@ -144,6 +146,12 @@ var BarcodeSelectionBasicOverlay = /** @class */ (function (_super) {
         }
         return overlay;
     };
+    BarcodeSelectionBasicOverlay.prototype.setTextForAimToSelectAutoHint = function (text) {
+        var _this = this;
+        return this.overlayProxy.setTextForAimToSelectAutoHint(text).then(function () {
+            _this.barcodeSelection.didChange();
+        });
+    };
     BarcodeSelectionBasicOverlay.prototype.setAimedBarcodeBrushProvider = function (brushProvider) {
         var _this = this;
         return this.overlayProxy.setAimedBarcodeBrushProvider(brushProvider).then(function () {
@@ -166,28 +174,28 @@ var BarcodeSelectionBasicOverlay = /** @class */ (function (_super) {
         Serializeable_1.ignoreFromSerialization
     ], BarcodeSelectionBasicOverlay.prototype, "view", void 0);
     __decorate([
-        Serializeable_1.nameForSerialization('shouldShowScanAreaGuides')
+        (0, Serializeable_1.nameForSerialization)('shouldShowScanAreaGuides')
     ], BarcodeSelectionBasicOverlay.prototype, "_shouldShowScanAreaGuides", void 0);
     __decorate([
-        Serializeable_1.nameForSerialization('shouldShowHints')
+        (0, Serializeable_1.nameForSerialization)('shouldShowHints')
     ], BarcodeSelectionBasicOverlay.prototype, "_shouldShowHints", void 0);
     __decorate([
-        Serializeable_1.nameForSerialization('viewfinder')
+        (0, Serializeable_1.nameForSerialization)('viewfinder')
     ], BarcodeSelectionBasicOverlay.prototype, "_viewfinder", void 0);
     __decorate([
-        Serializeable_1.nameForSerialization('style')
+        (0, Serializeable_1.nameForSerialization)('style')
     ], BarcodeSelectionBasicOverlay.prototype, "_style", void 0);
     __decorate([
-        Serializeable_1.nameForSerialization('trackedBrush')
+        (0, Serializeable_1.nameForSerialization)('trackedBrush')
     ], BarcodeSelectionBasicOverlay.prototype, "_trackedBrush", void 0);
     __decorate([
-        Serializeable_1.nameForSerialization('aimedBrush')
+        (0, Serializeable_1.nameForSerialization)('aimedBrush')
     ], BarcodeSelectionBasicOverlay.prototype, "_aimedBrush", void 0);
     __decorate([
-        Serializeable_1.nameForSerialization('selectedBrush')
+        (0, Serializeable_1.nameForSerialization)('selectedBrush')
     ], BarcodeSelectionBasicOverlay.prototype, "_selectedBrush", void 0);
     __decorate([
-        Serializeable_1.nameForSerialization('selectingBrush')
+        (0, Serializeable_1.nameForSerialization)('selectingBrush')
     ], BarcodeSelectionBasicOverlay.prototype, "_selectingBrush", void 0);
     return BarcodeSelectionBasicOverlay;
 }(Serializeable_1.DefaultSerializeable));

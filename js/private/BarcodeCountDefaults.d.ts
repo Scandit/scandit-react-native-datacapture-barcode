@@ -8,8 +8,10 @@ export declare const BarcodeCountDefaults: {
         expectOnlyUniqueBarcodes: any;
         disableModeWhenCaptureListCompleted: any;
         barcodeFilterSettings: any;
+        mappingEnabled: any;
     };
     BarcodeCountView: {
+        shouldDisableModeOnExitButtonTapped: any;
         shouldShowUserGuidanceView: any;
         shouldShowListButton: any;
         shouldShowExitButton: any;

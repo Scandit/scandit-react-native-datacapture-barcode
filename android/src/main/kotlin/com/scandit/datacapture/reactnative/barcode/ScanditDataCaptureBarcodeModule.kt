@@ -25,8 +25,8 @@ class ScanditDataCaptureBarcodeModule(
         DEFAULTS_KEY to barcodeModule.getDefaults()
     )
 
-    @Suppress("OVERRIDE_DEPRECATION")
-    override fun onCatalystInstanceDestroy() {
-        barcodeModule.onStop()
+    override fun invalidate() {
+        barcodeModule.onDestroy()
+        super.invalidate()
     }
 }

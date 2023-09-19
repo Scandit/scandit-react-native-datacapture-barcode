@@ -5,17 +5,32 @@
 */
 
 import Foundation
-import ScanditBarcodeCapture
 import ScanditDataCaptureCore
+import ScanditFrameworksBarcode
 
 @objc(ScanditDataCaptureBarcode)
-class ScanditDataCaptureBarcode: NSObject {
-    @objc class func requiresMainQueueSetup() -> Bool {
+class ScanditDataCaptureBarcode: RCTEventEmitter {
+    let barcodeModule: BarcodeModule
+
+    @objc override class func requiresMainQueueSetup() -> Bool {
         return false
     }
 
     @objc
-    var methodQueue: DispatchQueue! {
+    override var methodQueue: DispatchQueue! {
         return sdcSharedMethodQueue
+    }
+
+    public override init() {
+        barcodeModule = BarcodeModule()
+        super.init()
+    }
+
+    override func supportedEvents() -> [String]! {
+        []
+    }
+
+    override func constantsToExport() -> [AnyHashable: Any]! {
+        ["Defaults": barcodeModule.defaults.toEncodable()]
     }
 }

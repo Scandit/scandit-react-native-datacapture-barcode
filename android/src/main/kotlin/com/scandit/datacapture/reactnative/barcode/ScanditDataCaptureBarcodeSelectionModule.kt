@@ -76,6 +76,14 @@ class ScanditDataCaptureBarcodeSelectionModule(
     }
 
     @ReactMethod
+    fun setTextForAimToSelectAutoHint(
+        text: String,
+        promise: Promise
+    ) {
+        barcodeSelectionModule.setTextForAimToSelectAutoHint(text, ReactNativeResult(promise))
+    }
+
+    @ReactMethod
     fun removeAimedBarcodeBrushProvider(
         promise: Promise
     ) {
@@ -146,12 +154,14 @@ class ScanditDataCaptureBarcodeSelectionModule(
         promise: Promise
     ) {
         barcodeSelectionModule.setSelectBarcodeEnabled(
-            barcodesJson, enabled, ReactNativeResult(promise)
+            barcodesJson,
+            enabled,
+            ReactNativeResult(promise)
         )
     }
 
-    @Suppress("OVERRIDE_DEPRECATION")
-    override fun onCatalystInstanceDestroy() {
-        barcodeSelectionModule.onStop()
+    override fun invalidate() {
+        barcodeSelectionModule.onDestroy()
+        super.invalidate()
     }
 }

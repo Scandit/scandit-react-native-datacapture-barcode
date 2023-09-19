@@ -41,9 +41,11 @@ exports.BarcodeCountDefaults = {
     BarcodeCountSettings: {
         expectOnlyUniqueBarcodes: BarcodeCount.Defaults.BarcodeCountSettings.expectOnlyUniqueBarcodes,
         disableModeWhenCaptureListCompleted: BarcodeCount.Defaults.BarcodeCountSettings.disableModeWhenCaptureListCompleted,
-        barcodeFilterSettings: BarcodeCountView.filterSettings
+        barcodeFilterSettings: BarcodeCountView.filterSettings,
+        mappingEnabled: BarcodeCount.Defaults.BarcodeCountSettings.mappingEnabled
     },
     BarcodeCountView: {
+        shouldDisableModeOnExitButtonTapped: BarcodeCountView.shouldDisableModeOnExitButtonTapped,
         shouldShowUserGuidanceView: BarcodeCountView.shouldShowUserGuidanceView,
         shouldShowListButton: BarcodeCountView.shouldShowListButton,
         shouldShowExitButton: BarcodeCountView.shouldShowExitButton,

@@ -23,9 +23,9 @@ class ScanditDataCaptureBarcodeTrackingModule(
         private const val DEFAULTS_KEY = "Defaults"
     }
 
-    @Suppress("OVERRIDE_DEPRECATION")
-    override fun onCatalystInstanceDestroy() {
-        barcodeTrackingModule.onStop()
+    override fun invalidate() {
+        barcodeTrackingModule.onDestroy()
+        super.invalidate()
     }
 
     override fun getName(): String = "ScanditDataCaptureBarcodeTracking"
@@ -67,14 +67,12 @@ class ScanditDataCaptureBarcodeTrackingModule(
     @ReactMethod
     fun setBrushForTrackedBarcode(
         brush: String?,
-        sessionFrameSequenceId: Int,
         trackedBarcodeId: Int,
         promise: Promise
     ) {
         val payload = mapOf<String, Any?>(
             "brush" to brush,
-            "trackedBarcodeID" to trackedBarcodeId,
-            "sessionFrameSequenceID" to sessionFrameSequenceId
+            "trackedBarcodeID" to trackedBarcodeId
         )
 
         barcodeTrackingModule.setBasicOverlayBrushForTrackedBarcode(JSONObject(payload).toString())
@@ -85,11 +83,6 @@ class ScanditDataCaptureBarcodeTrackingModule(
     fun clearTrackedBarcodeBrushes(promise: Promise) {
         barcodeTrackingModule.clearBasicOverlayTrackedBarcodeBrushes()
         promise.resolve(null)
-    }
-
-    @ReactMethod
-    fun finishBrushForTrackedBarcodeCallback(brushJson: String?) {
-        barcodeTrackingModule.finishBasicOverlayBrushForTrackedBarcode(brushJson)
     }
 
     @ReactMethod

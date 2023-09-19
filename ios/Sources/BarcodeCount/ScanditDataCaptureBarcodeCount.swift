@@ -5,95 +5,48 @@
  */
 
 import ScanditDataCaptureCore
+import ScanditFrameworksBarcode
+import ScanditFrameworksCore
 
-enum ScanditDataCaptureBarcodeCountViewError: Error, CustomNSError {
-    case nilContext
-    case noArguments
-    case barcodeCountModeNil
-    case barcodeCountDeserializerError(error: NSError)
-    case barcodeCountViewDeserializerError(error: NSError)
-    case noBarcodeCountView
-    case noParentView(tag: NSNumber)
-    case wrongArgument(argument: NSString)
+enum ScanditDataCaptureBarcodeCountEvent: String, CaseIterable {
+    case didScanInSession = "BarcodeCountListener.onScan"
 
-    var message: String {
-        switch self {
-        case .nilContext:
-            return "No data capture context was found"
-        case .noArguments:
-            return "No arguments were passed from the React side"
-        case .barcodeCountViewDeserializerError(let error):
-            return "The barcode count view deserializer encountered an error: \(error.localizedDescription)"
-        case .noBarcodeCountView:
-            return "No barcode count view has been found."
-        case .barcodeCountModeNil:
-            return "The barcode count mode is not deserialized yet."
-        case .barcodeCountDeserializerError(error: let error):
-            return "The barcode count view deserializer encountered an error: \(error.localizedDescription)"
-        case .noParentView(let tag):
-            return "No parent view has been found with the tag: \(tag)"
-        case .wrongArgument(let argument):
-            return "Wrong data passed for argument: \(argument)"
-        }
-    }
+    case didUpdateCaptureList = "BarcodeCountCaptureListListener.didUpdateSession"
 
-    var errorCode: Int {
-        switch self {
-        case .nilContext:
-            return 1
-        case .noArguments:
-            return 2
-        case .barcodeCountViewDeserializerError:
-            return 3
-        case .noBarcodeCountView:
-            return 4
-        case .barcodeCountModeNil:
-            return 5
-        case .barcodeCountDeserializerError:
-            return 6
-        case .noParentView:
-            return 7
-        case .wrongArgument:
-            return 8
-        }
-    }
+    case brushForRecognizedBarcode = "BarcodeCountViewListener.brushForRecognizedBarcode"
+    case brushForRecognizedBarcodeNotInList = "BarcodeCountViewListener.brushForRecognizedBarcodeNotInList"
+    case brushForUnrecognizedBarcode = "BarcodeCountViewListener.brushForUnrecognizedBarcode"
+    case filteredBarcodeTapped = "BarcodeCountViewListener.didTapFilteredBarcode"
+    case recognizedBarcodeNotInListTapped = "BarcodeCountViewListener.didTapRecognizedBarcodeNotInList"
+    case recognizedBarcodeTapped = "BarcodeCountViewListener.didTapRecognizedBarcode"
+    case unrecognizedBarcodeTapped = "BarcodeCountViewListener.didTapUnrecognizedBarcode"
+    case didCompleteCaptureList = "BarcodeCountViewListener.didCompleteCaptureList"
 
-    var errorUserInfo: [String: Any] {
-        [NSLocalizedDescriptionKey: message]
-    }
+    case singleScanButtonTapped = "BarcodeCountViewUiListener.onSingleScanButtonTapped"
+    case listButtonTapped = "BarcodeCountViewUiListener.onListButtonTapped"
+    case exitButtonTapped = "BarcodeCountViewUiListener.onExitButtonTapped"
 }
 
 @objc(ScanditDataCaptureBarcodeCount)
 class ScanditDataCaptureBarcodeCount: RCTEventEmitter {
+    var barcodeCountModule: BarcodeCountModule!
 
-    internal var hasListeners = false
-    internal var brushRequests: [String: TrackedBarcode] = [:]
-    
-    internal let didScanInSessionLock = CallbackLock<Bool>(name: ScanditDataCaptureBarcodeCountEvent.didScanInSession.rawValue)
+    lazy var barcodeCountViewManager: BarcodeCountViewManager = {
+        bridge.module(for: BarcodeCountViewManager.self) as! BarcodeCountViewManager
+    }()
 
-    let barcodeCountDeserializer = BarcodeCountDeserializer()
-    let barcodeCountViewDeserializer = BarcodeCountViewDeserializer()
-
-    var context: DataCaptureContext?
-
-    var barcodeCount: BarcodeCount? {
-        willSet {
-            barcodeCount?.remove(self)
-        }
-        didSet {
-            barcodeCount?.add(self)
-        }
-    }
-
-    internal var barcodeCountSession: BarcodeCountSession?
-
-    override var bridge: RCTBridge! {
-        didSet {
-            if bridge != nil {
-                unregisterRNTContextListener()
-            }
-            registerRNTContextListener()
-        }
+    override init() {
+        super.init()
+        let emitter = ReactNativeEmitter(emitter: self)
+        let barcodeCountListener = FrameworksBarcodeCountListener(emitter: emitter)
+        let captureListListener = FrameworksBarcodeCountCaptureListListener(emitter: emitter)
+        let viewListener = FrameworksBarcodeCountViewListener(emitter: emitter)
+        let viewUIListener = FrameworksBarcodeCountViewUIListener(emitter: emitter)
+        barcodeCountModule = BarcodeCountModule(barcodeCountListener: barcodeCountListener,
+                                                captureListListener: captureListListener,
+                                                viewListener: viewListener,
+                                                viewUiListener: viewUIListener)
+        barcodeCountModule.didStart()
     }
 
     override class func requiresMainQueueSetup() -> Bool {
@@ -104,164 +57,75 @@ class ScanditDataCaptureBarcodeCount: RCTEventEmitter {
         return sdcSharedMethodQueue
     }
 
+    override func constantsToExport() -> [AnyHashable: Any]! {
+        [
+            "Defaults": barcodeCountModule.defaults.toEncodable()
+        ]
+    }
+
+    override func supportedEvents() -> [String]! {
+        ScanditDataCaptureBarcodeCountEvent.allCases.map { $0.rawValue }
+    }
+
     @objc(createView:JSONString:resolver:rejecter:)
     func createView(reactTag: NSNumber,
                     jsonString: String,
                     resolve: @escaping RCTPromiseResolveBlock,
                     reject: @escaping RCTPromiseRejectBlock) {
-        let createBlock = { [weak self] in
-            guard let self = self else { return }
-            guard let context = self.context else {
-                let error = ScanditDataCaptureBarcodeCountViewError.nilContext
-                reject(error.message, String(error.errorCode), error)
-                return
-            }
-            let jsonValue = JSONValue(string: jsonString)
-            let barcodeCountJson = jsonValue.object(forKey: "BarcodeCount").jsonString()
-            let barcodeCountViewJson = jsonValue.object(forKey: "View").jsonString()
-            var barcodeCount: BarcodeCount
-            do {
-                barcodeCount = try self.barcodeCountDeserializer.mode(fromJSONString: barcodeCountJson,
-                                                                      context: context)
-                self.barcodeCount = barcodeCount
-            } catch let error as NSError {
-                let wrappingError = ScanditDataCaptureBarcodeCountViewError.barcodeCountDeserializerError(error: error)
-                reject(wrappingError.message, String(wrappingError.errorCode), wrappingError)
-                return
-            }
-            var barcodeCountView: BarcodeCountView
-            do {
-                barcodeCountView = try self.barcodeCountViewDeserializer.view(fromJSONString: barcodeCountViewJson,
-                                                                              barcodeCount: barcodeCount,
-                                                                              context: context)
-            } catch let error as NSError {
-                let wrappingError = ScanditDataCaptureBarcodeCountViewError.barcodeCountViewDeserializerError(error: error)
-                reject(wrappingError.message, String(wrappingError.errorCode), wrappingError)
-                return
-            }
-            barcodeCountView.delegate = self
-            barcodeCountView.uiDelegate = self
-            guard let parentView = self.parentView(tag: reactTag) as? BarcodeCountViewWrapperView else {
-                let error = ScanditDataCaptureBarcodeCountViewError.noParentView(tag: reactTag)
-                reject(error.message, String(error.errorCode), error)
-                return
-            }
-            parentView.addSubview(barcodeCountView)
+        if let container = barcodeCountViewManager.containers.last {
+            barcodeCountModule.addViewFromJson(parent: container, viewJson: jsonString)
             resolve(nil)
         }
-        DispatchQueue.main.async(execute: createBlock)
     }
 
-    @objc(updateView:JSONString:resolver:rejecter:)
-    func updateView(reactTag: NSNumber,
-                    jsonString: String,
+    @objc(updateView:resolver:rejecter:)
+    func updateView(jsonString: String,
                     resolve: @escaping RCTPromiseResolveBlock,
                     reject: @escaping RCTPromiseRejectBlock) {
-        let updateBlock = { [weak self] in
-            guard let self = self else { return }
-            guard let parentView = self.parentView(tag: reactTag) as? BarcodeCountViewWrapperView else {
-                let error = ScanditDataCaptureBarcodeCountViewError.noParentView(tag: reactTag)
-                reject(error.message, String(error.errorCode), error)
-                return
-            }
-            guard let barcodeCountView = parentView.barcodeCountView else {
-                let error = ScanditDataCaptureBarcodeCountViewError.noBarcodeCountView
-                reject(error.message, String(error.errorCode), error)
-                return
-            }
-            do {
-                try self.barcodeCountViewDeserializer.update(barcodeCountView,
-                                                             fromJSONString: jsonString)
-                resolve(nil)
-            } catch let error as NSError {
-                let wrappingError = ScanditDataCaptureBarcodeCountViewError.barcodeCountViewDeserializerError(error: error)
-                reject(wrappingError.message, String(wrappingError.errorCode), wrappingError)
-                return
-            }
-        }
-        DispatchQueue.main.async(execute: updateBlock)
+        barcodeCountModule.updateBarcodeCountView(viewJson: jsonString)
+        resolve(nil)
     }
 
-    @objc(clearHighlights:resolver:rejecter:)
-    func clearHighlights(reactTag: NSNumber,
-                         resolve: @escaping RCTPromiseResolveBlock,
+    @objc(clearHighlights:rejecter:)
+    func clearHighlights(resolve: @escaping RCTPromiseResolveBlock,
                          reject: @escaping RCTPromiseRejectBlock) {
-        let block = { [weak self] in
-            guard let self = self else { return }
-            guard let parentView = self.parentView(tag: reactTag) as? BarcodeCountViewWrapperView else {
-                let error = ScanditDataCaptureBarcodeCountViewError.noParentView(tag: reactTag)
-                reject(error.message, String(error.errorCode), error)
-                return
-            }
-            guard let barcodeCountView = parentView.barcodeCountView else {
-                let error = ScanditDataCaptureBarcodeCountViewError.noBarcodeCountView
-                reject(error.message, String(error.errorCode), error)
-                return
-            }
-            barcodeCountView.clearHighlights()
-            resolve(nil)
-        }
-        DispatchQueue.main.async(execute: block)
+        barcodeCountModule.clearHighlights()
+        resolve(nil)
     }
 
     @objc(updateMode:resolver:rejecter:)
     func update(jsonString: String,
                 resolve: @escaping RCTPromiseResolveBlock,
                 reject: @escaping RCTPromiseRejectBlock) {
-        let updateBlock = { [weak self] in
-            guard let self = self else { return }
-            guard let mode = self.barcodeCount else {
-                let error = ScanditDataCaptureBarcodeCountViewError.barcodeCountModeNil
-                reject(error.message, String(error.errorCode), error)
-                return
-            }
-            do {
-                try self.barcodeCountDeserializer.updateMode(mode, fromJSONString: jsonString)
-            } catch let error as NSError {
-                let wrappingError = ScanditDataCaptureBarcodeCountViewError.barcodeCountDeserializerError(error: error)
-                reject(wrappingError.message, String(wrappingError.errorCode), wrappingError)
-                return
-            }
-            resolve(nil)
-        }
-        DispatchQueue.main.async(execute: updateBlock)
+        barcodeCountModule.updateBarcodeCount(modeJson: jsonString)
+        resolve(nil)
     }
 
     @objc(resetSession:rejecter:)
     func reset(resolve: @escaping RCTPromiseResolveBlock,
                reject: @escaping RCTPromiseRejectBlock) {
-        guard let session = barcodeCountSession else {
-            let error = ScanditDataCaptureBarcodeError.nilSession
-            reject(String(error.code), error.message, error)
-            return
-        }
-        session.reset()
+        barcodeCountModule.resetBarcodeCountSession(frameSequenceId: nil)
         resolve(nil)
     }
 
     @objc(resetBarcodeCount:rejecter:)
     func resetBarcodeCount(resolve: @escaping RCTPromiseResolveBlock,
                            reject: @escaping RCTPromiseRejectBlock) {
-        guard let mode = barcodeCount else {
-            let error = ScanditDataCaptureBarcodeError.nilMode
-            reject(String(error.code), error.message, error)
-            return
-        }
-        mode.reset()
+        barcodeCountModule.resetBarcodeCount()
         resolve(nil)
     }
 
     @objc(startScanningPhase:rejecter:)
     func startScanningPhase(resolve: @escaping RCTPromiseResolveBlock,
                             reject: @escaping RCTPromiseRejectBlock) {
-        barcodeCount?.startScanningPhase()
+        barcodeCountModule.startScanningPhase()
         resolve(nil)
     }
 
     @objc(endScanningPhase:rejecter:)
     func endScanningPhase(resolve: @escaping RCTPromiseResolveBlock,
                           reject: @escaping RCTPromiseRejectBlock) {
-        barcodeCount?.endScanningPhase()
+        barcodeCountModule.endScanningPhase()
         resolve(nil)
     }
 
@@ -269,71 +133,93 @@ class ScanditDataCaptureBarcodeCount: RCTEventEmitter {
     func setBarcodeCountCaptureList(jsonString: String,
                                     resolve: @escaping RCTPromiseResolveBlock,
                                     reject: @escaping RCTPromiseRejectBlock) {
-        let jsonArray = JSONValue(string: jsonString).asArray()
-        let targetBarcodes: Set<TargetBarcode> = Set((0...jsonArray.count() - 1).map {
-            let jsonValue = jsonArray.atIndex($0).asObject()
-            return TargetBarcode(data: jsonValue.string(forKey: "data"),
-                                 quantity: jsonValue.integer(forKey: "quantity"))
-        })
-        let captureList = BarcodeCountCaptureList(listener: self, targetBarcodes: targetBarcodes)
-        barcodeCount?.setCaptureList(captureList)
+        barcodeCountModule.setBarcodeCountCaptureList(barcodesJson: jsonString)
         resolve(nil)
     }
 
     @objc
-    func registerBarcodeCountListener() {}
-
-    @objc
-    func unregisterBarcodeCountListener() {}
-
-    @objc
-    func registerBarcodeCountViewListener() {}
-
-    @objc
-    func unregisterBarcodeCountViewListener() {}
-
-    @objc
-    func registerBarcodeCountViewUiListener() {}
-
-    @objc
-    func unregisterBarcodeCountViewUiListener() {}
-
-    func unlockLocks() {
-        brushRequests.removeAll()
-        didScanInSessionLock.reset()
+    func registerBarcodeCountListener() {
+        barcodeCountModule.addBarcodeCountListener()
     }
 
-    internal func parentView(tag: NSNumber) -> UIView? {
-        if Thread.isMainThread {
-            return bridge.uiManager.view(forReactTag: tag)
-        }
-        
-        return DispatchQueue.main.sync {
-            bridge.uiManager.view(forReactTag: tag)
-        }
+    @objc
+    func unregisterBarcodeCountListener() {
+        barcodeCountModule.removeBarcodeCountListener()
     }
 
-    deinit {
-        unregisterRNTContextListener()
-    }
-}
-
-extension ScanditDataCaptureBarcodeCount: RNTDataCaptureContextListener {
-    func didUpdate(dataCaptureContext: DataCaptureContext?) {
-        context = dataCaptureContext
+    @objc
+    func registerBarcodeCountViewListener() {
+        barcodeCountModule.addBarcodeCountViewListener()
     }
 
-    func registerRNTContextListener() {
-        guard let coreModule = bridge.module(for: ScanditDataCaptureCore.self) as? ScanditDataCaptureCore else {
-            return
-        }
-        coreModule.addRNTDataCaptureContextListener(self)
+    @objc
+    func unregisterBarcodeCountViewListener() {
+        barcodeCountModule.removeBarcodeCountViewListener()
     }
 
-    func unregisterRNTContextListener() {
-        guard let coreModule = bridge.module(for: ScanditDataCaptureCore.self) as? ScanditDataCaptureCore else {
-            return
-        }
-        coreModule.removeRNTDataCaptureContextListener(self)
+    @objc
+    func registerBarcodeCountViewUiListener() {
+        barcodeCountModule.addBarcodeCountViewUiListener()
+    }
+
+    @objc
+    func unregisterBarcodeCountViewUiListener() {
+        barcodeCountModule.removeBarcodeCountViewUiListener()
+    }
+
+    @objc
+    func finishOnScan() {
+        barcodeCountModule.finishOnScan(enabled: true)
+    }
+
+    @objc(finishBrushForUnrecognizedBarcodeCallback:jsonString:trackedBarcodeId:resolve:reject:)
+    func finishBrushForUnrecognizedBarcodeCallback(reactTag: NSNumber,
+                                                   jsonString: String,
+                                                   trackedBarcodeId: Int,
+                                                   resolve: @escaping RCTPromiseResolveBlock,
+                                                   reject: @escaping RCTPromiseRejectBlock) {
+        let brush = Brush(jsonString: jsonString)
+        barcodeCountModule.finishBrushForUnrecognizedBarcodeEvent(brush: brush,
+                                                                  trackedBarcodeId: trackedBarcodeId)
+        resolve(nil)
+    }
+
+    @objc(finishBrushForRecognizedBarcodeCallback:jsonString:trackedBarcodeId:resolve:reject:)
+    func finishBrushForRecognizedBarcodeCallback(reactTag: NSNumber,
+                                                 jsonString: String,
+                                                 trackedBarcodeId: Int,
+                                                 resolve: @escaping RCTPromiseResolveBlock,
+                                                 reject: @escaping RCTPromiseRejectBlock) {
+        let brush = Brush(jsonString: jsonString)
+        barcodeCountModule.finishBrushForRecognizedBarcodeEvent(brush: brush,
+                                                                trackedBarcodeId: trackedBarcodeId)
+        resolve(nil)
+    }
+
+    @objc(finishBrushForRecognizedBarcodeNotInListCallback:jsonString:trackedBarcodeId:resolve:reject:)
+    func finishBrushForRecognizedBarcodeNotInListCallback(reactTag: NSNumber,
+                                                          jsonString: String,
+                                                          trackedBarcodeId: Int,
+                                                          resolve: @escaping RCTPromiseResolveBlock,
+                                                          reject: @escaping RCTPromiseRejectBlock) {
+        let brush = Brush(jsonString: jsonString)
+        barcodeCountModule.finishBrushForRecognizedBarcodeNotInListEvent(brush: brush,
+                                                                         trackedBarcodeId: trackedBarcodeId)
+        resolve(nil)
+    }
+
+    @objc(getSpatialMap:reject:)
+    func getSpatialMap(resolve: @escaping RCTPromiseResolveBlock,
+                       reject: @escaping RCTPromiseRejectBlock) {
+        resolve(barcodeCountModule.getSpatialMap()?.jsonString)
+    }
+
+    @objc(getSpatialMapWithHints:expectedNumberOfColumns:resolve:reject:)
+    func getSpatialMapWithHints(expectedNumberOfRows: NSInteger,
+                       expectedNumberOfColumns: NSInteger,
+                       resolve: @escaping RCTPromiseResolveBlock,
+                       reject: @escaping RCTPromiseRejectBlock) {
+        resolve(barcodeCountModule.getSpatialMap(expectedNumberOfRows: expectedNumberOfRows,
+                                                 expectedNumberOfColumns: expectedNumberOfColumns)?.jsonString)
     }
 }

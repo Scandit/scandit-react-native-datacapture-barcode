@@ -78,6 +78,12 @@ export declare class SparkScanView extends React.Component<SparkScanViewProps> {
     private _toolbarIconInactiveTintColor;
     get toolbarIconInactiveTintColor(): Color | null;
     set toolbarIconInactiveTintColor(newValue: Color | null);
+    private _targetModeHintText;
+    get targetModeHintText(): string | null;
+    set targetModeHintText(newValue: string | null);
+    private _shouldShowTargetModeHint;
+    get shouldShowTargetModeHint(): boolean;
+    set shouldShowTargetModeHint(newValue: boolean);
     constructor(props: SparkScanViewProps);
     emitFeedback(feedback: SparkScanViewFeedback): void;
     componentWillUnmount(): void;

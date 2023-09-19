@@ -3,10 +3,12 @@ var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
         return extendStatics(d, b);
     };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -29,7 +31,7 @@ var BarcodeTrackingBasicOverlayStyle;
     BarcodeTrackingBasicOverlayStyle["Frame"] = "frame";
     BarcodeTrackingBasicOverlayStyle["Dot"] = "dot";
     BarcodeTrackingBasicOverlayStyle["Legacy"] = "legacy";
-})(BarcodeTrackingBasicOverlayStyle = exports.BarcodeTrackingBasicOverlayStyle || (exports.BarcodeTrackingBasicOverlayStyle = {}));
+})(BarcodeTrackingBasicOverlayStyle || (exports.BarcodeTrackingBasicOverlayStyle = BarcodeTrackingBasicOverlayStyle = {}));
 var BarcodeTrackingBasicOverlay = /** @class */ (function (_super) {
     __extends(BarcodeTrackingBasicOverlay, _super);
     function BarcodeTrackingBasicOverlay() {
@@ -125,13 +127,13 @@ var BarcodeTrackingBasicOverlay = /** @class */ (function (_super) {
         Serializeable_1.ignoreFromSerialization
     ], BarcodeTrackingBasicOverlay.prototype, "_view", void 0);
     __decorate([
-        Serializeable_1.nameForSerialization('style')
+        (0, Serializeable_1.nameForSerialization)('style')
     ], BarcodeTrackingBasicOverlay.prototype, "_style", void 0);
     __decorate([
-        Serializeable_1.nameForSerialization('defaultBrush')
+        (0, Serializeable_1.nameForSerialization)('defaultBrush')
     ], BarcodeTrackingBasicOverlay.prototype, "_brush", void 0);
     __decorate([
-        Serializeable_1.nameForSerialization('shouldShowScanAreaGuides')
+        (0, Serializeable_1.nameForSerialization)('shouldShowScanAreaGuides')
     ], BarcodeTrackingBasicOverlay.prototype, "_shouldShowScanAreaGuides", void 0);
     __decorate([
         Serializeable_1.ignoreFromSerialization

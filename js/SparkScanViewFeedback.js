@@ -3,10 +3,12 @@ var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
         return extendStatics(d, b);
     };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -45,19 +47,20 @@ var SparkScanViewSuccessFeedback = /** @class */ (function (_super) {
         configurable: true
     });
     __decorate([
-        Serializeable_1.nameForSerialization('visualFeedbackColor')
+        (0, Serializeable_1.nameForSerialization)('visualFeedbackColor')
     ], SparkScanViewSuccessFeedback.prototype, "_visualFeedbackColor", void 0);
     return SparkScanViewSuccessFeedback;
 }(SparkScanViewFeedback));
 exports.SparkScanViewSuccessFeedback = SparkScanViewSuccessFeedback;
 var SparkScanViewErrorFeedback = /** @class */ (function (_super) {
     __extends(SparkScanViewErrorFeedback, _super);
-    function SparkScanViewErrorFeedback(message, resumeCapturingDelay, visualFeedbackColor) {
+    function SparkScanViewErrorFeedback(message, resumeCapturingDelay, visualFeedbackColor, errorBrush) {
         var _this = _super.call(this) || this;
         _this.type = 'error';
         _this._message = message;
         _this._resumeCapturingDelay = resumeCapturingDelay;
         _this._visualFeedbackColor = visualFeedbackColor;
+        _this._errorBrush = errorBrush;
         return _this;
     }
     Object.defineProperty(SparkScanViewErrorFeedback.prototype, "message", {
@@ -81,15 +84,25 @@ var SparkScanViewErrorFeedback = /** @class */ (function (_super) {
         enumerable: false,
         configurable: true
     });
+    Object.defineProperty(SparkScanViewErrorFeedback.prototype, "brush", {
+        get: function () {
+            return this._errorBrush;
+        },
+        enumerable: false,
+        configurable: true
+    });
     __decorate([
-        Serializeable_1.nameForSerialization('message')
+        (0, Serializeable_1.nameForSerialization)('message')
     ], SparkScanViewErrorFeedback.prototype, "_message", void 0);
     __decorate([
-        Serializeable_1.nameForSerialization('resumeCapturingDelay')
+        (0, Serializeable_1.nameForSerialization)('resumeCapturingDelay')
     ], SparkScanViewErrorFeedback.prototype, "_resumeCapturingDelay", void 0);
     __decorate([
-        Serializeable_1.nameForSerialization('visualFeedbackColor')
+        (0, Serializeable_1.nameForSerialization)('visualFeedbackColor')
     ], SparkScanViewErrorFeedback.prototype, "_visualFeedbackColor", void 0);
+    __decorate([
+        (0, Serializeable_1.nameForSerialization)('brush')
+    ], SparkScanViewErrorFeedback.prototype, "_errorBrush", void 0);
     return SparkScanViewErrorFeedback;
 }(SparkScanViewFeedback));
 exports.SparkScanViewErrorFeedback = SparkScanViewErrorFeedback;
