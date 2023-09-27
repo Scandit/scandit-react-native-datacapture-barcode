@@ -34,8 +34,8 @@ var BarcodePickViewProxy = /** @class */ (function () {
     BarcodePickViewProxy.prototype.pause = function () {
         return NativeModule.viewPause();
     };
-    BarcodePickViewProxy.prototype.finishPickAction = function (code, result) {
-        return NativeModule.finishPickAction(code, result);
+    BarcodePickViewProxy.prototype.finishPickAction = function (itemData, result) {
+        return NativeModule.finishPickAction(itemData, result);
     };
     BarcodePickViewProxy.prototype.create = function () {
         var barcodePickView = this.view.toJSON();
@@ -53,11 +53,12 @@ var BarcodePickViewProxy = /** @class */ (function () {
     };
     BarcodePickViewProxy.prototype.subscribeListeners = function () {
         var _this = this;
-        var barcodePickActionCallback = new BarcodePickActionCallback_1.BarcodePickActionCallback();
-        barcodePickActionCallback._viewProxy = this;
         var didPickItemListener = EventEmitter.addListener(PrivateBarcodePickEvents_1.BarcodePickEvents.DidPick, function (data) {
             _this.isInListenerCallback = true;
             var payload = JSON.parse(data);
+            var barcodePickActionCallback = new BarcodePickActionCallback_1.BarcodePickActionCallback();
+            barcodePickActionCallback._viewProxy = _this;
+            barcodePickActionCallback._itemData = payload.itemData;
             _this.view._actionListeners
                 .forEach(function (listener) { return listener.didPickItem(payload.itemData, barcodePickActionCallback); });
             _this.isInListenerCallback = false;
@@ -65,6 +66,9 @@ var BarcodePickViewProxy = /** @class */ (function () {
         var didUnpickItemListener = EventEmitter.addListener(PrivateBarcodePickEvents_1.BarcodePickEvents.DidUnpick, function (data) {
             _this.isInListenerCallback = true;
             var payload = JSON.parse(data);
+            var barcodePickActionCallback = new BarcodePickActionCallback_1.BarcodePickActionCallback();
+            barcodePickActionCallback._viewProxy = _this;
+            barcodePickActionCallback._itemData = payload.itemData;
             _this.view._actionListeners
                 .forEach(function (listener) { return listener.didUnpickItem(payload.itemData, barcodePickActionCallback); });
             _this.isInListenerCallback = false;

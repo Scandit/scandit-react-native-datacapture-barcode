@@ -76,10 +76,10 @@ var SparkScan = /** @class */ (function (_super) {
             return this.privateContext;
         },
         set: function (newContext) {
-            this.listenerProxy.unsubscribeListener();
-            if (this.privateContext == null) {
-                this.listenerProxy.subscribeListener();
+            if (this.privateContext) {
+                this.listenerProxy.unsubscribeListener();
             }
+            this.listenerProxy.subscribeListener();
             this.privateContext = newContext;
         },
         enumerable: false,

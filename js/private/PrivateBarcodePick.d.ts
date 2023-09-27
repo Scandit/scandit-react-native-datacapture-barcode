@@ -6,6 +6,7 @@ import { BarcodePickViewProxy } from '../native/BarcodePickViewProxy';
 import { BarcodePickProductProxy } from '../native/BarcodePickProductProxy';
 export interface PrivateBarcodePickProxy {
     _viewProxy: BarcodePickViewProxy;
+    _itemData: String;
 }
 export interface PrivateBarcodePickView {
     _actionListeners: BarcodePickActionListener[];

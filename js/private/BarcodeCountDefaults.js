@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BarcodeCountDefaults = void 0;
 var react_native_1 = require("react-native");
+var Camera_Related_1 = require("scandit-react-native-datacapture-core/js/Camera+Related");
 var Feedback_1 = require("scandit-react-native-datacapture-core/js/Feedback");
 // tslint:disable-next-line:variable-name
 var BarcodeCount = react_native_1.NativeModules.ScanditDataCaptureBarcodeCount;
@@ -34,6 +35,8 @@ var BarcodeCountToolbarSettingsDefault = {
 };
 // tslint:disable-next-line:variable-name
 exports.BarcodeCountDefaults = {
+    RecommendedCameraSettings: Camera_Related_1.CameraSettings
+        .fromJSON(BarcodeCount.Defaults.RecommendedCameraSettings),
     Feedback: {
         success: Feedback_1.Feedback.fromJSON(JSON.parse(BarcodeCount.Defaults.BarcodeCountFeedback).success),
         failure: Feedback_1.Feedback.fromJSON(JSON.parse(BarcodeCount.Defaults.BarcodeCountFeedback).failure)

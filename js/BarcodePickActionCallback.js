@@ -4,8 +4,8 @@ exports.BarcodePickActionCallback = void 0;
 var BarcodePickActionCallback = /** @class */ (function () {
     function BarcodePickActionCallback() {
     }
-    BarcodePickActionCallback.prototype.onFinish = function (code, result) {
-        this._viewProxy.finishPickAction(code, result);
+    BarcodePickActionCallback.prototype.onFinish = function (result) {
+        this._viewProxy.finishPickAction(this._itemData, result);
     };
     return BarcodePickActionCallback;
 }());

@@ -5,6 +5,7 @@
  */
 
 import ScanditDataCaptureCore
+import ScanditFrameworksBarcode
 
 @objc(ScanditDataCaptureBarcodePick)
 class ScanditDataCaptureBarcodePick: RCTEventEmitter {

@@ -1,5 +1,7 @@
+import { CameraSettings } from 'scandit-react-native-datacapture-core/js/Camera+Related';
 import { Feedback } from 'scandit-react-native-datacapture-core/js/Feedback';
 export declare const BarcodeCountDefaults: {
+    RecommendedCameraSettings: CameraSettings;
     Feedback: {
         success: Feedback;
         failure: Feedback;

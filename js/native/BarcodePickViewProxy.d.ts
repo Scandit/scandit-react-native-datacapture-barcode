@@ -6,7 +6,7 @@ export declare class BarcodePickViewProxy {
     static forBarcodePick(view: BarcodePickView): BarcodePickViewProxy;
     start(): Promise<void>;
     pause(): Promise<void>;
-    finishPickAction(code: string, result: boolean): Promise<void>;
+    finishPickAction(itemData: String, result: boolean): Promise<void>;
     private create;
     update(): Promise<void>;
     dispose(): void;

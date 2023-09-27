@@ -22,8 +22,8 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BarcodeCount = void 0;
+var BarcodeCountDefaults_1 = require("./private/BarcodeCountDefaults");
 var BarcodeCountFeedback_1 = require("./BarcodeCountFeedback");
-var BarcodeCaptureDefaults_1 = require("./private/BarcodeCaptureDefaults");
 var Serializeable_1 = require("scandit-react-native-datacapture-core/js/private/Serializeable");
 var BarcodeCountListenerProxy_1 = require("./native/BarcodeCountListenerProxy");
 var BarcodeCount = /** @class */ (function (_super) {
@@ -136,7 +136,7 @@ var BarcodeCount = /** @class */ (function (_super) {
     };
     Object.defineProperty(BarcodeCount, "recommendedCameraSettings", {
         get: function () {
-            return BarcodeCaptureDefaults_1.BarcodeCaptureDefaults.RecommendedCameraSettings;
+            return BarcodeCountDefaults_1.BarcodeCountDefaults.RecommendedCameraSettings;
         },
         enumerable: false,
         configurable: true

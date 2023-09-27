@@ -1,4 +1,5 @@
 export declare class BarcodePickActionCallback {
     private _viewProxy;
-    onFinish(code: string, result: boolean): void;
+    private _itemData;
+    onFinish(result: boolean): void;
 }
