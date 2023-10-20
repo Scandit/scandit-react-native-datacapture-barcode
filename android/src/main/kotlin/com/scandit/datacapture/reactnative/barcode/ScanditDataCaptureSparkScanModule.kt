@@ -71,6 +71,7 @@ class ScanditDataCaptureSparkScanModule(
                     }
                 }
             }
+            promise.resolve(null)
             return
         }
 

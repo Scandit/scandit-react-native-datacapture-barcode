@@ -4,6 +4,7 @@
  * Copyright (C) 2022- Scandit AG. All rights reserved.
  */
 
+import React
 import ScanditDataCaptureCore
 import ScanditFrameworksBarcode
 import ScanditFrameworksCore

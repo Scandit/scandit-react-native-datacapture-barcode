@@ -49,6 +49,7 @@ class ScanditDataCaptureBarcodeCountModule(
                         )
                     )
                 }
+                promise.resolve(null)
                 return
             }
 

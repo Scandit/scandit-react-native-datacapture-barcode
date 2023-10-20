@@ -5,6 +5,7 @@
 */
 
 import Foundation
+import React
 import ScanditDataCaptureCore
 import ScanditFrameworksCore
 import ScanditFrameworksBarcode
