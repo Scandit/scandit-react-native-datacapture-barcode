@@ -18,6 +18,9 @@ import com.scandit.datacapture.frameworks.barcode.count.listeners.FrameworksBarc
 import com.scandit.datacapture.frameworks.barcode.count.listeners.FrameworksBarcodeCountListener
 import com.scandit.datacapture.frameworks.barcode.count.listeners.FrameworksBarcodeCountViewListener
 import com.scandit.datacapture.frameworks.barcode.count.listeners.FrameworksBarcodeCountViewUiListener
+import com.scandit.datacapture.frameworks.barcode.find.BarcodeFindModule
+import com.scandit.datacapture.frameworks.barcode.find.listeners.FrameworksBarcodeFindListener
+import com.scandit.datacapture.frameworks.barcode.find.listeners.FrameworksBarcodeFindViewUiListener
 import com.scandit.datacapture.frameworks.barcode.pick.BarcodePickModule
 import com.scandit.datacapture.frameworks.barcode.selection.BarcodeSelectionModule
 import com.scandit.datacapture.frameworks.barcode.selection.listeners.FrameworksBarcodeSelectionAimedBrushProvider
@@ -31,6 +34,7 @@ import com.scandit.datacapture.frameworks.barcode.tracking.listeners.FrameworksB
 import com.scandit.datacapture.frameworks.barcode.tracking.listeners.FrameworksBarcodeTrackingBasicOverlayListener
 import com.scandit.datacapture.frameworks.barcode.tracking.listeners.FrameworksBarcodeTrackingListener
 import com.scandit.datacapture.reactnative.barcode.ui.BarcodeCountViewManager
+import com.scandit.datacapture.reactnative.barcode.ui.BarcodeFindViewManager
 import com.scandit.datacapture.reactnative.barcode.ui.BarcodePickViewManager
 import com.scandit.datacapture.reactnative.barcode.ui.SparkScanViewManager
 import com.scandit.datacapture.reactnative.core.utils.ReactNativeEventEmitter
@@ -43,6 +47,10 @@ class ScanditDataCaptureBarcodePackage : ReactPackage {
 
     private val barcodeCountViewManager: BarcodeCountViewManager by lazy {
         BarcodeCountViewManager()
+    }
+
+    private val barcodeFindViewManager: BarcodeFindViewManager by lazy {
+        BarcodeFindViewManager()
     }
 
     private val barcodePickViewManager: BarcodePickViewManager by lazy {
@@ -72,6 +80,11 @@ class ScanditDataCaptureBarcodePackage : ReactPackage {
             getBarcodeCountModule(reactContext),
             barcodeCountViewManager
         ),
+        ScanditDataCaptureBarcodeFindModule(
+            reactContext,
+            getBarcodeFindModule(reactContext),
+            barcodeFindViewManager
+        ),
         ScanditDataCaptureBarcodePickModule(
             reactContext,
             getBarcodePickModule(reactContext),
@@ -85,6 +98,7 @@ class ScanditDataCaptureBarcodePackage : ReactPackage {
         mutableListOf(
             sparkScanViewManager,
             barcodeCountViewManager,
+            barcodeFindViewManager,
             barcodePickViewManager
         )
 
@@ -150,6 +164,18 @@ class ScanditDataCaptureBarcodePackage : ReactPackage {
         return SparkScanModule(
             FrameworksSparkScanListener(emitter),
             FrameworksSparkScanViewUiListener(emitter)
+        ).also {
+            it.onCreate(reactContext)
+        }
+    }
+
+    private fun getBarcodeFindModule(
+        reactContext: ReactApplicationContext
+    ): BarcodeFindModule {
+        val emitter = ReactNativeEventEmitter(reactContext)
+        return BarcodeFindModule(
+            FrameworksBarcodeFindListener(emitter),
+            FrameworksBarcodeFindViewUiListener(emitter)
         ).also {
             it.onCreate(reactContext)
         }

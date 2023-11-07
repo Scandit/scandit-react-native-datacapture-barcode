@@ -23,20 +23,18 @@ var BarcodeCountViewEventName;
 })(BarcodeCountViewEventName || (BarcodeCountViewEventName = {}));
 var BarcodeCountViewProxy = /** @class */ (function () {
     function BarcodeCountViewProxy() {
-        this.isInListenerCallback = false;
         this.nativeListeners = [];
     }
     BarcodeCountViewProxy.forBarcodeCount = function (view) {
         var viewProxy = new BarcodeCountViewProxy();
         viewProxy.view = view;
-        // First we need to initialize the context, so it will set up the DataCaptureContextProxy.
-        view.props.context.initialize();
         // We call update because it returns a promise, this guarantees, that by the time
         // we need the deserialized context, it will be set in the native layer.
         view.props.context.update().then(function () {
             viewProxy.create();
         });
         viewProxy.subscribeListeners();
+        view.props.barcodeCount.subscribeNativeListeners();
         return viewProxy;
     };
     BarcodeCountViewProxy.prototype.update = function () {
@@ -46,16 +44,9 @@ var BarcodeCountViewProxy = /** @class */ (function () {
     };
     BarcodeCountViewProxy.prototype.create = function () {
         var barcodeCountView = this.view.toJSON();
-        // const json = JSON.stringify({
-        //   BarcodeCount: this.view.props.barcodeCount.toJSON(),
-        //   BarcodeCountView: barcodeCountView
-        // });
         var json = JSON.stringify(barcodeCountView);
         var id = (0, react_native_1.findNodeHandle)(this.view);
         return NativeModule.createView(id, json);
-    };
-    BarcodeCountViewProxy.prototype.dispose = function () {
-        this.unsubscribeListeners();
     };
     BarcodeCountViewProxy.prototype.setUiListener = function (listener) {
         if (!!listener) {
@@ -76,27 +67,24 @@ var BarcodeCountViewProxy = /** @class */ (function () {
     BarcodeCountViewProxy.prototype.clearHighlights = function () {
         NativeModule.clearHighlights();
     };
+    BarcodeCountViewProxy.prototype.dispose = function () {
+        this.unsubscribeListeners();
+    };
     BarcodeCountViewProxy.prototype.subscribeListeners = function () {
         var _this = this;
         NativeModule.registerBarcodeCountViewListener();
         NativeModule.registerBarcodeCountViewUiListener();
         var singleScanButtonTappedListener = EventEmitter.addListener(BarcodeCountViewEventName.singleScanButtonTapped, function () {
             var _a, _b;
-            _this.isInListenerCallback = true;
             (_b = (_a = _this.view.uiListener) === null || _a === void 0 ? void 0 : _a.didTapSingleScanButton) === null || _b === void 0 ? void 0 : _b.call(_a, _this.view);
-            _this.isInListenerCallback = false;
         });
         var listButtonTappedListener = EventEmitter.addListener(BarcodeCountViewEventName.listButtonTapped, function () {
             var _a, _b;
-            _this.isInListenerCallback = true;
             (_b = (_a = _this.view.uiListener) === null || _a === void 0 ? void 0 : _a.didTapListButton) === null || _b === void 0 ? void 0 : _b.call(_a, _this.view);
-            _this.isInListenerCallback = false;
         });
         var exitButtonTappedListener = EventEmitter.addListener(BarcodeCountViewEventName.exitButtonTapped, function () {
             var _a, _b;
-            _this.isInListenerCallback = true;
             (_b = (_a = _this.view.uiListener) === null || _a === void 0 ? void 0 : _a.didTapExitButton) === null || _b === void 0 ? void 0 : _b.call(_a, _this.view);
-            _this.isInListenerCallback = false;
         });
         var brushForRecognizedBarcodeListener = EventEmitter.addListener(BarcodeCountViewEventName.brushForRecognizedBarcode, function (body) {
             var payload = JSON.parse(body);

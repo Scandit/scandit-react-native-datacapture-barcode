@@ -25,5 +25,6 @@ export declare class SparkScan extends DefaultSerializeable {
     addListener(listener: SparkScanListener): void;
     removeListener(listener: SparkScanListener): void;
     private didChange;
+    private subscribeNativeListeners;
     private unsubscribeNativeListeners;
 }

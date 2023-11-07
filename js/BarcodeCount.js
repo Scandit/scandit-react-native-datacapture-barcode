@@ -78,10 +78,6 @@ var BarcodeCount = /** @class */ (function (_super) {
             return this.privateContext;
         },
         set: function (newContext) {
-            this.listenerProxy.unsubscribeListener();
-            if (this.privateContext == null) {
-                this.listenerProxy.subscribeListener();
-            }
             this.privateContext = newContext;
         },
         enumerable: false,
@@ -143,6 +139,9 @@ var BarcodeCount = /** @class */ (function (_super) {
     });
     BarcodeCount.prototype.didChange = function () {
         return this.listenerProxy.update();
+    };
+    BarcodeCount.prototype.subscribeNativeListeners = function () {
+        this.listenerProxy.subscribeListener();
     };
     BarcodeCount.prototype.unsubscribeNativeListeners = function () {
         this.listenerProxy.unsubscribeListener();

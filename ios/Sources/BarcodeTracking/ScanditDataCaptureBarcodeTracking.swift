@@ -81,7 +81,7 @@ class ScanditDataCaptureBarcodeTracking: RCTEventEmitter {
                                    reject: RCTPromiseRejectBlock) {
         let payload: [String: Any?] = [
             "brush": brushJSON,
-            "trackedBarcodeID": String(barcodeId),
+            "trackedBarcodeID": String(barcodeId)
         ]
         let jsonString = String(data: try! JSONSerialization.data(withJSONObject: payload),
                                 encoding: .utf8)!
