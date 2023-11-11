@@ -28,7 +28,7 @@ var BarcodePick = /** @class */ (function (_super) {
     __extends(BarcodePick, _super);
     function BarcodePick(dataCaptureContext, settings, productProvider) {
         var _this = _super.call(this) || this;
-        _this.type = 'barcodePick';
+        _this.type = 'msFulfill';
         _this.privateContext = dataCaptureContext;
         _this._settings = settings;
         _this._productProvider = productProvider;

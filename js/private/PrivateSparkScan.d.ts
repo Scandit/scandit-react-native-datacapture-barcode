@@ -8,7 +8,6 @@ export interface PrivateSparkScan {
     isInListenerCallback: boolean;
     didChange: () => Promise<void>;
     unsubscribeNativeListeners: () => void;
-    subscribeNativeListeners: () => void;
 }
 export interface SparkScanToastSettingsJSON {
     toastEnabled: boolean;

@@ -137,13 +137,6 @@ class ScanditDataCaptureSparkScan: RCTEventEmitter {
         sparkScanModule.updateView(viewJson: jsonString, result: ReactNativeResult(resolve, reject))
     }
 
-     @objc(updateMode:resolver:rejecter:)
-    func updateMode(jsonString: String,
-                resolve: @escaping RCTPromiseResolveBlock,
-                reject: @escaping RCTPromiseRejectBlock) {
-        sparkScanModule.updateMode(modeJson: jsonString,  result: ReactNativeResult(resolve, reject))
-    }
-
     @objc(startScanning:resolver:rejecter:)
     func startScanning(reactTag: NSNumber,
                        resolve: @escaping RCTPromiseResolveBlock,

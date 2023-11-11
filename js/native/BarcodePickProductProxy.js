@@ -9,6 +9,7 @@ var EventEmitter = new react_native_1.NativeEventEmitter(NativeModule);
 // tslint:enable:variable-name
 var BarcodePickProductProxy = /** @class */ (function () {
     function BarcodePickProductProxy() {
+        this.isInListenerCallback = false;
         this.nativeListeners = [];
     }
     BarcodePickProductProxy.create = function (callback) {
@@ -18,7 +19,8 @@ var BarcodePickProductProxy = /** @class */ (function () {
         return proxy;
     };
     BarcodePickProductProxy.prototype.finishOnProductIdentifierForItems = function (data) {
-        return NativeModule.finishOnProductIdentifierForItems(JSON.stringify(data));
+        var objects = data.map(function (item) { return item.toJSON(); });
+        return NativeModule.finishOnProductIdentifierForItems(JSON.stringify(objects));
     };
     BarcodePickProductProxy.prototype.dispose = function () {
         this.unsubscribeListeners();
@@ -32,6 +34,7 @@ var BarcodePickProductProxy = /** @class */ (function () {
                     _this.finishOnProductIdentifierForItems(callbackItems);
                 }
             });
+            _this.isInListenerCallback = false;
         });
         this.nativeListeners.push(productIdentifierForItemsListener);
     };

@@ -76,6 +76,10 @@ var SparkScan = /** @class */ (function (_super) {
             return this.privateContext;
         },
         set: function (newContext) {
+            if (this.privateContext) {
+                this.listenerProxy.unsubscribeListener();
+            }
+            this.listenerProxy.subscribeListener();
             this.privateContext = newContext;
         },
         enumerable: false,
@@ -103,15 +107,12 @@ var SparkScan = /** @class */ (function (_super) {
         this.listeners.splice(this.listeners.indexOf(listener));
     };
     SparkScan.prototype.didChange = function () {
-        if (this.listenerProxy) {
-            return this.listenerProxy.updateMode();
+        if (this.context) {
+            return this.context.update();
         }
         else {
             return Promise.resolve();
         }
-    };
-    SparkScan.prototype.subscribeNativeListeners = function () {
-        this.listenerProxy.subscribeListener();
     };
     SparkScan.prototype.unsubscribeNativeListeners = function () {
         this.listenerProxy.unsubscribeListener();

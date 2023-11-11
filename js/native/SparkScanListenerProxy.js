@@ -25,11 +25,6 @@ var SparkScanListenerProxy = /** @class */ (function () {
     SparkScanListenerProxy.prototype.reset = function () {
         return NativeModule.resetSession();
     };
-    SparkScanListenerProxy.prototype.updateMode = function () {
-        var sparkScanJson = this.sparkScan.toJSON();
-        var json = JSON.stringify(sparkScanJson);
-        return NativeModule.updateMode(json);
-    };
     SparkScanListenerProxy.prototype.subscribeListener = function () {
         var _this = this;
         NativeModule.registerListenerForEvents();

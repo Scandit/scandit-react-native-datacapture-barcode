@@ -46,6 +46,7 @@ var BarcodePickView = /** @class */ (function (_super) {
         var _this = _super.call(this, props) || this;
         _this._actionListeners = [];
         _this._isStarted = false;
+        _this.props.barcodePick.privateContext = _this.props.context;
         _this.viewProxy = BarcodePickViewProxy_1.BarcodePickViewProxy.forBarcodePick(_this);
         return _this;
     }

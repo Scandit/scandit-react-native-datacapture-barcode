@@ -62,6 +62,7 @@ var SparkScanView = /** @class */ (function (_super) {
         _this._toolbarIconInactiveTintColor = SparkScanDefaults_1.SparkScanDefaults.SparkScanView.toolbarIconInactiveTintColor;
         _this._targetModeHintText = SparkScanDefaults_1.SparkScanDefaults.SparkScanView.targetModeHintText;
         _this._shouldShowTargetModeHint = SparkScanDefaults_1.SparkScanDefaults.SparkScanView.shouldShowTargetModeHint;
+        _this.props.sparkScan._context = _this.props.context;
         _this.viewProxy = SparkScanViewProxy_1.SparkScanViewProxy.forSparkScanView(_this);
         return _this;
     }

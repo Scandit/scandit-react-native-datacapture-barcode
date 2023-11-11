@@ -24,11 +24,14 @@ var SparkScanViewUiListenerEventName;
 })(SparkScanViewUiListenerEventName || (SparkScanViewUiListenerEventName = {}));
 var SparkScanViewProxy = /** @class */ (function () {
     function SparkScanViewProxy() {
+        this.isInListenerCallback = false;
         this.nativeListeners = [];
     }
     SparkScanViewProxy.forSparkScanView = function (view) {
         var viewProxy = new SparkScanViewProxy();
         viewProxy.view = view;
+        // First we need to initialize the context, so it will set up the DataCaptureContextProxy.
+        view.props.context.initialize();
         // We call update because it returns a promise, this guarantees, that by the time
         // we need the deserialized context, it will be set in the native layer.
         view.props.context.update().then(function () {
@@ -36,7 +39,6 @@ var SparkScanViewProxy = /** @class */ (function () {
                 viewProxy.prepareScanning();
             });
         });
-        view.props.sparkScan.subscribeNativeListeners();
         viewProxy.subscribeListeners();
         return viewProxy;
     };
@@ -65,11 +67,15 @@ var SparkScanViewProxy = /** @class */ (function () {
         NativeModule.registerListenerForViewEvents();
         var barcodeCountButtonTappedListener = EventEmitter.addListener(SparkScanViewUiListenerEventName.barcodeCountButtonTapped, function () {
             var _a, _b;
+            _this.isInListenerCallback = true;
             (_b = (_a = _this.view.uiListener) === null || _a === void 0 ? void 0 : _a.onBarcodeCountButtonTappedIn) === null || _b === void 0 ? void 0 : _b.call(_a, _this.view);
+            _this.isInListenerCallback = false;
         });
         var fastFindButtonTappedListener = EventEmitter.addListener(SparkScanViewUiListenerEventName.fastFindButtonTapped, function () {
             var _a, _b;
+            _this.isInListenerCallback = true;
             (_b = (_a = _this.view.uiListener) === null || _a === void 0 ? void 0 : _a.onFastFindButtonTappedIn) === null || _b === void 0 ? void 0 : _b.call(_a, _this.view);
+            _this.isInListenerCallback = false;
         });
         this.nativeListeners.push(barcodeCountButtonTappedListener);
         this.nativeListeners.push(fastFindButtonTappedListener);
