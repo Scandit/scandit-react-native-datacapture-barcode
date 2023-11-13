@@ -1,5 +1,5 @@
 import { DefaultSerializeable } from 'scandit-react-native-datacapture-core/js/private/Serializeable';
-import { Brush, Color } from 'scandit-react-native-datacapture-core/js/Common';
+import { Color } from 'scandit-react-native-datacapture-core/js/Common';
 export declare class SparkScanViewFeedback extends DefaultSerializeable {
     protected constructor();
 }
@@ -17,7 +17,5 @@ export declare class SparkScanViewErrorFeedback extends SparkScanViewFeedback {
     get resumeCapturingDelay(): number;
     private _visualFeedbackColor;
     get visualFeedbackColor(): Color | null;
-    private _errorBrush;
-    get brush(): Brush | null;
-    constructor(message: string, resumeCapturingDelay: number, visualFeedbackColor: Color | null, errorBrush: Brush | null);
+    constructor(message: string, resumeCapturingDelay: number, visualFeedbackColor: Color | null);
 }

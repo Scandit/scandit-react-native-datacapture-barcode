@@ -14,8 +14,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.SparkScanViewProxy = void 0;
 var react_native_1 = require("react-native");
 // tslint:disable:variable-name
-var NativeModule = react_native_1.NativeModules.ScanditDataCaptureSparkScan;
-var EventEmitter = new react_native_1.NativeEventEmitter(NativeModule);
+var NativeModule = {};
+var EventEmitterModule = {};
+if (react_native_1.Platform.OS === 'ios') {
+    NativeModule = react_native_1.NativeModules.RNTSparkScanView;
+    EventEmitterModule = react_native_1.NativeModules.RNTSDCSparkScanViewEventEmitter;
+}
+else {
+    NativeModule = react_native_1.NativeModules.ScanditDataCaptureSparkScan;
+    EventEmitterModule = NativeModule;
+}
+var EventEmitter = new react_native_1.NativeEventEmitter(EventEmitterModule);
 // tslint:enable:variable-name
 var SparkScanViewUiListenerEventName;
 (function (SparkScanViewUiListenerEventName) {
@@ -44,20 +53,20 @@ var SparkScanViewProxy = /** @class */ (function () {
     };
     SparkScanViewProxy.prototype.startScanning = function () {
         if (react_native_1.Platform.OS === 'ios') {
-            var id = (0, react_native_1.findNodeHandle)(this.view);
+            var id = react_native_1.findNodeHandle(this.view);
             return NativeModule.startScanning(id);
         }
         return NativeModule.startScanning();
     };
     SparkScanViewProxy.prototype.pauseScanning = function () {
         if (react_native_1.Platform.OS === 'ios') {
-            var id = (0, react_native_1.findNodeHandle)(this.view);
+            var id = react_native_1.findNodeHandle(this.view);
             return NativeModule.pauseScanning(id);
         }
         return NativeModule.pauseScanning();
     };
     SparkScanViewProxy.prototype.emitFeedback = function (feedback) {
-        return NativeModule.emitFeedback((0, react_native_1.findNodeHandle)(this.view), JSON.stringify(feedback.toJSON()));
+        return NativeModule.emitFeedback(react_native_1.findNodeHandle(this.view), JSON.stringify(feedback.toJSON()));
     };
     SparkScanViewProxy.prototype.dispose = function () {
         this.unsubscribeListeners();
@@ -92,24 +101,24 @@ var SparkScanViewProxy = /** @class */ (function () {
             SparkScan: this.view.props.sparkScan.toJSON(),
             SparkScanView: __assign(__assign({}, this.view.toJSON()), { viewSettings: this.view.props.sparkScanViewSettings.toJSON() })
         });
-        var id = (0, react_native_1.findNodeHandle)(this.view);
+        var id = react_native_1.findNodeHandle(this.view);
         return NativeModule.create(id, json);
     };
     SparkScanViewProxy.prototype.update = function () {
         var json = JSON.stringify(this.view.toJSON());
-        var id = (0, react_native_1.findNodeHandle)(this.view);
+        var id = react_native_1.findNodeHandle(this.view);
         return NativeModule.update(id, json);
     };
     SparkScanViewProxy.prototype.prepareScanning = function () {
         if (react_native_1.Platform.OS === 'ios') {
-            var id = (0, react_native_1.findNodeHandle)(this.view);
+            var id = react_native_1.findNodeHandle(this.view);
             return NativeModule.prepareScanning(id);
         }
         return NativeModule.onResume();
     };
     SparkScanViewProxy.prototype.stopScanning = function () {
         if (react_native_1.Platform.OS === 'ios') {
-            var id = (0, react_native_1.findNodeHandle)(this.view);
+            var id = react_native_1.findNodeHandle(this.view);
             return NativeModule.stopScanning(id);
         }
         return NativeModule.onPause();

@@ -4,9 +4,14 @@ exports.SparkScanDefaults = void 0;
 var react_native_1 = require("react-native");
 var Common_1 = require("scandit-react-native-datacapture-core/js/Common");
 var Feedback_1 = require("scandit-react-native-datacapture-core/js/Feedback");
-var SparkScanToastSettings_1 = require("../SparkScanToastSettings");
 // tslint:disable-next-line:variable-name
-var SparkScan = react_native_1.NativeModules.ScanditDataCaptureSparkScan;
+var SparkScan = {};
+if (react_native_1.Platform.OS === 'ios') {
+    SparkScan = react_native_1.NativeModules.RNTSparkScanView;
+}
+else {
+    SparkScan = react_native_1.NativeModules.ScanditDataCaptureSparkScan;
+}
 // tslint:disable-next-line:variable-name
 var ViewSettings = JSON.parse(SparkScan.Defaults.SparkScanView.SparkScanViewSettings);
 var SparkScanView = SparkScan.Defaults.SparkScanView;
@@ -42,8 +47,6 @@ exports.SparkScanDefaults = {
         startCapturingText: SparkScanView.stopCapturingText || null,
         resumeCapturingText: SparkScanView.resumeCapturingText || null,
         scanningCapturingText: SparkScanView.scanningCapturingText || null,
-        targetModeHintText: SparkScanView.scanningCapturingText || null,
-        shouldShowTargetModeHint: SparkScanView.shouldShowTargetModeHint,
         captureButtonBackgroundColor: !!SparkScanView.captureButtonBackgroundColor ? Common_1.Color
             .fromJSON(SparkScanView.captureButtonBackgroundColor) : null,
         captureButtonActiveBackgroundColor: !!SparkScanView.captureButtonActiveBackgroundColor ? Common_1.Color
@@ -69,12 +72,7 @@ exports.SparkScanDefaults = {
             holdToScanEnabled: ViewSettings.holdToScanEnabled,
             hardwareTriggerEnabled: ViewSettings.hardwareTriggerEnabled,
             hardwareTriggerKeyCode: ViewSettings.hardwareTriggerKeyCode,
-            visualFeedbackEnabled: !!ViewSettings.visualFeedbackEnabled ? ViewSettings.visualFeedbackEnabled : false,
-            ignoreDragLimits: !!ViewSettings.ignoreDragLimits ? ViewSettings.ignoreDragLimits : false,
-            toastSettings: SparkScanToastSettings_1.SparkScanToastSettings
-                .fromJSON(ViewSettings.toastSettings),
-            targetZoomFactorOut: ViewSettings.targetZoomFactorOut,
-            targetZoomFactorIn: ViewSettings.targetZoomFactorIn,
+            visualFeedbackEnabled: !!ViewSettings.visualFeedbackEnabled ? ViewSettings.visualFeedbackEnabled : false
         }
     },
 };

@@ -4,5 +4,5 @@ exports.BarcodeFilterHighlightType = void 0;
 var BarcodeFilterHighlightType;
 (function (BarcodeFilterHighlightType) {
     BarcodeFilterHighlightType["Brush"] = "brush";
-})(BarcodeFilterHighlightType || (exports.BarcodeFilterHighlightType = BarcodeFilterHighlightType = {}));
+})(BarcodeFilterHighlightType = exports.BarcodeFilterHighlightType || (exports.BarcodeFilterHighlightType = {}));
 //# sourceMappingURL=BarcodeFilterHighlightType.js.map

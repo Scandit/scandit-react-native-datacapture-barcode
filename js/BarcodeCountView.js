@@ -3,12 +3,10 @@ var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
         return extendStatics(d, b);
     };
     return function (d, b) {
-        if (typeof b !== "function" && b !== null)
-            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -38,14 +36,13 @@ var BarcodeCountViewStyle;
 (function (BarcodeCountViewStyle) {
     BarcodeCountViewStyle["Icon"] = "icon";
     BarcodeCountViewStyle["Dot"] = "dot";
-})(BarcodeCountViewStyle || (exports.BarcodeCountViewStyle = BarcodeCountViewStyle = {}));
+})(BarcodeCountViewStyle = exports.BarcodeCountViewStyle || (exports.BarcodeCountViewStyle = {}));
 var BarcodeCountView = /** @class */ (function (_super) {
     __extends(BarcodeCountView, _super);
     function BarcodeCountView(props) {
         var _this = _super.call(this, props) || this;
         _this._uiListener = null;
         _this._listener = null;
-        _this._shouldDisableModeOnExitButtonTapped = BarcodeCountDefaults_1.BarcodeCountDefaults.BarcodeCountView.shouldDisableModeOnExitButtonTapped;
         _this._shouldShowUserGuidanceView = BarcodeCountDefaults_1.BarcodeCountDefaults.BarcodeCountView.shouldShowUserGuidanceView;
         _this._shouldShowListButton = BarcodeCountDefaults_1.BarcodeCountDefaults.BarcodeCountView.shouldShowListButton;
         _this._shouldShowExitButton = BarcodeCountDefaults_1.BarcodeCountDefaults.BarcodeCountView.shouldShowExitButton;
@@ -108,17 +105,6 @@ var BarcodeCountView = /** @class */ (function (_super) {
         set: function (listener) {
             this._listener = listener;
             this.viewProxy.setViewListener(listener);
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(BarcodeCountView.prototype, "shouldDisableModeOnExitButtonTapped", {
-        get: function () {
-            return this._shouldDisableModeOnExitButtonTapped;
-        },
-        set: function (newValue) {
-            this._shouldDisableModeOnExitButtonTapped = newValue;
-            this.updateNative();
         },
         enumerable: false,
         configurable: true
@@ -582,10 +568,6 @@ var BarcodeCountView = /** @class */ (function (_super) {
         enumerable: false,
         configurable: true
     });
-    BarcodeCountView.prototype.componentWillUnmount = function () {
-        this.viewProxy.dispose();
-        this.props.barcodeCount.unsubscribeNativeListeners();
-    };
     BarcodeCountView.prototype.clearHighlights = function () {
         return this.viewProxy.clearHighlights();
     };
@@ -604,7 +586,6 @@ var BarcodeCountView = /** @class */ (function (_super) {
         var json = {
             View: {
                 style: this.props.viewStyle,
-                shouldDisableModeOnExitButtonTapped: this.shouldDisableModeOnExitButtonTapped,
                 shouldShowUserGuidanceView: this.shouldShowUserGuidanceView,
                 shouldShowListButton: this.shouldShowListButton,
                 shouldShowExitButton: this.shouldShowExitButton,

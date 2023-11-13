@@ -1,6 +1,6 @@
 import { BarcodeCountView } from '../BarcodeCountView';
 import { BarcodeCountViewUiListener } from '../BarcodeCountViewUiListener';
-import { BarcodeCountViewListener } from '../BarcodeCountViewListener';
+import { BarcodeCountViewListener } from 'BarcodeCountViewListener';
 export declare class BarcodeCountViewProxy {
     private view;
     private isInListenerCallback;

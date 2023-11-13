@@ -17,7 +17,7 @@ import com.scandit.datacapture.reactnative.barcode.ui.SparkScanViewManager
 import com.scandit.datacapture.reactnative.core.utils.ReactNativeResult
 
 class ScanditDataCaptureSparkScanModule(
-    reactContext: ReactApplicationContext,
+    private val reactContext: ReactApplicationContext,
     private val sparkScanModule: SparkScanModule,
     private val viewManager: SparkScanViewManager,
 ) : ReactContextBaseJavaModule(reactContext) {
@@ -60,7 +60,7 @@ class ScanditDataCaptureSparkScanModule(
     }
 
     @ReactMethod
-    fun create(@Suppress("UNUSED_PARAMETER") reactTag: Int, jsonString: String, promise: Promise) {
+    fun create(reactTag: Int, jsonString: String, promise: Promise) {
         val container = viewManager.currentContainer
         if (container == null) {
             // Workaround to the case when the container of the SparkScanView was not yet created.
@@ -71,7 +71,6 @@ class ScanditDataCaptureSparkScanModule(
                     }
                 }
             }
-            promise.resolve(null)
             return
         }
 
@@ -96,6 +95,7 @@ class ScanditDataCaptureSparkScanModule(
         // all of them. This behaviour happens only on RN
         viewManager.rnViewsContainer.bringToFront()
     }
+
 
     @ReactMethod
     fun update(@Suppress("UNUSED_PARAMETER") reactTag: Int, viewJson: String, promise: Promise) {
@@ -133,15 +133,10 @@ class ScanditDataCaptureSparkScanModule(
         promise.resolve(null)
     }
 
-    @ReactMethod
-    fun showToast(text: String, promise: Promise) {
-        sparkScanModule.showToast(text, ReactNativeResult(promise))
-    }
-
-    override fun invalidate() {
+    @Suppress("OVERRIDE_DEPRECATION")
+    override fun onCatalystInstanceDestroy() {
         viewManager.dispose()
-        sparkScanModule.onDestroy()
-        super.invalidate()
+        sparkScanModule.onPause()
     }
 
     override fun getName(): String = "ScanditDataCaptureSparkScan"

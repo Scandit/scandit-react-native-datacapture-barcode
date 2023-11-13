@@ -1,5 +1,4 @@
 import { TorchState } from 'scandit-react-native-datacapture-core/js/Camera+Related';
-import { SparkScanToastSettings } from './SparkScanToastSettings';
 import { DefaultSerializeable } from 'scandit-react-native-datacapture-core/js/private/Serializeable';
 export interface SparkScanScanningMode {
 }
@@ -23,10 +22,6 @@ export declare enum SparkScanViewHandMode {
     Right = "right",
     Left = "left"
 }
-export declare enum SparkScanScanningPrecision {
-    Default = "default",
-    Accurate = "accurate"
-}
 export declare class SparkScanViewSettings extends DefaultSerializeable {
     triggerButtonCollapseTimeout: number;
     continuousCaptureTimeout: number;
@@ -39,9 +34,5 @@ export declare class SparkScanViewSettings extends DefaultSerializeable {
     hardwareTriggerEnabled: boolean;
     hardwareTriggerKeyCode: number | null;
     visualFeedbackEnabled: boolean;
-    ignoreDragLimits: boolean;
-    toastSettings: SparkScanToastSettings;
-    targetZoomFactorOut: number;
-    targetZoomFactorIn: number;
     private scanModeFromJSON;
 }

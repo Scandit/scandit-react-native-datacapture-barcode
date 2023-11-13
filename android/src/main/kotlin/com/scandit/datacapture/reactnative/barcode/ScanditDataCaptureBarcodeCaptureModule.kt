@@ -20,10 +20,9 @@ class ScanditDataCaptureBarcodeCaptureModule(
         private const val DEFAULTS_KEY = "Defaults"
     }
 
-    override fun invalidate() {
-        barcodeCaptureModule.onDestroy()
-
-        super.invalidate()
+    @Suppress("OVERRIDE_DEPRECATION")
+    override fun onCatalystInstanceDestroy() {
+        barcodeCaptureModule.onStop()
     }
 
     override fun getName(): String = "ScanditDataCaptureBarcodeCapture"

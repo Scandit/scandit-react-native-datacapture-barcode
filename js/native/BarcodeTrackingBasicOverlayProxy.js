@@ -22,7 +22,7 @@ var BarcodeTrackingBasicOverlayProxy = /** @class */ (function () {
         return proxy;
     };
     BarcodeTrackingBasicOverlayProxy.prototype.setBrushForTrackedBarcode = function (brush, trackedBarcode) {
-        return NativeModule.setBrushForTrackedBarcode(brush ? JSON.stringify(brush.toJSON()) : null, trackedBarcode.identifier);
+        return NativeModule.setBrushForTrackedBarcode(JSON.stringify(brush.toJSON()), trackedBarcode.sessionFrameSequenceID, trackedBarcode.identifier);
     };
     BarcodeTrackingBasicOverlayProxy.prototype.clearTrackedBarcodeBrushes = function () {
         return NativeModule.clearTrackedBarcodeBrushes();
@@ -34,10 +34,11 @@ var BarcodeTrackingBasicOverlayProxy = /** @class */ (function () {
             var payload = JSON.parse(body);
             var trackedBarcode = Barcode_1.TrackedBarcode
                 .fromJSON(JSON.parse(payload.trackedBarcode));
+            var brush = _this.overlay.brush;
             if (_this.overlay.listener && _this.overlay.listener.brushForTrackedBarcode) {
-                var brush = _this.overlay.listener.brushForTrackedBarcode(_this.overlay, trackedBarcode);
-                _this.setBrushForTrackedBarcode(brush, trackedBarcode);
+                brush = _this.overlay.listener.brushForTrackedBarcode(_this.overlay, trackedBarcode);
             }
+            NativeModule.finishBrushForTrackedBarcodeCallback(brush ? JSON.stringify(brush.toJSON()) : null);
         });
         var didTapTrackedBarcodeListener = EventEmitter.addListener(BarcodeTrackingBasicOverlayListenerEventName.didTapTrackedBarcode, function (body) {
             var payload = JSON.parse(body);

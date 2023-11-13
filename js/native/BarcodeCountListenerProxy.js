@@ -18,15 +18,10 @@ var BarcodeCountListenerProxy = /** @class */ (function () {
     function BarcodeCountListenerProxy() {
         this.nativeListeners = [];
     }
-    BarcodeCountListenerProxy.forBarcodeCount = function (barcodeCount) {
+    BarcodeCountListenerProxy.forBarcodeCount = function (barcodeTracking) {
         var proxy = new BarcodeCountListenerProxy();
-        proxy.barcodeCount = barcodeCount;
+        proxy.barcodeCount = barcodeTracking;
         return proxy;
-    };
-    BarcodeCountListenerProxy.prototype.update = function () {
-        var barcodeCount = this.barcodeCount.toJSON();
-        var json = JSON.stringify(barcodeCount);
-        return NativeModule.updateMode(json);
     };
     BarcodeCountListenerProxy.prototype.reset = function () {
         return NativeModule.resetBarcodeCount();

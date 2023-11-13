@@ -9,7 +9,6 @@ export interface PrivateBarcodeCount {
     listeners: BarcodeCountListener[];
     isInListenerCallback: boolean;
     didChange: () => Promise<void>;
-    unsubscribeNativeListeners: () => void;
 }
 export interface PrivateBarcodeCountView {
     toJSON(): object;

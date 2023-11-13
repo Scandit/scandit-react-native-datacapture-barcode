@@ -7,9 +7,7 @@ export declare class SparkScanSettings extends DefaultSerializeable {
     private _singleBarcodeAutoDetection;
     get singleBarcodeAutoDetection(): boolean;
     set singleBarcodeAutoDetection(isEnabled: boolean);
-    private _locationSelection;
-    get locationSelection(): LocationSelection | null;
-    set locationSelection(newValue: LocationSelection | null);
+    locationSelection: LocationSelection | null;
     private properties;
     private symbologies;
     get enabledSymbologies(): Symbology[];
@@ -19,4 +17,5 @@ export declare class SparkScanSettings extends DefaultSerializeable {
     getProperty(name: string): any;
     enableSymbologies(symbologies: Symbology[]): void;
     enableSymbology(symbology: Symbology, enabled: boolean): void;
+    private locationSelectionFromJSON;
 }

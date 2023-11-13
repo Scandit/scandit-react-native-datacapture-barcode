@@ -6,13 +6,13 @@
 
 package com.scandit.datacapture.reactnative.barcode
 
-import android.view.ViewGroup
 import com.facebook.react.bridge.Promise
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
 import com.scandit.datacapture.core.ui.style.BrushDeserializer
 import com.scandit.datacapture.frameworks.barcode.count.BarcodeCountModule
+import com.scandit.datacapture.frameworks.core.utils.MainThread
 import com.scandit.datacapture.reactnative.barcode.ui.BarcodeCountViewManager
 import org.json.JSONArray
 
@@ -37,31 +37,19 @@ class ScanditDataCaptureBarcodeCountModule(
         jsonString: String,
         promise: Promise
     ) {
-        barcodeCountModule.getViewFromJson(jsonString)?.let { barcodeCountView ->
-            val container = viewManager.currentContainer
-            if (container == null) {
-                viewManager.postContainerCreationAction = {
-                    viewManager.currentContainer?.addView(
-                        barcodeCountView,
-                        ViewGroup.LayoutParams(
-                            ViewGroup.LayoutParams.MATCH_PARENT,
-                            ViewGroup.LayoutParams.MATCH_PARENT
-                        )
-                    )
+        val container = viewManager.currentContainer
+        if (container == null) {
+            viewManager.postContainerCreationAction = {
+                viewManager.currentContainer?.let {
+                    barcodeCountModule.addViewFromJson(it, jsonString)
                 }
-                promise.resolve(null)
-                return
             }
-
-            container.addView(
-                barcodeCountView,
-                ViewGroup.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.MATCH_PARENT
-                )
-            )
-            promise.resolve(null)
+            return
         }
+        MainThread.runOnMainThread {
+            barcodeCountModule.addViewFromJson(container, jsonString)
+        }
+        promise.resolve(null)
     }
 
     @ReactMethod
@@ -191,25 +179,9 @@ class ScanditDataCaptureBarcodeCountModule(
         promise.resolve(null)
     }
 
-    @ReactMethod
-    fun getSpatialMapWithHints(
-        expectedNumberOfRows: Int,
-        expectedNumberOfColumns: Int,
-        promise: Promise
-    ) {
-        val map = barcodeCountModule.getSpatialMap(expectedNumberOfRows, expectedNumberOfColumns)
-        promise.resolve(map?.toJson())
-    }
-
-    @ReactMethod
-    fun getSpatialMap(promise: Promise) {
-        val map = barcodeCountModule.getSpatialMap()
-        promise.resolve(map?.toJson())
-    }
-
-    override fun invalidate() {
+    @Suppress("OVERRIDE_DEPRECATION")
+    override fun onCatalystInstanceDestroy() {
         viewManager.dispose()
-        barcodeCountModule.onDestroy()
-        super.invalidate()
+        barcodeCountModule.onStop()
     }
 }

@@ -5,7 +5,7 @@ export declare class BarcodeTrackingBasicOverlayProxy {
     private overlay;
     private nativeListeners;
     static forOverlay(overlay: BarcodeTrackingBasicOverlay): BarcodeTrackingBasicOverlayProxy;
-    setBrushForTrackedBarcode(brush: Brush | null, trackedBarcode: TrackedBarcode): Promise<void>;
+    setBrushForTrackedBarcode(brush: Brush, trackedBarcode: TrackedBarcode): Promise<void>;
     clearTrackedBarcodeBrushes(): Promise<void>;
     subscribeListener(): void;
     unsubscribeListener(): void;

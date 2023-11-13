@@ -3,12 +3,10 @@ var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
         return extendStatics(d, b);
     };
     return function (d, b) {
-        if (typeof b !== "function" && b !== null)
-            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -21,7 +19,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.SparkScanViewSettings = exports.SparkScanScanningPrecision = exports.SparkScanViewHandMode = exports.SparkScanScanningBehavior = exports.SparkScanScanningModeTarget = exports.SparkScanScanningModeDefault = void 0;
+exports.SparkScanViewSettings = exports.SparkScanViewHandMode = exports.SparkScanScanningBehavior = exports.SparkScanScanningModeTarget = exports.SparkScanScanningModeDefault = void 0;
 var SparkScanDefaults_1 = require("./private/SparkScanDefaults");
 var Serializeable_1 = require("scandit-react-native-datacapture-core/js/private/Serializeable");
 // tslint:disable-next-line:variable-name
@@ -42,7 +40,7 @@ var SparkScanScanningModeDefault = /** @class */ (function (_super) {
         configurable: true
     });
     __decorate([
-        (0, Serializeable_1.nameForSerialization)('settings')
+        Serializeable_1.nameForSerialization('settings')
     ], SparkScanScanningModeDefault.prototype, "_settings", void 0);
     return SparkScanScanningModeDefault;
 }(Serializeable_1.DefaultSerializeable));
@@ -63,7 +61,7 @@ var SparkScanScanningModeTarget = /** @class */ (function (_super) {
         configurable: true
     });
     __decorate([
-        (0, Serializeable_1.nameForSerialization)('settings')
+        Serializeable_1.nameForSerialization('settings')
     ], SparkScanScanningModeTarget.prototype, "_settings", void 0);
     return SparkScanScanningModeTarget;
 }(Serializeable_1.DefaultSerializeable));
@@ -83,7 +81,7 @@ var PrivateSparkScanScanningModeSettings = /** @class */ (function (_super) {
         configurable: true
     });
     __decorate([
-        (0, Serializeable_1.nameForSerialization)('scanningBehavior')
+        Serializeable_1.nameForSerialization('scanningBehavior')
     ], PrivateSparkScanScanningModeSettings.prototype, "_scanningBehavior", void 0);
     return PrivateSparkScanScanningModeSettings;
 }(Serializeable_1.DefaultSerializeable));
@@ -91,17 +89,12 @@ var SparkScanScanningBehavior;
 (function (SparkScanScanningBehavior) {
     SparkScanScanningBehavior["Single"] = "single";
     SparkScanScanningBehavior["Continuous"] = "continuous";
-})(SparkScanScanningBehavior || (exports.SparkScanScanningBehavior = SparkScanScanningBehavior = {}));
+})(SparkScanScanningBehavior = exports.SparkScanScanningBehavior || (exports.SparkScanScanningBehavior = {}));
 var SparkScanViewHandMode;
 (function (SparkScanViewHandMode) {
     SparkScanViewHandMode["Right"] = "right";
     SparkScanViewHandMode["Left"] = "left";
-})(SparkScanViewHandMode || (exports.SparkScanViewHandMode = SparkScanViewHandMode = {}));
-var SparkScanScanningPrecision;
-(function (SparkScanScanningPrecision) {
-    SparkScanScanningPrecision["Default"] = "default";
-    SparkScanScanningPrecision["Accurate"] = "accurate";
-})(SparkScanScanningPrecision || (exports.SparkScanScanningPrecision = SparkScanScanningPrecision = {}));
+})(SparkScanViewHandMode = exports.SparkScanViewHandMode || (exports.SparkScanViewHandMode = {}));
 var SparkScanViewSettings = /** @class */ (function (_super) {
     __extends(SparkScanViewSettings, _super);
     function SparkScanViewSettings() {
@@ -117,10 +110,6 @@ var SparkScanViewSettings = /** @class */ (function (_super) {
         _this.hardwareTriggerEnabled = ViewSettingsDefaults.hardwareTriggerEnabled;
         _this.hardwareTriggerKeyCode = ViewSettingsDefaults.hardwareTriggerKeyCode;
         _this.visualFeedbackEnabled = ViewSettingsDefaults.visualFeedbackEnabled;
-        _this.ignoreDragLimits = ViewSettingsDefaults.ignoreDragLimits;
-        _this.toastSettings = ViewSettingsDefaults.toastSettings;
-        _this.targetZoomFactorOut = ViewSettingsDefaults.targetZoomFactorOut;
-        _this.targetZoomFactorIn = ViewSettingsDefaults.targetZoomFactorIn;
         return _this;
     }
     SparkScanViewSettings.prototype.scanModeFromJSON = function (json) {

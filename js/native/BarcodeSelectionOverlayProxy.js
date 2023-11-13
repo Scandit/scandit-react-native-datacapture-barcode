@@ -17,9 +17,6 @@ var BarcodeSelectionOverlayProxy = /** @class */ (function () {
         this.brushForAimedBarcodeProvider = null;
         this.brushForTrackedBarcodeProvider = null;
     }
-    BarcodeSelectionOverlayProxy.prototype.setTextForAimToSelectAutoHint = function (text) {
-        return NativeModule.setTextForAimToSelectAutoHint(text);
-    };
     BarcodeSelectionOverlayProxy.prototype.setAimedBarcodeBrushProvider = function (brushProvider) {
         var _a;
         if (!brushProvider) {
