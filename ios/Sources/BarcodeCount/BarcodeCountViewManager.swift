@@ -4,10 +4,13 @@
  * Copyright (C) 2023- Scandit AG. All rights reserved.
  */
 
+import React
 import ScanditBarcodeCapture
 import ScanditDataCaptureCore
 
 class BarcodeCountViewWrapperView: UIView {
+    weak var viewManager: BarcodeCountViewManager?
+
     var barcodeCountView: BarcodeCountView? {
         if Thread.isMainThread {
             return subviews.first { $0 is BarcodeCountView } as? BarcodeCountView
@@ -30,15 +33,35 @@ class BarcodeCountViewWrapperView: UIView {
             ])
         }
     }
+
+    override func removeFromSuperview() {
+        super.removeFromSuperview()
+        guard let index = viewManager?.containers.firstIndex(of: self) else {
+            return
+        }
+        viewManager?.containers.remove(at: index)
+        if let view = barcodeCountView,
+           let viewManager = viewManager {
+            if view.superview != nil {
+                view.removeFromSuperview()
+            }
+            viewManager.containers.last?.addSubview(view)
+        }
+    }
 }
 
 @objc(RNTSDCBarcodeCountViewManager)
 class BarcodeCountViewManager: RCTViewManager {
+    var containers: [BarcodeCountViewWrapperView] = []
+
     override class func requiresMainQueueSetup() -> Bool {
         true
     }
 
     override func view() -> UIView! {
-        BarcodeCountViewWrapperView()
+        let container = BarcodeCountViewWrapperView()
+        container.viewManager = self
+        containers.append(container)
+        return container
     }
 }

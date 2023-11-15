@@ -20,6 +20,8 @@ export declare class BarcodeCountView extends React.Component<BarcodeCountViewPr
     set uiListener(listener: BarcodeCountViewUiListener | null);
     get listener(): BarcodeCountViewListener | null;
     set listener(listener: BarcodeCountViewListener | null);
+    get shouldDisableModeOnExitButtonTapped(): boolean;
+    set shouldDisableModeOnExitButtonTapped(newValue: boolean);
     get shouldShowUserGuidanceView(): boolean;
     set shouldShowUserGuidanceView(newValue: boolean);
     get shouldShowListButton(): boolean;
@@ -105,6 +107,7 @@ export declare class BarcodeCountView extends React.Component<BarcodeCountViewPr
     private viewProxy;
     private _uiListener;
     private _listener;
+    private _shouldDisableModeOnExitButtonTapped;
     private _shouldShowUserGuidanceView;
     private _shouldShowListButton;
     private _shouldShowExitButton;
@@ -146,6 +149,7 @@ export declare class BarcodeCountView extends React.Component<BarcodeCountViewPr
     private _textForUnrecognizedBarcodesDetectedHint;
     private _toolbarSettings;
     constructor(props: BarcodeCountViewProps);
+    componentWillUnmount(): void;
     clearHighlights(): void;
     setToolbarSettings(settings: BarcodeCountToolbarSettings): void;
     private updateNative;

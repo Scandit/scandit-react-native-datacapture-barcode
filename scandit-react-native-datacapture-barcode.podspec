@@ -11,13 +11,13 @@ Pod::Spec.new do |s|
   s.authors                 = { package["author"]["name"] => package["author"]["email"] }
   s.platforms               = { :ios => "13.0" }
   s.source                  = { :git => package["homepage"] + ".git", :tag => "#{s.version}" }
-  s.swift_version           = '4.0'
+  s.swift_version           = '5.0'
   s.source_files            = "ios/Sources/**/*.{h,m,swift}"
   s.requires_arc            = true
   s.module_name             = "ScanditDataCaptureBarcode"
   s.header_dir              = "ScanditDataCaptureBarcode"
-  s.dependency 'ScanditBarcodeCapture', '= 6.18.3'
 
   s.dependency "React"
   s.dependency "scandit-react-native-datacapture-core"
+  s.dependency "scandit-datacapture-frameworks-barcode", '= 6.19.7'
 end

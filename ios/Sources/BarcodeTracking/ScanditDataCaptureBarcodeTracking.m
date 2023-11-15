@@ -6,8 +6,7 @@
 RCT_EXTERN_METHOD(finishDidUpdateSessionCallback : (BOOL)enabled)
 
 RCT_EXTERN_METHOD(setBrushForTrackedBarcode
-                  : (NSString *)brushJSON frameSequenceId
-                  : (NSInteger)frameSequenceId barcodeId
+                  : (NSString *)brushJSON barcodeId
                   : (NSInteger)barcodeId resolver
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)

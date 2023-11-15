@@ -1,6 +1,7 @@
 import { TorchState } from 'scandit-react-native-datacapture-core/js/Camera+Related';
 import { Color } from 'scandit-react-native-datacapture-core/js/Common';
 import { Feedback } from 'scandit-react-native-datacapture-core/js/Feedback';
+import { SparkScanToastSettings } from '../SparkScanToastSettings';
 export declare const SparkScanDefaults: {
     Feedback: {
         success: Feedback;
@@ -30,6 +31,8 @@ export declare const SparkScanDefaults: {
         startCapturingText: any;
         resumeCapturingText: any;
         scanningCapturingText: any;
+        targetModeHintText: any;
+        shouldShowTargetModeHint: any;
         captureButtonBackgroundColor: Color | null;
         captureButtonActiveBackgroundColor: Color | null;
         captureButtonTintColor: Color | null;
@@ -48,6 +51,10 @@ export declare const SparkScanDefaults: {
             hardwareTriggerEnabled: any;
             hardwareTriggerKeyCode: any;
             visualFeedbackEnabled: any;
+            ignoreDragLimits: any;
+            toastSettings: SparkScanToastSettings;
+            targetZoomFactorOut: any;
+            targetZoomFactorIn: any;
         };
     };
 };

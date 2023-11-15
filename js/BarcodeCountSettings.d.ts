@@ -7,8 +7,12 @@ export declare class BarcodeCountSettings extends DefaultSerializeable {
     private properties;
     private _filterSettings;
     private _expectsOnlyUniqueBarcodes;
+    private _mappingEnabled;
     constructor();
     get expectsOnlyUniqueBarcodes(): boolean;
+    set expectsOnlyUniqueBarcodes(expectsOnlyUniqueBarcodes: boolean);
+    get mappingEnabled(): boolean;
+    set mappingEnabled(mappingEnabled: boolean);
     get filterSettings(): BarcodeFilterSettings;
     get enabledSymbologies(): Symbology[];
     settingsForSymbology(symbology: Symbology): SymbologySettings;

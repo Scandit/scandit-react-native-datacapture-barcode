@@ -82,3 +82,26 @@ export declare class Ean13UpcaClassification {
     static isUpca(barcode: Barcode): boolean;
     static isEan13(barcode: Barcode): boolean;
 }
+export declare enum ArucoDictionaryPreset {
+    ArucoDictionaryPreset_5X5_50 = "5X5_50",
+    ArucoDictionaryPreset_5X5_100 = "5X5_100",
+    ArucoDictionaryPreset_5X5_250 = "5X5_250",
+    ArucoDictionaryPreset_5X5_1000 = "5X5_1000",
+    ArucoDictionaryPreset_5X5_1023 = "5X5_1023",
+    ArucoDictionaryPreset_4X4_250 = "4X4_250",
+    ArucoDictionaryPreset_6X6_250 = "6X6_250"
+}
+export declare class ArucoMarker extends DefaultSerializeable {
+    private _markerData;
+    private _markerSize;
+    get size(): number;
+    get data(): string;
+    static create(markerSize: number, markerData: string): ArucoMarker;
+}
+export declare class ArucoDictionary {
+    private _preset;
+    private _markers;
+    private _markerSize;
+    static fromPreset(preset: ArucoDictionaryPreset): ArucoDictionary;
+    static createWithMarkers(markerSize: number, markers: ArucoMarker[]): ArucoDictionary;
+}

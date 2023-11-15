@@ -1,13 +1,17 @@
 "use strict";
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
 }) : (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
 }));
 var __exportStar = (this && this.__exportStar) || function(m, exports) {
-    for (var p in m) if (p !== "default" && !exports.hasOwnProperty(p)) __createBinding(exports, m, p);
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(require("./Barcode"), exports);
@@ -38,6 +42,7 @@ __exportStar(require("./SparkScanSettings"), exports);
 __exportStar(require("./SparkScanView"), exports);
 __exportStar(require("./SparkScanViewFeedback"), exports);
 __exportStar(require("./SparkScanViewSettings"), exports);
+__exportStar(require("./SparkScanToastSettings"), exports);
 __exportStar(require("./BarcodeCount"), exports);
 __exportStar(require("./BarcodeCountFeedback"), exports);
 __exportStar(require("./BarcodeCountListener"), exports);
@@ -55,6 +60,24 @@ __exportStar(require("./BarcodeFilterSettings"), exports);
 __exportStar(require("./BarcodeFilterHighlightType"), exports);
 __exportStar(require("./BarcodeFilterHighlightSettingsBrush"), exports);
 __exportStar(require("./BarcodeFilterHighlightSettings"), exports);
+__exportStar(require("./BarcodeSpatialGrid"), exports);
 __exportStar(require("./Symbology"), exports);
 __exportStar(require("./Symbology+Related"), exports);
+__exportStar(require("./BarcodePick"), exports);
+__exportStar(require("./BarcodePickActionListener"), exports);
+__exportStar(require("./BarcodePickActionCallback"), exports);
+__exportStar(require("./BarcodePickState"), exports);
+__exportStar(require("./BarcodePickSettings"), exports);
+__exportStar(require("./BarcodePickProduct"), exports);
+__exportStar(require("./BarcodePickProductProvider"), exports);
+__exportStar(require("./BarcodePickProductProviderCallback"), exports);
+__exportStar(require("./BarcodePickProductProviderCallbackItem"), exports);
+__exportStar(require("./BarcodePickAsyncMapperProductProvider"), exports);
+__exportStar(require("./BarcodePickAsyncMapperProductProviderCallback"), exports);
+__exportStar(require("./BarcodePickIconStyle"), exports);
+__exportStar(require("./BarcodePickView"), exports);
+__exportStar(require("./BarcodePickViewSettings"), exports);
+__exportStar(require("./BarcodePickViewHighlightStyle"), exports);
+__exportStar(require("./Rectangular"), exports);
+__exportStar(require("./RectangularWithIcons"), exports);
 //# sourceMappingURL=index.js.map
