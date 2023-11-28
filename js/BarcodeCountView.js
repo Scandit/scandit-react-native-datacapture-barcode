@@ -86,7 +86,6 @@ var BarcodeCountView = /** @class */ (function (_super) {
         _this._textForMoveFurtherAndRescanHint = BarcodeCountDefaults_1.BarcodeCountDefaults.BarcodeCountView.textForMoveFurtherAndRescanHint;
         _this._textForUnrecognizedBarcodesDetectedHint = BarcodeCountDefaults_1.BarcodeCountDefaults.BarcodeCountView.textForUnrecognizedBarcodesDetectedHint;
         _this._toolbarSettings = null;
-        _this.props.barcodeCount._context = _this.props.context;
         _this.viewProxy = BarcodeCountViewProxy_1.BarcodeCountViewProxy.forBarcodeCount(_this);
         return _this;
     }

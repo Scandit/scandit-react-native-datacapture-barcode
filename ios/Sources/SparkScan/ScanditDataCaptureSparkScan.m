@@ -37,6 +37,11 @@ RCT_EXTERN_METHOD(update
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
+RCT_EXTERN_METHOD(updateMode
+                  : (nonnull NSString *)JSONString resolver
+                  : (RCTPromiseResolveBlock)resolve rejecter
+                  : (RCTPromiseRejectBlock)reject)
+
 RCT_EXTERN_METHOD(startScanning
                   : (nonnull NSNumber *)reactTag resolver
                   : (RCTPromiseResolveBlock)resolve rejecter

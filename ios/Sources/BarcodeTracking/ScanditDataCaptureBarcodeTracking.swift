@@ -81,7 +81,7 @@ class ScanditDataCaptureBarcodeTracking: RCTEventEmitter {
                                    reject: RCTPromiseRejectBlock) {
         let payload: [String: Any?] = [
             "brush": brushJSON,
-            "trackedBarcodeID": String(barcodeId),
+            "trackedBarcodeID": String(barcodeId)
         ]
         let jsonString = String(data: try! JSONSerialization.data(withJSONObject: payload),
                                 encoding: .utf8)!
@@ -110,15 +110,25 @@ class ScanditDataCaptureBarcodeTracking: RCTEventEmitter {
                                   trackedBarcodeId: Int,
                                   resolve: RCTPromiseResolveBlock,
                                   reject: RCTPromiseRejectBlock) {
-        let configuration = try! JSONSerialization.jsonObject(with: viewJSON!.data(using: .utf8)!,
-                                                              options: []) as! [String: Any]
-        let jsView = try! JSView(with: configuration)
-        dispatchMainSync {
-            let rctRootView = rootViewWith(jsView: jsView)
-            trackedBarcodeViewCache[rctRootView] = barcodeTrackingModule.trackedBarcode(by: trackedBarcodeId)!
-            barcodeTrackingModule.setViewForTrackedBarcode(view: rctRootView,
-                                                           trackedBarcodeId: trackedBarcodeId,
-                                                           sessionFrameSequenceId: nil)
+        if let viewJSON = viewJSON {
+            let configuration = try! JSONSerialization.jsonObject(with: viewJSON.data(using: .utf8)!,
+                                                                  options: []) as! [String: Any]
+            let jsView = try! JSView(with: configuration)
+            dispatchMainSync {
+                let rctRootView = rootViewWith(jsView: jsView)
+                if let trackedBarcode = barcodeTrackingModule.trackedBarcode(by: trackedBarcodeId) {
+                    trackedBarcodeViewCache[rctRootView] = trackedBarcode
+                }
+                barcodeTrackingModule.setViewForTrackedBarcode(view: rctRootView,
+                                                               trackedBarcodeId: trackedBarcodeId,
+                                                               sessionFrameSequenceId: nil)
+            }
+        } else {
+            dispatchMainSync {
+                barcodeTrackingModule.setViewForTrackedBarcode(view: nil,
+                                                               trackedBarcodeId: trackedBarcodeId,
+                                                               sessionFrameSequenceId: nil)
+            }
         }
         resolve(nil)
     }

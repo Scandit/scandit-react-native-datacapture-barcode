@@ -103,6 +103,11 @@ class ScanditDataCaptureSparkScanModule(
     }
 
     @ReactMethod
+    fun updateMode(jsonString: String, promise: Promise) {
+        sparkScanModule.updateMode(jsonString, ReactNativeResult(promise))
+    }
+
+    @ReactMethod
     fun emitFeedback(
         @Suppress("UNUSED_PARAMETER") reactTag: Int,
         feedbackJson: String,

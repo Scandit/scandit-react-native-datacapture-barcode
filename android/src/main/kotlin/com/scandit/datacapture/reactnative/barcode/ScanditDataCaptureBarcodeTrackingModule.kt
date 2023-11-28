@@ -92,7 +92,7 @@ class ScanditDataCaptureBarcodeTrackingModule(
 
     @ReactMethod
     fun setViewForTrackedBarcode(
-        view: String,
+        view: String?,
         trackedBarcodeId: Int,
         promise: Promise
     ) {
