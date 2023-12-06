@@ -2,6 +2,7 @@ import { SparkScanView } from '../SparkScanView';
 import { SparkScanViewFeedback } from 'SparkScanViewFeedback';
 export declare class SparkScanViewProxy {
     private view;
+    private isInListenerCallback;
     private nativeListeners;
     static forSparkScanView(view: SparkScanView): SparkScanViewProxy;
     startScanning(): Promise<void>;

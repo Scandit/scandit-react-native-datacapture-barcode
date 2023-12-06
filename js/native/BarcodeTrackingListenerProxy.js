@@ -10,7 +10,7 @@ var EventEmitter = new react_native_1.NativeEventEmitter(NativeModule);
 // tslint:enable:variable-name
 var BarcodeTrackingListenerEventName;
 (function (BarcodeTrackingListenerEventName) {
-    BarcodeTrackingListenerEventName["didUpdateSession"] = "BarcodeTrackingListener.didUpdateSession";
+    BarcodeTrackingListenerEventName["didUpdateSession"] = "barcodeTrackingListener-didUpdateSession";
 })(BarcodeTrackingListenerEventName || (BarcodeTrackingListenerEventName = {}));
 var BarcodeTrackingListenerProxy = /** @class */ (function () {
     function BarcodeTrackingListenerProxy() {
@@ -28,8 +28,7 @@ var BarcodeTrackingListenerProxy = /** @class */ (function () {
         var _this = this;
         NativeModule.registerListenerForEvents();
         var listener = EventEmitter.addListener(BarcodeTrackingListenerEventName.didUpdateSession, function (body) {
-            var payload = JSON.parse(body);
-            var session = BarcodeTrackingSession_1.BarcodeTrackingSession.fromJSON(JSON.parse(payload.session));
+            var session = BarcodeTrackingSession_1.BarcodeTrackingSession.fromJSON(JSON.parse(body.session));
             _this.notifyListenersOfDidUpdateSession(session);
             NativeModule.finishDidUpdateSessionCallback(_this.barcodeTracking.isEnabled);
         });

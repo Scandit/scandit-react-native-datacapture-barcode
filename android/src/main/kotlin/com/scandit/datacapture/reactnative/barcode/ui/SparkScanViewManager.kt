@@ -6,35 +6,60 @@
 
 package com.scandit.datacapture.reactnative.barcode.ui
 
-import android.annotation.SuppressLint
-import android.view.LayoutInflater
-import android.view.View
-import com.facebook.react.ReactRootView
 import com.facebook.react.uimanager.ThemedReactContext
+import com.scandit.datacapture.barcode.spark.capture.SparkScan
+import com.scandit.datacapture.barcode.spark.capture.SparkScanViewUiListener
+import com.scandit.datacapture.barcode.spark.serialization.SparkScanViewDeserializer
 import com.scandit.datacapture.barcode.spark.ui.SparkScanCoordinatorLayout
-import com.scandit.datacapture.reactnative.barcode.R
+import com.scandit.datacapture.barcode.spark.ui.SparkScanView
+import com.scandit.datacapture.core.capture.DataCaptureContext
 import com.scandit.datacapture.reactnative.core.ui.ScanditViewGroupManager
 
-class SparkScanViewManager : ScanditViewGroupManager<SparkScanCoordinatorLayout>() {
+class SparkScanViewManager(
+    private val sparkScanViewDeserializer: SparkScanViewDeserializer = SparkScanViewDeserializer()
+) : ScanditViewGroupManager<SparkScanCoordinatorLayout>() {
 
-    lateinit var rnViewsContainer: ReactRootView
+    var sparkScanView: SparkScanView? = null
 
-    @SuppressLint("InflateParams")
-    override fun createNewInstance(reactContext: ThemedReactContext): SparkScanCoordinatorLayout {
-        val sparkScanCoordinatorLayout = LayoutInflater.from(reactContext)
-            .inflate(R.layout.spark_scan_integration, null) as SparkScanCoordinatorLayout
-        rnViewsContainer =
-            sparkScanCoordinatorLayout.findViewById(R.id.rn_container) as ReactRootView
-        return sparkScanCoordinatorLayout
-    }
+    override fun createNewInstance(reactContext: ThemedReactContext): SparkScanCoordinatorLayout =
+        SparkScanCoordinatorLayout(reactContext)
 
     override fun getName(): String = "RNTSparkScanView"
 
-    override fun addView(parent: SparkScanCoordinatorLayout?, child: View?, index: Int) {
-        rnViewsContainer.addView(child, index)
+    fun dispose() {
+        sparkScanView?.setListener(null)
+        disposeInternal()
     }
 
-    fun dispose() {
-        disposeInternal()
+    fun createSparkScanViewFromJson(
+        sparkScanViewJson: String,
+        sparkScan: SparkScan,
+        dataCaptureContext: DataCaptureContext,
+        sparkScanViewUiListener: SparkScanViewUiListener
+    ) {
+        val container = currentContainer ?: return
+        container.post {
+            sparkScanView = sparkScanViewDeserializer.viewFrom(
+                container,
+                sparkScan,
+                dataCaptureContext,
+                sparkScanViewJson
+            ).also {
+                it.setListener(sparkScanViewUiListener)
+            }
+        }
+    }
+
+    fun updateSparkScanViewFromJson(
+        sparkScanViewJson: String
+    ): Boolean {
+        val container = currentContainer ?: return false
+        val sparkScanView = sparkScanView ?: return false
+
+        container.post {
+            sparkScanViewDeserializer.updateViewFromJson(sparkScanView, sparkScanViewJson)
+        }
+
+        return true
     }
 }

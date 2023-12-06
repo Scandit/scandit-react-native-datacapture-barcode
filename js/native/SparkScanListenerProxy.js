@@ -10,8 +10,8 @@ var EventEmitter = new react_native_1.NativeEventEmitter(NativeModule);
 // tslint:enable:variable-name
 var SparkScanListenerEventName;
 (function (SparkScanListenerEventName) {
-    SparkScanListenerEventName["didUpdateSession"] = "SparkScanListener.didUpdateSession";
-    SparkScanListenerEventName["didScan"] = "SparkScanListener.didScan";
+    SparkScanListenerEventName["didUpdateSession"] = "sparkScanListener-didUpdateSession";
+    SparkScanListenerEventName["didScan"] = "sparkScanListener-didScan";
 })(SparkScanListenerEventName || (SparkScanListenerEventName = {}));
 var SparkScanListenerProxy = /** @class */ (function () {
     function SparkScanListenerProxy() {
@@ -25,23 +25,16 @@ var SparkScanListenerProxy = /** @class */ (function () {
     SparkScanListenerProxy.prototype.reset = function () {
         return NativeModule.resetSession();
     };
-    SparkScanListenerProxy.prototype.updateMode = function () {
-        var sparkScanJson = this.sparkScan.toJSON();
-        var json = JSON.stringify(sparkScanJson);
-        return NativeModule.updateMode(json);
-    };
     SparkScanListenerProxy.prototype.subscribeListener = function () {
         var _this = this;
         NativeModule.registerListenerForEvents();
         var didUpdateSessionListener = EventEmitter.addListener(SparkScanListenerEventName.didUpdateSession, function (body) {
-            var payload = JSON.parse(body);
-            var session = SparkScanSession_1.SparkScanSession.fromJSON(JSON.parse(payload.session));
+            var session = SparkScanSession_1.SparkScanSession.fromJSON(JSON.parse(body.session));
             _this.notifyListenersOfDidUpdateSession(session);
             NativeModule.finishDidUpdateSessionCallback(_this.sparkScan.isEnabled);
         });
         var didScanListener = EventEmitter.addListener(SparkScanListenerEventName.didScan, function (body) {
-            var payload = JSON.parse(body);
-            var session = SparkScanSession_1.SparkScanSession.fromJSON(JSON.parse(payload.session));
+            var session = SparkScanSession_1.SparkScanSession.fromJSON(JSON.parse(body.session));
             _this.notifyListenersOfDidScan(session);
             NativeModule.finishDidScanCallback(_this.sparkScan.isEnabled);
         });

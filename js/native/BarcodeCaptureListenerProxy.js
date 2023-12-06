@@ -10,8 +10,8 @@ var EventEmitter = new react_native_1.NativeEventEmitter(NativeModule);
 // tslint:enable:variable-name
 var BarcodeCaptureListenerEventName;
 (function (BarcodeCaptureListenerEventName) {
-    BarcodeCaptureListenerEventName["didUpdateSession"] = "BarcodeCaptureListener.didUpdateSession";
-    BarcodeCaptureListenerEventName["didScan"] = "BarcodeCaptureListener.didScan";
+    BarcodeCaptureListenerEventName["didUpdateSession"] = "barcodeCaptureListener-didUpdateSession";
+    BarcodeCaptureListenerEventName["didScan"] = "barcodeCaptureListener-didScan";
 })(BarcodeCaptureListenerEventName || (BarcodeCaptureListenerEventName = {}));
 var BarcodeCaptureListenerProxy = /** @class */ (function () {
     function BarcodeCaptureListenerProxy() {
@@ -29,14 +29,12 @@ var BarcodeCaptureListenerProxy = /** @class */ (function () {
         var _this = this;
         NativeModule.registerListenerForEvents();
         var didUpdateSessionListener = EventEmitter.addListener(BarcodeCaptureListenerEventName.didUpdateSession, function (body) {
-            var payload = JSON.parse(body);
-            var session = BarcodeCaptureSession_1.BarcodeCaptureSession.fromJSON(JSON.parse(payload.session));
+            var session = BarcodeCaptureSession_1.BarcodeCaptureSession.fromJSON(JSON.parse(body.session));
             _this.notifyListenersOfDidUpdateSession(session);
             NativeModule.finishDidUpdateSessionCallback(_this.barcodeCapture.isEnabled);
         });
         var didScanListener = EventEmitter.addListener(BarcodeCaptureListenerEventName.didScan, function (body) {
-            var payload = JSON.parse(body);
-            var session = BarcodeCaptureSession_1.BarcodeCaptureSession.fromJSON(JSON.parse(payload.session));
+            var session = BarcodeCaptureSession_1.BarcodeCaptureSession.fromJSON(JSON.parse(body.session));
             _this.notifyListenersOfDidScan(session);
             NativeModule.finishDidScanCallback(_this.barcodeCapture.isEnabled);
         });

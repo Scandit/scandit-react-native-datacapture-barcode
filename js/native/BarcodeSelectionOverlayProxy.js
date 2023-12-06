@@ -9,17 +9,14 @@ var EventEmitter = new react_native_1.NativeEventEmitter(NativeModule);
 // tslint:enable:variable-name
 var BarcodeSelectionBrushProviderEventName;
 (function (BarcodeSelectionBrushProviderEventName) {
-    BarcodeSelectionBrushProviderEventName["brushForAimedBarcode"] = "BarcodeSelectionAimedBrushProvider.brushForBarcode";
-    BarcodeSelectionBrushProviderEventName["brushForTrackedBarcode"] = "BarcodeSelectionTrackedBrushProvider.brushForBarcode";
+    BarcodeSelectionBrushProviderEventName["brushForAimedBarcode"] = "barcodeSelectionAimedBrushProvider-brushForBarcode";
+    BarcodeSelectionBrushProviderEventName["brushForTrackedBarcode"] = "barcodeSelectionTrackedBrushProvider-brushForBarcode";
 })(BarcodeSelectionBrushProviderEventName || (BarcodeSelectionBrushProviderEventName = {}));
 var BarcodeSelectionOverlayProxy = /** @class */ (function () {
     function BarcodeSelectionOverlayProxy() {
         this.brushForAimedBarcodeProvider = null;
         this.brushForTrackedBarcodeProvider = null;
     }
-    BarcodeSelectionOverlayProxy.prototype.setTextForAimToSelectAutoHint = function (text) {
-        return NativeModule.setTextForAimToSelectAutoHint(text);
-    };
     BarcodeSelectionOverlayProxy.prototype.setAimedBarcodeBrushProvider = function (brushProvider) {
         var _a;
         if (!brushProvider) {
@@ -28,9 +25,8 @@ var BarcodeSelectionOverlayProxy = /** @class */ (function () {
         }
         var subscriptionResult = NativeModule.setAimedBarcodeBrushProvider();
         this.brushForAimedBarcodeProvider = EventEmitter.addListener(BarcodeSelectionBrushProviderEventName.brushForAimedBarcode, function (body) {
-            var payload = JSON.parse(body);
             var barcode = Barcode_1.Barcode
-                .fromJSON(JSON.parse(payload.barcode));
+                .fromJSON(JSON.parse(body.barcode));
             var brush = null;
             if (brushProvider.brushForBarcode) {
                 brush = brushProvider.brushForBarcode(barcode);
@@ -47,9 +43,8 @@ var BarcodeSelectionOverlayProxy = /** @class */ (function () {
         }
         var subscriptionResult = NativeModule.setTrackedBarcodeBrushProvider();
         this.brushForTrackedBarcodeProvider = EventEmitter.addListener(BarcodeSelectionBrushProviderEventName.brushForTrackedBarcode, function (body) {
-            var payload = JSON.parse(body);
             var barcode = Barcode_1.Barcode
-                .fromJSON(JSON.parse(payload.barcode));
+                .fromJSON(JSON.parse(body.barcode));
             var brush = null;
             if (brushProvider.brushForBarcode) {
                 brush = brushProvider.brushForBarcode(barcode);

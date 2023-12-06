@@ -18,9 +18,8 @@ import org.json.JSONArray
 import org.json.JSONObject
 import java.util.*
 
-fun nativeViewFromJson(currentActivity: Activity, viewJson: String?): View? {
+fun nativeViewFromJson(currentActivity: Activity, viewJson: String): View {
     UiThreadUtil.assertOnUiThread()
-    val viewJson = viewJson ?: return null
     val viewJsonObject = JSONObject(viewJson)
 
     val reactInstanceManager = (currentActivity.application as ReactApplication)

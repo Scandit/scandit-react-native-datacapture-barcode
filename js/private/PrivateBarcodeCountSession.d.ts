@@ -13,6 +13,3 @@ export interface PrivateBarcodeCountSession {
 export interface PrivateBarcodeCountCaptureListSession {
     fromJSON(json: BarcodeCountCaptureListSessionJSON): BarcodeCountCaptureListSession;
 }
-export interface BarcodeCountSessionEventPayload {
-    session: string;
-}

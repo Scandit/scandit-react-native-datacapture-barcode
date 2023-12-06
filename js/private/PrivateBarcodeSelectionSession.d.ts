@@ -11,6 +11,3 @@ export interface PrivateBarcodeSelectionSession {
     listenerProxy: BarcodeSelectionListenerProxy;
     fromJSON(json: BarcodeSelectionSessionJSON): BarcodeSelectionSession;
 }
-export interface BarcodeSelectionSessionEventPayload {
-    session: string;
-}

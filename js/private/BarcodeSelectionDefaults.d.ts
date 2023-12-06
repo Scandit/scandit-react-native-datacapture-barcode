@@ -1,4 +1,5 @@
 import { CameraSettings } from 'scandit-react-native-datacapture-core/js/Camera+Related';
+import { Color } from 'scandit-react-native-datacapture-core/js/Common';
 import { BarcodeSelectionFeedback } from '../BarcodeSelectionFeedback';
 import { BarcodeSelectionFreezeBehavior, BarcodeSelectionTapBehavior } from '../BarcodeSelectionSettings';
 export declare const BarcodeSelectionDefaults: {
@@ -18,6 +19,26 @@ export declare const BarcodeSelectionDefaults: {
     };
     BarcodeSelectionBasicOverlay: {
         defaultStyle: any;
+        DefaultTrackedBrush: {
+            fillColor: Color;
+            strokeColor: Color;
+            strokeWidth: any;
+        };
+        DefaultAimedBrush: {
+            fillColor: Color;
+            strokeColor: Color;
+            strokeWidth: any;
+        };
+        DefaultSelectedBrush: {
+            fillColor: Color;
+            strokeColor: Color;
+            strokeWidth: any;
+        };
+        DefaultSelectingBrush: {
+            fillColor: Color;
+            strokeColor: Color;
+            strokeWidth: any;
+        };
         styles: {};
     };
 };

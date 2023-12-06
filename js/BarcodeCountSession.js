@@ -3,12 +3,10 @@ var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
         return extendStatics(d, b);
     };
     return function (d, b) {
-        if (typeof b !== "function" && b !== null)
-            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -41,7 +39,6 @@ exports.BarcodeCountSession = void 0;
 var react_native_1 = require("react-native");
 var Barcode_1 = require("./Barcode");
 var Serializeable_1 = require("scandit-react-native-datacapture-core/js/private/Serializeable");
-var BarcodeSpatialGrid_1 = require("./BarcodeSpatialGrid");
 // tslint:disable:variable-name
 var NativeModule = react_native_1.NativeModules.ScanditDataCaptureBarcodeCount;
 // tslint:enable:variable-name
@@ -87,32 +84,14 @@ var BarcodeCountSession = /** @class */ (function (_super) {
     BarcodeCountSession.prototype.reset = function () {
         return NativeModule.resetSession();
     };
-    BarcodeCountSession.prototype.getSpatialMap = function () {
-        return NativeModule.getSpatialMap().then(function (barcodeSpatialGridJSON) {
-            if (barcodeSpatialGridJSON) {
-                var payload = JSON.parse(barcodeSpatialGridJSON);
-                return BarcodeSpatialGrid_1.BarcodeSpatialGrid.fromJSON(payload);
-            }
-            return null;
-        });
-    };
-    BarcodeCountSession.prototype.getSpatialMapWithHints = function (expectedNumberOfRows, expectedNumberOfColumns) {
-        return NativeModule.getSpatialMapWithHints(expectedNumberOfRows, expectedNumberOfColumns).then(function (barcodeSpatialGridJSON) {
-            if (barcodeSpatialGridJSON) {
-                var payload = JSON.parse(barcodeSpatialGridJSON);
-                return BarcodeSpatialGrid_1.BarcodeSpatialGrid.fromJSON(payload);
-            }
-            return null;
-        });
-    };
     __decorate([
-        (0, Serializeable_1.nameForSerialization)('recognizedBarcodes')
+        Serializeable_1.nameForSerialization('recognizedBarcodes')
     ], BarcodeCountSession.prototype, "_recognizedBarcodes", void 0);
     __decorate([
-        (0, Serializeable_1.nameForSerialization)('additionalBarcodes')
+        Serializeable_1.nameForSerialization('additionalBarcodes')
     ], BarcodeCountSession.prototype, "_additionalBarcodes", void 0);
     __decorate([
-        (0, Serializeable_1.nameForSerialization)('frameSequenceID')
+        Serializeable_1.nameForSerialization('frameSequenceID')
     ], BarcodeCountSession.prototype, "_frameSequenceID", void 0);
     return BarcodeCountSession;
 }(Serializeable_1.DefaultSerializeable));

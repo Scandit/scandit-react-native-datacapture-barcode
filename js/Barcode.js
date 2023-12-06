@@ -160,11 +160,7 @@ var TrackedBarcode = /** @class */ (function () {
         configurable: true
     });
     Object.defineProperty(TrackedBarcode.prototype, "shouldAnimateFromPreviousToNextState", {
-        get: function () {
-            // tslint:disable-next-line:no-console
-            console.warn('shouldAnimateFromPreviousToNextState is deprecated and returns "false" when accessed');
-            return false;
-        },
+        get: function () { return this._shouldAnimateFromPreviousToNextState; },
         enumerable: false,
         configurable: true
     });
@@ -174,6 +170,7 @@ var TrackedBarcode = /** @class */ (function () {
         // This is because the identifier needs to be used as a key in a dictionary, which in JSON can only be a string.
         // We can assume that it is a number in the string that we can safely parse.
         trackedBarcode._identifier = parseInt(json.identifier, 10);
+        trackedBarcode._shouldAnimateFromPreviousToNextState = json.shouldAnimateFromPreviousToNextState;
         trackedBarcode._barcode = Barcode.fromJSON(json.barcode);
         trackedBarcode._location = Common_1.Quadrilateral.fromJSON(json.location);
         trackedBarcode._sessionFrameSequenceID = sessionFrameSequenceID ? sessionFrameSequenceID : null;

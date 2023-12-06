@@ -4,12 +4,8 @@ import { SymbologySettings } from './Symbology+Related';
 import { LocationSelection } from 'scandit-react-native-datacapture-core/js/LocationSelection';
 export declare class SparkScanSettings extends DefaultSerializeable {
     codeDuplicateFilter: number;
-    private _singleBarcodeAutoDetection;
-    get singleBarcodeAutoDetection(): boolean;
-    set singleBarcodeAutoDetection(isEnabled: boolean);
-    private _locationSelection;
-    get locationSelection(): LocationSelection | null;
-    set locationSelection(newValue: LocationSelection | null);
+    singleBarcodeAutoDetection: boolean;
+    locationSelection: LocationSelection | null;
     private properties;
     private symbologies;
     get enabledSymbologies(): Symbology[];
@@ -19,4 +15,5 @@ export declare class SparkScanSettings extends DefaultSerializeable {
     getProperty(name: string): any;
     enableSymbologies(symbologies: Symbology[]): void;
     enableSymbology(symbology: Symbology, enabled: boolean): void;
+    private locationSelectionFromJSON;
 }

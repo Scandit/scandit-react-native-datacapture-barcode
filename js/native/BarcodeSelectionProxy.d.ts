@@ -4,7 +4,6 @@ export declare class BarcodeSelectionProxy {
     reset(): Promise<void>;
     selectAimedBarcode(): Promise<void>;
     unselectBarcodes(barcodes: Barcode[]): Promise<void>;
-    setSelectBarcodeEnabled(barcode: Barcode, enabled: boolean): Promise<void>;
     increaseCountForBarcodes(barcodes: Barcode[]): Promise<void>;
-    private convertBarcodesToJson;
+    private convertBarcodesToJSON;
 }

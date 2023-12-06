@@ -9,8 +9,6 @@ export interface PrivateBarcodeCount {
     listeners: BarcodeCountListener[];
     isInListenerCallback: boolean;
     didChange: () => Promise<void>;
-    unsubscribeNativeListeners: () => void;
-    subscribeNativeListeners: () => void;
 }
 export interface PrivateBarcodeCountView {
     toJSON(): object;
@@ -37,7 +35,4 @@ export interface BarcodeFilterSettingsJSON {
 export interface BarcodeCountFeedbackJSON {
     success: Feedback;
     failure: Feedback;
-}
-export interface BarcodeBrushForTrackedBarcodeEventPayload {
-    trackedBarcode: string;
 }

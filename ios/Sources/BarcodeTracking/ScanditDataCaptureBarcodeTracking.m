@@ -6,7 +6,8 @@
 RCT_EXTERN_METHOD(finishDidUpdateSessionCallback : (BOOL)enabled)
 
 RCT_EXTERN_METHOD(setBrushForTrackedBarcode
-                  : (NSString *)brushJSON barcodeId
+                  : (NSString *)brushJSON frameSequenceId
+                  : (NSInteger)frameSequenceId barcodeId
                   : (NSInteger)barcodeId resolver
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
@@ -18,19 +19,22 @@ RCT_EXTERN_METHOD(clearTrackedBarcodeBrushes
 RCT_EXTERN_METHOD(finishBrushForTrackedBarcodeCallback : (NSString *)brushJSON)
 
 RCT_EXTERN_METHOD(setViewForTrackedBarcode
-                  : (NSString *)viewJSON trackedBarcodeId
+                  : (NSString *)viewJSON frameSequenceId
+                  : (NSInteger)frameSequenceId trackedBarcodeId
                   : (NSInteger)trackedBarcodeId resolver
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
 RCT_EXTERN_METHOD(setAnchorForTrackedBarcode
-                  : (NSString *)anchorJSON trackedBarcodeId
+                  : (NSString *)anchorJSON frameSequenceId
+                  : (NSInteger)frameSequenceId trackedBarcodeId
                   : (NSInteger)trackedBarcodeId resolver
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
 RCT_EXTERN_METHOD(setOffsetForTrackedBarcode
-                  : (NSString *)offsetJSON trackedBarcodeId
+                  : (NSString *)offsetJSON frameSequenceId
+                  : (NSInteger)frameSequenceId trackedBarcodeId
                   : (NSInteger)trackedBarcodeId resolver
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)

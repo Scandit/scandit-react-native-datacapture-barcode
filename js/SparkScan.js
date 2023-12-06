@@ -3,12 +3,10 @@ var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
         return extendStatics(d, b);
     };
     return function (d, b) {
-        if (typeof b !== "function" && b !== null)
-            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -76,6 +74,10 @@ var SparkScan = /** @class */ (function (_super) {
             return this.privateContext;
         },
         set: function (newContext) {
+            this.listenerProxy.unsubscribeListener();
+            if (this.privateContext == null) {
+                this.listenerProxy.subscribeListener();
+            }
             this.privateContext = newContext;
         },
         enumerable: false,
@@ -103,24 +105,21 @@ var SparkScan = /** @class */ (function (_super) {
         this.listeners.splice(this.listeners.indexOf(listener));
     };
     SparkScan.prototype.didChange = function () {
-        if (this.listenerProxy) {
-            return this.listenerProxy.updateMode();
+        if (this.context) {
+            return this.context.update();
         }
         else {
             return Promise.resolve();
         }
     };
-    SparkScan.prototype.subscribeNativeListeners = function () {
-        this.listenerProxy.subscribeListener();
-    };
     SparkScan.prototype.unsubscribeNativeListeners = function () {
         this.listenerProxy.unsubscribeListener();
     };
     __decorate([
-        (0, Serializeable_1.nameForSerialization)('enabled')
+        Serializeable_1.nameForSerialization('enabled')
     ], SparkScan.prototype, "_isEnabled", void 0);
     __decorate([
-        (0, Serializeable_1.nameForSerialization)('feedback')
+        Serializeable_1.nameForSerialization('feedback')
     ], SparkScan.prototype, "_feedback", void 0);
     __decorate([
         Serializeable_1.ignoreFromSerialization

@@ -34,16 +34,19 @@ exports.BarcodeCaptureDefaults = {
             strokeWidth: BarcodeCapture.Defaults.BarcodeCaptureOverlay.DefaultBrush.strokeWidth,
         },
         styles: Object
-            .keys(BarcodeCapture.Defaults.BarcodeCaptureOverlay.Brushes)
+            .keys(BarcodeCapture.Defaults.BarcodeCaptureOverlay.styles)
             .reduce(function (previousValue, currentValue) {
             var _a;
             return __assign(__assign({}, previousValue), (_a = {}, _a[currentValue] = {
                 DefaultBrush: {
                     fillColor: Common_1.Color
-                        .fromJSON(BarcodeCapture.Defaults.BarcodeCaptureOverlay.Brushes[currentValue].fillColor),
+                        .fromJSON(BarcodeCapture.Defaults.BarcodeCaptureOverlay.styles[currentValue].
+                        DefaultBrush.fillColor),
                     strokeColor: Common_1.Color
-                        .fromJSON(BarcodeCapture.Defaults.BarcodeCaptureOverlay.Brushes[currentValue].strokeColor),
-                    strokeWidth: BarcodeCapture.Defaults.BarcodeCaptureOverlay.Brushes[currentValue].strokeWidth,
+                        .fromJSON(BarcodeCapture.Defaults.BarcodeCaptureOverlay.styles[currentValue].
+                        DefaultBrush.strokeColor),
+                    strokeWidth: BarcodeCapture.Defaults.BarcodeCaptureOverlay.styles[currentValue].
+                        DefaultBrush.strokeWidth,
                 },
             }, _a));
         }, {}),

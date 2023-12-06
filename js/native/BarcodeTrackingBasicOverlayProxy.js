@@ -9,8 +9,8 @@ var EventEmitter = new react_native_1.NativeEventEmitter(NativeModule);
 // tslint:enable:variable-name
 var BarcodeTrackingBasicOverlayListenerEventName;
 (function (BarcodeTrackingBasicOverlayListenerEventName) {
-    BarcodeTrackingBasicOverlayListenerEventName["brushForTrackedBarcode"] = "BarcodeTrackingBasicOverlayListener.brushForTrackedBarcode";
-    BarcodeTrackingBasicOverlayListenerEventName["didTapTrackedBarcode"] = "BarcodeTrackingBasicOverlayListener.didTapTrackedBarcode";
+    BarcodeTrackingBasicOverlayListenerEventName["brushForTrackedBarcode"] = "barcodeTrackingBasicOverlayListener-brushForTrackedBarcode";
+    BarcodeTrackingBasicOverlayListenerEventName["didTapTrackedBarcode"] = "barcodeTrackingBasicOverlayListener-didTapTrackedBarcode";
 })(BarcodeTrackingBasicOverlayListenerEventName || (BarcodeTrackingBasicOverlayListenerEventName = {}));
 var BarcodeTrackingBasicOverlayProxy = /** @class */ (function () {
     function BarcodeTrackingBasicOverlayProxy() {
@@ -22,7 +22,7 @@ var BarcodeTrackingBasicOverlayProxy = /** @class */ (function () {
         return proxy;
     };
     BarcodeTrackingBasicOverlayProxy.prototype.setBrushForTrackedBarcode = function (brush, trackedBarcode) {
-        return NativeModule.setBrushForTrackedBarcode(brush ? JSON.stringify(brush.toJSON()) : null, trackedBarcode.identifier);
+        return NativeModule.setBrushForTrackedBarcode(JSON.stringify(brush.toJSON()), trackedBarcode.sessionFrameSequenceID, trackedBarcode.identifier);
     };
     BarcodeTrackingBasicOverlayProxy.prototype.clearTrackedBarcodeBrushes = function () {
         return NativeModule.clearTrackedBarcodeBrushes();
@@ -31,18 +31,17 @@ var BarcodeTrackingBasicOverlayProxy = /** @class */ (function () {
         var _this = this;
         NativeModule.registerListenerForBasicOverlayEvents();
         var brushForTrackedBarcodeListener = EventEmitter.addListener(BarcodeTrackingBasicOverlayListenerEventName.brushForTrackedBarcode, function (body) {
-            var payload = JSON.parse(body);
             var trackedBarcode = Barcode_1.TrackedBarcode
-                .fromJSON(JSON.parse(payload.trackedBarcode));
+                .fromJSON(JSON.parse(body.trackedBarcode));
+            var brush = _this.overlay.brush;
             if (_this.overlay.listener && _this.overlay.listener.brushForTrackedBarcode) {
-                var brush = _this.overlay.listener.brushForTrackedBarcode(_this.overlay, trackedBarcode);
-                _this.setBrushForTrackedBarcode(brush, trackedBarcode);
+                brush = _this.overlay.listener.brushForTrackedBarcode(_this.overlay, trackedBarcode);
             }
+            NativeModule.finishBrushForTrackedBarcodeCallback(brush ? JSON.stringify(brush.toJSON()) : null);
         });
         var didTapTrackedBarcodeListener = EventEmitter.addListener(BarcodeTrackingBasicOverlayListenerEventName.didTapTrackedBarcode, function (body) {
-            var payload = JSON.parse(body);
             var trackedBarcode = Barcode_1.TrackedBarcode
-                .fromJSON(JSON.parse(payload.trackedBarcode));
+                .fromJSON(JSON.parse(body.trackedBarcode));
             if (_this.overlay.listener && _this.overlay.listener.didTapTrackedBarcode) {
                 _this.overlay.listener.didTapTrackedBarcode(_this.overlay, trackedBarcode);
             }

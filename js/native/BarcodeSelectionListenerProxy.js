@@ -10,8 +10,8 @@ var EventEmitter = new react_native_1.NativeEventEmitter(NativeModule);
 // tslint:enable:variable-name
 var BarcodeSelectionListenerEventName;
 (function (BarcodeSelectionListenerEventName) {
-    BarcodeSelectionListenerEventName["didUpdateSelection"] = "BarcodeSelectionListener.didUpdateSelection";
-    BarcodeSelectionListenerEventName["didUpdateSession"] = "BarcodeSelectionListener.didUpdateSession";
+    BarcodeSelectionListenerEventName["didUpdateSelection"] = "barcodeSelectionListener-didUpdateSelection";
+    BarcodeSelectionListenerEventName["didUpdateSession"] = "barcodeSelectionListener-didUpdateSession";
 })(BarcodeSelectionListenerEventName || (BarcodeSelectionListenerEventName = {}));
 var BarcodeSelectionListenerProxy = /** @class */ (function () {
     function BarcodeSelectionListenerProxy() {
@@ -32,15 +32,13 @@ var BarcodeSelectionListenerProxy = /** @class */ (function () {
         var _this = this;
         NativeModule.registerListenerForEvents();
         var didUpdateSelectionListener = EventEmitter.addListener(BarcodeSelectionListenerEventName.didUpdateSelection, function (body) {
-            var payload = JSON.parse(body);
-            var session = BarcodeSelectionSession_1.BarcodeSelectionSession.fromJSON(JSON.parse(payload.session));
+            var session = BarcodeSelectionSession_1.BarcodeSelectionSession.fromJSON(JSON.parse(body.session));
             session.listenerProxy = _this;
             _this.notifyListenersOfDidUpdateSelection(session);
             NativeModule.finishDidUpdateSelectionCallback(_this.barcodeSelection.isEnabled);
         });
         var didUpdateSession = EventEmitter.addListener(BarcodeSelectionListenerEventName.didUpdateSession, function (body) {
-            var payload = JSON.parse(body);
-            var session = BarcodeSelectionSession_1.BarcodeSelectionSession.fromJSON(JSON.parse(payload.session));
+            var session = BarcodeSelectionSession_1.BarcodeSelectionSession.fromJSON(JSON.parse(body.session));
             session.listenerProxy = _this;
             _this.notifyListenersOfDidUpdateSession(session);
             NativeModule.finishDidUpdateSessionCallback(_this.barcodeSelection.isEnabled);

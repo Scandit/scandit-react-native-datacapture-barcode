@@ -12,6 +12,3 @@ export interface BarcodeTrackingSessionJSON {
 export interface PrivateBarcodeTrackingSession {
     fromJSON(json: BarcodeTrackingSessionJSON): BarcodeTrackingSession;
 }
-export interface BarcodeTrackingSessionEventPayload {
-    session: string;
-}

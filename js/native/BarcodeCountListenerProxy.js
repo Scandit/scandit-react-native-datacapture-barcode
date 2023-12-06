@@ -11,22 +11,17 @@ var EventEmitter = new react_native_1.NativeEventEmitter(NativeModule);
 // tslint:enable:variable-name
 var BarcodeCountListenerEventName;
 (function (BarcodeCountListenerEventName) {
-    BarcodeCountListenerEventName["didListSessionUpdate"] = "BarcodeCountCaptureListListener.didUpdateSession";
-    BarcodeCountListenerEventName["didScan"] = "BarcodeCountListener.onScan";
+    BarcodeCountListenerEventName["didListSessionUpdate"] = "barcodeCountCaptureListListener-onCaptureListSessionUpdated";
+    BarcodeCountListenerEventName["didScan"] = "barcodeCountListener-scan";
 })(BarcodeCountListenerEventName || (BarcodeCountListenerEventName = {}));
 var BarcodeCountListenerProxy = /** @class */ (function () {
     function BarcodeCountListenerProxy() {
         this.nativeListeners = [];
     }
-    BarcodeCountListenerProxy.forBarcodeCount = function (barcodeCount) {
+    BarcodeCountListenerProxy.forBarcodeCount = function (barcodeTracking) {
         var proxy = new BarcodeCountListenerProxy();
-        proxy.barcodeCount = barcodeCount;
+        proxy.barcodeCount = barcodeTracking;
         return proxy;
-    };
-    BarcodeCountListenerProxy.prototype.update = function () {
-        var barcodeCount = this.barcodeCount.toJSON();
-        var json = JSON.stringify(barcodeCount);
-        return NativeModule.updateMode(json);
     };
     BarcodeCountListenerProxy.prototype.reset = function () {
         return NativeModule.resetBarcodeCount();
@@ -35,15 +30,13 @@ var BarcodeCountListenerProxy = /** @class */ (function () {
         var _this = this;
         NativeModule.registerBarcodeCountListener();
         var didScanListener = EventEmitter.addListener(BarcodeCountListenerEventName.didScan, function (body) {
-            var payload = JSON.parse(body);
-            var session = BarcodeCountSession_1.BarcodeCountSession.fromJSON(JSON.parse(payload.session));
+            var session = BarcodeCountSession_1.BarcodeCountSession.fromJSON(JSON.parse(body.session));
             _this.notifyListenersOfDidScanSession(session);
             NativeModule.finishOnScan();
         });
         var didUpdateSessionListener = EventEmitter.addListener(BarcodeCountListenerEventName.didListSessionUpdate, function (body) {
-            var payload = JSON.parse(body);
             var session = BarcodeCountCaptureListSession_1.BarcodeCountCaptureListSession
-                .fromJSON(JSON.parse(payload.session));
+                .fromJSON(JSON.parse(body.session));
             _this.notifyListenersOfDidListSessionUpdate(session);
         });
         this.nativeListeners.push(didScanListener);

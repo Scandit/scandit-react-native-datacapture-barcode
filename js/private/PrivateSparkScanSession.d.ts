@@ -7,6 +7,3 @@ export interface SparkScanSessionJSON {
 export interface PrivateSparkScanSession {
     fromJSON(json: SparkScanSessionJSON): SparkScanSession;
 }
-export interface SparkScanSessionEventPayload {
-    session: string;
-}

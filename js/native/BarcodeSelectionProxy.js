@@ -19,18 +19,14 @@ var BarcodeSelectionProxy = /** @class */ (function () {
         return NativeModule.selectAimedBarcode();
     };
     BarcodeSelectionProxy.prototype.unselectBarcodes = function (barcodes) {
-        var barcodesJson = this.convertBarcodesToJson(barcodes);
-        return NativeModule.unselectBarcodes(JSON.stringify({ barcodes: barcodesJson }));
-    };
-    BarcodeSelectionProxy.prototype.setSelectBarcodeEnabled = function (barcode, enabled) {
-        var barcodesJson = this.convertBarcodesToJson([barcode]);
-        return NativeModule.setSelectBarcodeEnabled(JSON.stringify(barcodesJson[0]), enabled);
+        var barcodesJSON = this.convertBarcodesToJSON(barcodes);
+        return NativeModule.unselectBarcodes(JSON.stringify({ barcodes: barcodesJSON }));
     };
     BarcodeSelectionProxy.prototype.increaseCountForBarcodes = function (barcodes) {
-        var barcodesJson = this.convertBarcodesToJson(barcodes);
-        return NativeModule.increaseCountForBarcodes(JSON.stringify({ barcodes: barcodesJson }));
+        var barcodesJSON = this.convertBarcodesToJSON(barcodes);
+        return NativeModule.increaseCountForBarcodes(JSON.stringify({ barcodes: barcodesJSON }));
     };
-    BarcodeSelectionProxy.prototype.convertBarcodesToJson = function (barcodes) {
+    BarcodeSelectionProxy.prototype.convertBarcodesToJSON = function (barcodes) {
         return barcodes.flat().map(function (barcode) { return ({
             data: barcode.data,
             rawData: barcode.rawData,
@@ -38,7 +34,6 @@ var BarcodeSelectionProxy = /** @class */ (function () {
             symbolCount: barcode.symbolCount
         }); });
     };
-    ;
     return BarcodeSelectionProxy;
 }());
 exports.BarcodeSelectionProxy = BarcodeSelectionProxy;
