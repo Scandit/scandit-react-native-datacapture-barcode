@@ -10,6 +10,4 @@
 #import <React/RCTUIManager.h>
 #import <React/RCTViewManager.h>
 
-#import "SDCBarcodeSelectionBasicOverlay+Private.h"
 #import "SDCBarcodeCountViewDefaults.h"
-#import "SDCSparkScanViewDefaults.h"

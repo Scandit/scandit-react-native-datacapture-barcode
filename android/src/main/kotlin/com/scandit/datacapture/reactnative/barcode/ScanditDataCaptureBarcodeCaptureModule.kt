@@ -6,162 +6,59 @@
 
 package com.scandit.datacapture.reactnative.barcode
 
-import androidx.annotation.VisibleForTesting
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
-import com.facebook.react.modules.core.DeviceEventManagerModule
-import com.scandit.datacapture.barcode.capture.BarcodeCapture
-import com.scandit.datacapture.barcode.capture.BarcodeCaptureDeserializer
-import com.scandit.datacapture.barcode.capture.BarcodeCaptureDeserializerListener
-import com.scandit.datacapture.barcode.capture.BarcodeCaptureListener
-import com.scandit.datacapture.barcode.capture.BarcodeCaptureSettings
-import com.scandit.datacapture.barcode.ui.overlay.BarcodeCaptureOverlay
-import com.scandit.datacapture.barcode.ui.overlay.BarcodeCaptureOverlayStyle
-import com.scandit.datacapture.barcode.ui.overlay.toJson
-import com.scandit.datacapture.core.capture.DataCaptureContext
-import com.scandit.datacapture.core.capture.DataCaptureContextListener
-import com.scandit.datacapture.core.capture.DataCaptureMode
-import com.scandit.datacapture.core.json.JsonValue
-import com.scandit.datacapture.reactnative.barcode.data.defaults.SerializableBarcodeCaptureDefaults
-import com.scandit.datacapture.reactnative.barcode.data.defaults.SerializableBarcodeCaptureOverlayDefaults
-import com.scandit.datacapture.reactnative.barcode.data.defaults.SerializableBarcodeCaptureSettingsDefaults
-import com.scandit.datacapture.reactnative.barcode.listener.RCTBarcodeCaptureListener
-import com.scandit.datacapture.reactnative.core.data.defaults.SerializableBrushDefaults
-import com.scandit.datacapture.reactnative.core.data.defaults.SerializableCameraSettingsDefaults
-import com.scandit.datacapture.reactnative.core.deserializers.Deserializers
-import com.scandit.datacapture.reactnative.core.deserializers.TreeLifecycleObserver
-import com.scandit.datacapture.reactnative.core.utils.LazyEventEmitter
+import com.scandit.datacapture.frameworks.barcode.capture.BarcodeCaptureModule
 
 class ScanditDataCaptureBarcodeCaptureModule(
-    private val reactContext: ReactApplicationContext,
-    @get:VisibleForTesting val barcodeCaptureDeserializer: BarcodeCaptureDeserializer =
-        BarcodeCaptureDeserializer(),
-    eventEmitter: DeviceEventManagerModule.RCTDeviceEventEmitter = LazyEventEmitter(reactContext),
-    private val barcodeCaptureListener: RCTBarcodeCaptureListener =
-        RCTBarcodeCaptureListener(eventEmitter)
-) : ReactContextBaseJavaModule(reactContext),
-    TreeLifecycleObserver.Callbacks,
-    DataCaptureContextListener,
-    BarcodeCaptureDeserializerListener,
-    BarcodeCaptureListener by barcodeCaptureListener {
+    reactContext: ReactApplicationContext,
+    private val barcodeCaptureModule: BarcodeCaptureModule,
+) : ReactContextBaseJavaModule(reactContext) {
 
     companion object {
         private const val DEFAULTS_KEY = "Defaults"
-
-        private val DEFAULTS: SerializableBarcodeCaptureDefaults by lazy {
-            val settings = BarcodeCaptureSettings()
-            val cameraSettings = BarcodeCapture.createRecommendedCameraSettings()
-            val capture = BarcodeCapture.forDataCaptureContext(null, settings)
-            val defaultStyle = BarcodeCaptureOverlay.newInstance(
-                capture,
-                null
-            ).style
-            SerializableBarcodeCaptureDefaults(
-                recommendedCameraSettings = SerializableCameraSettingsDefaults(
-                    settings = cameraSettings
-                ),
-                barcodeCaptureSettings = SerializableBarcodeCaptureSettingsDefaults(
-                    duplicateFilterInMillis = settings.codeDuplicateFilter.asMillis()
-                ),
-                barcodeCaptureOverlay = SerializableBarcodeCaptureOverlayDefaults(
-                    defaultBrush = SerializableBrushDefaults(
-                        brush = BarcodeCaptureOverlay.defaultBrush(defaultStyle)
-                    ),
-                    defaultStyle = defaultStyle.toJson(),
-                    styles = BarcodeCaptureOverlayStyle.values()
-                )
-            )
-        }
     }
 
-    private var dataCaptureContext: DataCaptureContext? = null
-        private set(value) {
-            field?.removeListener(this)
-            field = value?.also { it.addListener(this) }
-        }
+    override fun invalidate() {
+        barcodeCaptureModule.onDestroy()
 
-    @get:VisibleForTesting
-    var barcodeCapture: BarcodeCapture? = null
-        private set(value) {
-            field?.removeListener(this)
-            field = value?.also { it.addListener(this) }
-        }
-
-    init {
-        barcodeCaptureDeserializer.listener = this
-        Deserializers.Factory.addModeDeserializer(barcodeCaptureDeserializer)
-
-        TreeLifecycleObserver.callbacks += this
-    }
-
-    override fun onCatalystInstanceDestroy() {
-        onTreeDestroyed()
-
-        barcodeCaptureDeserializer.listener = null
-        Deserializers.Factory.removeModeDeserializer(barcodeCaptureDeserializer)
-
-        TreeLifecycleObserver.callbacks -= this
+        super.invalidate()
     }
 
     override fun getName(): String = "ScanditDataCaptureBarcodeCapture"
 
     override fun getConstants(): MutableMap<String, Any> = mutableMapOf(
-        DEFAULTS_KEY to DEFAULTS.toWritableMap()
+        DEFAULTS_KEY to barcodeCaptureModule.getDefaults()
     )
 
     @ReactMethod
     fun registerListenerForEvents() {
-        barcodeCaptureListener.setHasNativeListeners(true)
+        barcodeCaptureModule.addListener()
     }
 
     @ReactMethod
     fun unregisterListenerForEvents() {
-        barcodeCaptureListener.setHasNativeListeners(false)
+        barcodeCaptureModule.removeListener()
     }
 
     @ReactMethod
     fun finishDidUpdateSessionCallback(enabled: Boolean) {
-        barcodeCaptureListener.onFinishSessionUpdatedCallback(enabled)
+        barcodeCaptureModule.finishDidUpdateSession(enabled)
     }
 
     @ReactMethod
     fun finishDidScanCallback(enabled: Boolean) {
-        barcodeCaptureListener.onFinishBarcodeScannedCallback(enabled)
+        barcodeCaptureModule.finishDidScan(enabled)
     }
 
     @ReactMethod
     fun resetSession() {
-        barcodeCaptureListener.lastSession?.reset()
+        barcodeCaptureModule.resetSession(null)
     }
 
-    override fun onModeDeserializationFinished(
-        deserializer: BarcodeCaptureDeserializer,
-        mode: BarcodeCapture,
-        json: JsonValue
-    ) {
-        barcodeCapture = mode
-    }
-
-    override fun onTreeCreated(root: DataCaptureContext) {
-        dataCaptureContext = root
-    }
-
-    override fun onTreeDestroyed() {
-        dataCaptureContext = null
-        barcodeCapture = null
-    }
-
-    override fun onModeRemoved(
-        dataCaptureContext: DataCaptureContext,
-        dataCaptureMode: DataCaptureMode
-    ) {
-        reactContext.runOnNativeModulesQueueThread {
-            if (dataCaptureContext == this.dataCaptureContext &&
-                dataCaptureMode == barcodeCapture
-            ) {
-                barcodeCapture = null
-            }
-        }
+    @ReactMethod
+    fun setModeEnabledState(enabled: Boolean) {
+        barcodeCaptureModule.setModeEnabled(enabled)
     }
 }

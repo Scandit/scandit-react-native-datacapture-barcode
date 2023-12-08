@@ -5,33 +5,20 @@
  */
 
 import Foundation
-import ScanditBarcodeCapture
+import React
 import ScanditDataCaptureCore
+import ScanditFrameworksBarcode
 
 @objc(ScanditDataCaptureBarcodeCapture)
 class ScanditDataCaptureBarcodeCapture: RCTEventEmitter {
-    internal var hasListeners = false
-
-    internal let didUpdateSessionLock =
-        CallbackLock<Bool>(name: ScanditDataCaptureBarcodeCaptureEvent.didUpdateSession.rawValue)
-    internal let didScanLock =
-        CallbackLock<Bool>(name: ScanditDataCaptureBarcodeCaptureEvent.didScan.rawValue)
-    internal var barcodeCaptureSession: BarcodeCaptureSession?
+    var barcodeCaptureModule: BarcodeCaptureModule!
 
     override init() {
         super.init()
-        registerDeserializer()
-    }
-
-    @objc(resetSession:rejecter:)
-    func resetSession(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
-        guard let session = barcodeCaptureSession else {
-            let error = ScanditDataCaptureBarcodeError.nilSession
-            reject(String(error.code), error.message, error)
-            return
-        }
-        session.reset()
-        resolve(nil)
+        let emitter = ReactNativeEmitter(emitter: self)
+        let frameworksBarcodeListener = FrameworksBarcodeCaptureListener(emitter: emitter)
+        barcodeCaptureModule = BarcodeCaptureModule(barcodeCaptureListener: frameworksBarcodeListener)
+        barcodeCaptureModule.didStart()
     }
 
     override class func requiresMainQueueSetup() -> Bool {
@@ -42,23 +29,46 @@ class ScanditDataCaptureBarcodeCapture: RCTEventEmitter {
         return sdcSharedMethodQueue
     }
 
-    @objc override func invalidate() {
-        super.invalidate()
-        unlockLocks()
+    override func constantsToExport() -> [AnyHashable : Any]! {
+        ["Defaults": barcodeCaptureModule.defaults.toEncodable()]
     }
 
-    func unlockLocks() {
-        didScanLock.reset()
-        didUpdateSessionLock.reset()
+    override func supportedEvents() -> [String]! {
+        FrameworksBarcodeCaptureEvent.allCases.compactMap { $0.rawValue }
     }
 
-    // Empty methods to unify the logic on the TS side for supporting functionality automatically provided by RN on iOS,
-    // but custom implemented on Android.
     @objc func registerListenerForEvents() {
-        // Empty on purpose
+        barcodeCaptureModule.addListener()
     }
 
     @objc func unregisterListenerForEvents() {
-        // Empty on purpose
+        barcodeCaptureModule.removeListener()
+    }
+
+    @objc(finishDidUpdateSessionCallback:)
+    func finishDidUpdateSessionCallback(enabled: Bool) {
+        barcodeCaptureModule.finishDidUpdateSession(enabled: enabled)
+    }
+
+
+    @objc(finishDidScanCallback:)
+    func finishDidScanCallback(enabled: Bool) {
+        barcodeCaptureModule.finishDidScan(enabled: enabled)
+    }
+
+    @objc(resetSession:rejecter:)
+    func resetSession(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
+        barcodeCaptureModule.resetSession(frameSequenceId: nil)
+        resolve(nil)
+    }
+
+    @objc override func invalidate() {
+        super.invalidate()
+        barcodeCaptureModule.didStop()
+    }
+
+    @objc(setModeEnabledState:)
+    func setModeEnabledState(enabled: Bool) {
+        barcodeCaptureModule.setModeEnabled(enabled: enabled)
     }
 }
