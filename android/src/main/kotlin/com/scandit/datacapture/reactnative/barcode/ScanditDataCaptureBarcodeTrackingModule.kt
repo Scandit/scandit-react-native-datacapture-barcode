@@ -10,7 +10,6 @@ import com.facebook.react.bridge.*
 import com.scandit.datacapture.barcode.tracking.capture.*
 import com.scandit.datacapture.barcode.tracking.ui.overlay.*
 import com.scandit.datacapture.frameworks.barcode.tracking.BarcodeTrackingModule
-import com.scandit.datacapture.frameworks.core.utils.DefaultMainThread
 import com.scandit.datacapture.frameworks.core.utils.MainThread
 import com.scandit.datacapture.reactnative.barcode.tracking.nativeViewFromJson
 import org.json.JSONObject
@@ -18,7 +17,6 @@ import org.json.JSONObject
 class ScanditDataCaptureBarcodeTrackingModule(
     reactContext: ReactApplicationContext,
     private val barcodeTrackingModule: BarcodeTrackingModule,
-    private val mainThread: MainThread = DefaultMainThread.getInstance()
 ) : ReactContextBaseJavaModule(reactContext) {
 
     companion object {
@@ -99,7 +97,7 @@ class ScanditDataCaptureBarcodeTrackingModule(
         promise: Promise
     ) {
         currentActivity?.let {
-            mainThread.runOnMainThread {
+            MainThread.runOnMainThread {
                 barcodeTrackingModule.setViewForTrackedBarcode(
                     nativeViewFromJson(it, view),
                     trackedBarcodeId,
@@ -153,10 +151,5 @@ class ScanditDataCaptureBarcodeTrackingModule(
     @ReactMethod
     fun resetSession() {
         barcodeTrackingModule.resetSession(null)
-    }
-
-    @ReactMethod
-    fun setModeEnabledState(enabled: Boolean) {
-        barcodeTrackingModule.setModeEnabled(enabled)
     }
 }

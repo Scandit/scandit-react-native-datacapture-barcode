@@ -223,9 +223,4 @@ class ScanditDataCaptureBarcodeCount: RCTEventEmitter {
         resolve(barcodeCountModule.getSpatialMap(expectedNumberOfRows: expectedNumberOfRows,
                                                  expectedNumberOfColumns: expectedNumberOfColumns)?.jsonString)
     }
-
-    @objc(setModeEnabledState:)
-    func setModeEnabledState(enabled: Bool) {
-        barcodeCountModule.setModeEnabled(enabled: enabled)
-    }
 }

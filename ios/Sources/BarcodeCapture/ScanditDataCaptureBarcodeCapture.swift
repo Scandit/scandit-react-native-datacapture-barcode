@@ -50,7 +50,7 @@ class ScanditDataCaptureBarcodeCapture: RCTEventEmitter {
         barcodeCaptureModule.finishDidUpdateSession(enabled: enabled)
     }
 
-
+    
     @objc(finishDidScanCallback:)
     func finishDidScanCallback(enabled: Bool) {
         barcodeCaptureModule.finishDidScan(enabled: enabled)
@@ -65,10 +65,5 @@ class ScanditDataCaptureBarcodeCapture: RCTEventEmitter {
     @objc override func invalidate() {
         super.invalidate()
         barcodeCaptureModule.didStop()
-    }
-
-    @objc(setModeEnabledState:)
-    func setModeEnabledState(enabled: Bool) {
-        barcodeCaptureModule.setModeEnabled(enabled: enabled)
     }
 }

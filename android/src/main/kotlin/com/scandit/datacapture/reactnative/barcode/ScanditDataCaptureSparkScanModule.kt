@@ -12,7 +12,6 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
 import com.scandit.datacapture.barcode.spark.ui.SparkScanCoordinatorLayout
 import com.scandit.datacapture.frameworks.barcode.spark.SparkScanModule
-import com.scandit.datacapture.frameworks.core.utils.DefaultMainThread
 import com.scandit.datacapture.frameworks.core.utils.MainThread
 import com.scandit.datacapture.reactnative.barcode.ui.SparkScanViewManager
 import com.scandit.datacapture.reactnative.core.utils.ReactNativeResult
@@ -21,7 +20,6 @@ class ScanditDataCaptureSparkScanModule(
     reactContext: ReactApplicationContext,
     private val sparkScanModule: SparkScanModule,
     private val viewManager: SparkScanViewManager,
-    private val mainThread: MainThread = DefaultMainThread.getInstance()
 ) : ReactContextBaseJavaModule(reactContext) {
 
     @ReactMethod
@@ -68,7 +66,7 @@ class ScanditDataCaptureSparkScanModule(
             // Workaround to the case when the container of the SparkScanView was not yet created.
             viewManager.postContainerCreationAction = {
                 viewManager.currentContainer?.let { sparkScanContainer ->
-                    mainThread.runOnMainThread {
+                    MainThread.runOnMainThread {
                         addToContainer(sparkScanContainer, jsonString, promise)
                     }
                 }
@@ -77,7 +75,7 @@ class ScanditDataCaptureSparkScanModule(
             return
         }
 
-        mainThread.runOnMainThread {
+        MainThread.runOnMainThread {
             addToContainer(container, jsonString, promise)
         }
     }
@@ -143,11 +141,6 @@ class ScanditDataCaptureSparkScanModule(
     @ReactMethod
     fun showToast(text: String, promise: Promise) {
         sparkScanModule.showToast(text, ReactNativeResult(promise))
-    }
-
-    @ReactMethod
-    fun setModeEnabledState(enabled: Boolean) {
-        sparkScanModule.setModeEnabled(enabled)
     }
 
     override fun invalidate() {

@@ -81,6 +81,4 @@ RCT_EXTERN_METHOD(setTextForAimToSelectAutoHint
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(setModeEnabledState : (BOOL)enabled)
-
 @end

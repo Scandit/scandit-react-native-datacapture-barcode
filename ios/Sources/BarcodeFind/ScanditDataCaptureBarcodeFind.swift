@@ -48,11 +48,11 @@ class ScanditDataCaptureBarcodeFind: RCTEventEmitter {
         return sdcSharedMethodQueue
     }
 
-    @objc(createFindView:jsonString:resolver:rejecter:)
-    func createFindView(reactTag: Int,
-                        jsonString: String,
-                        resolve: @escaping RCTPromiseResolveBlock,
-                        reject: @escaping RCTPromiseRejectBlock) {
+    @objc(createView:jsonString:resolver:rejecter:)
+    func createView(reactTag: Int,
+                    jsonString: String,
+                    resolve: @escaping RCTPromiseResolveBlock,
+                    reject: @escaping RCTPromiseRejectBlock) {
         if let container = viewManager.containers.last {
             barcodeFindModule.addViewToContainer(container: container,
                                                  jsonString: jsonString,
@@ -60,116 +60,111 @@ class ScanditDataCaptureBarcodeFind: RCTEventEmitter {
         }
     }
 
-    @objc(updateFindView:resolver:rejecter:)
-    func updateFindView(jsonString: String,
-                        resolve: @escaping RCTPromiseResolveBlock,
-                        reject: @escaping RCTPromiseRejectBlock) {
-        barcodeFindModule.updateBarcodeFindView(viewJson: jsonString, result: .create(resolve, reject))
+    @objc(updateView:resolver:rejecter:)
+    func updateView(jsonString: String,
+                    resolve: @escaping RCTPromiseResolveBlock,
+                    reject: @escaping RCTPromiseRejectBlock) {
+        barcodeFindModule.updateBarcodeFindView(viewJson: jsonString)
         resolve(nil)
     }
 
-    @objc(updateFindMode:resolver:rejecter:)
-    func updateFindMode(jsonString: String,
-                        resolve: @escaping RCTPromiseResolveBlock,
-                        reject: @escaping RCTPromiseRejectBlock) {
-        barcodeFindModule.updateBarcodeFindMode(modeJson: jsonString, result: .create(resolve, reject))
+    @objc(updateMode:resolver:rejecter:)
+    func updateMode(jsonString: String,
+                    resolve: @escaping RCTPromiseResolveBlock,
+                    reject: @escaping RCTPromiseRejectBlock) {
+        barcodeFindModule.updateBarcodeFindMode(modeJson: jsonString)
         resolve(nil)
     }
 
     @objc(registerBarcodeFindListener:rejecter:)
     func registerBarcodeFindListener(resolve: @escaping RCTPromiseResolveBlock,
                                      reject: @escaping RCTPromiseRejectBlock) {
-        barcodeFindModule.addBarcodeFindListener(result: .create(resolve, reject))
+        barcodeFindModule.addBarcodeFindListener()
         resolve(nil)
     }
 
     @objc(unregisterBarcodeFindListener:rejecter:)
     func unregisterBarcodeFindListener(resolve: @escaping RCTPromiseResolveBlock,
                                        reject: @escaping RCTPromiseRejectBlock) {
-        barcodeFindModule.removeBarcodeFindListener(result: .create(resolve, reject))
+        barcodeFindModule.removeBarcodeFindListener()
         resolve(nil)
     }
 
     @objc(registerBarcodeFindViewListener:rejecter:)
     func registerBarcodeFindViewListener(resolve: @escaping RCTPromiseResolveBlock,
                                          reject: @escaping RCTPromiseRejectBlock) {
-        barcodeFindModule.addBarcodeFindViewListener(result: .create(resolve, reject))
+        barcodeFindModule.addBarcodeFindViewListener()
         resolve(nil)
     }
 
     @objc(unregisterBarcodeFindViewListener:rejecter:)
     func unregisterBarcodeFindViewListener(resolve: @escaping RCTPromiseResolveBlock,
                                            reject: @escaping RCTPromiseRejectBlock) {
-        barcodeFindModule.removeBarcodeFindViewListener(result: .create(resolve, reject))
+        barcodeFindModule.removeBarcodeFindViewListener()
         resolve(nil)
     }
 
-    @objc(barcodeFindViewOnPause:rejecter:)
-    func barcodeFindViewOnPause(resolve: @escaping RCTPromiseResolveBlock,
-                                reject: @escaping RCTPromiseRejectBlock) {
-        barcodeFindModule.stopSearching(result: .create(resolve, reject))
+    @objc(viewOnPause:rejecter:)
+    func viewOnPause(resolve: @escaping RCTPromiseResolveBlock,
+                     reject: @escaping RCTPromiseRejectBlock) {
+        barcodeFindModule.stopSearching()
         resolve(nil)
     }
 
-    @objc(barcodeFindViewOnResume:rejecter:)
-    func barcodeFindViewOnResume(resolve: @escaping RCTPromiseResolveBlock,
-                                 reject: @escaping RCTPromiseRejectBlock) {
-        barcodeFindModule.prepareSearching(result: .create(resolve, reject))
+    @objc(viewOnResume:rejecter:)
+    func viewOnResume(resolve: @escaping RCTPromiseResolveBlock,
+                      reject: @escaping RCTPromiseRejectBlock) {
+        barcodeFindModule.prepareSearching()
         resolve(nil)
     }
 
-    @objc(barcodeFindSetItemList:resolver:rejecter:)
-    func barcodeFindSetItemList(jsonString: String,
-                                resolve: @escaping RCTPromiseResolveBlock,
-                                reject: @escaping RCTPromiseRejectBlock) {
-        barcodeFindModule.setItemList(barcodeFindItemsJson: jsonString, result: .create(resolve, reject))
+    @objc(setItemList:resolver:rejecter:)
+    func setItemList(jsonString: String,
+                     resolve: @escaping RCTPromiseResolveBlock,
+                     reject: @escaping RCTPromiseRejectBlock) {
+        barcodeFindModule.setItemList(barcodeFindItemsJson: jsonString)
         resolve(nil)
     }
 
-    @objc(barcodeFindViewStopSearching:rejecter:)
-    func barcodeFindViewStopSearching(resolve: @escaping RCTPromiseResolveBlock,
-                                      reject: @escaping RCTPromiseRejectBlock) {
-        barcodeFindModule.stopSearching(result: .create(resolve, reject))
+    @objc(viewStopSearching:rejecter:)
+    func viewStopSearching(resolve: @escaping RCTPromiseResolveBlock,
+                           reject: @escaping RCTPromiseRejectBlock) {
+        barcodeFindModule.stopSearching()
         resolve(nil)
     }
 
-    @objc(barcodeFindViewStartSearching:rejecter:)
-    func barcodeFindViewStartSearching(resolve: @escaping RCTPromiseResolveBlock,
-                                       reject: @escaping RCTPromiseRejectBlock) {
-        barcodeFindModule.startSearching(result: .create(resolve, reject))
+    @objc(viewStartSearching:rejecter:)
+    func viewStartSearching(resolve: @escaping RCTPromiseResolveBlock,
+                            reject: @escaping RCTPromiseRejectBlock) {
+        barcodeFindModule.startSearching()
         resolve(nil)
     }
 
-    @objc(barcodeFindViewPauseSearching:rejecter:)
-    func barcodeFindViewPauseSearching(resolve: @escaping RCTPromiseResolveBlock,
-                                       reject: @escaping RCTPromiseRejectBlock) {
-        barcodeFindModule.pauseSearching(result: .create(resolve, reject))
+    @objc(viewPauseSearching:rejecter:)
+    func viewPauseSearching(resolve: @escaping RCTPromiseResolveBlock,
+                            reject: @escaping RCTPromiseRejectBlock) {
+        barcodeFindModule.pauseSearching()
         resolve(nil)
     }
 
     @objc(barcodeFindModeStart:rejecter:)
     func barcodeFindModeStart(resolve: @escaping RCTPromiseResolveBlock,
                               reject: @escaping RCTPromiseRejectBlock) {
-        barcodeFindModule.startMode(result: .create(resolve, reject))
+        barcodeFindModule.startMode()
         resolve(nil)
     }
 
     @objc(barcodeFindModePause:rejecter:)
     func barcodeFindModePause(resolve: @escaping RCTPromiseResolveBlock,
                               reject: @escaping RCTPromiseRejectBlock) {
-        barcodeFindModule.pauseMode(result: .create(resolve, reject))
+        barcodeFindModule.pauseMode()
         resolve(nil)
     }
 
     @objc(barcodeFindModeStop:rejecter:)
     func barcodeFindModeStop(resolve: @escaping RCTPromiseResolveBlock,
                              reject: @escaping RCTPromiseRejectBlock) {
-        barcodeFindModule.stopMode(result: .create(resolve, reject))
+        barcodeFindModule.stopMode()
         resolve(nil)
-    }
-
-    @objc(setModeEnabledState:)
-    func setModeEnabledState(enabled: Bool) {
-        barcodeFindModule.setModeEnabled(enabled: enabled)
     }
 }

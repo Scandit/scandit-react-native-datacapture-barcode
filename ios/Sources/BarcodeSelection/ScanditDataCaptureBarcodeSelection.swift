@@ -78,7 +78,7 @@ class ScanditDataCaptureBarcodeSelection: RCTEventEmitter {
     func finishDidUpdateSelectionCallback(enabled: Bool) {
         barcodeSelectionModule.finishDidSelect(enabled: enabled)
     }
-
+    
     @objc(finishDidUpdateSessionCallback:)
     func finishDidUpdateSessionCallback(enabled: Bool) {
         barcodeSelectionModule.finishDidUpdate(enabled: enabled)
@@ -189,10 +189,5 @@ class ScanditDataCaptureBarcodeSelection: RCTEventEmitter {
         barcodeSelectionModule.setSelectBarcodeEnabled(barcodesJson: barcodesJson,
                                                        enabled: enabled,
                                                        result: ReactNativeResult(resolve, reject))
-    }
-
-    @objc(setModeEnabledState:)
-    func setModeEnabledState(enabled: Bool) {
-        barcodeSelectionModule.setModeEnabled(enabled: enabled)
     }
 }
