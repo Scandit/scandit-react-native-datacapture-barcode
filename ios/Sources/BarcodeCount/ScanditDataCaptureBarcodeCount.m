@@ -95,4 +95,6 @@ RCT_EXTERN_METHOD(getSpatialMapWithHints
                   : (RCTPromiseResolveBlock)resolve reject
                   : (RCTPromiseRejectBlock)reject)
 
+RCT_EXTERN_METHOD(setModeEnabledState : (BOOL)enabled)
+
 @end

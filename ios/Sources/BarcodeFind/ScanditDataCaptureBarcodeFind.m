@@ -9,18 +9,18 @@
 
 @interface RCT_EXTERN_MODULE (ScanditDataCaptureBarcodeFind, RCTEventEmitter)
 
-RCT_EXTERN_METHOD(createView
+RCT_EXTERN_METHOD(createFindView
                   : (NSInteger)reactTag jsonString
                   : (nonnull NSString *)JSONString resolver
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(updateView
+RCT_EXTERN_METHOD(updateFindView
                   : (nonnull NSString *)JSONString resolver
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(updateMode
+RCT_EXTERN_METHOD(updateFindMode
                   : (nonnull NSString *)JSONString resolver
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
@@ -41,28 +41,28 @@ RCT_EXTERN_METHOD(unregisterBarcodeFindViewListener
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(viewOnPause
+RCT_EXTERN_METHOD(barcodeFindViewOnPause
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(viewOnResume
+RCT_EXTERN_METHOD(barcodeFindViewOnResume
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(setItemList
+RCT_EXTERN_METHOD(barcodeFindSetItemList
                   : (nonnull NSString *)JSONString resolver
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(viewStopSearching
+RCT_EXTERN_METHOD(barcodeFindViewStopSearching
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(viewStartSearching
+RCT_EXTERN_METHOD(barcodeFindViewStartSearching
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(viewPauseSearching
+RCT_EXTERN_METHOD(barcodeFindViewPauseSearching
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
@@ -77,5 +77,7 @@ RCT_EXTERN_METHOD(barcodeFindModePause
 RCT_EXTERN_METHOD(barcodeFindModeStop
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
+
+RCT_EXTERN_METHOD(setModeEnabledState : (BOOL)enabled)
 
 @end
