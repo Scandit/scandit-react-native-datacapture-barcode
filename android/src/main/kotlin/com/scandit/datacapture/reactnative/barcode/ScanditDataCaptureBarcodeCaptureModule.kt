@@ -56,9 +56,4 @@ class ScanditDataCaptureBarcodeCaptureModule(
     fun resetSession() {
         barcodeCaptureModule.resetSession(null)
     }
-
-    @ReactMethod
-    fun setModeEnabledState(enabled: Boolean) {
-        barcodeCaptureModule.setModeEnabled(enabled)
-    }
 }

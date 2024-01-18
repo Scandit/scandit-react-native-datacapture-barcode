@@ -68,11 +68,6 @@ class ScanditDataCaptureBarcodeCount: RCTEventEmitter {
         ScanditDataCaptureBarcodeCountEvent.allCases.map { $0.rawValue }
     }
 
-    @objc override func invalidate() {
-        super.invalidate()
-        barcodeCountModule.didStop()
-    }
-
     @objc(createView:JSONString:resolver:rejecter:)
     func createView(reactTag: NSNumber,
                     jsonString: String,
@@ -227,10 +222,5 @@ class ScanditDataCaptureBarcodeCount: RCTEventEmitter {
                        reject: @escaping RCTPromiseRejectBlock) {
         resolve(barcodeCountModule.getSpatialMap(expectedNumberOfRows: expectedNumberOfRows,
                                                  expectedNumberOfColumns: expectedNumberOfColumns)?.jsonString)
-    }
-
-    @objc(setModeEnabledState:)
-    func setModeEnabledState(enabled: Bool) {
-        barcodeCountModule.setModeEnabled(enabled: enabled)
     }
 }

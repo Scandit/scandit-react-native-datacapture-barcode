@@ -34,7 +34,7 @@ class ScanditDataCaptureBarcodeFindModule(
     }
 
     @ReactMethod
-    fun createFindView(
+    fun createView(
         @Suppress("UNUSED_PARAMETER") reactTag: Int,
         jsonString: String,
         promise: Promise
@@ -52,82 +52,96 @@ class ScanditDataCaptureBarcodeFindModule(
     }
 
     @ReactMethod
-    fun updateFindView(jsonString: String, promise: Promise) {
-        barcodeFindModule.updateBarcodeFindView(jsonString, ReactNativeResult(promise))
+    fun updateView(jsonString: String, promise: Promise) {
+        barcodeFindModule.updateBarcodeFindView(jsonString)
+        promise.resolve(null)
     }
 
     @ReactMethod
-    fun updateFindMode(jsonString: String, promise: Promise) {
-        barcodeFindModule.updateBarcodeFindMode(jsonString, ReactNativeResult(promise))
+    fun updateMode(jsonString: String, promise: Promise) {
+        barcodeFindModule.updateBarcodeFindMode(jsonString)
+        promise.resolve(null)
     }
 
     @ReactMethod
     fun registerBarcodeFindListener(promise: Promise) {
-        barcodeFindModule.addBarcodeFindListener(ReactNativeResult(promise))
+        barcodeFindModule.addBarcodeFindListener()
+        promise.resolve(null)
     }
 
     @ReactMethod
     fun unregisterBarcodeFindListener(promise: Promise) {
-        barcodeFindModule.removeBarcodeFindListener(ReactNativeResult(promise))
+        barcodeFindModule.removeBarcodeFindListener()
+        promise.resolve(null)
     }
 
     @ReactMethod
     fun registerBarcodeFindViewListener(promise: Promise) {
-        barcodeFindModule.addBarcodeFindViewListener(ReactNativeResult(promise))
+        barcodeFindModule.addBarcodeFindViewListener()
+        promise.resolve(null)
     }
 
     @ReactMethod
     fun unregisterBarcodeFindViewListener(promise: Promise) {
-        barcodeFindModule.removeBarcodeFindViewListener(ReactNativeResult(promise))
+        barcodeFindModule.removeBarcodeFindViewListener()
+        promise.resolve(null)
     }
 
     @ReactMethod
-    fun barcodeFindViewOnPause(promise: Promise) {
-        barcodeFindModule.viewOnPause(ReactNativeResult(promise))
+    fun viewOnPause(promise: Promise) {
+        barcodeFindModule.viewOnPause()
+        promise.resolve(null)
     }
 
     @ReactMethod
-    fun barcodeFindViewOnResume(promise: Promise) {
-        barcodeFindModule.viewOnResume(ReactNativeResult(promise))
+    fun viewOnResume(promise: Promise) {
+        barcodeFindModule.viewOnResume()
+        promise.resolve(null)
     }
 
     @ReactMethod
-    fun barcodeFindSetItemList(barcodeFindItemsJson: String, promise: Promise) {
-        barcodeFindModule.setItemList(barcodeFindItemsJson, ReactNativeResult(promise))
+    fun setItemList(barcodeFindItemsJson: String, promise: Promise) {
+        try {
+            barcodeFindModule.setItemList(barcodeFindItemsJson)
+            promise.resolve(null)
+        } catch (e: Exception) {
+            promise.reject(e)
+        }
     }
 
     @ReactMethod
-    fun barcodeFindViewStopSearching(promise: Promise) {
-        barcodeFindModule.viewStopSearching(ReactNativeResult(promise))
+    fun viewStopSearching(promise: Promise) {
+        barcodeFindModule.viewStopSearching()
+        promise.resolve(null)
     }
 
     @ReactMethod
-    fun barcodeFindViewStartSearching(promise: Promise) {
-        barcodeFindModule.viewStartSearching(ReactNativeResult(promise))
+    fun viewStartSearching(promise: Promise) {
+        barcodeFindModule.viewStartSearching()
+        promise.resolve(null)
     }
 
     @ReactMethod
-    fun barcodeFindViewPauseSearching(promise: Promise) {
-        barcodeFindModule.viewPauseSearching(ReactNativeResult(promise))
+    fun viewPauseSearching(promise: Promise) {
+        barcodeFindModule.viewPauseSearching()
+        promise.resolve(null)
     }
 
     @ReactMethod
     fun barcodeFindModeStart(promise: Promise) {
-        barcodeFindModule.modeStart(ReactNativeResult(promise))
+        barcodeFindModule.modeStart()
+        promise.resolve(null)
     }
 
     @ReactMethod
     fun barcodeFindModePause(promise: Promise) {
-        barcodeFindModule.modePause(ReactNativeResult(promise))
+        barcodeFindModule.modePause()
+        promise.resolve(null)
     }
 
     @ReactMethod
     fun barcodeFindModeStop(promise: Promise) {
-        barcodeFindModule.modeStop(ReactNativeResult(promise))
-    }
-
-    @ReactMethod
-    fun setModeEnabledState(enabled: Boolean) {
-        barcodeFindModule.setModeEnabled(enabled)
+        barcodeFindModule.modeStop()
+        promise.resolve(null)
     }
 }

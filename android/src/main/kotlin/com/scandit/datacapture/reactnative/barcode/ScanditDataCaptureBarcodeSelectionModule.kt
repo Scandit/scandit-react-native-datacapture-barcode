@@ -160,11 +160,6 @@ class ScanditDataCaptureBarcodeSelectionModule(
         )
     }
 
-    @ReactMethod
-    fun setModeEnabledState(enabled: Boolean) {
-        barcodeSelectionModule.setModeEnabled(enabled)
-    }
-
     override fun invalidate() {
         barcodeSelectionModule.onDestroy()
         super.invalidate()

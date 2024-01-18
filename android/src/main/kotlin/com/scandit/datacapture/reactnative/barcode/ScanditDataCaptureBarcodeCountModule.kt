@@ -207,11 +207,6 @@ class ScanditDataCaptureBarcodeCountModule(
         promise.resolve(map?.toJson())
     }
 
-    @ReactMethod
-    fun setModeEnabledState(enabled: Boolean) {
-        barcodeCountModule.setModeEnabled(enabled)
-    }
-
     override fun invalidate() {
         viewManager.dispose()
         barcodeCountModule.onDestroy()
