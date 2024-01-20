@@ -83,9 +83,10 @@ class ScanditDataCaptureBarcodeTracking: RCTEventEmitter {
             "brush": brushJSON,
             "trackedBarcodeID": String(barcodeId)
         ]
-        let jsonString = String(data: try! JSONSerialization.data(withJSONObject: payload),
-                                encoding: .utf8)!
-        barcodeTrackingModule.setBasicOverlayBrush(with: jsonString)
+        if let jsonString = String(data: try! JSONSerialization.data(withJSONObject: payload),
+                                   encoding: .utf8) {
+            barcodeTrackingModule.setBasicOverlayBrush(with: jsonString)
+        }
         resolve(nil)
     }
 
@@ -171,6 +172,11 @@ class ScanditDataCaptureBarcodeTracking: RCTEventEmitter {
     func resetSession(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
         barcodeTrackingModule.resetSession(frameSequenceId: nil)
         resolve(nil)
+    }
+
+    @objc(setModeEnabledState:)
+    func setModeEnabledState(enabled: Bool) {
+        barcodeTrackingModule.setModeEnabled(enabled: enabled)
     }
 
     private func rootViewWith(jsView: JSView) -> ScanditRootView {
