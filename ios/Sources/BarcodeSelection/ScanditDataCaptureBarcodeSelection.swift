@@ -58,6 +58,10 @@ class ScanditDataCaptureBarcodeSelection: RCTEventEmitter {
         barcodeSelectionModule.didStop()
     }
 
+    deinit {
+        invalidate()
+    }
+
     override func constantsToExport() -> [AnyHashable: Any]! {
         ["Defaults": barcodeSelectionModule.defaults.toEncodable()]
     }
@@ -194,5 +198,20 @@ class ScanditDataCaptureBarcodeSelection: RCTEventEmitter {
     @objc(setModeEnabledState:)
     func setModeEnabledState(enabled: Bool) {
         barcodeSelectionModule.setModeEnabled(enabled: enabled)
+    }
+
+    @objc(updateBarcodeSelectionBasicOverlay:resolve:reject:)
+    func updateBarcodeSelectionBasicOverlay(overlayJson: String, resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
+        barcodeSelectionModule.updateBasicOverlay(overlayJson: overlayJson, result: ReactNativeResult(resolve, reject))
+    }
+
+    @objc(updateBarcodeSelectionMode:resolve:reject:)
+    func updateBarcodeSelectionMode(modeJson: String, resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
+        barcodeSelectionModule.updateModeFromJson(modeJson: modeJson, result: ReactNativeResult(resolve, reject))
+    }
+
+    @objc(applyBarcodeSelectionModeSettings:resolve:reject:)
+    func applyBarcodeSelectionModeSettings(modeSettingsJson: String, resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
+        barcodeSelectionModule.applyModeSettings(modeSettingsJson: modeSettingsJson, result: ReactNativeResult(resolve, reject))
     }
 }

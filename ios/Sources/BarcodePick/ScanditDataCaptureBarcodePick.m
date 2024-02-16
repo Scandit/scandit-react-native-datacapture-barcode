@@ -34,8 +34,7 @@ RCT_EXTERN_METHOD(finishOnProductIdentifierForItems
                   : (RCTPromiseRejectBlock)reject)
 
 RCT_EXTERN_METHOD(finishPickAction
-                  : (nonnull NSString *)data result
-                  : (BOOL)result resolver
+                  : (nonnull NSString *)data resolver
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 

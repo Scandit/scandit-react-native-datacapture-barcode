@@ -7,6 +7,7 @@ export declare class NativeBarcodeTrackingBasicOverlayProxy implements BarcodeTr
     clearTrackedBarcodeBrushes(): Promise<void>;
     registerListenerForBasicOverlayEvents(): void;
     unregisterListenerForBasicOverlayEvents(): void;
+    updateBarcodeTrackingBasicOverlay(overlayJson: string): Promise<void>;
     subscribeBrushForTrackedBarcode(): void;
     subscribeDidTapTrackedBarcode(): void;
 }

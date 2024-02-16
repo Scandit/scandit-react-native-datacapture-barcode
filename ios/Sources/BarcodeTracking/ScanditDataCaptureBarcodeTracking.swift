@@ -43,6 +43,10 @@ class ScanditDataCaptureBarcodeTracking: RCTEventEmitter {
         barcodeTrackingModule.didStop()
     }
 
+    deinit {
+        invalidate()
+    }
+
     override func constantsToExport() -> [AnyHashable: Any]! {
         ["Defaults": barcodeTrackingModule.defaults.toEncodable()]
     }
@@ -81,7 +85,7 @@ class ScanditDataCaptureBarcodeTracking: RCTEventEmitter {
                                    reject: RCTPromiseRejectBlock) {
         let payload: [String: Any?] = [
             "brush": brushJSON,
-            "trackedBarcodeID": String(barcodeId)
+            "trackedBarcodeID": barcodeId
         ]
         if let jsonString = String(data: try! JSONSerialization.data(withJSONObject: payload),
                                    encoding: .utf8) {
@@ -177,6 +181,26 @@ class ScanditDataCaptureBarcodeTracking: RCTEventEmitter {
     @objc(setModeEnabledState:)
     func setModeEnabledState(enabled: Bool) {
         barcodeTrackingModule.setModeEnabled(enabled: enabled)
+    }
+
+    @objc(updateBarcodeTrackingBasicOverlay:resolve:reject:)
+    func updateBarcodeTrackingBasicOverlay(overlayJson: String, resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
+        barcodeTrackingModule.updateBasicOverlay(overlayJson: overlayJson, result: ReactNativeResult(resolve, reject))
+    }
+
+    @objc(updateBarcodeTrackingAdvancedOverlay:resolve:reject:)
+    func updateBarcodeTrackingAdvancedOverlay(overlayJson: String, resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
+        barcodeTrackingModule.updateAdvancedOverlay(overlayJson: overlayJson, result: ReactNativeResult(resolve, reject))
+    }
+
+    @objc(updateBarcodeTrackingMode:resolve:reject:)
+    func updateBarcodeTrackingMode(modeJson: String, resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
+        barcodeTrackingModule.updateModeFromJson(modeJson: modeJson, result: ReactNativeResult(resolve, reject))
+    }
+
+    @objc(applyBarcodeTrackingModeSettings:resolve:reject:)
+    func applyBarcodeTrackingModeSettings(modeSettingsJson: String, resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
+        barcodeTrackingModule.applyModeSettings(modeSettingsJson: modeSettingsJson, result: ReactNativeResult(resolve, reject))
     }
 
     private func rootViewWith(jsView: JSView) -> ScanditRootView {

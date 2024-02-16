@@ -10,4 +10,6 @@ export declare class NativeBarcodeTrackingListenerProxy implements BarcodeTracki
     subscribeDidUpdateSession(): void;
     finishDidUpdateSessionCallback(enabled: boolean): void;
     setModeEnabledState(enabled: boolean): void;
+    updateBarcodeTrackingMode(modeJson: string): Promise<void>;
+    applyBarcodeTrackingModeSettings(newSettingsJson: string): Promise<void>;
 }

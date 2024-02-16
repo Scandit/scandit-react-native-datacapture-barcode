@@ -17,6 +17,7 @@ export declare class NativeBarcodeTrackingAdvancedOverlayProxy implements Barcod
     subscribeAnchorForTrackedBarcode(): void;
     subscribeOffsetForTrackedBarcode(): void;
     subscribeDidTapViewForTrackedBarcode(): void;
+    updateBarcodeTrackingAdvancedOverlay(overlayJson: string): Promise<void>;
     getJSONStringForView(view: BarcodeTrackingAdvancedOverlayView | null): string | null;
     private isSerializeable;
 }

@@ -6,10 +6,12 @@
 
 package com.scandit.datacapture.reactnative.barcode
 
+import com.facebook.react.bridge.Promise
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
 import com.scandit.datacapture.frameworks.barcode.capture.BarcodeCaptureModule
+import com.scandit.datacapture.reactnative.core.utils.ReactNativeResult
 
 class ScanditDataCaptureBarcodeCaptureModule(
     reactContext: ReactApplicationContext,
@@ -60,5 +62,20 @@ class ScanditDataCaptureBarcodeCaptureModule(
     @ReactMethod
     fun setModeEnabledState(enabled: Boolean) {
         barcodeCaptureModule.setModeEnabled(enabled)
+    }
+
+    @ReactMethod
+    fun updateBarcodeCaptureOverlay(overlayJson: String, promise: Promise) {
+        barcodeCaptureModule.updateOverlay(overlayJson, ReactNativeResult(promise))
+    }
+
+    @ReactMethod
+    fun updateBarcodeCaptureMode(modeJson: String, promise: Promise) {
+        barcodeCaptureModule.updateModeFromJson(modeJson, ReactNativeResult(promise))
+    }
+
+    @ReactMethod
+    fun applyBarcodeCaptureModeSettings(modeSettingsJson: String, promise: Promise) {
+        barcodeCaptureModule.applyModeSettings(modeSettingsJson, ReactNativeResult(promise))
     }
 }

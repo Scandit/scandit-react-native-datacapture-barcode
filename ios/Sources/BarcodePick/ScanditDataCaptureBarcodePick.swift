@@ -38,6 +38,10 @@ class ScanditDataCaptureBarcodePick: RCTEventEmitter {
         barcodePickModule.didStop()
     }
 
+    deinit {
+        invalidate()
+    }
+
     override class func requiresMainQueueSetup() -> Bool {
         return true
     }
@@ -85,13 +89,11 @@ class ScanditDataCaptureBarcodePick: RCTEventEmitter {
         resolve(nil)
     }
 
-    @objc(finishPickAction:result:resolver:rejecter:)
+    @objc(finishPickAction:resolver:rejecter:)
     func finishPickAction(data: String,
-                          result: Bool,
-                          resolve: RCTPromiseResolveBlock,
-                          reject: RCTPromiseRejectBlock) {
-        barcodePickModule.finishPickAction(data: data, result: result)
-        resolve(nil)
+                          resolve: @escaping RCTPromiseResolveBlock,
+                          reject: @escaping RCTPromiseRejectBlock) {
+        barcodePickModule.finishPickAction(data: data, result: .create(resolve, reject))
     }
 
     @objc(viewPause:rejecter:)
