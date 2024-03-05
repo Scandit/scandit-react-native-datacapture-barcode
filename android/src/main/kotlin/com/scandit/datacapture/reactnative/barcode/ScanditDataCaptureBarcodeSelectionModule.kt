@@ -165,21 +165,6 @@ class ScanditDataCaptureBarcodeSelectionModule(
         barcodeSelectionModule.setModeEnabled(enabled)
     }
 
-    @ReactMethod
-    fun updateBarcodeSelectionBasicOverlay(overlayJson: String, promise: Promise) {
-        barcodeSelectionModule.updateBasicOverlay(overlayJson, ReactNativeResult(promise))
-    }
-
-    @ReactMethod
-    fun updateBarcodeSelectionMode(modeJson: String, promise: Promise) {
-        barcodeSelectionModule.updateModeFromJson(modeJson, ReactNativeResult(promise))
-    }
-
-    @ReactMethod
-    fun applyBarcodeSelectionModeSettings(modeSettingsJson: String, promise: Promise) {
-        barcodeSelectionModule.applyModeSettings(modeSettingsJson, ReactNativeResult(promise))
-    }
-
     override fun invalidate() {
         barcodeSelectionModule.onDestroy()
         super.invalidate()

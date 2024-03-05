@@ -73,10 +73,6 @@ class ScanditDataCaptureBarcodeCount: RCTEventEmitter {
         barcodeCountModule.didStop()
     }
 
-    deinit {
-        invalidate()
-    }
-
     @objc(createView:JSONString:resolver:rejecter:)
     func createView(reactTag: NSNumber,
                     jsonString: String,

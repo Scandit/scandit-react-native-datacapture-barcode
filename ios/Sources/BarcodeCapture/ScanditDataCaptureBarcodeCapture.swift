@@ -67,27 +67,8 @@ class ScanditDataCaptureBarcodeCapture: RCTEventEmitter {
         barcodeCaptureModule.didStop()
     }
 
-    deinit {
-        invalidate()
-    }
-
     @objc(setModeEnabledState:)
     func setModeEnabledState(enabled: Bool) {
         barcodeCaptureModule.setModeEnabled(enabled: enabled)
-    }
-
-    @objc(updateBarcodeCaptureOverlay:resolve:reject:)
-    func updateBarcodeCaptureOverlay(overlayJson: String, resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
-        barcodeCaptureModule.updateOverlay(overlayJson: overlayJson, result: ReactNativeResult(resolve, reject))
-    }
-
-    @objc(updateBarcodeCaptureMode:resolve:reject:)
-    func updateBarcodeCaptureMode(modeJson: String, resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
-        barcodeCaptureModule.updateModeFromJson(modeJson: modeJson, result: ReactNativeResult(resolve, reject))
-    }
-
-    @objc(applyBarcodeCaptureModeSettings:resolve:reject:)
-    func applyBarcodeCaptureModeSettings(modeSettingsJson: String, resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
-        barcodeCaptureModule.applyModeSettings(modeSettingsJson: modeSettingsJson, result: ReactNativeResult(resolve, reject))
     }
 }

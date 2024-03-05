@@ -15,5 +15,5 @@ export declare class BarcodeTrackingAdvancedOverlay implements DataCaptureOverla
     setAnchorForTrackedBarcode(anchor: Anchor, trackedBarcode: TrackedBarcode): Promise<void>;
     setOffsetForTrackedBarcode(offset: PointWithUnit, trackedBarcode: TrackedBarcode): Promise<void>;
     clearTrackedBarcodeViews(): Promise<void>;
-    toJSON(): object;
+    private toJSON;
 }

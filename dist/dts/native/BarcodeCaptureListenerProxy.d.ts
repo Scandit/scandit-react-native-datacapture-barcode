@@ -12,7 +12,4 @@ export declare class NativeBarcodeCaptureListenerProxy implements BarcodeCapture
     subscribeDidScanListener(): void;
     finishDidUpdateSessionCallback(isFinished: boolean): void;
     finishDidScanCallback(isFinished: boolean): void;
-    updateBarcodeCaptureMode(modeJson: string): Promise<void>;
-    applyBarcodeCaptureModeSettings(newSettingsJson: string): Promise<void>;
-    updateBarcodeCaptureOverlay(overlayJson: string): Promise<void>;
 }

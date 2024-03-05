@@ -17,19 +17,4 @@ RCT_EXTERN_METHOD(resetSession
 
 RCT_EXTERN_METHOD(setModeEnabledState : (BOOL)enabled)
 
-RCT_EXTERN_METHOD(updateBarcodeCaptureOverlay
-                  : (NSString *)overlayJson resolve
-                  : (RCTPromiseResolveBlock)resolve reject
-                  : (RCTPromiseRejectBlock)reject)
-
-RCT_EXTERN_METHOD(updateBarcodeCaptureMode
-                  : (NSString *)modeJson resolve
-                  : (RCTPromiseResolveBlock)resolve reject
-                  : (RCTPromiseRejectBlock)reject)
-
-RCT_EXTERN_METHOD(applyBarcodeCaptureModeSettings
-                  : (NSString *)modeSettingsJson resolve
-                  : (RCTPromiseResolveBlock)resolve reject
-                  : (RCTPromiseRejectBlock)reject)
-
 @end

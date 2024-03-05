@@ -83,19 +83,4 @@ RCT_EXTERN_METHOD(setTextForAimToSelectAutoHint
 
 RCT_EXTERN_METHOD(setModeEnabledState : (BOOL)enabled)
 
-RCT_EXTERN_METHOD(updateBarcodeSelectionBasicOverlay
-                  : (NSString *)overlayJson resolve
-                  : (RCTPromiseResolveBlock)resolve reject
-                  : (RCTPromiseRejectBlock)reject)
-
-RCT_EXTERN_METHOD(updateBarcodeSelectionMode
-                  : (NSString *)modeJson resolve
-                  : (RCTPromiseResolveBlock)resolve reject
-                  : (RCTPromiseRejectBlock)reject)
-
-RCT_EXTERN_METHOD(applyBarcodeSelectionModeSettings
-                  : (NSString *)modeSettingsJson resolve
-                  : (RCTPromiseResolveBlock)resolve reject
-                  : (RCTPromiseRejectBlock)reject)
-
 @end

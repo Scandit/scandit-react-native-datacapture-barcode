@@ -13,6 +13,5 @@ export declare class NativeBarcodeSelectionOverlayProxy implements BarcodeSelect
     removeTrackedBarcodeBrushProvider(): Promise<void>;
     setTrackedBarcodeBrushProvider(): Promise<void>;
     finishBrushForTrackedBarcodeCallback(brushStr: string | null, selectionIdentifier: string): void;
-    updateBarcodeSelectionBasicOverlay(overlayJson: string): Promise<void>;
     subscribeBrushForTrackedBarcode(): void;
 }

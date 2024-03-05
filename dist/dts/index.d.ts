@@ -66,13 +66,3 @@ export { BarcodePickViewHighlightStyle } from 'scandit-datacapture-frameworks-ba
 export { Rectangular } from 'scandit-datacapture-frameworks-barcode';
 export { RectangularWithIcons } from 'scandit-datacapture-frameworks-barcode';
 export * from './BarcodePickView';
-export { BarcodeFind } from 'scandit-datacapture-frameworks-barcode';
-export { BarcodeFindFeedback } from 'scandit-datacapture-frameworks-barcode';
-export { BarcodeFindItem } from 'scandit-datacapture-frameworks-barcode';
-export { BarcodeFindItemContent } from 'scandit-datacapture-frameworks-barcode';
-export { BarcodeFindItemSearchOptions } from 'scandit-datacapture-frameworks-barcode';
-export { BarcodeFindListener } from 'scandit-datacapture-frameworks-barcode';
-export { BarcodeFindSettings } from 'scandit-datacapture-frameworks-barcode';
-export { BarcodeFindViewSettings } from 'scandit-datacapture-frameworks-barcode';
-export { BarcodeFindViewUiListener } from 'scandit-datacapture-frameworks-barcode';
-export * from './BarcodeFindView';
