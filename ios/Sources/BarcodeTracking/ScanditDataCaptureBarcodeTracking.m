@@ -63,4 +63,24 @@ RCT_EXTERN_METHOD(resetSession
 
 RCT_EXTERN_METHOD(setModeEnabledState : (BOOL)enabled)
 
+RCT_EXTERN_METHOD(updateBarcodeTrackingBasicOverlay
+                  : (NSString *)overlayJson resolve
+                  : (RCTPromiseResolveBlock)resolve reject
+                  : (RCTPromiseRejectBlock)reject)
+
+RCT_EXTERN_METHOD(updateBarcodeTrackingAdvancedOverlay
+                  : (NSString *)overlayJson resolve
+                  : (RCTPromiseResolveBlock)resolve reject
+                  : (RCTPromiseRejectBlock)reject)
+
+RCT_EXTERN_METHOD(updateBarcodeTrackingMode
+                  : (NSString *)modeJson resolve
+                  : (RCTPromiseResolveBlock)resolve reject
+                  : (RCTPromiseRejectBlock)reject)
+
+RCT_EXTERN_METHOD(applyBarcodeTrackingModeSettings
+                  : (NSString *)modeSettingsJson resolve
+                  : (RCTPromiseResolveBlock)resolve reject
+                  : (RCTPromiseRejectBlock)reject)
+
 @end

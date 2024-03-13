@@ -13,6 +13,7 @@ import com.scandit.datacapture.frameworks.barcode.tracking.BarcodeTrackingModule
 import com.scandit.datacapture.frameworks.core.utils.DefaultMainThread
 import com.scandit.datacapture.frameworks.core.utils.MainThread
 import com.scandit.datacapture.reactnative.barcode.tracking.nativeViewFromJson
+import com.scandit.datacapture.reactnative.core.utils.ReactNativeResult
 import org.json.JSONObject
 
 class ScanditDataCaptureBarcodeTrackingModule(
@@ -158,5 +159,25 @@ class ScanditDataCaptureBarcodeTrackingModule(
     @ReactMethod
     fun setModeEnabledState(enabled: Boolean) {
         barcodeTrackingModule.setModeEnabled(enabled)
+    }
+
+    @ReactMethod
+    fun updateBarcodeTrackingBasicOverlay(overlayJson: String, promise: Promise) {
+        barcodeTrackingModule.updateBasicOverlay(overlayJson, ReactNativeResult(promise))
+    }
+
+    @ReactMethod
+    fun updateBarcodeTrackingAdvancedOverlay(overlayJson: String, promise: Promise) {
+        barcodeTrackingModule.updateAdvancedOverlay(overlayJson, ReactNativeResult(promise))
+    }
+
+    @ReactMethod
+    fun updateBarcodeTrackingMode(modeJson: String, promise: Promise) {
+        barcodeTrackingModule.updateModeFromJson(modeJson, ReactNativeResult(promise))
+    }
+
+    @ReactMethod
+    fun applyBarcodeTrackingModeSettings(modeSettingsJson: String, promise: Promise) {
+        barcodeTrackingModule.applyModeSettings(modeSettingsJson, ReactNativeResult(promise))
     }
 }

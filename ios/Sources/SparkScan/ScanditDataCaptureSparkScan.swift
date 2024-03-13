@@ -47,6 +47,10 @@ class ScanditDataCaptureSparkScan: RCTEventEmitter {
         sparkScanModule.didStop()
     }
 
+    deinit {
+        invalidate()
+    }
+
     override func supportedEvents() -> [String]! {
         ScanditDataCaptureSparkScanEvent.allCases.map { $0.rawValue }
     }
