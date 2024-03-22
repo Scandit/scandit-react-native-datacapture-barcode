@@ -21,12 +21,14 @@ import com.scandit.datacapture.frameworks.barcode.count.listeners.FrameworksBarc
 import com.scandit.datacapture.frameworks.barcode.find.BarcodeFindModule
 import com.scandit.datacapture.frameworks.barcode.find.listeners.FrameworksBarcodeFindListener
 import com.scandit.datacapture.frameworks.barcode.find.listeners.FrameworksBarcodeFindViewUiListener
+import com.scandit.datacapture.frameworks.barcode.find.transformer.FrameworksBarcodeFindTransformer
 import com.scandit.datacapture.frameworks.barcode.pick.BarcodePickModule
 import com.scandit.datacapture.frameworks.barcode.selection.BarcodeSelectionModule
 import com.scandit.datacapture.frameworks.barcode.selection.listeners.FrameworksBarcodeSelectionAimedBrushProvider
 import com.scandit.datacapture.frameworks.barcode.selection.listeners.FrameworksBarcodeSelectionListener
 import com.scandit.datacapture.frameworks.barcode.selection.listeners.FrameworksBarcodeSelectionTrackedBrushProvider
 import com.scandit.datacapture.frameworks.barcode.spark.SparkScanModule
+import com.scandit.datacapture.frameworks.barcode.spark.delegates.FrameworksSparkScanFeedbackDelegate
 import com.scandit.datacapture.frameworks.barcode.spark.listeners.FrameworksSparkScanListener
 import com.scandit.datacapture.frameworks.barcode.spark.listeners.FrameworksSparkScanViewUiListener
 import com.scandit.datacapture.frameworks.barcode.tracking.BarcodeTrackingModule
@@ -163,7 +165,8 @@ class ScanditDataCaptureBarcodePackage : ReactPackage {
         val emitter = ReactNativeEventEmitter(reactContext)
         return SparkScanModule(
             FrameworksSparkScanListener(emitter),
-            FrameworksSparkScanViewUiListener(emitter)
+            FrameworksSparkScanViewUiListener(emitter),
+            FrameworksSparkScanFeedbackDelegate(emitter)
         ).also {
             it.onCreate(reactContext)
         }
@@ -175,7 +178,8 @@ class ScanditDataCaptureBarcodePackage : ReactPackage {
         val emitter = ReactNativeEventEmitter(reactContext)
         return BarcodeFindModule(
             FrameworksBarcodeFindListener(emitter),
-            FrameworksBarcodeFindViewUiListener(emitter)
+            FrameworksBarcodeFindViewUiListener(emitter),
+            FrameworksBarcodeFindTransformer(emitter)
         ).also {
             it.onCreate(reactContext)
         }

@@ -69,6 +69,36 @@ class ScanditDataCaptureBarcodePickModule(
     }
 
     @ReactMethod
+    fun addScanningListener(promise: Promise) {
+        barcodePickModule.addScanningListener(ReactNativeResult(promise))
+    }
+
+    @ReactMethod
+    fun removeScanningListener(promise: Promise) {
+        barcodePickModule.removeScanningListener(ReactNativeResult(promise))
+    }
+
+    @ReactMethod
+    fun addViewListener(promise: Promise) {
+        barcodePickModule.addViewListener(ReactNativeResult(promise))
+    }
+
+    @ReactMethod
+    fun removeViewListener(promise: Promise) {
+        barcodePickModule.removeViewListener(ReactNativeResult(promise))
+    }
+
+    @ReactMethod
+    fun registerBarcodePickViewUiListener(promise: Promise) {
+        barcodePickModule.addViewUiListener(ReactNativeResult(promise))
+    }
+
+    @ReactMethod
+    fun unregisterBarcodePickViewUiListener(promise: Promise) {
+        barcodePickModule.removeViewUiListener(ReactNativeResult(promise))
+    }
+
+    @ReactMethod
     fun finishOnProductIdentifierForItems(
         barcodePickProductProviderCallbackItemsJson: String,
         promise: Promise
@@ -89,6 +119,11 @@ class ScanditDataCaptureBarcodePickModule(
     fun viewStart(promise: Promise) {
         barcodePickModule.viewStart()
         promise.resolve(null)
+    }
+
+    @ReactMethod
+    fun viewFreeze(promise: Promise) {
+        barcodePickModule.viewFreeze(ReactNativeResult(promise))
     }
 
     @ReactMethod
