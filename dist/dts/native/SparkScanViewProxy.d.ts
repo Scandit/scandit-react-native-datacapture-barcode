@@ -3,7 +3,6 @@ import { SparkScanViewFeedback } from 'scandit-datacapture-frameworks-barcode';
 export declare class SparkScanViewProxy {
     private view;
     private nativeListeners;
-    private feedbackForBarcodeListener;
     static forSparkScanView(view: SparkScanView): SparkScanViewProxy;
     startScanning(): Promise<void>;
     pauseScanning(): Promise<void>;
@@ -15,10 +14,4 @@ export declare class SparkScanViewProxy {
     update(): Promise<void>;
     prepareScanning(): Promise<void>;
     stopScanning(): Promise<void>;
-    addFeedbackDelegate(): Promise<void>;
-    removeFeedbackDelegate(): Promise<void>;
-    showToast(text: string): Promise<void>;
-}
-export interface FeedbackForBarcodeEventPayload {
-    barcode: string;
 }

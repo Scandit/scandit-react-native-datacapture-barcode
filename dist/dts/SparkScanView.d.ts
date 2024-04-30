@@ -4,7 +4,6 @@ import { SparkScan } from 'scandit-datacapture-frameworks-barcode';
 import { SparkScanViewSettings } from 'scandit-datacapture-frameworks-barcode';
 import { Brush, Color } from 'scandit-react-native-datacapture-core';
 import { SparkScanViewFeedback } from 'scandit-datacapture-frameworks-barcode';
-import { SparkScanFeedbackDelegate } from 'scandit-datacapture-frameworks-barcode';
 interface SparkScanViewProps {
     context: DataCaptureContext;
     sparkScan: SparkScan;
@@ -18,7 +17,6 @@ export interface SparkScanViewUiListener {
 export declare class SparkScanView extends React.Component<SparkScanViewProps> {
     private viewProxy;
     uiListener: SparkScanViewUiListener | null;
-    private _feedbackDelegate;
     private _shouldShowScanAreaGuides;
     get shouldShowScanAreaGuides(): boolean;
     set shouldShowScanAreaGuides(newValue: boolean);
@@ -26,9 +24,6 @@ export declare class SparkScanView extends React.Component<SparkScanViewProps> {
     private _brush;
     get brush(): Brush;
     set brush(newValue: Brush);
-    private _previewSizeControlVisible;
-    get previewSizeControlVisible(): boolean;
-    set previewSizeControlVisible(newValue: boolean);
     private _torchButtonVisible;
     get torchButtonVisible(): boolean;
     set torchButtonVisible(newValue: boolean);
@@ -98,9 +93,6 @@ export declare class SparkScanView extends React.Component<SparkScanViewProps> {
     pauseScanning(): void;
     stopScanning(): void;
     render(): React.JSX.Element;
-    get feedbackDelegate(): SparkScanFeedbackDelegate | null;
-    set feedbackDelegate(delegate: SparkScanFeedbackDelegate | null);
-    showToast(text: string): Promise<void>;
     private update;
     toJSON(): object;
 }

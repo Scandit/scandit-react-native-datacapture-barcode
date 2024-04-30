@@ -21,8 +21,7 @@ class ScanditDataCaptureBarcodeFind: RCTEventEmitter {
         let emitter = ReactNativeEmitter(emitter: self)
         let listener = FrameworksBarcodeFindListener(emitter: emitter)
         let viewListener = FrameworksBarcodeFindViewUIListener(emitter: emitter)
-        let barcodeTransformer = FrameworksBarcodeFindTransformer(emitter: emitter)
-        barcodeFindModule = BarcodeFindModule(listener: listener, viewListener: viewListener, barcodeTransformer: barcodeTransformer)
+        barcodeFindModule = BarcodeFindModule(listener: listener, viewListener: viewListener)
         barcodeFindModule.didStart()
     }
 

@@ -150,24 +150,6 @@ class ScanditDataCaptureSparkScanModule(
         sparkScanModule.setModeEnabled(enabled)
     }
 
-    @ReactMethod
-    fun addFeedbackDelegate(promise: Promise) {
-        sparkScanModule.addFeedbackDelegate(ReactNativeResult(promise))
-    }
-
-    @ReactMethod
-    fun removeFeedbackDelegate(promise: Promise) {
-        sparkScanModule.removeFeedbackDelegate(ReactNativeResult(promise))
-    }
-
-    @ReactMethod
-    fun submitSparkScanFeedbackForBarcode(feedbackJson: String, promise: Promise) {
-        sparkScanModule.submitFeedbackForBarcode(
-            feedbackJson,
-            ReactNativeResult(promise)
-        )
-    }
-
     override fun invalidate() {
         viewManager.dispose()
         sparkScanModule.onDestroy()
