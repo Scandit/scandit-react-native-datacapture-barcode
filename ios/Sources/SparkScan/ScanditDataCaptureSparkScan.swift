@@ -14,6 +14,7 @@ enum ScanditDataCaptureSparkScanEvent: String, CaseIterable {
     case didScan = "SparkScanListener.didScan"
     case barcodeCountButtonTapped = "SparkScanViewUiListener.barcodeCountButtonTapped"
     case fastFindButtonTapped = "SparkScanViewUiListener.fastFindButtonTapped"
+    case feedbackForBarcode = "SparkScanFeedbackDelegate.feedbackForBarcode"
 }
 
 @objc(ScanditDataCaptureSparkScan)

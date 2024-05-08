@@ -110,12 +110,6 @@ class ScanditDataCaptureBarcodePickModule(
     }
 
     @ReactMethod
-    fun viewPause(promise: Promise) {
-        barcodePickModule.viewPause()
-        promise.resolve(null)
-    }
-
-    @ReactMethod
     fun viewStart(promise: Promise) {
         barcodePickModule.viewStart()
         promise.resolve(null)
@@ -127,8 +121,32 @@ class ScanditDataCaptureBarcodePickModule(
     }
 
     @ReactMethod
+    fun viewStop(promise: Promise) {
+        barcodePickModule.viewStop()
+        promise.resolve(null)
+    }
+
+    @ReactMethod
+    fun viewRelease(promise: Promise) {
+        barcodePickModule.viewOnDestroy()
+        promise.resolve(null)
+    }
+
+    @ReactMethod
+    fun viewResume(promise: Promise) {
+        barcodePickModule.viewOnResume()
+        promise.resolve(null)
+    }
+
+    @ReactMethod
+    fun viewPause(promise: Promise) {
+        barcodePickModule.viewOnPause()
+        promise.resolve(null)
+    }
+
+    @ReactMethod
     fun finishPickAction(itemData: String, result: Boolean, promise: Promise) {
-        barcodePickModule.finishPickAction(itemData, result)
+        barcodePickModule.finishPickAction(itemData = itemData, result = result)
         promise.resolve(null)
     }
 }

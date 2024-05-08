@@ -19,8 +19,10 @@ export declare class BarcodePickView extends React.Component<BarcodePickViewProp
     set uiListener(value: BarcodePickViewUiListener | null);
     componentWillUnmount(): void;
     start(): void;
-    pause(): void;
+    stop(): void;
     freeze(): void;
+    pause(): void;
+    resume(): void;
     addListener(listener: BarcodePickViewListener): void;
     removeListener(listener: BarcodePickViewListener): void;
     addActionListener(listener: BarcodePickActionListener): void;
