@@ -135,18 +135,6 @@ class ScanditDataCaptureBarcodePick: RCTEventEmitter {
 
     @objc(viewPause:rejecter:)
     func viewPause(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
-        // DO NOTHING ON IOS
-        resolve(nil)
-    }
-
-    @objc(viewResume:rejecter:)
-    func viewResume(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
-        // DO NOTHING ON IOS
-        resolve(nil)
-    }
-
-    @objc(viewStop:rejecter:)
-    func viewStop(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
         barcodePickModule.viewPause()
         resolve(nil)
     }
