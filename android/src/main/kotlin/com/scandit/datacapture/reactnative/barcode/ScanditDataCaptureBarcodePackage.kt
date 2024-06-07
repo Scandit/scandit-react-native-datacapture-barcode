@@ -22,6 +22,7 @@ import com.scandit.datacapture.frameworks.barcode.find.BarcodeFindModule
 import com.scandit.datacapture.frameworks.barcode.find.listeners.FrameworksBarcodeFindListener
 import com.scandit.datacapture.frameworks.barcode.find.listeners.FrameworksBarcodeFindViewUiListener
 import com.scandit.datacapture.frameworks.barcode.find.transformer.FrameworksBarcodeFindTransformer
+import com.scandit.datacapture.frameworks.barcode.generator.BarcodeGeneratorModule
 import com.scandit.datacapture.frameworks.barcode.pick.BarcodePickModule
 import com.scandit.datacapture.frameworks.barcode.selection.BarcodeSelectionModule
 import com.scandit.datacapture.frameworks.barcode.selection.listeners.FrameworksBarcodeSelectionAimedBrushProvider
@@ -91,6 +92,12 @@ class ScanditDataCaptureBarcodePackage : ReactPackage {
             reactContext,
             getBarcodePickModule(reactContext),
             barcodePickViewManager
+        ),
+        ScanditDataCaptureBarcodeGeneratorModule(
+            reactContext,
+            BarcodeGeneratorModule().also {
+                it.onCreate(reactContext)
+            },
         )
     )
 

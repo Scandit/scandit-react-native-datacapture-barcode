@@ -130,4 +130,17 @@ class ScanditDataCaptureBarcodeFindModule(
     fun setModeEnabledState(enabled: Boolean) {
         barcodeFindModule.setModeEnabled(enabled)
     }
+
+    @ReactMethod
+    fun setBarcodeTransformer(promise: Promise) {
+        barcodeFindModule.setBarcodeFindTransformer(ReactNativeResult(promise))
+    }
+
+    @ReactMethod
+    fun submitBarcodeFindTransformerResult(transformedBarcode: String?, promise: Promise) {
+        barcodeFindModule.submitBarcodeFindTransformerResult(
+            transformedBarcode,
+            ReactNativeResult(promise)
+        )
+    }
 }
