@@ -48,10 +48,6 @@ class ScanditDataCaptureBarcodePackage : ReactPackage {
         SparkScanViewManager()
     }
 
-    private val barcodeCountViewManager: BarcodeCountViewManager by lazy {
-        BarcodeCountViewManager()
-    }
-
     private val barcodeFindViewManager: BarcodeFindViewManager by lazy {
         BarcodeFindViewManager()
     }
@@ -62,51 +58,60 @@ class ScanditDataCaptureBarcodePackage : ReactPackage {
 
     override fun createNativeModules(
         reactContext: ReactApplicationContext
-    ): MutableList<NativeModule> = mutableListOf(
-        ScanditDataCaptureBarcodeModule(reactContext, getBarcodeModule(reactContext)),
-        ScanditDataCaptureBarcodeCaptureModule(reactContext, getBarcodeCaptureModule(reactContext)),
-        ScanditDataCaptureBarcodeTrackingModule(
-            reactContext,
-            getBarcodeTrackingModule(reactContext)
-        ),
-        ScanditDataCaptureBarcodeSelectionModule(
-            reactContext,
-            getBarcodeSelectionModule(reactContext)
-        ),
-        ScanditDataCaptureSparkScanModule(
-            reactContext,
-            getSparkScanModule(reactContext),
-            sparkScanViewManager
-        ),
-        ScanditDataCaptureBarcodeCountModule(
-            reactContext,
-            getBarcodeCountModule(reactContext),
-            barcodeCountViewManager
-        ),
-        ScanditDataCaptureBarcodeFindModule(
-            reactContext,
-            getBarcodeFindModule(reactContext),
-            barcodeFindViewManager
-        ),
-        ScanditDataCaptureBarcodePickModule(
-            reactContext,
-            getBarcodePickModule(reactContext),
-            barcodePickViewManager
-        ),
-        ScanditDataCaptureBarcodeGeneratorModule(
-            reactContext,
-            BarcodeGeneratorModule().also {
-                it.onCreate(reactContext)
-            },
+    ): MutableList<NativeModule> {
+        return mutableListOf(
+            ScanditDataCaptureBarcodeModule(reactContext, getBarcodeModule(reactContext)),
+            ScanditDataCaptureBarcodeCaptureModule(
+                reactContext,
+                getBarcodeCaptureModule(reactContext)
+            ),
+            ScanditDataCaptureBarcodeTrackingModule(
+                reactContext,
+                getBarcodeTrackingModule(reactContext)
+            ),
+            ScanditDataCaptureBarcodeSelectionModule(
+                reactContext,
+                getBarcodeSelectionModule(reactContext)
+            ),
+            ScanditDataCaptureSparkScanModule(
+                reactContext,
+                getSparkScanModule(reactContext),
+                sparkScanViewManager
+            ),
+            ScanditDataCaptureBarcodeCountModule(
+                reactContext,
+                getBarcodeCountModule(reactContext),
+            ),
+            ScanditDataCaptureBarcodeFindModule(
+                reactContext,
+                getBarcodeFindModule(reactContext),
+                barcodeFindViewManager
+            ),
+            ScanditDataCaptureBarcodePickModule(
+                reactContext,
+                getBarcodePickModule(reactContext),
+                barcodePickViewManager
+            ),
+            ScanditDataCaptureBarcodeGeneratorModule(
+                reactContext,
+                BarcodeGeneratorModule().also {
+                    it.onCreate(reactContext)
+                },
+            )
         )
-    )
+    }
+
+    private fun getBarcodeCountViewManager(
+        reactContext: ReactApplicationContext,
+        barcodeCountModule: BarcodeCountModule
+    ): BarcodeCountViewManager = BarcodeCountViewManager(reactContext, barcodeCountModule)
 
     override fun createViewManagers(
         reactContext: ReactApplicationContext
     ): MutableList<ViewManager<*, *>> =
         mutableListOf(
             sparkScanViewManager,
-            barcodeCountViewManager,
+            getBarcodeCountViewManager(reactContext, getBarcodeCountModule(reactContext)),
             barcodeFindViewManager,
             barcodePickViewManager
         )
@@ -152,11 +157,21 @@ class ScanditDataCaptureBarcodePackage : ReactPackage {
         }
     }
 
+    private var barcodeCountModule: BarcodeCountModule? = null
+
+    @Synchronized
     private fun getBarcodeCountModule(
         reactContext: ReactApplicationContext
     ): BarcodeCountModule {
+        val existingInstance = this.barcodeCountModule
+        if (existingInstance != null) {
+            return existingInstance.also {
+                it.onCreate(reactContext)
+            }
+        }
+
         val emitter = ReactNativeEventEmitter(reactContext)
-        return BarcodeCountModule(
+        val newInstance = BarcodeCountModule(
             FrameworksBarcodeCountListener(emitter),
             FrameworksBarcodeCountCaptureListListener(emitter),
             FrameworksBarcodeCountViewListener(emitter),
@@ -164,6 +179,8 @@ class ScanditDataCaptureBarcodePackage : ReactPackage {
         ).also {
             it.onCreate(reactContext)
         }
+        barcodeCountModule = newInstance
+        return newInstance
     }
 
     private fun getSparkScanModule(

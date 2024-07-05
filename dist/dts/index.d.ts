@@ -9,6 +9,7 @@ export { BarcodeTrackingBasicOverlayStyle, BarcodeTrackingBasicOverlayListener, 
 export { BarcodeTrackingListener } from 'scandit-datacapture-frameworks-barcode';
 export { BarcodeTrackingSession } from 'scandit-datacapture-frameworks-barcode';
 export { BarcodeTrackingScenario, BarcodeTrackingSettings } from 'scandit-datacapture-frameworks-barcode';
+export * from './BarcodeTrackingView';
 export { BarcodeTrackingAdvancedOverlayView } from './BarcodeTrackingAdvancedOverlayView';
 export { BarcodeTrackingAdvancedOverlay } from './BarcodeTrackingAdvancedOverlay';
 export { BarcodeTrackingAdvancedOverlayListener } from './BarcodeTrackingAdvancedOverlayListener';
