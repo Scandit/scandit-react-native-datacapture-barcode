@@ -73,17 +73,4 @@ RCT_EXTERN_METHOD(showToast
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(addFeedbackDelegate
-                  : (RCTPromiseResolveBlock)resolve rejecter
-                  : (RCTPromiseRejectBlock)reject)
-
-RCT_EXTERN_METHOD(removeFeedbackDelegate
-                  : (RCTPromiseResolveBlock)resolve rejecter
-                  : (RCTPromiseRejectBlock)reject)
-
-RCT_EXTERN_METHOD(submitSparkScanFeedbackForBarcode
-                  : (nonnull NSString *)feedbackJson resolver
-                  : (RCTPromiseResolveBlock)resolve rejecter
-                  : (RCTPromiseRejectBlock)reject)
-
 @end

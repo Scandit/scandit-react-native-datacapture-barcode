@@ -30,7 +30,7 @@ class ScanditDataCaptureBarcodePick: RCTEventEmitter {
     }
 
     override func supportedEvents() -> [String]! {
-        BarcodePickEvent.allCases.map { $0.rawValue } + BarcodePickScanningEvent.allCases.map { $0.rawValue } + BarcodePickViewListenerEvents.allCases.map { $0.rawValue } + BarcodePickViewUiListenerEvents.allCases.map { $0.rawValue }
+        BarcodePickEvent.allCases.map { $0.rawValue }
     }
 
     @objc override func invalidate() {
@@ -81,42 +81,6 @@ class ScanditDataCaptureBarcodePick: RCTEventEmitter {
         resolve(nil)
     }
 
-    @objc(addScanningListener:rejecter:)
-    func addScanningListener(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
-        barcodePickModule.addScanningListener()
-        resolve(nil)
-    }
-
-    @objc(removeScanningListener:rejecter:)
-    func removeScanningListener(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
-        barcodePickModule.removeScanningListener()
-        resolve(nil)
-    }
-
-    @objc(addViewListener:rejecter:)
-    func addViewListener(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
-        barcodePickModule.addViewListener()
-        resolve(nil)
-    }
-
-    @objc(removeViewListener:rejecter:)
-    func removeViewListener(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
-        barcodePickModule.removeViewListener()
-        resolve(nil)
-    }
-
-    @objc(registerBarcodePickViewUiListener:rejecter:)
-    func registerBarcodePickViewUiListener(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
-        barcodePickModule.addViewUiListener()
-        resolve(nil)
-    }
-
-    @objc(unregisterBarcodePickViewUiListener:rejecter:)
-    func unregisterBarcodePickViewUiListener(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
-        barcodePickModule.removeViewUiListener()
-        resolve(nil)
-    }
-
     @objc(finishOnProductIdentifierForItems:resolver:rejecter:)
     func finishOnProductIdentifierForItems(jsonString: String,
                                            resolve: RCTPromiseResolveBlock,
@@ -125,28 +89,15 @@ class ScanditDataCaptureBarcodePick: RCTEventEmitter {
         resolve(nil)
     }
 
-    @objc(finishPickAction:result:resolver:rejecter:)
+    @objc(finishPickAction:resolver:rejecter:)
     func finishPickAction(data: String,
-                          result: Bool,
                           resolve: @escaping RCTPromiseResolveBlock,
                           reject: @escaping RCTPromiseRejectBlock) {
-        barcodePickModule.finishPickAction(data: data, result: result)
+        barcodePickModule.finishPickAction(data: data, result: .create(resolve, reject))
     }
 
     @objc(viewPause:rejecter:)
     func viewPause(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
-        // DO NOTHING ON IOS
-        resolve(nil)
-    }
-
-    @objc(viewResume:rejecter:)
-    func viewResume(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
-        // DO NOTHING ON IOS
-        resolve(nil)
-    }
-
-    @objc(viewStop:rejecter:)
-    func viewStop(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
         barcodePickModule.viewPause()
         resolve(nil)
     }
@@ -154,12 +105,6 @@ class ScanditDataCaptureBarcodePick: RCTEventEmitter {
     @objc(viewStart:rejecter:)
     func viewStart(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
         barcodePickModule.viewStart()
-        resolve(nil)
-    }
-
-    @objc(viewFreeze:rejecter:)
-    func viewFreeze(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
-        barcodePickModule.viewFreeze()
         resolve(nil)
     }
 }

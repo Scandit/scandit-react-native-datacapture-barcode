@@ -69,36 +69,6 @@ class ScanditDataCaptureBarcodePickModule(
     }
 
     @ReactMethod
-    fun addScanningListener(promise: Promise) {
-        barcodePickModule.addScanningListener(ReactNativeResult(promise))
-    }
-
-    @ReactMethod
-    fun removeScanningListener(promise: Promise) {
-        barcodePickModule.removeScanningListener(ReactNativeResult(promise))
-    }
-
-    @ReactMethod
-    fun addViewListener(promise: Promise) {
-        barcodePickModule.addViewListener(ReactNativeResult(promise))
-    }
-
-    @ReactMethod
-    fun removeViewListener(promise: Promise) {
-        barcodePickModule.removeViewListener(ReactNativeResult(promise))
-    }
-
-    @ReactMethod
-    fun registerBarcodePickViewUiListener(promise: Promise) {
-        barcodePickModule.addViewUiListener(ReactNativeResult(promise))
-    }
-
-    @ReactMethod
-    fun unregisterBarcodePickViewUiListener(promise: Promise) {
-        barcodePickModule.removeViewUiListener(ReactNativeResult(promise))
-    }
-
-    @ReactMethod
     fun finishOnProductIdentifierForItems(
         barcodePickProductProviderCallbackItemsJson: String,
         promise: Promise
@@ -110,43 +80,20 @@ class ScanditDataCaptureBarcodePickModule(
     }
 
     @ReactMethod
+    fun viewPause(promise: Promise) {
+        barcodePickModule.viewPause()
+        promise.resolve(null)
+    }
+
+    @ReactMethod
     fun viewStart(promise: Promise) {
         barcodePickModule.viewStart()
         promise.resolve(null)
     }
 
     @ReactMethod
-    fun viewFreeze(promise: Promise) {
-        barcodePickModule.viewFreeze(ReactNativeResult(promise))
-    }
-
-    @ReactMethod
-    fun viewStop(promise: Promise) {
-        barcodePickModule.viewStop()
-        promise.resolve(null)
-    }
-
-    @ReactMethod
-    fun viewRelease(promise: Promise) {
-        barcodePickModule.viewOnDestroy()
-        promise.resolve(null)
-    }
-
-    @ReactMethod
-    fun viewResume(promise: Promise) {
-        barcodePickModule.viewOnResume()
-        promise.resolve(null)
-    }
-
-    @ReactMethod
-    fun viewPause(promise: Promise) {
-        barcodePickModule.viewOnPause()
-        promise.resolve(null)
-    }
-
-    @ReactMethod
     fun finishPickAction(itemData: String, result: Boolean, promise: Promise) {
-        barcodePickModule.finishPickAction(itemData = itemData, result = result)
+        barcodePickModule.finishPickAction(itemData, result)
         promise.resolve(null)
     }
 }

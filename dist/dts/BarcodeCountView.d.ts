@@ -98,8 +98,6 @@ export declare class BarcodeCountView extends React.Component<BarcodeCountViewPr
     set textForMoveCloserAndRescanHint(newValue: string);
     get textForMoveFurtherAndRescanHint(): string;
     set textForMoveFurtherAndRescanHint(newValue: string);
-    get shouldShowListProgressBar(): boolean;
-    set shouldShowListProgressBar(newValue: boolean);
     get textForUnrecognizedBarcodesDetectedHint(): string;
     set textForUnrecognizedBarcodesDetectedHint(newValue: string);
     private static get barcodeCountDefaults();
@@ -145,17 +143,14 @@ export declare class BarcodeCountView extends React.Component<BarcodeCountViewPr
     private _textForScanningHint;
     private _textForMoveCloserAndRescanHint;
     private _textForMoveFurtherAndRescanHint;
-    private _shouldShowListProgressBar;
     private _textForUnrecognizedBarcodesDetectedHint;
     private _toolbarSettings;
     constructor(props: BarcodeCountViewProps);
-    componentDidMount(): void;
     componentWillUnmount(): void;
     clearHighlights(): void;
     setToolbarSettings(settings: BarcodeCountToolbarSettings): void;
     private updateNative;
     render(): React.JSX.Element;
-    private createFragment;
     private toJSON;
 }
 export {};

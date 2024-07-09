@@ -1,23 +1,17 @@
 import { SparkScanView } from '../SparkScanView';
-import { BaseNativeProxy } from 'scandit-datacapture-frameworks-core';
-import { SparkScanViewProxy } from 'scandit-datacapture-frameworks-barcode';
-export declare class NativeSparkScanViewProxy extends BaseNativeProxy implements SparkScanViewProxy {
+import { SparkScanViewFeedback } from 'scandit-datacapture-frameworks-barcode';
+export declare class SparkScanViewProxy {
     private view;
     private nativeListeners;
-    private feedbackForBarcodeListener;
-    bindView(view: SparkScanView): void;
-    createSparkScanView(viewJson: string): Promise<void>;
-    disposeSparkScanView(): Promise<void>;
-    emitSparkScanViewFeedback(feedbackJson: string): Promise<void>;
-    pauseSparkScanViewScanning(): Promise<void>;
-    prepareSparkScanViewScanning(): Promise<void>;
-    registerSparkScanViewListenerEvents(): void;
-    showToast(text: string): Promise<void>;
-    startSparkScanViewScanning(): Promise<void>;
-    stopSparkScanViewScanning(): Promise<void>;
-    submitFeedbackForBarcode(feedbackJson: string): Promise<void>;
-    registerDelegateForEvents(): Promise<void>;
-    unregisterDelegateForEvents(): Promise<void>;
-    unregisterSparkScanViewListenerEvents(): Promise<void>;
-    updateSparkScanView(viewJson: string): Promise<void>;
+    static forSparkScanView(view: SparkScanView): SparkScanViewProxy;
+    startScanning(): Promise<void>;
+    pauseScanning(): Promise<void>;
+    emitFeedback(feedback: SparkScanViewFeedback): Promise<void>;
+    dispose(): void;
+    private subscribeListeners;
+    private unsubscribeListeners;
+    private create;
+    update(): Promise<void>;
+    prepareScanning(): Promise<void>;
+    stopScanning(): Promise<void>;
 }

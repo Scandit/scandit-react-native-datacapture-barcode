@@ -6,17 +6,21 @@
 
 package com.scandit.datacapture.reactnative.barcode
 
+import android.view.ViewGroup
 import com.facebook.react.bridge.Promise
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
 import com.scandit.datacapture.core.ui.style.BrushDeserializer
 import com.scandit.datacapture.frameworks.barcode.count.BarcodeCountModule
+import com.scandit.datacapture.reactnative.barcode.ui.BarcodeCountViewManager
 import org.json.JSONArray
 
 class ScanditDataCaptureBarcodeCountModule(
     reactContext: ReactApplicationContext,
     private val barcodeCountModule: BarcodeCountModule,
+    private val viewManager: BarcodeCountViewManager,
+
 ) : ReactContextBaseJavaModule(reactContext) {
 
     override fun getName(): String = "ScanditDataCaptureBarcodeCount"
@@ -30,11 +34,34 @@ class ScanditDataCaptureBarcodeCountModule(
     @ReactMethod
     fun createView(
         @Suppress("UNUSED_PARAMETER") reactTag: Int,
-        @Suppress("UNUSED_PARAMETER") jsonString: String,
+        jsonString: String,
         promise: Promise
     ) {
-        // Noop in Android. Everything is handled in the BarcodeCountViewManager
-        promise.resolve(null)
+        barcodeCountModule.getViewFromJson(jsonString)?.let { barcodeCountView ->
+            val container = viewManager.currentContainer
+            if (container == null) {
+                viewManager.postContainerCreationAction = {
+                    viewManager.currentContainer?.addView(
+                        barcodeCountView,
+                        ViewGroup.LayoutParams(
+                            ViewGroup.LayoutParams.MATCH_PARENT,
+                            ViewGroup.LayoutParams.MATCH_PARENT
+                        )
+                    )
+                }
+                promise.resolve(null)
+                return
+            }
+
+            container.addView(
+                barcodeCountView,
+                ViewGroup.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.MATCH_PARENT
+                )
+            )
+            promise.resolve(null)
+        }
     }
 
     @ReactMethod
@@ -186,6 +213,7 @@ class ScanditDataCaptureBarcodeCountModule(
     }
 
     override fun invalidate() {
+        viewManager.dispose()
         barcodeCountModule.onDestroy()
         super.invalidate()
     }

@@ -203,7 +203,7 @@ class ScanditDataCaptureBarcodeTracking: RCTEventEmitter {
         barcodeTrackingModule.applyModeSettings(modeSettingsJson: modeSettingsJson, result: ReactNativeResult(resolve, reject))
     }
 
-    func rootViewWith(jsView: JSView) -> ScanditRootView {
+    private func rootViewWith(jsView: JSView) -> ScanditRootView {
         // To support self sizing js views we need to leverage the RCTRootViewDelegate
         // see https://reactnative.dev/docs/communication-ios
         let view = ScanditRootView(bridge: bridge,
@@ -235,6 +235,6 @@ extension ScanditDataCaptureBarcodeTracking: RCTRootViewDelegate {
     }
 }
 
-public class ScanditRootView: RCTRootView, TappableView {
-    public var didTap: (() -> Void)?
+fileprivate class ScanditRootView: RCTRootView, TappableView {
+    var didTap: (() -> Void)?
 }

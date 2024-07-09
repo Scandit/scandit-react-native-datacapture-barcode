@@ -32,9 +32,6 @@ var Symbology;
     Symbology["MatrixTwoOfFive"] = "matrix2of5";
     Symbology["USPSIntelligentMail"] = "uspsIntelligentMail";
     Symbology["ArUco"] = "aruco";
-    Symbology["Upu4State"] = "upu-4state";
-    Symbology["AustralianPost"] = "australian-post-4state";
-    Symbology["FrenchPost"] = "french-post";
 })(Symbology || (Symbology = {}));
 
 /******************************************************************************
@@ -308,8 +305,6 @@ function parseBarcodeCaptureDefaults(jsonDefaults) {
             .fromJSON(jsonDefaults.RecommendedCameraSettings),
         BarcodeCaptureSettings: {
             codeDuplicateFilter: jsonDefaults.BarcodeCaptureSettings.codeDuplicateFilter,
-            batterySavingMode: jsonDefaults.BarcodeCaptureSettings.batterySavingMode,
-            scanIntention: jsonDefaults.BarcodeCaptureSettings.scanIntention,
         },
         BarcodeCaptureOverlay: {
             defaultStyle: jsonDefaults.BarcodeCaptureOverlay.defaultStyle,
@@ -483,7 +478,6 @@ function parseBarcodeCountDefaults(jsonDefaults) {
             textForScanningHint: viewJsonDefaults.textForScanningHint,
             textForMoveCloserAndRescanHint: viewJsonDefaults.textForMoveCloserAndRescanHint,
             textForMoveFurtherAndRescanHint: viewJsonDefaults.textForMoveFurtherAndRescanHint,
-            shouldShowListProgressBar: viewJsonDefaults.shouldShowListProgressBar,
             toolbarSettings: parseBarcodeCountToolbarDefaults(toolbarJsonDefaults),
             listButtonAccessibilityHint: viewJsonDefaults.listButtonAccessibilityHint || null,
             listButtonAccessibilityLabel: viewJsonDefaults.listButtonAccessibilityLabel || null,
@@ -547,7 +541,7 @@ function getBarcodePickDefaults() {
 }
 function parseBarcodePickViewHighlightStyle(jsonStyles) {
     const styles = {};
-    Object.entries(jsonStyles).forEach(([key, value]) => {
+    Object.entries(jsonStyles).map(([key, value]) => {
         styles[key] = JSON.parse(value);
     });
     return styles;
@@ -557,13 +551,11 @@ function parseBarcodePickDefaults(jsonDefaults) {
         RecommendedCameraSettings: CameraSettings
             .fromJSON(jsonDefaults.RecommendedCameraSettings),
         BarcodePickSettings: {
-            arucoDictionary: jsonDefaults.BarcodePickSettings.arucoDictionary,
-            cachingEnabled: jsonDefaults.BarcodePickSettings.cachingEnabled,
             hapticsEnabled: jsonDefaults.BarcodePickSettings.hapticsEnabled,
             soundEnabled: jsonDefaults.BarcodePickSettings.soundEnabled,
         },
         ViewSettings: {
-            highlightStyle: JSON.parse(jsonDefaults.ViewSettings.HighlightStyle),
+            highlightStyle: jsonDefaults.ViewSettings.HighlightStyle,
             initialGuidelineText: jsonDefaults.ViewSettings.initialGuidelineText,
             moveCloserGuidelineText: jsonDefaults.ViewSettings.moveCloserGuidelineText,
             loadingDialogText: jsonDefaults.ViewSettings.loadingDialogText,
@@ -576,7 +568,7 @@ function parseBarcodePickDefaults(jsonDefaults) {
             showHints: jsonDefaults.ViewSettings.showHints,
             showFinishButton: jsonDefaults.ViewSettings.showFinishButton,
             showPauseButton: jsonDefaults.ViewSettings.showPauseButton,
-            showZoomButton: jsonDefaults.ViewSettings.showZoomButton,
+            showZoomButton: jsonDefaults.ViewSettings.showZoomButton
         },
         BarcodePickViewHighlightStyle: parseBarcodePickViewHighlightStyle(jsonDefaults.BarcodePickViewHighlightStyle),
         SymbologySettings: Object.keys(jsonDefaults.SymbologySettings)
@@ -593,14 +585,12 @@ function getBarcodeFindDefaults() {
     return FactoryMaker.getInstance('BarcodeFindDefaults');
 }
 function parseBarcodeFindDefaults(jsonDefaults) {
-    var _a, _b, _c, _d, _e, _f, _g, _h;
+    var _a, _b, _c, _d, _e, _f;
     return {
         RecommendedCameraSettings: CameraSettings
             .fromJSON(jsonDefaults.RecommendedCameraSettings),
         Feedback: {
-            found: Feedback.fromJSON(JSON.parse(jsonDefaults.BarcodeFindFeedback).found),
-            itemListUpdated: Feedback
-                .fromJSON(JSON.parse(jsonDefaults.BarcodeFindFeedback).itemListUpdated),
+            found: Feedback.fromJSON(JSON.parse(jsonDefaults.BarcodeFindFeedback).found)
         },
         BarcodeFindView: {
             shouldShowCarousel: jsonDefaults.shouldShowCarousel,
@@ -611,33 +601,120 @@ function parseBarcodeFindDefaults(jsonDefaults) {
             shouldShowUserGuidanceView: jsonDefaults.shouldShowUserGuidanceView,
             shouldShowTorchControl: jsonDefaults.shouldShowTorchControl,
             textForAllItemsFoundSuccessfullyHint: (_a = jsonDefaults.textForAllItemsFoundSuccessfullyHint) !== null && _a !== void 0 ? _a : null,
-            textForItemListUpdatedHint: (_b = jsonDefaults.textForItemListUpdatedHint) !== null && _b !== void 0 ? _b : null,
-            textForItemListUpdatedWhenPausedHint: (_c = jsonDefaults.textForItemListUpdatedWhenPausedHint) !== null && _c !== void 0 ? _c : null,
-            textForCollapseCardsButton: (_d = jsonDefaults.textForCollapseCardsButton) !== null && _d !== void 0 ? _d : null,
-            textForMoveCloserToBarcodesHint: (_e = jsonDefaults.textForMoveCloserToBarcodesHint) !== null && _e !== void 0 ? _e : null,
-            textForPointAtBarcodesToSearchHint: (_f = jsonDefaults.textForPointAtBarcodesToSearchHint) !== null && _f !== void 0 ? _f : null,
-            textForTapShutterToPauseScreenHint: (_g = jsonDefaults.textForTapShutterToPauseScreenHint) !== null && _g !== void 0 ? _g : null,
-            textForTapShutterToResumeSearchHint: (_h = jsonDefaults.textForTapShutterToResumeSearchHint) !== null && _h !== void 0 ? _h : null,
+            textForCollapseCardsButton: (_b = jsonDefaults.textForCollapseCardsButton) !== null && _b !== void 0 ? _b : null,
+            textForMoveCloserToBarcodesHint: (_c = jsonDefaults.textForMoveCloserToBarcodesHint) !== null && _c !== void 0 ? _c : null,
+            textForPointAtBarcodesToSearchHint: (_d = jsonDefaults.textForPointAtBarcodesToSearchHint) !== null && _d !== void 0 ? _d : null,
+            textForTapShutterToPauseScreenHint: (_e = jsonDefaults.textForTapShutterToPauseScreenHint) !== null && _e !== void 0 ? _e : null,
+            textForTapShutterToResumeSearchHint: (_f = jsonDefaults.textForTapShutterToResumeSearchHint) !== null && _f !== void 0 ? _f : null,
             torchControlPosition: jsonDefaults.torchControlPosition,
         }
     };
 }
 
+class SparkScanToastSettings extends DefaultSerializeable {
+    constructor() {
+        super(...arguments);
+        this._toastEnabled = false;
+        this._toastBackgroundColor = null;
+        this._toastTextColor = null;
+        this._targetModeEnabledMessage = null;
+        this._targetModeDisabledMessage = null;
+        this._continuousModeEnabledMessage = null;
+        this._continuousModeDisabledMessage = null;
+        this._cameraTimeoutMessage = null;
+    }
+    set toastEnabled(isEnabled) {
+        this._toastEnabled = isEnabled;
+    }
+    get toastEnabled() {
+        return this._toastEnabled;
+    }
+    set toastBackgroundColor(backgroundColor) {
+        this._toastBackgroundColor = backgroundColor;
+    }
+    get toastBackgroundColor() {
+        return this._toastBackgroundColor;
+    }
+    set toastTextColor(textColor) {
+        this._toastTextColor = textColor;
+    }
+    get toastTextColor() {
+        return this._toastTextColor;
+    }
+    set targetModeEnabledMessage(message) {
+        this._targetModeEnabledMessage = message;
+    }
+    get targetModeEnabledMessage() {
+        return this._targetModeEnabledMessage;
+    }
+    set targetModeDisabledMessage(message) {
+        this._targetModeDisabledMessage = message;
+    }
+    get targetModeDisabledMessage() {
+        return this._targetModeDisabledMessage;
+    }
+    set continuousModeEnabledMessage(message) {
+        this._continuousModeEnabledMessage = message;
+    }
+    get continuousModeEnabledMessage() {
+        return this._continuousModeEnabledMessage;
+    }
+    set continuousModeDisabledMessage(message) {
+        this._continuousModeDisabledMessage = message;
+    }
+    get continuousModeDisabledMessage() {
+        return this._continuousModeDisabledMessage;
+    }
+    set cameraTimeoutMessage(message) {
+        this._cameraTimeoutMessage = message;
+    }
+    get cameraTimeoutMessage() {
+        return this._cameraTimeoutMessage;
+    }
+    static fromJSON(json) {
+        const toastSettings = new SparkScanToastSettings();
+        toastSettings._toastEnabled = json.toastEnabled;
+        toastSettings._toastBackgroundColor = json.toastBackgroundColor;
+        toastSettings._toastTextColor = json.toastTextColor;
+        toastSettings._targetModeEnabledMessage = json.targetModeEnabledMessage;
+        toastSettings._targetModeDisabledMessage = json.targetModeDisabledMessage;
+        toastSettings._continuousModeEnabledMessage = json.continuousModeEnabledMessage;
+        toastSettings._continuousModeDisabledMessage = json.continuousModeDisabledMessage;
+        toastSettings._cameraTimeoutMessage = json.cameraTimeoutMessage;
+        return toastSettings;
+    }
+}
+__decorate([
+    nameForSerialization('toastEnabled')
+], SparkScanToastSettings.prototype, "_toastEnabled", void 0);
+__decorate([
+    nameForSerialization('toastBackgroundColor')
+], SparkScanToastSettings.prototype, "_toastBackgroundColor", void 0);
+__decorate([
+    nameForSerialization('toastTextColor')
+], SparkScanToastSettings.prototype, "_toastTextColor", void 0);
+__decorate([
+    nameForSerialization('targetModeEnabledMessage')
+], SparkScanToastSettings.prototype, "_targetModeEnabledMessage", void 0);
+__decorate([
+    nameForSerialization('targetModeDisabledMessage')
+], SparkScanToastSettings.prototype, "_targetModeDisabledMessage", void 0);
+__decorate([
+    nameForSerialization('continuousModeEnabledMessage')
+], SparkScanToastSettings.prototype, "_continuousModeEnabledMessage", void 0);
+__decorate([
+    nameForSerialization('continuousModeDisabledMessage')
+], SparkScanToastSettings.prototype, "_continuousModeDisabledMessage", void 0);
+__decorate([
+    nameForSerialization('cameraTimeoutMessage')
+], SparkScanToastSettings.prototype, "_cameraTimeoutMessage", void 0);
+
 function parseSparkScanDefaults(jsonDefaults) {
     const sparkScanViewSettingsDefaults = JSON.parse(jsonDefaults.SparkScanView.SparkScanViewSettings);
-    const toastSettingsDefaults = JSON.parse(sparkScanViewSettingsDefaults.toastSettings);
     const sparkScanDefaults = {
         Feedback: ({
-            success: {
-                visualFeedbackColor: Color.fromJSON(JSON.parse(jsonDefaults.Feedback.success).barcodeFeedback.visualFeedbackColor),
-                brush: new Brush(Color.fromJSON(JSON.parse(jsonDefaults.Feedback.success).barcodeFeedback.brush.fill.color), Color.fromJSON(JSON.parse(jsonDefaults.Feedback.success).barcodeFeedback.brush.stroke.color), JSON.parse(JSON.parse(jsonDefaults.Feedback.success).barcodeFeedback.brush.stroke.width)),
-                feedbackDefault: Feedback.fromJSON(JSON.parse(jsonDefaults.Feedback.success).barcodeFeedback.feedback),
-            },
-            error: {
-                visualFeedbackColor: JSON.parse(jsonDefaults.Feedback.error).barcodeFeedback.visualFeedbackColor,
-                brush: new Brush(Color.fromJSON(JSON.parse(jsonDefaults.Feedback.error).barcodeFeedback.brush.fill.color), Color.fromJSON(JSON.parse(jsonDefaults.Feedback.error).barcodeFeedback.brush.stroke.color), JSON.parse(JSON.parse(jsonDefaults.Feedback.error).barcodeFeedback.brush.stroke.width)),
-                feedbackDefault: Feedback.fromJSON(JSON.parse(jsonDefaults.Feedback.error).barcodeFeedback.feedback),
-            }
+            success: Feedback.fromJSON(JSON.parse(jsonDefaults.Feedback.success)),
+            error: Feedback.fromJSON(JSON.parse(jsonDefaults.Feedback.error))
         }),
         SparkScanSettings: {
             batterySaving: jsonDefaults.SparkScanSettings.batterySaving,
@@ -645,12 +722,15 @@ function parseSparkScanDefaults(jsonDefaults) {
             locationSelection: (fromJSON) => {
                 return fromJSON(JSON.parse(jsonDefaults.SparkScanSettings.locationSelection));
             },
-            singleBarcodeAutoDetection: jsonDefaults.SparkScanSettings.singleBarcodeAutoDetection,
-            scanIntention: jsonDefaults.SparkScanSettings.scanIntention,
+            singleBarcodeAutoDetection: jsonDefaults.SparkScanSettings.singleBarcodeAutoDetection
         },
         SparkScanView: {
             shouldShowScanAreaGuides: jsonDefaults.SparkScanView.shouldShowScanAreaGuides,
-            brush: new Brush(Color.fromJSON(jsonDefaults.SparkScanView.brush.fillColor), Color.fromJSON(jsonDefaults.SparkScanView.brush.strokeColor), jsonDefaults.SparkScanView.brush.strokeWidth),
+            brush: {
+                fillColor: Color.fromJSON(jsonDefaults.SparkScanView.brush.fillColor),
+                strokeColor: Color.fromJSON(jsonDefaults.SparkScanView.brush.strokeColor),
+                strokeWidth: jsonDefaults.SparkScanView.brush.strokeWidth
+            },
             torchButtonVisible: jsonDefaults.SparkScanView.torchButtonVisible,
             scanningBehaviorButtonVisible: jsonDefaults.SparkScanView.scanningBehaviorButtonVisible,
             handModeButtonVisible: jsonDefaults.SparkScanView.handModeButtonVisible,
@@ -659,7 +739,6 @@ function parseSparkScanDefaults(jsonDefaults) {
             targetModeButtonVisible: jsonDefaults.SparkScanView.targetModeButtonVisible,
             soundModeButtonVisible: jsonDefaults.SparkScanView.soundModeButtonVisible,
             hapticModeButtonVisible: jsonDefaults.SparkScanView.hapticModeButtonVisible,
-            previewSizeControlVisible: jsonDefaults.SparkScanView.previewSizeControlVisible,
             stopCapturingText: jsonDefaults.SparkScanView.stopCapturingText || null,
             startCapturingText: jsonDefaults.SparkScanView.stopCapturingText || null,
             resumeCapturingText: jsonDefaults.SparkScanView.resumeCapturingText || null,
@@ -678,7 +757,6 @@ function parseSparkScanDefaults(jsonDefaults) {
                 .fromJSON(jsonDefaults.SparkScanView.toolbarIconActiveTintColor) : null,
             toolbarIconInactiveTintColor: jsonDefaults.SparkScanView.toolbarIconInactiveTintColor ? Color
                 .fromJSON(jsonDefaults.SparkScanView.toolbarIconInactiveTintColor) : null,
-            cameraSwitchButtonVisible: jsonDefaults.SparkScanView.cameraSwitchButtonVisible,
             SparkScanViewSettings: {
                 triggerButtonCollapseTimeout: sparkScanViewSettingsDefaults.triggerButtonCollapseTimeout,
                 continuousCaptureTimeout: sparkScanViewSettingsDefaults.continuousCaptureTimeout,
@@ -693,31 +771,10 @@ function parseSparkScanDefaults(jsonDefaults) {
                 hardwareTriggerEnabled: sparkScanViewSettingsDefaults.hardwareTriggerEnabled,
                 hardwareTriggerKeyCode: sparkScanViewSettingsDefaults.hardwareTriggerKeyCode,
                 visualFeedbackEnabled: sparkScanViewSettingsDefaults.visualFeedbackEnabled ? sparkScanViewSettingsDefaults.visualFeedbackEnabled : false,
-                toastSettings: {
-                    toastEnabled: toastSettingsDefaults.toastEnabled,
-                    toastBackgroundColor: toastSettingsDefaults.toastBackgroundColor ? Color
-                        .fromJSON(toastSettingsDefaults.toastBackgroundColor) : null,
-                    toastTextColor: toastSettingsDefaults.toastTextColor ? Color
-                        .fromJSON(toastSettingsDefaults.toastTextColor) : null,
-                    targetModeEnabledMessage: toastSettingsDefaults.targetModeEnabledMessage,
-                    targetModeDisabledMessage: toastSettingsDefaults.targetModeEnabledMessage,
-                    continuousModeEnabledMessage: toastSettingsDefaults.targetModeEnabledMessage,
-                    continuousModeDisabledMessage: toastSettingsDefaults.targetModeEnabledMessage,
-                    cameraTimeoutMessage: toastSettingsDefaults.targetModeEnabledMessage,
-                    worldFacingCameraEnabledMessage: toastSettingsDefaults.targetModeEnabledMessage,
-                    userFacingCameraEnabledMessage: toastSettingsDefaults.targetModeEnabledMessage,
-                    scanPausedMessage: toastSettingsDefaults.targetModeEnabledMessage,
-                    zoomedInMessage: toastSettingsDefaults.targetModeEnabledMessage,
-                    zoomedOutMessage: toastSettingsDefaults.targetModeEnabledMessage,
-                    torchEnabledMessage: toastSettingsDefaults.targetModeEnabledMessage,
-                    torchDisabledMessage: toastSettingsDefaults.targetModeEnabledMessage,
-                },
+                toastSettings: SparkScanToastSettings
+                    .fromJSON(sparkScanViewSettingsDefaults.toastSettings),
                 targetZoomFactorOut: sparkScanViewSettingsDefaults.targetZoomFactorOut,
                 targetZoomFactorIn: sparkScanViewSettingsDefaults.targetZoomFactorIn,
-                zoomFactorOut: sparkScanViewSettingsDefaults.zoomFactorOut,
-                zoomFactorIn: sparkScanViewSettingsDefaults.zoomFactorIn,
-                inactiveStateTimeout: sparkScanViewSettingsDefaults.inactiveStateTimeout,
-                defaultCameraPosition: sparkScanViewSettingsDefaults.defaultCameraPosition,
             }
         },
     };
@@ -794,7 +851,7 @@ class StructuredAppendData {
     }
 }
 
-class Barcode extends DefaultSerializeable {
+class Barcode {
     get symbology() { return this._symbology; }
     get data() { return this._data; }
     get rawData() { return this._rawData; }
@@ -831,48 +888,6 @@ class Barcode extends DefaultSerializeable {
         return barcode;
     }
 }
-__decorate([
-    nameForSerialization('symbology')
-], Barcode.prototype, "_symbology", void 0);
-__decorate([
-    nameForSerialization('data')
-], Barcode.prototype, "_data", void 0);
-__decorate([
-    nameForSerialization('rawData')
-], Barcode.prototype, "_rawData", void 0);
-__decorate([
-    nameForSerialization('compositeData')
-], Barcode.prototype, "_compositeData", void 0);
-__decorate([
-    nameForSerialization('compositeRawData')
-], Barcode.prototype, "_compositeRawData", void 0);
-__decorate([
-    nameForSerialization('addOnData')
-], Barcode.prototype, "_addOnData", void 0);
-__decorate([
-    nameForSerialization('encodingRanges')
-], Barcode.prototype, "_encodingRanges", void 0);
-__decorate([
-    nameForSerialization('location')
-], Barcode.prototype, "_location", void 0);
-__decorate([
-    nameForSerialization('isGS1DataCarrier')
-], Barcode.prototype, "_isGS1DataCarrier", void 0);
-__decorate([
-    nameForSerialization('compositeFlag')
-], Barcode.prototype, "_compositeFlag", void 0);
-__decorate([
-    nameForSerialization('isColorInverted')
-], Barcode.prototype, "_isColorInverted", void 0);
-__decorate([
-    nameForSerialization('symbolCount')
-], Barcode.prototype, "_symbolCount", void 0);
-__decorate([
-    nameForSerialization('frameID')
-], Barcode.prototype, "_frameID", void 0);
-__decorate([
-    nameForSerialization('structuredAppendData')
-], Barcode.prototype, "_structuredAppendData", void 0);
 
 var BatterySavingMode;
 (function (BatterySavingMode) {
@@ -1110,9 +1125,9 @@ class BarcodeCaptureListenerController {
     }
     unsubscribeListener() {
         this._proxy.unregisterListenerForEvents();
-        this.eventEmitter.removeAllListeners(BarcodeCaptureListenerEvents.inCallback);
-        this.eventEmitter.removeAllListeners(BarcodeCaptureListenerEvents.didUpdateSession);
-        this.eventEmitter.removeAllListeners(BarcodeCaptureListenerEvents.didScan);
+        this.eventEmitter.removeListener(BarcodeCaptureListenerEvents.inCallback);
+        this.eventEmitter.removeListener(BarcodeCaptureListenerEvents.didUpdateSession);
+        this.eventEmitter.removeListener(BarcodeCaptureListenerEvents.didScan);
     }
     notifyListenersOfDidUpdateSession(session) {
         const mode = this.barcodeCapture;
@@ -1260,12 +1275,6 @@ class BarcodeCaptureOverlay extends DefaultSerializeable {
     }
     set viewfinder(newViewfinder) {
         this._viewfinder = newViewfinder;
-        if (newViewfinder) {
-            this.eventEmitter.on('viewfinder.update', this.handleViewFinderUpdate);
-        }
-        else {
-            this.eventEmitter.off('viewfinder.update');
-        }
         this.barcodeCapture.controller.updateBarcodeCaptureOverlay(this);
     }
     get shouldShowScanAreaGuides() {
@@ -1302,11 +1311,6 @@ class BarcodeCaptureOverlay extends DefaultSerializeable {
         this._shouldShowScanAreaGuides = false;
         this._viewfinder = null;
         this._brush = BarcodeCaptureOverlay.barcodeCaptureDefaults.BarcodeCaptureOverlay.DefaultBrush;
-        this.eventEmitter = FactoryMaker.getInstance('EventEmitter');
-        this.handleViewFinderUpdate = this.handleViewFinderUpdate.bind(this);
-    }
-    handleViewFinderUpdate() {
-        this.barcodeCapture.controller.updateBarcodeCaptureOverlay(this);
     }
 }
 __decorate([
@@ -1325,9 +1329,6 @@ __decorate([
 __decorate([
     nameForSerialization('style')
 ], BarcodeCaptureOverlay.prototype, "_style", void 0);
-__decorate([
-    ignoreFromSerialization
-], BarcodeCaptureOverlay.prototype, "eventEmitter", void 0);
 __decorate([
     nameForSerialization('brush')
 ], BarcodeCaptureOverlay.prototype, "_brush", void 0);
@@ -1366,8 +1367,6 @@ class BarcodeCaptureSettings extends DefaultSerializeable {
         this.symbologies = {};
         this._codeDuplicateFilter = BarcodeCaptureSettings.barcodeCaptureDefaults.BarcodeCaptureSettings.codeDuplicateFilter;
         this._arucoDictionary = null;
-        this.batterySavingMode = BarcodeCaptureSettings.barcodeCaptureDefaults.BarcodeCaptureSettings.batterySavingMode;
-        this.scanIntention = BarcodeCaptureSettings.barcodeCaptureDefaults.BarcodeCaptureSettings.scanIntention;
     }
     settingsForSymbology(symbology) {
         if (!this.symbologies[symbology]) {
@@ -1499,8 +1498,8 @@ class BarcodeSelectionListenerController {
     }
     unsubscribeListener() {
         this._proxy.unregisterListenerForEvents();
-        this.eventEmitter.removeAllListeners(BarcodeSelectionListenerEvents.didUpdateSelection);
-        this.eventEmitter.removeAllListeners(BarcodeSelectionListenerEvents.didUpdateSession);
+        this.eventEmitter.removeListener(BarcodeSelectionListenerEvents.didUpdateSelection);
+        this.eventEmitter.removeListener(BarcodeSelectionListenerEvents.didUpdateSession);
     }
     notifyListenersOfDidUpdateSelection(session) {
         const mode = this.barcodeSelection;
@@ -1762,7 +1761,7 @@ class BarcodeSelectionOverlayController {
     }
     setAimedBarcodeBrushProvider(brushProvider) {
         if (!brushProvider) {
-            this.eventEmitter.removeAllListeners(BarcodeSelectionBrushProviderEvents.brushForAimedBarcode);
+            this.eventEmitter.removeListener(BarcodeSelectionBrushProviderEvents.brushForAimedBarcode);
             return this._proxy.removeAimedBarcodeBrushProvider();
         }
         const subscriptionResult = this._proxy.setAimedBarcodeBrushProvider();
@@ -1781,7 +1780,7 @@ class BarcodeSelectionOverlayController {
     }
     setTrackedBarcodeBrushProvider(brushProvider) {
         if (!brushProvider) {
-            this.eventEmitter.removeAllListeners(BarcodeSelectionBrushProviderEvents.brushForTrackedBarcode);
+            this.eventEmitter.removeListener(BarcodeSelectionBrushProviderEvents.brushForTrackedBarcode);
             return this._proxy.removeTrackedBarcodeBrushProvider();
         }
         const subscriptionResult = this._proxy.setTrackedBarcodeBrushProvider();
@@ -1804,8 +1803,8 @@ class BarcodeSelectionOverlayController {
     // TODO: We need to unsubscribe from the providers when the overlay is removed. Need spec.
     // https://scandit.atlassian.net/browse/SDC-16608
     unsubscribeProviders() {
-        this.eventEmitter.removeAllListeners(BarcodeSelectionBrushProviderEvents.brushForAimedBarcode);
-        this.eventEmitter.removeAllListeners(BarcodeSelectionBrushProviderEvents.brushForTrackedBarcode);
+        this.eventEmitter.removeListener(BarcodeSelectionBrushProviderEvents.brushForAimedBarcode);
+        this.eventEmitter.removeListener(BarcodeSelectionBrushProviderEvents.brushForTrackedBarcode);
         this._proxy.removeAimedBarcodeBrushProvider();
         this._proxy.removeTrackedBarcodeBrushProvider();
     }
@@ -2283,8 +2282,8 @@ class BarcodeCountListenerController {
     }
     unsubscribeListener() {
         this._proxy.unregisterBarcodeCountListener();
-        this.eventEmitter.removeAllListeners(BarcodeCountListenerEvents.didScan);
-        this.eventEmitter.removeAllListeners(BarcodeCountListenerEvents.didListSessionUpdate);
+        this.eventEmitter.removeListener(BarcodeCountListenerEvents.didScan);
+        this.eventEmitter.removeListener(BarcodeCountListenerEvents.didListSessionUpdate);
     }
     startScanningPhase() {
         this._proxy.startScanningPhase();
@@ -2366,16 +2365,10 @@ class BarcodeCount extends DefaultSerializeable {
         return this.didChange();
     }
     addListener(listener) {
-        this.checkAndSubscribeListeners();
         if (this.listeners.includes(listener)) {
             return;
         }
         this.listeners.push(listener);
-    }
-    checkAndSubscribeListeners() {
-        if (this.listeners.length === 0) {
-            this.listenerController.subscribeListener();
-        }
     }
     removeListener(listener) {
         if (!this.listeners.includes(listener)) {
@@ -2414,6 +2407,9 @@ class BarcodeCount extends DefaultSerializeable {
     }
     didChange() {
         return this.listenerController.update();
+    }
+    subscribeNativeListeners() {
+        this.listenerController.subscribeListener();
     }
     unsubscribeNativeListeners() {
         this.listenerController.unsubscribeListener();
@@ -2567,21 +2563,6 @@ class BarcodeCountToolbarSettings extends DefaultSerializeable {
 __decorate([
     ignoreFromSerialization
 ], BarcodeCountToolbarSettings, "barcodeCountDefaults", null);
-
-var BarcodeCountViewEvents;
-(function (BarcodeCountViewEvents) {
-    BarcodeCountViewEvents["singleScanButtonTapped"] = "BarcodeCountViewUiListener.onSingleScanButtonTapped";
-    BarcodeCountViewEvents["listButtonTapped"] = "BarcodeCountViewUiListener.onListButtonTapped";
-    BarcodeCountViewEvents["exitButtonTapped"] = "BarcodeCountViewUiListener.onExitButtonTapped";
-    BarcodeCountViewEvents["brushForRecognizedBarcode"] = "BarcodeCountViewListener.brushForRecognizedBarcode";
-    BarcodeCountViewEvents["brushForRecognizedBarcodeNotInList"] = "BarcodeCountViewListener.brushForRecognizedBarcodeNotInList";
-    BarcodeCountViewEvents["brushForUnrecognizedBarcode"] = "BarcodeCountViewListener.brushForUnrecognizedBarcode";
-    BarcodeCountViewEvents["filteredBarcodeTapped"] = "BarcodeCountViewListener.didTapFilteredBarcode";
-    BarcodeCountViewEvents["recognizedBarcodeNotInListTapped"] = "BarcodeCountViewListener.didTapRecognizedBarcodeNotInList";
-    BarcodeCountViewEvents["recognizedBarcodeTapped"] = "BarcodeCountViewListener.didTapRecognizedBarcode";
-    BarcodeCountViewEvents["unrecognizedBarcodeTapped"] = "BarcodeCountViewListener.didTapUnrecognizedBarcode";
-    BarcodeCountViewEvents["captureListCompleted"] = "BarcodeCountViewListener.didCompleteCaptureList";
-})(BarcodeCountViewEvents || (BarcodeCountViewEvents = {}));
 
 class BarcodeFilterHighlightSettingsBrush extends DefaultSerializeable {
     static create(brush) {
@@ -2769,8 +2750,8 @@ class BarcodeTrackingListenerController {
     }
     unsubscribeListener() {
         this._proxy.unregisterListenerForEvents();
-        this.eventEmitter.removeAllListeners(BarcodeTrackingListenerEvents.inCallback);
-        this.eventEmitter.removeAllListeners(BarcodeTrackingListenerEvents.didUpdateSession);
+        this.eventEmitter.removeListener(BarcodeTrackingListenerEvents.inCallback);
+        this.eventEmitter.removeListener(BarcodeTrackingListenerEvents.didUpdateSession);
     }
     setModeEnabledState(enabled) {
         this._proxy.setModeEnabledState(enabled);
@@ -2966,9 +2947,9 @@ class BarcodeTrackingAdvancedOverlayController {
     }
     unsubscribeListener() {
         this._proxy.unregisterListenerForAdvancedOverlayEvents();
-        this.eventEmitter.removeAllListeners(BarcodeTrackingAdvancedOverlayListenerEvents.anchorForTrackedBarcode);
-        this.eventEmitter.removeAllListeners(BarcodeTrackingAdvancedOverlayListenerEvents.offsetForTrackedBarcode);
-        this.eventEmitter.removeAllListeners(BarcodeTrackingAdvancedOverlayListenerEvents.viewForTrackedBarcode);
+        this.eventEmitter.removeListener(BarcodeTrackingAdvancedOverlayListenerEvents.anchorForTrackedBarcode);
+        this.eventEmitter.removeListener(BarcodeTrackingAdvancedOverlayListenerEvents.offsetForTrackedBarcode);
+        this.eventEmitter.removeListener(BarcodeTrackingAdvancedOverlayListenerEvents.viewForTrackedBarcode);
     }
 }
 
@@ -3024,8 +3005,8 @@ class BarcodeTrackingBasicOverlayController {
     }
     unsubscribeListener() {
         this._proxy.unregisterListenerForBasicOverlayEvents();
-        this.eventEmitter.removeAllListeners(BarcodeTrackingBasicOverlayListenerEvents.brushForTrackedBarcode);
-        this.eventEmitter.removeAllListeners(BarcodeTrackingBasicOverlayListenerEvents.didTapTrackedBarcode);
+        this.eventEmitter.removeListener(BarcodeTrackingBasicOverlayListenerEvents.brushForTrackedBarcode);
+        this.eventEmitter.removeListener(BarcodeTrackingBasicOverlayListenerEvents.didTapTrackedBarcode);
     }
 }
 
@@ -3246,19 +3227,17 @@ __decorate([
     ignoreFromSerialization
 ], BaseBarcodeTrackingAdvancedOverlay.prototype, "_view", void 0);
 
-// @Deprecated('This class is not used anymore. Use SparkScanBarcodeFeedback and FeedbackDelegate instead.')
 class SparkScanFeedback extends DefaultSerializeable {
     static get sparkScanDefaults() {
         return getSparkScanDefaults();
     }
     static get default() {
-        return new SparkScanFeedback(Feedback.defaultFeedback, Feedback.defaultFeedback);
+        return new SparkScanFeedback(SparkScanFeedback.sparkScanDefaults.Feedback.success, SparkScanFeedback.sparkScanDefaults.Feedback.error);
     }
     constructor(success, error) {
         super();
         this.success = success;
         this.error = error;
-        console.warn('This class is not used anymore. Use SparkScanBarcodeFeedback and FeedbackDelegate instead.');
     }
 }
 __decorate([
@@ -3324,8 +3303,8 @@ class SparkScanListenerController extends BaseController {
     }
     unsubscribeListener() {
         this._proxy.unregisterListenerForEvents();
-        this.eventEmitter.removeAllListeners(SparkScanListenerEvents.didUpdateSession);
-        this.eventEmitter.removeAllListeners(SparkScanListenerEvents.didScan);
+        this.eventEmitter.removeListener(SparkScanListenerEvents.didUpdateSession);
+        this.eventEmitter.removeListener(SparkScanListenerEvents.didScan);
     }
     setModeEnabledState(enabled) {
         this._proxy.setModeEnabledState(enabled);
@@ -3396,28 +3375,16 @@ class SparkScan extends DefaultSerializeable {
         return this.didChange();
     }
     addListener(listener) {
-        this.checkAndSubscribeListeners();
         if (this.listeners.includes(listener)) {
             return;
         }
         this.listeners.push(listener);
-    }
-    checkAndSubscribeListeners() {
-        if (this.listeners.length === 0) {
-            this.listenerController.subscribeListener();
-        }
-    }
-    checkAndUnsubscribeListeners() {
-        if (this.listeners.length === 0) {
-            this.listenerController.unsubscribeListener();
-        }
     }
     removeListener(listener) {
         if (!this.listeners.includes(listener)) {
             return;
         }
         this.listeners.splice(this.listeners.indexOf(listener));
-        this.checkAndUnsubscribeListeners();
     }
     didChange() {
         if (this.listenerController) {
@@ -3426,6 +3393,9 @@ class SparkScan extends DefaultSerializeable {
         else {
             return Promise.resolve();
         }
+    }
+    subscribeNativeListeners() {
+        this.listenerController.subscribeListener();
     }
     unsubscribeNativeListeners() {
         this.listenerController.unsubscribeListener();
@@ -3450,177 +3420,6 @@ __decorate([
     ignoreFromSerialization
 ], SparkScan.prototype, "isInListenerCallback", void 0);
 
-var SparkScanPreviewBehavior;
-(function (SparkScanPreviewBehavior) {
-    SparkScanPreviewBehavior["Persistent"] = "accurate";
-    SparkScanPreviewBehavior["Default"] = "default";
-})(SparkScanPreviewBehavior || (SparkScanPreviewBehavior = {}));
-
-class SparkScanToastSettings extends DefaultSerializeable {
-    constructor() {
-        super(...arguments);
-        this._toastEnabled = SparkScanToastSettings.toastSettings.toastEnabled;
-        this._toastBackgroundColor = SparkScanToastSettings.toastSettings.toastBackgroundColor;
-        this._toastTextColor = SparkScanToastSettings.toastSettings.toastTextColor;
-        this._targetModeEnabledMessage = SparkScanToastSettings.toastSettings.targetModeEnabledMessage;
-        this._targetModeDisabledMessage = SparkScanToastSettings.toastSettings.targetModeDisabledMessage;
-        this._continuousModeEnabledMessage = SparkScanToastSettings.toastSettings.continuousModeEnabledMessage;
-        this._continuousModeDisabledMessage = SparkScanToastSettings.toastSettings.continuousModeDisabledMessage;
-        this._cameraTimeoutMessage = SparkScanToastSettings.toastSettings.cameraTimeoutMessage;
-        this._scanPausedMessage = SparkScanToastSettings.toastSettings.scanPausedMessage;
-        this._zoomedInMessage = SparkScanToastSettings.toastSettings.zoomedInMessage;
-        this._zoomedOutMessage = SparkScanToastSettings.toastSettings.zoomedOutMessage;
-        this._torchEnabledMessage = SparkScanToastSettings.toastSettings.torchEnabledMessage;
-        this._torchDisabledMessage = SparkScanToastSettings.toastSettings.torchDisabledMessage;
-        this._userFacingCameraEnabledMessage = SparkScanToastSettings.toastSettings.userFacingCameraEnabledMessage;
-        this._worldFacingCameraEnabledMessage = SparkScanToastSettings.toastSettings.worldFacingCameraEnabledMessage;
-    }
-    set toastEnabled(isEnabled) {
-        this._toastEnabled = isEnabled;
-    }
-    get toastEnabled() {
-        return this._toastEnabled;
-    }
-    set toastBackgroundColor(backgroundColor) {
-        this._toastBackgroundColor = backgroundColor;
-    }
-    get toastBackgroundColor() {
-        return this._toastBackgroundColor;
-    }
-    set toastTextColor(textColor) {
-        this._toastTextColor = textColor;
-    }
-    get toastTextColor() {
-        return this._toastTextColor;
-    }
-    set targetModeEnabledMessage(message) {
-        this._targetModeEnabledMessage = message;
-    }
-    get targetModeEnabledMessage() {
-        return this._targetModeEnabledMessage;
-    }
-    set targetModeDisabledMessage(message) {
-        this._targetModeDisabledMessage = message;
-    }
-    get targetModeDisabledMessage() {
-        return this._targetModeDisabledMessage;
-    }
-    set continuousModeEnabledMessage(message) {
-        this._continuousModeEnabledMessage = message;
-    }
-    get continuousModeEnabledMessage() {
-        return this._continuousModeEnabledMessage;
-    }
-    set continuousModeDisabledMessage(message) {
-        this._continuousModeDisabledMessage = message;
-    }
-    get continuousModeDisabledMessage() {
-        return this._continuousModeDisabledMessage;
-    }
-    set cameraTimeoutMessage(message) {
-        this._cameraTimeoutMessage = message;
-    }
-    get cameraTimeoutMessage() {
-        return this._cameraTimeoutMessage;
-    }
-    set scanPausedMessage(message) {
-        this._scanPausedMessage = message;
-    }
-    get scanPausedMessage() {
-        return this._scanPausedMessage;
-    }
-    set zoomedInMessage(message) {
-        this._zoomedInMessage = message;
-    }
-    get zoomedInMessage() {
-        return this._zoomedInMessage;
-    }
-    set zoomedOutMessage(message) {
-        this._zoomedOutMessage = message;
-    }
-    get zoomedOutMessage() {
-        return this._zoomedOutMessage;
-    }
-    set torchEnabledMessage(message) {
-        this._torchEnabledMessage = message;
-    }
-    get torchEnabledMessage() {
-        return this._torchEnabledMessage;
-    }
-    set torchDisabledMessage(message) {
-        this._torchDisabledMessage = message;
-    }
-    get torchDisabledMessage() {
-        return this._torchDisabledMessage;
-    }
-    set worldFacingCameraEnabledMessage(message) {
-        this._worldFacingCameraEnabledMessage = message;
-    }
-    get worldFacingCameraEnabledMessage() {
-        return this._worldFacingCameraEnabledMessage;
-    }
-    set userFacingCameraEnabledMessage(message) {
-        this._userFacingCameraEnabledMessage = message;
-    }
-    get userFacingCameraEnabledMessage() {
-        return this._userFacingCameraEnabledMessage;
-    }
-    static get sparkScanDefaults() {
-        return getSparkScanDefaults();
-    }
-    static get toastSettings() {
-        return SparkScanToastSettings.sparkScanDefaults.SparkScanView.SparkScanViewSettings.toastSettings;
-    }
-}
-__decorate([
-    nameForSerialization('toastEnabled')
-], SparkScanToastSettings.prototype, "_toastEnabled", void 0);
-__decorate([
-    nameForSerialization('toastBackgroundColor')
-], SparkScanToastSettings.prototype, "_toastBackgroundColor", void 0);
-__decorate([
-    nameForSerialization('toastTextColor')
-], SparkScanToastSettings.prototype, "_toastTextColor", void 0);
-__decorate([
-    nameForSerialization('targetModeEnabledMessage')
-], SparkScanToastSettings.prototype, "_targetModeEnabledMessage", void 0);
-__decorate([
-    nameForSerialization('targetModeDisabledMessage')
-], SparkScanToastSettings.prototype, "_targetModeDisabledMessage", void 0);
-__decorate([
-    nameForSerialization('continuousModeEnabledMessage')
-], SparkScanToastSettings.prototype, "_continuousModeEnabledMessage", void 0);
-__decorate([
-    nameForSerialization('continuousModeDisabledMessage')
-], SparkScanToastSettings.prototype, "_continuousModeDisabledMessage", void 0);
-__decorate([
-    nameForSerialization('cameraTimeoutMessage')
-], SparkScanToastSettings.prototype, "_cameraTimeoutMessage", void 0);
-__decorate([
-    nameForSerialization('scanPausedMessage')
-], SparkScanToastSettings.prototype, "_scanPausedMessage", void 0);
-__decorate([
-    nameForSerialization('zoomedInMessage')
-], SparkScanToastSettings.prototype, "_zoomedInMessage", void 0);
-__decorate([
-    nameForSerialization('zoomedOutMessage')
-], SparkScanToastSettings.prototype, "_zoomedOutMessage", void 0);
-__decorate([
-    nameForSerialization('torchEnabledMessage')
-], SparkScanToastSettings.prototype, "_torchEnabledMessage", void 0);
-__decorate([
-    nameForSerialization('torchDisabledMessage')
-], SparkScanToastSettings.prototype, "_torchDisabledMessage", void 0);
-__decorate([
-    nameForSerialization('userFacingCameraEnabledMessage')
-], SparkScanToastSettings.prototype, "_userFacingCameraEnabledMessage", void 0);
-__decorate([
-    nameForSerialization('worldFacingCameraEnabledMessage')
-], SparkScanToastSettings.prototype, "_worldFacingCameraEnabledMessage", void 0);
-__decorate([
-    ignoreFromSerialization
-], SparkScanToastSettings, "sparkScanDefaults", null);
-
 var SparkScanScanningBehavior;
 (function (SparkScanScanningBehavior) {
     SparkScanScanningBehavior["Single"] = "single";
@@ -3631,40 +3430,23 @@ class PrivateSparkScanScanningModeSettings extends DefaultSerializeable {
     get scanningBehavior() {
         return this._scanningBehavior;
     }
-    get previewBehavior() {
-        return this._previewBehavior;
-    }
-    constructor(scanScanningBehavior, scanPreviewBehavior) {
+    constructor(scanScanningBehavior) {
         super();
         this._scanningBehavior = scanScanningBehavior;
-        this._previewBehavior = scanPreviewBehavior;
     }
 }
 __decorate([
     nameForSerialization('scanningBehavior')
 ], PrivateSparkScanScanningModeSettings.prototype, "_scanningBehavior", void 0);
-__decorate([
-    nameForSerialization('scanningBehavior')
-], PrivateSparkScanScanningModeSettings.prototype, "_previewBehavior", void 0);
 
 class SparkScanScanningModeDefault extends DefaultSerializeable {
     get scanningBehavior() {
         return this._settings.scanningBehavior;
     }
-    get previewBehavior() {
-        return this._settings.previewBehavior;
-    }
-    constructor(scanningBehavior, previewBehavior) {
+    constructor(scanningBehavior) {
         super();
         this.type = 'default';
-        if (previewBehavior) {
-            this._settings = new PrivateSparkScanScanningModeSettings(scanningBehavior, previewBehavior);
-        }
-        else {
-            const previewBehavior = SparkScanPreviewBehavior.Default;
-            this._settings = new PrivateSparkScanScanningModeSettings(scanningBehavior, previewBehavior);
-            console.warn('SparkScanScanningModeDefault(scanningBehavior: SparkScanScanningBehavior) is deprecated.');
-        }
+        this._settings = new PrivateSparkScanScanningModeSettings(scanningBehavior);
     }
 }
 __decorate([
@@ -3675,20 +3457,10 @@ class SparkScanScanningModeTarget extends DefaultSerializeable {
     get scanningBehavior() {
         return this._settings.scanningBehavior;
     }
-    get previewBehavior() {
-        return this._settings.previewBehavior;
-    }
-    constructor(scanningBehavior, previewBehavior) {
+    constructor(scanningBehavior) {
         super();
         this.type = 'target';
-        if (previewBehavior) {
-            this._settings = new PrivateSparkScanScanningModeSettings(scanningBehavior, previewBehavior);
-        }
-        else {
-            const previewBehavior = SparkScanPreviewBehavior.Default;
-            this._settings = new PrivateSparkScanScanningModeSettings(scanningBehavior, previewBehavior);
-            console.warn('SparkScanScanningModeTarget(scanningBehavior: SparkScanScanningBehavior) is deprecated.');
-        }
+        this._settings = new PrivateSparkScanScanningModeSettings(scanningBehavior);
     }
 }
 __decorate([
@@ -3746,7 +3518,6 @@ class SparkScanSettings extends DefaultSerializeable {
         this._locationSelection = null;
         this.properties = {};
         this.symbologies = {};
-        this.scanIntention = SparkScanSettings.sparkScanDefaults.SparkScanSettings.scanIntention;
     }
     settingsForSymbology(symbology) {
         if (!this.symbologies[symbology]) {
@@ -3861,22 +3632,17 @@ class SparkScanViewSettings extends DefaultSerializeable {
         this.hardwareTriggerKeyCode = SparkScanViewSettings.viewSettingsDefaults.hardwareTriggerKeyCode;
         this.visualFeedbackEnabled = SparkScanViewSettings.viewSettingsDefaults.visualFeedbackEnabled;
         this.ignoreDragLimits = true;
-        this.toastSettings = new SparkScanToastSettings();
+        this.toastSettings = SparkScanViewSettings.viewSettingsDefaults.toastSettings;
         this.targetZoomFactorOut = SparkScanViewSettings.viewSettingsDefaults.targetZoomFactorOut;
         this.targetZoomFactorIn = SparkScanViewSettings.viewSettingsDefaults.targetZoomFactorIn;
-        this.zoomFactorOut = SparkScanViewSettings.viewSettingsDefaults.zoomFactorOut;
-        this.zoomFactorIn = SparkScanViewSettings.viewSettingsDefaults.zoomFactorIn;
-        this.inactiveStateTimeout = SparkScanViewSettings.viewSettingsDefaults.inactiveStateTimeout;
-        this.defaultCameraPosition = SparkScanViewSettings.viewSettingsDefaults.defaultCameraPosition;
     }
     scanModeFromJSON(json) {
         const scanningBehavior = json.settings.scanningBehavior;
-        const previewBehavior = json.settings.previewBehavior;
         if (json.type === 'default') {
-            return new SparkScanScanningModeDefault(scanningBehavior, previewBehavior);
+            return new SparkScanScanningModeDefault(scanningBehavior);
         }
         else {
-            return new SparkScanScanningModeTarget(scanningBehavior, previewBehavior);
+            return new SparkScanScanningModeTarget(scanningBehavior);
         }
     }
     static get sparkScanDefaults() {
@@ -3890,578 +3656,6 @@ __decorate([
     ignoreFromSerialization
 ], SparkScanViewSettings, "sparkScanDefaults", null);
 
-var SparkScanViewEvents;
-(function (SparkScanViewEvents) {
-    SparkScanViewEvents["fastFindButtonTapped"] = "SparkScanViewUiListener.fastFindButtonTapped";
-    SparkScanViewEvents["barcodeCountButtonTapped"] = "SparkScanViewUiListener.barcodeCountButtonTapped";
-})(SparkScanViewEvents || (SparkScanViewEvents = {}));
-var SparkScanFeedbackDelegateEvents;
-(function (SparkScanFeedbackDelegateEvents) {
-    SparkScanFeedbackDelegateEvents["feedbackForBarcode"] = "SparkScanFeedbackDelegate.feedbackForBarcode";
-})(SparkScanFeedbackDelegateEvents || (SparkScanFeedbackDelegateEvents = {}));
-class SparkScanViewController extends BaseController {
-    static forSparkScanView(view, sparkScan) {
-        const controller = new SparkScanViewController();
-        controller.view = view;
-        controller.sparkScan = sparkScan;
-        // We call update because it returns a promise, this guarantees, that by the time
-        // we need the deserialized context, it will be set in the native layer.
-        controller.initialize();
-        return controller;
-    }
-    constructor() {
-        super('SparkScanViewProxy');
-        this.hasFeedbackDelegateListener = false;
-    }
-    initialize() {
-        return __awaiter(this, void 0, void 0, function* () {
-            this.subscribeListeners();
-            yield this.view.context.update();
-            yield this.create();
-            this._proxy.prepareSparkScanViewScanning();
-        });
-    }
-    emitFeedback(feedback) {
-        const json = JSON.stringify(feedback.toJSON());
-        return this._proxy.emitSparkScanViewFeedback(json);
-    }
-    dispose() {
-        this.sparkScan.unsubscribeNativeListeners();
-        this.unsubscribeListeners();
-        this.removeFeedbackDelegate();
-        this._proxy.disposeSparkScanView();
-    }
-    subscribeListeners() {
-        this._proxy.registerSparkScanViewListenerEvents();
-        this.eventEmitter.on(SparkScanViewEvents.barcodeCountButtonTapped, () => {
-            var _a, _b;
-            (_b = (_a = this.view.uiListener) === null || _a === void 0 ? void 0 : _a.didTapBarcodeCountButton) === null || _b === void 0 ? void 0 : _b.call(_a, this.view);
-        });
-        this.eventEmitter.on(SparkScanViewEvents.fastFindButtonTapped, () => {
-            var _a, _b;
-            (_b = (_a = this.view.uiListener) === null || _a === void 0 ? void 0 : _a.didTapFastFindButton) === null || _b === void 0 ? void 0 : _b.call(_a, this.view);
-        });
-    }
-    unsubscribeListeners() {
-        this._proxy.unregisterSparkScanViewListenerEvents();
-        this.eventEmitter.off(SparkScanViewEvents.barcodeCountButtonTapped);
-        this.eventEmitter.off(SparkScanViewEvents.fastFindButtonTapped);
-    }
-    create() {
-        const viewJson = {
-            SparkScan: this.sparkScan.toJSON(),
-            SparkScanView: this.view.toJSON()
-        };
-        const json = JSON.stringify(viewJson);
-        return this._proxy.createSparkScanView(json);
-    }
-    update() {
-        const sparkScanViewJson = this.view.toJSON();
-        const json = JSON.stringify({ View: sparkScanViewJson });
-        return this._proxy.updateSparkScanView(json);
-    }
-    stopScanning() {
-        return this._proxy.stopSparkScanViewScanning();
-    }
-    pauseScanning() {
-        return this._proxy.pauseSparkScanViewScanning();
-    }
-    startScanning() {
-        return this._proxy.startSparkScanViewScanning();
-    }
-    prepareScanning() {
-        return this._proxy.prepareSparkScanViewScanning();
-    }
-    showToast(text) {
-        return this._proxy.showToast(text);
-    }
-    show() {
-        return this._proxy.showSparkScanView ? this._proxy.showSparkScanView() : Promise.resolve();
-    }
-    hide() {
-        return this._proxy.hideSparkScanView ? this._proxy.hideSparkScanView() : Promise.resolve();
-    }
-    addFeedbackDelegate() {
-        if (this.hasFeedbackDelegateListener) {
-            return;
-        }
-        this._proxy.registerDelegateForEvents();
-        this.eventEmitter.on(SparkScanFeedbackDelegateEvents.feedbackForBarcode, (body) => {
-            var _a, _b;
-            const payload = JSON.parse(body);
-            const barcode = Barcode.fromJSON(JSON.parse(payload.barcode));
-            const feedback = (_b = (_a = this.view.feedbackDelegate) === null || _a === void 0 ? void 0 : _a.feedbackForBarcode) === null || _b === void 0 ? void 0 : _b.call(_a, barcode);
-            this._proxy.submitFeedbackForBarcode(JSON.stringify(feedback === null || feedback === void 0 ? void 0 : feedback.toJSON()));
-        });
-        this.hasFeedbackDelegateListener = true;
-    }
-    removeFeedbackDelegate() {
-        if (!this.hasFeedbackDelegateListener) {
-            return;
-        }
-        this._proxy.unregisterDelegateForEvents();
-        this.eventEmitter.off(SparkScanFeedbackDelegateEvents.feedbackForBarcode);
-        this.hasFeedbackDelegateListener = false;
-    }
-}
-
-class BaseSparkScanView {
-    static forContext(context, sparkScan, settings) {
-        const view = new BaseSparkScanView({ context, sparkScan, settings });
-        return view;
-    }
-    static get defaultBrush() {
-        return BaseSparkScanView.sparkScanDefaults.SparkScanView.brush;
-    }
-    constructor({ context, sparkScan, settings }) {
-        this.uiListener = null;
-        this._brush = BaseSparkScanView.defaultBrush;
-        this._feedbackDelegate = null;
-        this._previewSizeControlVisible = BaseSparkScanView.sparkScanDefaults.SparkScanView.previewSizeControlVisible;
-        this._cameraSwitchButtonVisible = BaseSparkScanView.sparkScanDefaults.SparkScanView.cameraSwitchButtonVisible;
-        this._shouldShowScanAreaGuides = BaseSparkScanView.sparkScanDefaults.SparkScanView.shouldShowScanAreaGuides;
-        this._torchButtonVisible = BaseSparkScanView.sparkScanDefaults.SparkScanView.torchButtonVisible;
-        this._scanningBehaviorButtonVisible = BaseSparkScanView.sparkScanDefaults.SparkScanView.scanningBehaviorButtonVisible;
-        this._handModeButtonVisible = BaseSparkScanView.sparkScanDefaults.SparkScanView.handModeButtonVisible;
-        this._barcodeCountButtonVisible = BaseSparkScanView.sparkScanDefaults.SparkScanView.barcodeCountButtonVisible;
-        this._fastFindButtonVisible = BaseSparkScanView.sparkScanDefaults.SparkScanView.fastFindButtonVisible;
-        this._targetModeButtonVisible = BaseSparkScanView.sparkScanDefaults.SparkScanView.targetModeButtonVisible;
-        this._soundModeButtonVisible = BaseSparkScanView.sparkScanDefaults.SparkScanView.soundModeButtonVisible;
-        this._hapticModeButtonVisible = BaseSparkScanView.sparkScanDefaults.SparkScanView.hapticModeButtonVisible;
-        this._stopCapturingText = BaseSparkScanView.sparkScanDefaults.SparkScanView.stopCapturingText;
-        this._startCapturingText = BaseSparkScanView.sparkScanDefaults.SparkScanView.startCapturingText;
-        this._resumeCapturingText = BaseSparkScanView.sparkScanDefaults.SparkScanView.resumeCapturingText;
-        this._scanningCapturingText = BaseSparkScanView.sparkScanDefaults.SparkScanView.scanningCapturingText;
-        this._captureButtonActiveBackgroundColor = BaseSparkScanView.sparkScanDefaults.SparkScanView.captureButtonActiveBackgroundColor;
-        this._captureButtonBackgroundColor = BaseSparkScanView.sparkScanDefaults.SparkScanView.captureButtonBackgroundColor;
-        this._captureButtonTintColor = BaseSparkScanView.sparkScanDefaults.SparkScanView.captureButtonTintColor;
-        this._toolbarBackgroundColor = BaseSparkScanView.sparkScanDefaults.SparkScanView.toolbarBackgroundColor;
-        this._toolbarIconActiveTintColor = BaseSparkScanView.sparkScanDefaults.SparkScanView.toolbarIconActiveTintColor;
-        this._toolbarIconInactiveTintColor = BaseSparkScanView.sparkScanDefaults.SparkScanView.toolbarIconInactiveTintColor;
-        this._targetModeHintText = BaseSparkScanView.sparkScanDefaults.SparkScanView.targetModeHintText;
-        this._shouldShowTargetModeHint = BaseSparkScanView.sparkScanDefaults.SparkScanView.shouldShowTargetModeHint;
-        this._sparkScan = sparkScan;
-        this.context = context;
-        this._viewSettings = settings !== null && settings !== void 0 ? settings : new SparkScanViewSettings();
-        this._controller = SparkScanViewController.forSparkScanView(this, sparkScan);
-    }
-    get brush() {
-        return this._brush;
-    }
-    set brush(newValue) {
-        this._brush = newValue;
-        this.update();
-    }
-    get previewSizeControlVisible() {
-        return this._previewSizeControlVisible;
-    }
-    set previewSizeControlVisible(newValue) {
-        this._previewSizeControlVisible = newValue;
-        this.update();
-    }
-    get shouldShowScanAreaGuides() {
-        return this._shouldShowScanAreaGuides;
-    }
-    set shouldShowScanAreaGuides(newValue) {
-        this._shouldShowScanAreaGuides = newValue;
-        this.update();
-    }
-    get torchButtonVisible() {
-        return this._torchButtonVisible;
-    }
-    set torchButtonVisible(newValue) {
-        this._torchButtonVisible = newValue;
-        this.update();
-    }
-    get scanningBehaviorButtonVisible() {
-        return this._scanningBehaviorButtonVisible;
-    }
-    set scanningBehaviorButtonVisible(newValue) {
-        this._scanningBehaviorButtonVisible = newValue;
-        this.update();
-    }
-    get handModeButtonVisible() {
-        return this._handModeButtonVisible;
-    }
-    set handModeButtonVisible(newValue) {
-        this._handModeButtonVisible = newValue;
-        this.update();
-    }
-    get barcodeCountButtonVisible() {
-        return this._barcodeCountButtonVisible;
-    }
-    set barcodeCountButtonVisible(newValue) {
-        this._barcodeCountButtonVisible = newValue;
-        this.update();
-    }
-    get fastFindButtonVisible() {
-        return this._fastFindButtonVisible;
-    }
-    set fastFindButtonVisible(newValue) {
-        this._fastFindButtonVisible = newValue;
-        this.update();
-    }
-    get targetModeButtonVisible() {
-        return this._targetModeButtonVisible;
-    }
-    set targetModeButtonVisible(newValue) {
-        this._targetModeButtonVisible = newValue;
-        this.update();
-    }
-    get soundModeButtonVisible() {
-        return this._soundModeButtonVisible;
-    }
-    set soundModeButtonVisible(newValue) {
-        this._soundModeButtonVisible = newValue;
-        this.update();
-    }
-    get hapticModeButtonVisible() {
-        return this._hapticModeButtonVisible;
-    }
-    set hapticModeButtonVisible(newValue) {
-        this._hapticModeButtonVisible = newValue;
-        this.update();
-    }
-    get stopCapturingText() {
-        return this._stopCapturingText;
-    }
-    set stopCapturingText(newValue) {
-        this._stopCapturingText = newValue;
-        this.update();
-    }
-    get startCapturingText() {
-        return this._startCapturingText;
-    }
-    set startCapturingText(newValue) {
-        this._startCapturingText = newValue;
-        this.update();
-    }
-    get resumeCapturingText() {
-        return this._resumeCapturingText;
-    }
-    set resumeCapturingText(newValue) {
-        this._resumeCapturingText = newValue;
-        this.update();
-    }
-    get scanningCapturingText() {
-        return this._scanningCapturingText;
-    }
-    set scanningCapturingText(newValue) {
-        this._scanningCapturingText = newValue;
-        this.update();
-    }
-    get captureButtonActiveBackgroundColor() {
-        return this._captureButtonActiveBackgroundColor;
-    }
-    set captureButtonActiveBackgroundColor(newValue) {
-        this._captureButtonActiveBackgroundColor = newValue;
-        this.update();
-    }
-    get captureButtonBackgroundColor() {
-        return this._captureButtonBackgroundColor;
-    }
-    set captureButtonBackgroundColor(newValue) {
-        this._captureButtonBackgroundColor = newValue;
-        this.update();
-    }
-    get captureButtonTintColor() {
-        return this._captureButtonTintColor;
-    }
-    set captureButtonTintColor(newValue) {
-        this._captureButtonTintColor = newValue;
-        this.update();
-    }
-    get toolbarBackgroundColor() {
-        return this._toolbarBackgroundColor;
-    }
-    set toolbarBackgroundColor(newValue) {
-        this._toolbarBackgroundColor = newValue;
-        this.update();
-    }
-    get toolbarIconActiveTintColor() {
-        return this._toolbarIconActiveTintColor;
-    }
-    set toolbarIconActiveTintColor(newValue) {
-        this._toolbarIconActiveTintColor = newValue;
-        this.update();
-    }
-    get toolbarIconInactiveTintColor() {
-        return this._toolbarIconInactiveTintColor;
-    }
-    set toolbarIconInactiveTintColor(newValue) {
-        this._toolbarIconInactiveTintColor = newValue;
-        this.update();
-    }
-    get targetModeHintText() {
-        return this._targetModeHintText;
-    }
-    set targetModeHintText(newValue) {
-        this._targetModeHintText = newValue;
-        this.update();
-    }
-    get shouldShowTargetModeHint() {
-        return this._shouldShowTargetModeHint;
-    }
-    set shouldShowTargetModeHint(newValue) {
-        this._shouldShowTargetModeHint = newValue;
-        this.update();
-    }
-    get cameraSwitchButtonVisible() {
-        return this._cameraSwitchButtonVisible;
-    }
-    set cameraSwitchButtonVisible(newValue) {
-        this._cameraSwitchButtonVisible = newValue;
-        this.update();
-    }
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    emitFeedback(feedback) {
-        console.warn('emitFeedback is deprecated and does nothing. Use the property feedbackDelegate instead.');
-    }
-    showToast(text) {
-        this._controller.showToast(text);
-    }
-    prepareScanning() {
-        this._controller.prepareScanning();
-    }
-    startScanning() {
-        this._controller.startScanning();
-    }
-    pauseScanning() {
-        this._controller.pauseScanning();
-    }
-    stopScanning() {
-        this._controller.stopScanning();
-    }
-    update() {
-        return this._controller.update();
-    }
-    dispose() {
-        this._controller.dispose();
-    }
-    show() {
-        return this._show();
-    }
-    hide() {
-        return this._hide();
-    }
-    get feedbackDelegate() {
-        return this._feedbackDelegate;
-    }
-    set feedbackDelegate(delegate) {
-        if (this._feedbackDelegate) {
-            this._controller.removeFeedbackDelegate();
-        }
-        this._feedbackDelegate = delegate;
-        if (delegate) {
-            this._controller.addFeedbackDelegate();
-        }
-    }
-    _show() {
-        if (!this.context) {
-            throw new Error('There should be a context attached to a view that should be shown');
-        }
-        return this._controller.show();
-    }
-    _hide() {
-        if (!this.context) {
-            throw new Error('There should be a context attached to a view that should be shown');
-        }
-        return this._controller.hide();
-    }
-    static get sparkScanDefaults() {
-        return getSparkScanDefaults();
-    }
-    toJSON() {
-        var _a;
-        const json = {
-            brush: this._brush.toJSON(),
-            torchButtonVisible: this.torchButtonVisible,
-            scanningBehaviorButtonVisible: this.scanningBehaviorButtonVisible,
-            handModeButtonVisible: this.handModeButtonVisible,
-            barcodeCountButtonVisible: this.barcodeCountButtonVisible,
-            fastFindButtonVisible: this.fastFindButtonVisible,
-            targetModeButtonVisible: this.targetModeButtonVisible,
-            soundModeButtonVisible: this.soundModeButtonVisible,
-            hapticModeButtonVisible: this.hapticModeButtonVisible,
-            stopCapturingText: this.stopCapturingText,
-            startCapturingText: this.startCapturingText,
-            resumeCapturingText: this.resumeCapturingText,
-            scanningCapturingText: this.scanningCapturingText,
-            captureButtonActiveBackgroundColor: this.captureButtonActiveBackgroundColor,
-            captureButtonBackgroundColor: this.captureButtonBackgroundColor,
-            captureButtonTintColor: this.captureButtonTintColor,
-            toolbarBackgroundColor: this.toolbarBackgroundColor,
-            toolbarIconActiveTintColor: this.toolbarIconActiveTintColor,
-            toolbarIconInactiveTintColor: this.toolbarIconInactiveTintColor,
-            targetModeHintText: this.targetModeHintText,
-            shouldShowTargetModeHint: this.shouldShowTargetModeHint,
-            hasFeedbackDelegate: this._feedbackDelegate != null,
-            cameraSwitchButtonVisible: this.cameraSwitchButtonVisible,
-        };
-        if (this._viewSettings != null) {
-            json.viewSettings = (_a = this._viewSettings) === null || _a === void 0 ? void 0 : _a.toJSON();
-        }
-        return json;
-    }
-}
-
-class SparkScanBarcodeFeedback extends DefaultSerializeable {
-    constructor() {
-        super();
-    }
-}
-
-class SparkScanBarcodeErrorFeedback extends SparkScanBarcodeFeedback {
-    get message() {
-        return this._barcodeFeedback.message;
-    }
-    get resumeCapturingDelay() {
-        return this._barcodeFeedback.resumeCapturingDelay;
-    }
-    get visualFeedbackColor() {
-        return this._barcodeFeedback.visualFeedbackColor;
-    }
-    get brush() {
-        return this._barcodeFeedback.brush;
-    }
-    get feedback() {
-        return this._barcodeFeedback.feedback;
-    }
-    constructor(message, resumeCapturingDelay, visualFeedbackColor, brush, feedback) {
-        super();
-        this.type = 'error';
-        this._barcodeFeedback = {
-            message: message,
-            resumeCapturingDelay: resumeCapturingDelay,
-            visualFeedbackColor: visualFeedbackColor,
-            brush: brush,
-            feedback: feedback
-        };
-    }
-    static fromMessage(message, resumeCapturingDelay) {
-        return new SparkScanBarcodeErrorFeedback(message, resumeCapturingDelay, SparkScanBarcodeErrorFeedback.sparkScanDefaults.Feedback.error.visualFeedbackColor, SparkScanBarcodeErrorFeedback.sparkScanDefaults.Feedback.error.brush, SparkScanBarcodeErrorFeedback.sparkScanDefaults.Feedback.error.feedbackDefault);
-    }
-    static get sparkScanDefaults() {
-        return getSparkScanDefaults();
-    }
-}
-__decorate([
-    nameForSerialization('barcodeFeedback')
-], SparkScanBarcodeErrorFeedback.prototype, "_barcodeFeedback", void 0);
-__decorate([
-    ignoreFromSerialization
-], SparkScanBarcodeErrorFeedback, "sparkScanDefaults", null);
-
-class SparkScanBarcodeSuccessFeedback extends SparkScanBarcodeFeedback {
-    get visualFeedbackColor() {
-        return this._barcodeFeedback.visualFeedbackColor;
-    }
-    get brush() {
-        return this._barcodeFeedback.brush;
-    }
-    get feedback() {
-        return this._barcodeFeedback.feedback;
-    }
-    constructor() {
-        super();
-        this.type = 'success';
-        this._barcodeFeedback = {
-            visualFeedbackColor: SparkScanBarcodeSuccessFeedback.sparkScanDefaults.Feedback.success.visualFeedbackColor,
-            brush: SparkScanBarcodeSuccessFeedback.sparkScanDefaults.Feedback.success.brush,
-            feedback: SparkScanBarcodeSuccessFeedback.sparkScanDefaults.Feedback.success.feedbackDefault
-        };
-    }
-    static fromVisualFeedbackColor(visualFeedbackColor, brush, feedback) {
-        const successFeedback = new SparkScanBarcodeSuccessFeedback();
-        successFeedback._barcodeFeedback = {
-            visualFeedbackColor: visualFeedbackColor,
-            brush: brush,
-            feedback: feedback
-        };
-        return successFeedback;
-    }
-    static get sparkScanDefaults() {
-        return getSparkScanDefaults();
-    }
-}
-__decorate([
-    nameForSerialization('barcodeFeedback')
-], SparkScanBarcodeSuccessFeedback.prototype, "_barcodeFeedback", void 0);
-__decorate([
-    ignoreFromSerialization
-], SparkScanBarcodeSuccessFeedback, "sparkScanDefaults", null);
-
-class BarcodePickScanningSession {
-    get pickedItems() {
-        return this._pickedItems;
-    }
-    get scannedItems() {
-        return this._scannedItems;
-    }
-    static fromJSON(json) {
-        const session = new BarcodePickScanningSession();
-        session._pickedItems = json.pickedObjects;
-        session._scannedItems = json.scannedObjects;
-        return session;
-    }
-}
-
-var BarcodePickListenerEvents;
-(function (BarcodePickListenerEvents) {
-    BarcodePickListenerEvents["DidCompleteScanningSession"] = "BarcodePickScanningListener.didCompleteScanningSession";
-    BarcodePickListenerEvents["DidUpdateScanningSession"] = "BarcodePickScanningListener.didUpdateScanningSession";
-})(BarcodePickListenerEvents || (BarcodePickListenerEvents = {}));
-class BarcodePickListenerController extends BaseController {
-    constructor(barcodePick) {
-        super('BarcodePickListenerProxy');
-        this._barcodePick = barcodePick;
-        this.eventEmitter = FactoryMaker.getInstance('EventEmitter');
-    }
-    static forBarcodePick(barcodePick) {
-        return new BarcodePickListenerController(barcodePick);
-    }
-    subscribeListeners() {
-        this._proxy.subscribeBarcodePickListeners();
-        this.eventEmitter.on(BarcodePickListenerEvents.DidCompleteScanningSession, (body) => {
-            const payload = JSON.parse(body);
-            const session = BarcodePickScanningSession
-                .fromJSON(JSON.parse(payload.session));
-            this.notifyListenersOfDidCompleteScanningSession(session);
-        });
-        this.eventEmitter.on(BarcodePickListenerEvents.DidUpdateScanningSession, (body) => {
-            const payload = JSON.parse(body);
-            const session = BarcodePickScanningSession
-                .fromJSON(JSON.parse(payload.session));
-            this.notifyListenersOfDidUpdateScanningSession(session);
-        });
-    }
-    notifyListenersOfDidCompleteScanningSession(session) {
-        const mode = this._barcodePick;
-        mode.isInListenerCallback = true;
-        mode.listeners.forEach(listener => {
-            if (listener.didCompleteScanningSession) {
-                listener.didCompleteScanningSession(this._barcodePick, session);
-            }
-        });
-        mode.isInListenerCallback = false;
-    }
-    notifyListenersOfDidUpdateScanningSession(session) {
-        const mode = this._barcodePick;
-        mode.isInListenerCallback = true;
-        mode.listeners.forEach(listener => {
-            if (listener.didUpdateScanningSession) {
-                listener.didUpdateScanningSession(this._barcodePick, session);
-            }
-        });
-        mode.isInListenerCallback = false;
-    }
-    unsubscribeListeners() {
-        this.eventEmitter.removeAllListeners(BarcodePickListenerEvents.DidCompleteScanningSession);
-        this.eventEmitter.removeAllListeners(BarcodePickListenerEvents.DidUpdateScanningSession);
-        this._proxy.unsubscribeBarcodePickListeners();
-    }
-}
-
 class BarcodePick extends DefaultSerializeable {
     static createRecommendedCameraSettings() {
         return BarcodePick.barcodePickDefaults.RecommendedCameraSettings;
@@ -4469,41 +3663,12 @@ class BarcodePick extends DefaultSerializeable {
     static get barcodePickDefaults() {
         return getBarcodePickDefaults();
     }
-    static get recommendedCameraSettings() {
-        return BarcodePick.barcodePickDefaults.RecommendedCameraSettings;
-    }
     constructor(dataCaptureContext, settings, productProvider) {
         super();
         this.type = 'barcodePick';
-        this.listeners = [];
         this.privateContext = dataCaptureContext;
         this._settings = settings;
         this._productProvider = productProvider;
-        this._listenerController = BarcodePickListenerController.forBarcodePick(this);
-    }
-    addScanningListener(listener) {
-        this.checkAndSubscribeListeners();
-        if (this.listeners.includes(listener)) {
-            return;
-        }
-        this.listeners.push(listener);
-    }
-    checkAndSubscribeListeners() {
-        if (this.listeners.length === 0) {
-            this._listenerController.subscribeListeners();
-        }
-    }
-    removeScanningListener(listener) {
-        if (!this.listeners.includes(listener)) {
-            return;
-        }
-        this.listeners.splice(this.listeners.indexOf(listener));
-        this.checkAndUnsubscribeListeners();
-    }
-    checkAndUnsubscribeListeners() {
-        if (this.listeners.length === 0) {
-            this._listenerController.unsubscribeListeners();
-        }
     }
     unsubscribeNativeListeners() {
         this._productProvider._productController.dispose();
@@ -4512,12 +3677,6 @@ class BarcodePick extends DefaultSerializeable {
 __decorate([
     ignoreFromSerialization
 ], BarcodePick.prototype, "privateContext", void 0);
-__decorate([
-    ignoreFromSerialization
-], BarcodePick.prototype, "_listenerController", void 0);
-__decorate([
-    ignoreFromSerialization
-], BarcodePick.prototype, "listeners", void 0);
 __decorate([
     nameForSerialization('settings')
 ], BarcodePick.prototype, "_settings", void 0);
@@ -4534,132 +3693,12 @@ class BarcodePickActionCallback {
     }
 }
 
-var BarcodePickViewListenerEvents;
-(function (BarcodePickViewListenerEvents) {
-    BarcodePickViewListenerEvents["DidStartScanning"] = "BarcodePickViewListener.didStartScanning";
-    BarcodePickViewListenerEvents["DidFreezeScanning"] = "BarcodePickViewListener.didFreezeScanning";
-    BarcodePickViewListenerEvents["DidPauseScanning"] = "BarcodePickViewListener.didPauseScanning";
-    BarcodePickViewListenerEvents["DidStopScanning"] = "BarcodePickViewListener.didStopScanning";
-})(BarcodePickViewListenerEvents || (BarcodePickViewListenerEvents = {}));
-var BarcodePickViewUiListenerEvents;
-(function (BarcodePickViewUiListenerEvents) {
-    BarcodePickViewUiListenerEvents["DidTapFinishButton"] = "BarcodePickViewUiListener.didTapFinishButton";
-})(BarcodePickViewUiListenerEvents || (BarcodePickViewUiListenerEvents = {}));
 var BarcodePickEvents;
 (function (BarcodePickEvents) {
     BarcodePickEvents["DidPick"] = "BarcodePickActionListener.didPick";
     BarcodePickEvents["DidUnpick"] = "BarcodePickActionListener.didUnpick";
     BarcodePickEvents["OnProductIdentifierForItems"] = "BarcodePickAsyncMapperProductProviderCallback.onProductIdentifierForItems";
 })(BarcodePickEvents || (BarcodePickEvents = {}));
-class BarcodePickViewController extends BaseController {
-    static forBarcodePick(view, nativeView) {
-        const viewController = new BarcodePickViewController();
-        viewController.view = view;
-        viewController.nativeView = nativeView;
-        viewController.initialize();
-        return viewController;
-    }
-    constructor() {
-        super('BarcodePickViewProxy');
-    }
-    initialize() {
-        return __awaiter(this, void 0, void 0, function* () {
-            // We call update because it returns a promise, this guarantees, that by the time
-            // we need the deserialized context, it will be set in the native layer.
-            yield this.view.context.update();
-            this.create();
-        });
-    }
-    start() {
-        return this._proxy.viewStart();
-    }
-    stop() {
-        return this._proxy.viewStop();
-    }
-    freeze() {
-        return this._proxy.viewFreeze();
-    }
-    pause() {
-        return this._proxy.viewPause();
-    }
-    resume() {
-        return this._proxy.viewResume();
-    }
-    finishPickAction(itemData, result) {
-        return this._proxy.finishPickAction(itemData, result);
-    }
-    create() {
-        const barcodePickView = this.view.toJSON();
-        const json = JSON.stringify(barcodePickView);
-        const id = this._proxy.findNodeHandle(this.nativeView);
-        return this._proxy.createView(id, json);
-    }
-    dispose() {
-        this.unsubscribeListeners();
-    }
-    setUiListener(listener) {
-        return __awaiter(this, void 0, void 0, function* () {
-            if (listener) {
-                yield this._proxy.subscribeBarcodePickViewUiListener();
-            }
-            if (listener == null) {
-                yield this._proxy.unsubscribeBarcodePickViewUiListener();
-            }
-        });
-    }
-    subscribeListeners() {
-        this._proxy.registerFrameworkEvents();
-        this.eventEmitter.on(BarcodePickEvents.DidPick, (data) => {
-            const payload = JSON.parse(data);
-            const barcodePickActionCallback = new BarcodePickActionCallback();
-            barcodePickActionCallback._viewController = this;
-            barcodePickActionCallback._itemData = payload.itemData;
-            this.view.actionListeners
-                .forEach(listener => listener.didPickItem(payload.itemData, barcodePickActionCallback));
-        });
-        this.eventEmitter.on(BarcodePickEvents.DidUnpick, (data) => {
-            const payload = JSON.parse(data);
-            const barcodePickActionCallback = new BarcodePickActionCallback();
-            barcodePickActionCallback._viewController = this;
-            barcodePickActionCallback._itemData = payload.itemData;
-            this.view.actionListeners
-                .forEach(listener => listener.didUnpickItem(payload.itemData, barcodePickActionCallback));
-        });
-        this.eventEmitter.on(BarcodePickViewUiListenerEvents.DidTapFinishButton, () => {
-            var _a, _b;
-            if (!this.view.uiListener) {
-                return;
-            }
-            (_b = (_a = this.view) === null || _a === void 0 ? void 0 : _a.uiListener) === null || _b === void 0 ? void 0 : _b.didTapFinishButton(this);
-        });
-        this.eventEmitter.on(BarcodePickViewListenerEvents.DidStartScanning, () => {
-            this.view.listeners
-                .forEach(listener => listener.didStartScanning(this.view));
-        });
-        this.eventEmitter.on(BarcodePickViewListenerEvents.DidFreezeScanning, () => {
-            this.view.listeners
-                .forEach(listener => listener.didFreezeScanning(this.view));
-        });
-        this.eventEmitter.on(BarcodePickViewListenerEvents.DidPauseScanning, () => {
-            this.view.listeners
-                .forEach(listener => listener.didPauseScanning(this.view));
-        });
-        this.eventEmitter.on(BarcodePickViewListenerEvents.DidStopScanning, () => {
-            this.view.listeners
-                .forEach(listener => listener.didStopScanning(this.view));
-        });
-    }
-    unsubscribeListeners() {
-        this._proxy.unregisterFrameworkEvents();
-        this.eventEmitter.removeAllListeners(BarcodePickEvents.DidPick);
-        this.eventEmitter.removeAllListeners(BarcodePickEvents.DidUnpick);
-        this.eventEmitter.removeAllListeners(BarcodePickViewListenerEvents.DidFreezeScanning);
-        this.eventEmitter.removeAllListeners(BarcodePickViewListenerEvents.DidPauseScanning);
-        this.eventEmitter.removeAllListeners(BarcodePickViewListenerEvents.DidStartScanning);
-        this.eventEmitter.removeAllListeners(BarcodePickViewListenerEvents.DidStopScanning);
-        this.eventEmitter.removeAllListeners(BarcodePickViewUiListenerEvents.DidTapFinishButton);
-    }
-}
 
 class BarcodePickProductController extends BaseController {
     static create(callback) {
@@ -4689,7 +3728,7 @@ class BarcodePickProductController extends BaseController {
         });
     }
     unsubscribeListeners() {
-        this.eventEmitter.removeAllListeners(BarcodePickEvents.OnProductIdentifierForItems);
+        this.eventEmitter.removeListener(BarcodePickEvents.OnProductIdentifierForItems);
         this._proxy.unsubscribeListeners();
     }
 }
@@ -4782,8 +3821,6 @@ class BarcodePickSettings extends DefaultSerializeable {
         this.properties = {};
         this._soundEnabled = BarcodePickSettings.barcodePickDefaults.BarcodePickSettings.soundEnabled;
         this._hapticsEnabled = BarcodePickSettings.barcodePickDefaults.BarcodePickSettings.hapticsEnabled;
-        this._cachingEnabled = BarcodePickSettings.barcodePickDefaults.BarcodePickSettings.cachingEnabled;
-        this._arucoDictionary = BarcodePickSettings.barcodePickDefaults.BarcodePickSettings.arucoDictionary;
     }
     settingsForSymbology(symbology) {
         if (!this.symbologies[symbology]) {
@@ -4821,15 +3858,6 @@ class BarcodePickSettings extends DefaultSerializeable {
     set hapticsEnabled(enabled) {
         this._hapticsEnabled = enabled;
     }
-    setArucoDictionary(dictionary) {
-        this._arucoDictionary = dictionary;
-    }
-    get cachingEnabled() {
-        return this._cachingEnabled;
-    }
-    set cachingEnabled(enabled) {
-        this._cachingEnabled = enabled;
-    }
 }
 __decorate([
     nameForSerialization('soundEnabled')
@@ -4837,12 +3865,6 @@ __decorate([
 __decorate([
     nameForSerialization('hapticEnabled')
 ], BarcodePickSettings.prototype, "_hapticsEnabled", void 0);
-__decorate([
-    nameForSerialization('cachingEnabled')
-], BarcodePickSettings.prototype, "_cachingEnabled", void 0);
-__decorate([
-    nameForSerialization('arucoDictionary')
-], BarcodePickSettings.prototype, "_arucoDictionary", void 0);
 __decorate([
     ignoreFromSerialization
 ], BarcodePickSettings, "barcodePickDefaults", null);
@@ -4855,6 +3877,72 @@ var BarcodePickState;
     BarcodePickState["Unknown"] = "unknown";
 })(BarcodePickState || (BarcodePickState = {}));
 
+class BarcodePickViewController extends BaseController {
+    static forBarcodePick(view, nativeView) {
+        const viewController = new BarcodePickViewController();
+        viewController.view = view;
+        viewController.nativeView = nativeView;
+        viewController.subscribeListeners();
+        viewController.initialize();
+        return viewController;
+    }
+    constructor() {
+        super('BarcodePickViewProxy');
+    }
+    initialize() {
+        return __awaiter(this, void 0, void 0, function* () {
+            // We call update because it returns a promise, this guarantees, that by the time
+            // we need the deserialized context, it will be set in the native layer.
+            yield this.view.context.update();
+            this.create();
+        });
+    }
+    start() {
+        return this._proxy.viewStart();
+    }
+    pause() {
+        return this._proxy.viewPause();
+    }
+    finishPickAction(itemData, result) {
+        return this._proxy.finishPickAction(itemData, result);
+    }
+    create() {
+        const barcodePickView = this.view.toJSON();
+        const json = JSON.stringify(barcodePickView);
+        const id = this._proxy.findNodeHandle(this.nativeView);
+        return this._proxy.createView(id, json);
+    }
+    dispose() {
+        this.unsubscribeListeners();
+    }
+    subscribeListeners() {
+        this._proxy.subscribeDidPickItemListener();
+        this._proxy.subscribeDidUnpickItemListener();
+        this.eventEmitter.on(BarcodePickEvents.DidPick, (data) => {
+            const payload = JSON.parse(data);
+            const barcodePickActionCallback = new BarcodePickActionCallback();
+            barcodePickActionCallback._viewController = this;
+            barcodePickActionCallback._itemData = payload.itemData;
+            this.view.actionListeners
+                .forEach(listener => listener.didPickItem(payload.itemData, barcodePickActionCallback));
+        });
+        this.eventEmitter.on(BarcodePickEvents.DidUnpick, (data) => {
+            const payload = JSON.parse(data);
+            const barcodePickActionCallback = new BarcodePickActionCallback();
+            barcodePickActionCallback._viewController = this;
+            barcodePickActionCallback._itemData = payload.itemData;
+            this.view.actionListeners
+                .forEach(listener => listener.didUnpickItem(payload.itemData, barcodePickActionCallback));
+        });
+        this._proxy.addActionListener();
+    }
+    unsubscribeListeners() {
+        this._proxy.unsubscribeListeners();
+        this.eventEmitter.removeListener(BarcodePickEvents.DidPick);
+        this.eventEmitter.removeListener(BarcodePickEvents.DidUnpick);
+    }
+}
+
 class BaseBarcodePickView extends DefaultSerializeable {
     get context() {
         return this._context;
@@ -4862,20 +3950,11 @@ class BaseBarcodePickView extends DefaultSerializeable {
     set context(context) {
         this._context = context;
     }
-    get uiListener() {
-        return this._barcodePickViewUiListener;
-    }
-    set uiListener(value) {
-        this._barcodePickViewUiListener = value;
-        this.viewController.setUiListener(value);
-    }
     constructor({ context, barcodePick, settings, cameraSettings }) {
         super();
         this.actionListeners = [];
-        this.listeners = [];
         this.isStarted = false;
         this._context = null;
-        this._barcodePickViewUiListener = null;
         this.context = context;
         this.barcodePick = barcodePick;
         this.settings = settings;
@@ -4893,17 +3972,8 @@ class BaseBarcodePickView extends DefaultSerializeable {
         this.isStarted = true;
         this.viewController.start();
     }
-    stop() {
-        this.viewController.stop();
-    }
-    freeze() {
-        this.viewController.freeze();
-    }
     pause() {
         this.viewController.pause();
-    }
-    resume() {
-        this.viewController.resume();
     }
     addActionListener(listener) {
         if (this.actionListeners.findIndex(l => l === listener) === -1) {
@@ -4916,35 +3986,10 @@ class BaseBarcodePickView extends DefaultSerializeable {
         }
         this.actionListeners.splice(this.actionListeners.indexOf(listener), 1);
     }
-    addListener(listener) {
-        this.checkAndSubscribeListeners();
-        if (this.listeners.findIndex(l => l === listener) === -1) {
-            this.listeners.push(listener);
-        }
-    }
-    checkAndSubscribeListeners() {
-        if (this.listeners.length === 0) {
-            this.viewController.subscribeListeners();
-        }
-    }
-    removeListener(listener) {
-        if (this.listeners.findIndex(l => l === listener) === -1) {
-            return;
-        }
-        this.listeners.splice(this.listeners.indexOf(listener), 1);
-        this.checkAndUnsubscribeListeners();
-    }
-    checkAndUnsubscribeListeners() {
-        if (this.listeners.length === 0) {
-            this.viewController.unsubscribeListeners();
-        }
-    }
     toJSON() {
         return {
             View: {
                 hasActionListeners: this.actionListeners.length > 0,
-                hasViewListeners: this.listeners.length > 0,
-                hasViewUiListener: this.uiListener ? true : false,
                 isStarted: this.isStarted,
                 viewSettings: this.settings.toJSON(),
                 cameraSettings: this.cameraSettings.toJSON(),
@@ -4960,17 +4005,11 @@ __decorate([
     ignoreFromSerialization
 ], BaseBarcodePickView.prototype, "actionListeners", void 0);
 __decorate([
-    ignoreFromSerialization
-], BaseBarcodePickView.prototype, "listeners", void 0);
-__decorate([
     nameForSerialization('isStarted')
 ], BaseBarcodePickView.prototype, "isStarted", void 0);
 __decorate([
     ignoreFromSerialization
 ], BaseBarcodePickView.prototype, "_context", void 0);
-__decorate([
-    ignoreFromSerialization
-], BaseBarcodePickView.prototype, "_barcodePickViewUiListener", void 0);
 
 class BarcodePickViewSettings extends DefaultSerializeable {
     static get barcodePickDefaults() {
@@ -5121,7 +4160,7 @@ __decorate([
     nameForSerialization('onFirstItemUnpickCompletedHintText')
 ], BarcodePickViewSettings.prototype, "_onFirstItemUnpickCompletedHintText", void 0);
 
-class BrushForStateObject extends DefaultSerializeable {
+class BrushForStateObject {
 }
 __decorate([
     nameForSerialization('barcodePickState')
@@ -5130,110 +4169,12 @@ __decorate([
     nameForSerialization('brush')
 ], BrushForStateObject.prototype, "brush", void 0);
 
-class Dot extends DefaultSerializeable {
+class Rectangular {
     static get barcodePickDefaults() {
         return getBarcodePickDefaults();
     }
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     constructor() {
-        super();
-        this._type = 'dot';
-        this._brushesForState = Dot.barcodePickDefaults.BarcodePickViewHighlightStyle.Dot.brushesForState;
-    }
-    getBrushForState(state) {
-        return (this._brushesForState.filter(item => item.barcodePickState === state)[0] || {}).brush;
-    }
-    setBrushForState(brush, state) {
-        const indexToUpdate = this._brushesForState.findIndex(item => item.barcodePickState === state);
-        this._brushesForState[indexToUpdate].brush = brush;
-    }
-}
-__decorate([
-    nameForSerialization('type')
-], Dot.prototype, "_type", void 0);
-__decorate([
-    nameForSerialization('brushesForState')
-], Dot.prototype, "_brushesForState", void 0);
-__decorate([
-    ignoreFromSerialization
-], Dot, "barcodePickDefaults", null);
-
-class IconForStateObject extends DefaultSerializeable {
-    constructor(barcodePickState, icon) {
-        super();
-        this._barcodePickState = barcodePickState;
-        this._icon = icon;
-    }
-    get barcodePickState() {
-        return this._barcodePickState;
-    }
-    get icon() {
-        return this._icon;
-    }
-}
-__decorate([
-    nameForSerialization('barcodePickState')
-], IconForStateObject.prototype, "_barcodePickState", void 0);
-__decorate([
-    nameForSerialization('icon')
-], IconForStateObject.prototype, "_icon", void 0);
-
-class DotWithIcons extends DefaultSerializeable {
-    static get barcodePickDefaults() {
-        return getBarcodePickDefaults();
-    }
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-    constructor() {
-        super();
-        this._type = 'DotWithIcons';
-        this._brushesForState = DotWithIcons.barcodePickDefaults.BarcodePickViewHighlightStyle.DotWithIcons.brushesForState;
-        this._iconsForState = [];
-        this._iconStyle = DotWithIcons.barcodePickDefaults.BarcodePickViewHighlightStyle.DotWithIcons.iconStyle;
-    }
-    getBrushForState(state) {
-        return (this._brushesForState.filter(item => item.barcodePickState === state)[0] || {}).brush;
-    }
-    setBrushForState(brush, state) {
-        const indexToUpdate = this._brushesForState.findIndex(item => item.barcodePickState === state);
-        this._brushesForState[indexToUpdate].brush = brush;
-    }
-    setIconForState(image, state) {
-        const indexToUpdate = this._iconsForState.findIndex(item => item.barcodePickState === state);
-        if (indexToUpdate > -1) {
-            this._iconsForState.splice(indexToUpdate, 1);
-        }
-        this._iconsForState.push(new IconForStateObject(state, image));
-    }
-    get iconStyle() {
-        return this._iconStyle;
-    }
-    set iconStyle(style) {
-        this._iconStyle = style;
-    }
-}
-__decorate([
-    nameForSerialization('type')
-], DotWithIcons.prototype, "_type", void 0);
-__decorate([
-    nameForSerialization('brushesForState')
-], DotWithIcons.prototype, "_brushesForState", void 0);
-__decorate([
-    nameForSerialization('iconsForState')
-], DotWithIcons.prototype, "_iconsForState", void 0);
-__decorate([
-    nameForSerialization('iconStyle')
-], DotWithIcons.prototype, "_iconStyle", void 0);
-__decorate([
-    ignoreFromSerialization
-], DotWithIcons, "barcodePickDefaults", null);
-
-class Rectangular extends DefaultSerializeable {
-    static get barcodePickDefaults() {
-        return getBarcodePickDefaults();
-    }
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-    constructor() {
-        super();
         this._type = 'rectangular';
         this._brushesForState = Rectangular.barcodePickDefaults.BarcodePickViewHighlightStyle.Rectangular.brushesForState;
     }
@@ -5255,16 +4196,14 @@ __decorate([
     ignoreFromSerialization
 ], Rectangular, "barcodePickDefaults", null);
 
-class RectangularWithIcons extends DefaultSerializeable {
+class RectangularWithIcons {
     static get barcodePickDefaults() {
         return getBarcodePickDefaults();
     }
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     constructor() {
-        super();
         this._type = 'rectangularWithIcons';
         this._brushesForState = RectangularWithIcons.barcodePickDefaults.BarcodePickViewHighlightStyle.RectangularWithIcons.brushesForState;
-        this._iconsForState = [];
         this._iconStyle = RectangularWithIcons.barcodePickDefaults.BarcodePickViewHighlightStyle.RectangularWithIcons.iconStyle;
     }
     getBrushForState(state) {
@@ -5273,13 +4212,6 @@ class RectangularWithIcons extends DefaultSerializeable {
     setBrushForState(brush, state) {
         const indexToUpdate = this._brushesForState.findIndex(item => item.barcodePickState === state);
         this._brushesForState[indexToUpdate].brush = brush;
-    }
-    setIconForState(image, state) {
-        const indexToUpdate = this._iconsForState.findIndex(item => item.barcodePickState === state);
-        if (indexToUpdate > -1) {
-            this._iconsForState.splice(indexToUpdate, 1);
-        }
-        this._iconsForState.push(new IconForStateObject(state, image));
     }
     get iconStyle() {
         return this._iconStyle;
@@ -5295,9 +4227,6 @@ __decorate([
     nameForSerialization('brushesForState')
 ], RectangularWithIcons.prototype, "_brushesForState", void 0);
 __decorate([
-    nameForSerialization('iconsForState')
-], RectangularWithIcons.prototype, "_iconsForState", void 0);
-__decorate([
     nameForSerialization('iconStyle')
 ], RectangularWithIcons.prototype, "_iconStyle", void 0);
 __decorate([
@@ -5308,7 +4237,6 @@ class BarcodeFindFeedback extends DefaultSerializeable {
     constructor() {
         super(...arguments);
         this.found = BarcodeFindFeedback.barcodeFindDefaults.Feedback.found;
-        this.itemListUpdated = BarcodeFindFeedback.barcodeFindDefaults.Feedback.itemListUpdated;
     }
     static get barcodeFindDefaults() {
         return getBarcodeFindDefaults();
@@ -5324,7 +4252,6 @@ var BarcodeFindListenerEvents;
     BarcodeFindListenerEvents["onSearchStartedEvent"] = "BarcodeFindListener.onSearchStarted";
     BarcodeFindListenerEvents["onSearchPausedEvent"] = "BarcodeFindListener.onSearchPaused";
     BarcodeFindListenerEvents["onSearchStoppedEvent"] = "BarcodeFindListener.onSearchStopped";
-    BarcodeFindListenerEvents["onTransformBarcodeData"] = "BarcodeFindTransformer.transformBarcodeData";
 })(BarcodeFindListenerEvents || (BarcodeFindListenerEvents = {}));
 class BarcodeFindController extends BaseController {
     constructor(barcodeFind) {
@@ -5354,24 +4281,11 @@ class BarcodeFindController extends BaseController {
     setModeEnabledState(isEnabled) {
         this._proxy.setModeEnabledState(isEnabled);
     }
-    setBarcodeTransformer() {
-        return __awaiter(this, void 0, void 0, function* () {
-            yield this._proxy.setBarcodeTransformer();
-            this.subscribeBarcodeFindTransformerEvent();
-        });
-    }
     filterFoundItemsFromEvent(eventBody) {
         const foundItemsData = JSON.parse(eventBody).foundItems;
         const itemsToFind = JSON.parse(this._barcodeFind.itemsToFind);
         const foundItems = itemsToFind.filter((item) => foundItemsData.includes(item.searchOptions.barcodeData));
         return foundItems;
-    }
-    subscribeBarcodeFindTransformerEvent() {
-        this.eventEmitter.on(BarcodeFindListenerEvents.onTransformBarcodeData, (body) => {
-            var _a;
-            const transformed = (_a = this._barcodeFind.barcodeTransformer) === null || _a === void 0 ? void 0 : _a.transformBarcodeData(body);
-            this._proxy.submitBarcodeFindTransformerResult(transformed);
-        });
     }
     subscribeListeners() {
         this._proxy.subscribeBarcodeFindListener();
@@ -5402,7 +4316,6 @@ class BarcodeFindController extends BaseController {
         this.eventEmitter.off(BarcodeFindListenerEvents.onSearchPausedEvent);
         this.eventEmitter.off(BarcodeFindListenerEvents.onSearchStartedEvent);
         this.eventEmitter.off(BarcodeFindListenerEvents.onSearchStoppedEvent);
-        this.eventEmitter.off(BarcodeFindListenerEvents.onTransformBarcodeData);
     }
     dispose() {
         this.unsubscribeListeners();
@@ -5416,10 +4329,8 @@ class BarcodeFind extends DefaultSerializeable {
         this._feedback = BarcodeFindFeedback.defaultFeedback;
         this._enabled = true;
         this._isInCallback = false;
-        this.itemsToFind = null;
-        this._hasBarcodeTransformer = false;
+        this.itemsToFind = "";
         this.listeners = [];
-        this.barcodeTransformer = null;
         this._settings = settings;
         this._controller = BarcodeFindController.forBarcodeFind(this);
         this._dataCaptureContext = dataCaptureContext;
@@ -5474,11 +4385,6 @@ class BarcodeFind extends DefaultSerializeable {
         this.listeners.splice(this.listeners.indexOf(listener));
         this.checkAndUnsubscribeListeners();
     }
-    setBarcodeTransformer(barcodeTransformer) {
-        this.barcodeTransformer = barcodeTransformer;
-        this._hasBarcodeTransformer = this.barcodeTransformer != undefined;
-        this._controller.setBarcodeTransformer();
-    }
     checkAndUnsubscribeListeners() {
         if (this.listeners.length > 0) {
             return;
@@ -5488,6 +4394,7 @@ class BarcodeFind extends DefaultSerializeable {
     setItemList(items) {
         this.itemsToFind = JSON.stringify(items.map(item => item.toJSON()));
         return this._controller.setItemList(items);
+        // return this.update();
     }
     start() {
         return this._controller.start();
@@ -5518,8 +4425,8 @@ __decorate([
     nameForSerialization('settings')
 ], BarcodeFind.prototype, "_settings", void 0);
 __decorate([
-    nameForSerialization('hasBarcodeTransformer')
-], BarcodeFind.prototype, "_hasBarcodeTransformer", void 0);
+    nameForSerialization('itemsToFind')
+], BarcodeFind.prototype, "itemsToFind", void 0);
 __decorate([
     ignoreFromSerialization
 ], BarcodeFind.prototype, "listeners", void 0);
@@ -5687,6 +4594,7 @@ class BarcodeFindViewController extends BaseController {
         const viewController = new BarcodeFindViewController();
         viewController.baseView = baseView;
         viewController.nativeView = nativeView;
+        viewController.subscribeToEvents();
         viewController.initialize();
         return viewController;
     }
@@ -5694,11 +4602,11 @@ class BarcodeFindViewController extends BaseController {
         return __awaiter(this, void 0, void 0, function* () {
             if (listener && !this.isListenerEnabled) {
                 this.isListenerEnabled = true;
-                this.subscribeToEvents();
+                yield this._proxy.subscribeBarcodeFindViewListener();
             }
             if (listener == null) {
                 this.isListenerEnabled = false;
-                this.unsubscribeToEvents();
+                yield this._proxy.unsubscribeBarcodeFindViewListener();
             }
         });
     }
@@ -5781,7 +4689,6 @@ class BaseBarcodeFindView {
     }
     initialize(nativeView) {
         this.controller = BarcodeFindViewController.forBarcodeFindView(this, nativeView);
-        this._isInitialized = true;
     }
     static forMode(dataCaptureContext, barcodeFind) {
         return new BaseBarcodeFindView(dataCaptureContext, barcodeFind);
@@ -5889,20 +4796,6 @@ class BaseBarcodeFindView {
         BaseBarcodeFindView.barcodeFindViewDefaults.textForAllItemsFoundSuccessfullyHint = value;
         this.update();
     }
-    get textForItemListUpdatedHint() {
-        return BaseBarcodeFindView.barcodeFindViewDefaults.textForItemListUpdatedHint;
-    }
-    set textForItemListUpdatedHint(value) {
-        BaseBarcodeFindView.barcodeFindViewDefaults.textForItemListUpdatedHint = value;
-        this.update();
-    }
-    get textForItemListUpdatedWhenPausedHint() {
-        return BaseBarcodeFindView.barcodeFindViewDefaults.textForItemListUpdatedWhenPausedHint;
-    }
-    set textForItemListUpdatedWhenPausedHint(value) {
-        BaseBarcodeFindView.barcodeFindViewDefaults.textForItemListUpdatedWhenPausedHint = value;
-        this.update();
-    }
     get textForPointAtBarcodesToSearchHint() {
         return BaseBarcodeFindView.barcodeFindViewDefaults.textForPointAtBarcodesToSearchHint;
     }
@@ -5955,8 +4848,6 @@ class BaseBarcodeFindView {
                 torchControlPosition: (_a = this.torchControlPosition) === null || _a === void 0 ? void 0 : _a.toString(),
                 textForCollapseCardsButton: this.textForCollapseCardsButton,
                 textForAllItemsFoundSuccessfullyHint: this.textForAllItemsFoundSuccessfullyHint,
-                textForItemListUpdatedHint: this.textForItemListUpdatedHint,
-                textForItemListUpdatedWhenPausedHint: this.textForItemListUpdatedWhenPausedHint,
                 textForPointAtBarcodesToSearchHint: this.textForPointAtBarcodesToSearchHint,
                 textForMoveCloserToBarcodesHint: this.textForMoveCloserToBarcodesHint,
                 textForTapShutterToPauseScreenHint: this.textForTapShutterToPauseScreenHint,
@@ -5977,182 +4868,4 @@ class BaseBarcodeFindView {
     }
 }
 
-class BarcodeGeneratorCreationOptions {
-    constructor(backgroundColor = null, foregroundColor = null, errorCorrectionLevel = null, versionNumber = null) {
-        this.backgroundColor = backgroundColor;
-        this.foregroundColor = foregroundColor;
-        this.errorCorrectionLevel = errorCorrectionLevel;
-        this.versionNumber = versionNumber;
-    }
-}
-
-class BarcodeGeneratorBuilder {
-    constructor(type, dataCaptureContext) {
-        this.options = new BarcodeGeneratorCreationOptions();
-        this.type = type;
-        this.dataCaptureContext = dataCaptureContext;
-    }
-    withBackgroundColor(color) {
-        this.options.backgroundColor = color;
-        return this;
-    }
-    withForegroundColor(color) {
-        this.options.foregroundColor = color;
-        return this;
-    }
-    build() {
-        return BarcodeGenerator.create(this.type, this.options, this.dataCaptureContext);
-    }
-}
-
-class Code39BarcodeGeneratorBuilder extends BarcodeGeneratorBuilder {
-    constructor(dataCaptureContext) {
-        super('code39Generator', dataCaptureContext);
-    }
-}
-
-class Code128BarcodeGeneratorBuilder extends BarcodeGeneratorBuilder {
-    constructor(dataCaptureContext) {
-        super('code128Generator', dataCaptureContext);
-    }
-}
-
-class Ean13BarcodeGeneratorBuilder extends BarcodeGeneratorBuilder {
-    constructor(dataCaptureContext) {
-        super('ean13Generator', dataCaptureContext);
-    }
-}
-
-class UpcaBarcodeGeneratorBuilder extends BarcodeGeneratorBuilder {
-    constructor(dataCaptureContext) {
-        super('upcaGenerator', dataCaptureContext);
-    }
-}
-
-class InterleavedTwoOfFiveBarcodeGeneratorBuilder extends BarcodeGeneratorBuilder {
-    constructor(dataCaptureContext) {
-        super('interleavedTwoOfFiveGenerator', dataCaptureContext);
-    }
-}
-
-class QrCodeBarcodeGeneratorBuilder extends BarcodeGeneratorBuilder {
-    constructor(dataCaptureContext) {
-        super('qrCodeGenerator', dataCaptureContext);
-    }
-    withErrorCorrectionLevel(errorCorrectionLevel) {
-        this.options.errorCorrectionLevel = errorCorrectionLevel;
-        return this;
-    }
-    withVersionNumber(versionNumber) {
-        this.options.versionNumber = versionNumber;
-        return this;
-    }
-}
-
-class DataMatrixBarcodeGeneratorBuilder extends BarcodeGeneratorBuilder {
-    constructor(dataCaptureContext) {
-        super('dataMatrixGenerator', dataCaptureContext);
-    }
-}
-
-class BarcodeGeneratorController {
-    get _proxy() {
-        return FactoryMaker.getInstance('BarcodeGeneratorProxy');
-    }
-    static forBarcodeGenerator(generator) {
-        const controller = new BarcodeGeneratorController();
-        controller.generator = generator;
-        controller.initialize();
-        return controller;
-    }
-    initialize() {
-        return __awaiter(this, void 0, void 0, function* () {
-            // We call update because it returns a promise, this guarantees, that by the time
-            // we need the deserialized context, it will be set in the native layer.
-            yield this.generator.dataCaptureContext.update();
-            this.create();
-        });
-    }
-    create() {
-        return this._proxy.create(JSON.stringify(this.generator.toJSON()));
-    }
-    generateFromBase64EncodedData(data, imageWidth) {
-        return this._proxy.generateFromBase64EncodedData(this.generator.id, data, imageWidth);
-    }
-    generate(text, imageWidth) {
-        return this._proxy.generate(this.generator.id, text, imageWidth);
-    }
-    dispose() {
-        return this._proxy.dispose(this.generator.id);
-    }
-}
-
-class BarcodeGenerator extends DefaultSerializeable {
-    get id() {
-        return this._id;
-    }
-    constructor(dataCaptureContext, type, backgroundColor, foregroundColor, errorCorrectionLevel, versionNumber) {
-        super();
-        this._id = `${Date.now()}`;
-        this.errorCorrectionLevel = null;
-        this.dataCaptureContext = dataCaptureContext;
-        this.type = type;
-        this.backgroundColor = backgroundColor;
-        this.foregroundColor = foregroundColor;
-        this.errorCorrectionLevel = errorCorrectionLevel;
-        this.versionNumber = versionNumber;
-        this.controller = BarcodeGeneratorController.forBarcodeGenerator(this);
-    }
-    static create(type, options, dataCaptureContext) {
-        return new BarcodeGenerator(dataCaptureContext, type, options.backgroundColor, options.backgroundColor, options.errorCorrectionLevel, options.versionNumber);
-    }
-    generate(text, imageWidth) {
-        return this.controller.generate(text, imageWidth);
-    }
-    generateFromBase64EncodedData(data, imageWidth) {
-        return this.controller.generateFromBase64EncodedData(data, imageWidth);
-    }
-    dispose() {
-        this.controller.dispose();
-    }
-    static code39BarcodeGeneratorBuilder(dataCaptureContext) {
-        return new Code39BarcodeGeneratorBuilder(dataCaptureContext);
-    }
-    static code128BarcodeGeneratorBuilder(dataCaptureContext) {
-        return new Code128BarcodeGeneratorBuilder(dataCaptureContext);
-    }
-    static ean13BarcodeGeneratorBuilder(dataCaptureContext) {
-        return new Ean13BarcodeGeneratorBuilder(dataCaptureContext);
-    }
-    static upcaBarcodeGeneratorBuilder(dataCaptureContext) {
-        return new UpcaBarcodeGeneratorBuilder(dataCaptureContext);
-    }
-    static interleavedTwoOfFiveBarcodeGeneratorBuilder(dataCaptureContext) {
-        return new InterleavedTwoOfFiveBarcodeGeneratorBuilder(dataCaptureContext);
-    }
-    static qrCodeBarcodeGeneratorBuilder(dataCaptureContext) {
-        return new QrCodeBarcodeGeneratorBuilder(dataCaptureContext);
-    }
-    static dataMatrixBarcodeGeneratorBuilder(dataCaptureContext) {
-        return new DataMatrixBarcodeGeneratorBuilder(dataCaptureContext);
-    }
-}
-__decorate([
-    nameForSerialization('id')
-], BarcodeGenerator.prototype, "_id", void 0);
-__decorate([
-    ignoreFromSerialization
-], BarcodeGenerator.prototype, "dataCaptureContext", void 0);
-__decorate([
-    ignoreFromSerialization
-], BarcodeGenerator.prototype, "controller", void 0);
-
-var QrCodeErrorCorrectionLevel;
-(function (QrCodeErrorCorrectionLevel) {
-    QrCodeErrorCorrectionLevel["Low"] = "low";
-    QrCodeErrorCorrectionLevel["Medium"] = "medium";
-    QrCodeErrorCorrectionLevel["Quartile"] = "quartile";
-    QrCodeErrorCorrectionLevel["High"] = "high";
-})(QrCodeErrorCorrectionLevel || (QrCodeErrorCorrectionLevel = {}));
-
-export { ArucoDictionary, ArucoDictionaryPreset, ArucoMarker, Barcode, BarcodeCapture, BarcodeCaptureFeedback, BarcodeCaptureListenerController, BarcodeCaptureListenerEvents, BarcodeCaptureOverlay, BarcodeCaptureOverlayStyle, BarcodeCaptureSession, BarcodeCaptureSettings, BarcodeCount, BarcodeCountCaptureList, BarcodeCountCaptureListSession, BarcodeCountFeedback, BarcodeCountListenerController, BarcodeCountListenerEvents, BarcodeCountSession, BarcodeCountSessionController, BarcodeCountSettings, BarcodeCountToolbarSettings, BarcodeCountViewEvents, BarcodeCountViewStyle, BarcodeFilterHighlightSettingsBrush, BarcodeFilterHighlightType, BarcodeFilterSettings, BarcodeFind, BarcodeFindController, BarcodeFindFeedback, BarcodeFindItem, BarcodeFindItemContent, BarcodeFindItemSearchOptions, BarcodeFindListenerEvents, BarcodeFindSettings, BarcodeFindViewEvents, BarcodeFindViewSettings, BarcodeGenerator, BarcodeGeneratorBuilder, BarcodeGeneratorController, BarcodePick, BarcodePickActionCallback, BarcodePickAsyncMapperProductProvider, BarcodePickEvents, BarcodePickIconStyle, BarcodePickListenerController, BarcodePickListenerEvents, BarcodePickProduct, BarcodePickProductController, BarcodePickProductProviderCallback, BarcodePickProductProviderCallbackItem, BarcodePickScanningSession, BarcodePickSettings, BarcodePickState, BarcodePickViewController, BarcodePickViewListenerEvents, BarcodePickViewSettings, BarcodePickViewUiListenerEvents, BarcodeSelection, BarcodeSelectionAimerSelection, BarcodeSelectionAutoSelectionStrategy, BarcodeSelectionBasicOverlay, BarcodeSelectionBasicOverlayStyle, BarcodeSelectionBrushProviderEvents, BarcodeSelectionController, BarcodeSelectionFeedback, BarcodeSelectionFreezeBehavior, BarcodeSelectionListenerController, BarcodeSelectionListenerEvents, BarcodeSelectionManualSelectionStrategy, BarcodeSelectionOverlayController, BarcodeSelectionSession, BarcodeSelectionSettings, BarcodeSelectionStrategyType, BarcodeSelectionTapBehavior, BarcodeSelectionTapSelection, BarcodeSelectionTypeName, BarcodeSpatialGrid, BarcodeTracking, BarcodeTrackingAdvancedOverlayController, BarcodeTrackingAdvancedOverlayListenerEvents, BarcodeTrackingBasicOverlay, BarcodeTrackingBasicOverlayController, BarcodeTrackingBasicOverlayListenerEvents, BarcodeTrackingBasicOverlayStyle, BarcodeTrackingListenerController, BarcodeTrackingListenerEvents, BarcodeTrackingScenario, BarcodeTrackingSession, BarcodeTrackingSettings, BaseBarcodeFindView, BaseBarcodePickView, BaseBarcodeTrackingAdvancedOverlay, BaseSparkScanView, BatterySavingMode, BrushForStateObject, Checksum, Code128BarcodeGeneratorBuilder, Code39BarcodeGeneratorBuilder, CompositeFlag, CompositeType, DataMatrixBarcodeGeneratorBuilder, Dot, DotWithIcons, Ean13BarcodeGeneratorBuilder, Ean13UpcaClassification, EncodingRange, InterleavedTwoOfFiveBarcodeGeneratorBuilder, LocalizedOnlyBarcode, PrivateBarcodeSelectionStrategy, PrivateBarcodeSelectionType, QrCodeBarcodeGeneratorBuilder, QrCodeErrorCorrectionLevel, Range, Rectangular, RectangularWithIcons, SparkScan, SparkScanBarcodeErrorFeedback, SparkScanBarcodeFeedback, SparkScanBarcodeSuccessFeedback, SparkScanFeedback, SparkScanFeedbackDelegateEvents, SparkScanListenerController, SparkScanListenerEvents, SparkScanPreviewBehavior, SparkScanScanningBehavior, SparkScanScanningModeDefault, SparkScanScanningModeTarget, SparkScanScanningPrecision, SparkScanSession, SparkScanSettings, SparkScanToastSettings, SparkScanViewController, SparkScanViewErrorFeedback, SparkScanViewEvents, SparkScanViewFeedback, SparkScanViewHandMode, SparkScanViewSettings, SparkScanViewSuccessFeedback, StructuredAppendData, Symbology, SymbologyDescription, SymbologySettings, TargetBarcode, TrackedBarcode, UpcaBarcodeGeneratorBuilder, getBarcodeCaptureDefaults, getBarcodeCountDefaults, getBarcodeDefaults, getBarcodeFindDefaults, getBarcodePickDefaults, getBarcodeSelectionDefaults, getBarcodeTrackingDefaults, getSparkScanDefaults, loadBarcodeCaptureDefaults, loadBarcodeCountDefaults, loadBarcodeDefaults, loadBarcodeFindDefaults, loadBarcodePickDefaults, loadBarcodeSelectionDefaults, loadBarcodeTrackingDefaults, loadSparkScanDefaults };
+export { ArucoDictionary, ArucoDictionaryPreset, ArucoMarker, Barcode, BarcodeCapture, BarcodeCaptureFeedback, BarcodeCaptureListenerController, BarcodeCaptureListenerEvents, BarcodeCaptureOverlay, BarcodeCaptureOverlayStyle, BarcodeCaptureSession, BarcodeCaptureSettings, BarcodeCount, BarcodeCountCaptureList, BarcodeCountCaptureListSession, BarcodeCountFeedback, BarcodeCountListenerController, BarcodeCountListenerEvents, BarcodeCountSession, BarcodeCountSessionController, BarcodeCountSettings, BarcodeCountToolbarSettings, BarcodeCountViewStyle, BarcodeFilterHighlightSettingsBrush, BarcodeFilterHighlightType, BarcodeFilterSettings, BarcodeFind, BarcodeFindFeedback, BarcodeFindItem, BarcodeFindItemContent, BarcodeFindItemSearchOptions, BarcodeFindListenerEvents, BarcodeFindSettings, BarcodeFindViewEvents, BarcodeFindViewSettings, BarcodePick, BarcodePickActionCallback, BarcodePickAsyncMapperProductProvider, BarcodePickEvents, BarcodePickIconStyle, BarcodePickProduct, BarcodePickProductController, BarcodePickProductProviderCallback, BarcodePickProductProviderCallbackItem, BarcodePickSettings, BarcodePickState, BarcodePickViewController, BarcodePickViewSettings, BarcodeSelection, BarcodeSelectionAimerSelection, BarcodeSelectionAutoSelectionStrategy, BarcodeSelectionBasicOverlay, BarcodeSelectionBasicOverlayStyle, BarcodeSelectionBrushProviderEvents, BarcodeSelectionController, BarcodeSelectionFeedback, BarcodeSelectionFreezeBehavior, BarcodeSelectionListenerController, BarcodeSelectionListenerEvents, BarcodeSelectionManualSelectionStrategy, BarcodeSelectionOverlayController, BarcodeSelectionSession, BarcodeSelectionSettings, BarcodeSelectionStrategyType, BarcodeSelectionTapBehavior, BarcodeSelectionTapSelection, BarcodeSelectionTypeName, BarcodeSpatialGrid, BarcodeTracking, BarcodeTrackingAdvancedOverlayController, BarcodeTrackingAdvancedOverlayListenerEvents, BarcodeTrackingBasicOverlay, BarcodeTrackingBasicOverlayController, BarcodeTrackingBasicOverlayListenerEvents, BarcodeTrackingBasicOverlayStyle, BarcodeTrackingListenerController, BarcodeTrackingListenerEvents, BarcodeTrackingScenario, BarcodeTrackingSession, BarcodeTrackingSettings, BaseBarcodeFindView, BaseBarcodePickView, BaseBarcodeTrackingAdvancedOverlay, BatterySavingMode, BrushForStateObject, Checksum, CompositeFlag, CompositeType, Ean13UpcaClassification, EncodingRange, LocalizedOnlyBarcode, PrivateBarcodeSelectionStrategy, PrivateBarcodeSelectionType, Range, Rectangular, RectangularWithIcons, SparkScan, SparkScanFeedback, SparkScanListenerController, SparkScanListenerEvents, SparkScanScanningBehavior, SparkScanScanningModeDefault, SparkScanScanningModeTarget, SparkScanScanningPrecision, SparkScanSession, SparkScanSettings, SparkScanToastSettings, SparkScanViewErrorFeedback, SparkScanViewFeedback, SparkScanViewHandMode, SparkScanViewSettings, SparkScanViewSuccessFeedback, StructuredAppendData, Symbology, SymbologyDescription, SymbologySettings, TargetBarcode, TrackedBarcode, getBarcodeCaptureDefaults, getBarcodeCountDefaults, getBarcodeDefaults, getBarcodeFindDefaults, getBarcodePickDefaults, getBarcodeSelectionDefaults, getBarcodeTrackingDefaults, getSparkScanDefaults, loadBarcodeCaptureDefaults, loadBarcodeCountDefaults, loadBarcodeDefaults, loadBarcodeFindDefaults, loadBarcodePickDefaults, loadBarcodeSelectionDefaults, loadBarcodeTrackingDefaults, loadSparkScanDefaults };
