@@ -21,7 +21,8 @@ class ScanditDataCaptureBarcodeFind: RCTEventEmitter {
         let emitter = ReactNativeEmitter(emitter: self)
         let listener = FrameworksBarcodeFindListener(emitter: emitter)
         let viewListener = FrameworksBarcodeFindViewUIListener(emitter: emitter)
-        barcodeFindModule = BarcodeFindModule(listener: listener, viewListener: viewListener)
+        let barcodeTransformer = FrameworksBarcodeFindTransformer(emitter: emitter)
+        barcodeFindModule = BarcodeFindModule(listener: listener, viewListener: viewListener, barcodeTransformer: barcodeTransformer)
         barcodeFindModule.didStart()
     }
 
@@ -160,5 +161,18 @@ class ScanditDataCaptureBarcodeFind: RCTEventEmitter {
     @objc(setModeEnabledState:)
     func setModeEnabledState(enabled: Bool) {
         barcodeFindModule.setModeEnabled(enabled: enabled)
+    }
+
+    @objc(setBarcodeTransformer:rejecter:)
+    func setBarcodeTransformer(resolve: @escaping RCTPromiseResolveBlock,
+                               reject: @escaping RCTPromiseRejectBlock) {
+        barcodeFindModule.setBarcodeFindTransformer(result: ReactNativeResult(resolve, reject))
+    }
+
+    @objc(submitBarcodeFindTransformerResult:resolver:rejecter:)
+    func submitBarcodeFindTransformerResult(transformedData: String?,
+                                            resolve: @escaping RCTPromiseResolveBlock,
+                                            reject: @escaping RCTPromiseRejectBlock) {
+        barcodeFindModule.submitBarcodeFindTransformerResult(transformedData: transformedData, result: ReactNativeResult(resolve, reject))
     }
 }

@@ -80,4 +80,13 @@ RCT_EXTERN_METHOD(barcodeFindModeStop
 
 RCT_EXTERN_METHOD(setModeEnabledState : (BOOL)enabled)
 
+RCT_EXTERN_METHOD(setBarcodeTransformer
+                  : (RCTPromiseResolveBlock)resolve rejecter
+                  : (RCTPromiseRejectBlock)reject)
+
+RCT_EXTERN_METHOD(submitBarcodeFindTransformerResult
+                  : (nullable NSString *)JSONString resolver
+                  : (RCTPromiseResolveBlock)resolve rejecter
+                  : (RCTPromiseRejectBlock)reject)
+
 @end

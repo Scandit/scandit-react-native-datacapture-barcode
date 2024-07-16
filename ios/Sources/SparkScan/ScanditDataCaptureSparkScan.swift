@@ -14,6 +14,7 @@ enum ScanditDataCaptureSparkScanEvent: String, CaseIterable {
     case didScan = "SparkScanListener.didScan"
     case barcodeCountButtonTapped = "SparkScanViewUiListener.barcodeCountButtonTapped"
     case fastFindButtonTapped = "SparkScanViewUiListener.fastFindButtonTapped"
+    case feedbackForBarcode = "SparkScanFeedbackDelegate.feedbackForBarcode"
 }
 
 @objc(ScanditDataCaptureSparkScan)
@@ -29,8 +30,10 @@ class ScanditDataCaptureSparkScan: RCTEventEmitter {
         let emitter = ReactNativeEmitter(emitter: self)
         let sparkScanListener = FrameworksSparkScanListener(emitter: emitter)
         let sparkScanViewUIListener = FrameworksSparkScanViewUIListener(emitter: emitter)
+        let feedbackDelegate = FrameworksSparkScanFeedbackDelegate(emitter: emitter)
         sparkScanModule = SparkScanModule(sparkScanListener: sparkScanListener,
-                                          sparkScanViewUIListener: sparkScanViewUIListener)
+                                          sparkScanViewUIListener: sparkScanViewUIListener,
+                                          feedbackDelegate: feedbackDelegate)
         sparkScanModule.didStart()
     }
 
@@ -190,5 +193,24 @@ class ScanditDataCaptureSparkScan: RCTEventEmitter {
                    resolve: @escaping RCTPromiseResolveBlock,
                    reject: @escaping RCTPromiseRejectBlock) {
         sparkScanModule.showToast(text: text, result: ReactNativeResult(resolve, reject))
+    }
+
+    @objc(addFeedbackDelegate:rejecter:)
+    func addFeedbackDelegate(resolve: @escaping RCTPromiseResolveBlock,
+                             reject: @escaping RCTPromiseRejectBlock) {
+        sparkScanModule.addFeedbackDelegate(result: ReactNativeResult(resolve, reject))
+    }
+    
+    @objc(removeFeedbackDelegate:rejecter:)
+    func removeFeedbackDelegate(resolve: @escaping RCTPromiseResolveBlock,
+                                reject: @escaping RCTPromiseRejectBlock) {
+        sparkScanModule.removeFeedbackDelegate(result: ReactNativeResult(resolve, reject))
+    }
+    
+    @objc(submitSparkScanFeedbackForBarcode:resolver:rejecter:)
+    func submitSparkScanFeedbackForBarcode(feedbackJson: String,
+                                           resolve: @escaping RCTPromiseResolveBlock,
+                                           reject: @escaping RCTPromiseRejectBlock) {
+        sparkScanModule.submitFeedbackForBarcode(feedbackJson: feedbackJson, result: ReactNativeResult(resolve, reject))
     }
 }
