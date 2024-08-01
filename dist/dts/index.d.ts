@@ -9,6 +9,7 @@ export { BarcodeTrackingBasicOverlayStyle, BarcodeTrackingBasicOverlayListener, 
 export { BarcodeTrackingListener } from 'scandit-datacapture-frameworks-barcode';
 export { BarcodeTrackingSession } from 'scandit-datacapture-frameworks-barcode';
 export { BarcodeTrackingScenario, BarcodeTrackingSettings } from 'scandit-datacapture-frameworks-barcode';
+export * from './BarcodeTrackingView';
 export { BarcodeTrackingAdvancedOverlayView } from './BarcodeTrackingAdvancedOverlayView';
 export { BarcodeTrackingAdvancedOverlay } from './BarcodeTrackingAdvancedOverlay';
 export { BarcodeTrackingAdvancedOverlayListener } from './BarcodeTrackingAdvancedOverlayListener';
@@ -84,4 +85,7 @@ export { BarcodeFindListener } from 'scandit-datacapture-frameworks-barcode';
 export { BarcodeFindSettings } from 'scandit-datacapture-frameworks-barcode';
 export { BarcodeFindViewSettings } from 'scandit-datacapture-frameworks-barcode';
 export { BarcodeFindViewUiListener } from 'scandit-datacapture-frameworks-barcode';
+export { BarcodeFindTransformer } from 'scandit-datacapture-frameworks-barcode';
 export * from './BarcodeFindView';
+export { BarcodeGenerator, BarcodeGeneratorBuilder, Code39BarcodeGeneratorBuilder, Code128BarcodeGeneratorBuilder, Ean13BarcodeGeneratorBuilder } from 'scandit-datacapture-frameworks-barcode';
+export { UpcaBarcodeGeneratorBuilder, InterleavedTwoOfFiveBarcodeGeneratorBuilder, QrCodeBarcodeGeneratorBuilder, DataMatrixBarcodeGeneratorBuilder, QrCodeErrorCorrectionLevel } from 'scandit-datacapture-frameworks-barcode';
