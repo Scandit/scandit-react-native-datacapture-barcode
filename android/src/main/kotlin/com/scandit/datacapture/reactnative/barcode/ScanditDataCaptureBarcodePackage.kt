@@ -44,16 +44,9 @@ import com.scandit.datacapture.reactnative.core.utils.ReactNativeEventEmitter
 
 @Suppress("unused")
 class ScanditDataCaptureBarcodePackage : ReactPackage {
+
     private val sparkScanViewManager: SparkScanViewManager by lazy {
         SparkScanViewManager()
-    }
-
-    private val barcodeFindViewManager: BarcodeFindViewManager by lazy {
-        BarcodeFindViewManager()
-    }
-
-    private val barcodePickViewManager: BarcodePickViewManager by lazy {
-        BarcodePickViewManager()
     }
 
     override fun createNativeModules(
@@ -85,12 +78,10 @@ class ScanditDataCaptureBarcodePackage : ReactPackage {
             ScanditDataCaptureBarcodeFindModule(
                 reactContext,
                 getBarcodeFindModule(reactContext),
-                barcodeFindViewManager
             ),
             ScanditDataCaptureBarcodePickModule(
                 reactContext,
-                getBarcodePickModule(reactContext),
-                barcodePickViewManager
+                getBarcodePickModule(reactContext)
             ),
             ScanditDataCaptureBarcodeGeneratorModule(
                 reactContext,
@@ -101,19 +92,14 @@ class ScanditDataCaptureBarcodePackage : ReactPackage {
         )
     }
 
-    private fun getBarcodeCountViewManager(
-        reactContext: ReactApplicationContext,
-        barcodeCountModule: BarcodeCountModule
-    ): BarcodeCountViewManager = BarcodeCountViewManager(reactContext, barcodeCountModule)
-
     override fun createViewManagers(
         reactContext: ReactApplicationContext
     ): MutableList<ViewManager<*, *>> =
         mutableListOf(
             sparkScanViewManager,
-            getBarcodeCountViewManager(reactContext, getBarcodeCountModule(reactContext)),
-            barcodeFindViewManager,
-            barcodePickViewManager
+            BarcodeCountViewManager(reactContext, getBarcodeCountModule(reactContext)),
+            BarcodeFindViewManager(reactContext, getBarcodeFindModule(reactContext)),
+            BarcodePickViewManager(reactContext, getBarcodePickModule(reactContext))
         )
 
     private fun getBarcodeModule(reactContext: ReactApplicationContext): BarcodeModule {
@@ -183,40 +169,73 @@ class ScanditDataCaptureBarcodePackage : ReactPackage {
         return newInstance
     }
 
+    private var sparkScanModule: SparkScanModule? = null
+
     private fun getSparkScanModule(
         reactContext: ReactApplicationContext
     ): SparkScanModule {
+        val existingInstance = this.sparkScanModule
+        if (existingInstance != null) {
+            return existingInstance.also {
+                it.onCreate(reactContext)
+            }
+        }
+
         val emitter = ReactNativeEventEmitter(reactContext)
-        return SparkScanModule(
+        val instance = SparkScanModule(
             FrameworksSparkScanListener(emitter),
             FrameworksSparkScanViewUiListener(emitter),
             FrameworksSparkScanFeedbackDelegate(emitter)
         ).also {
             it.onCreate(reactContext)
         }
+        sparkScanModule = instance
+        return instance
     }
+
+    private var barcodeFindModule: BarcodeFindModule? = null
 
     private fun getBarcodeFindModule(
         reactContext: ReactApplicationContext
     ): BarcodeFindModule {
+        val existingInstance = this.barcodeFindModule
+        if (existingInstance != null) {
+            return existingInstance.also {
+                it.onCreate(reactContext)
+            }
+        }
+
         val emitter = ReactNativeEventEmitter(reactContext)
-        return BarcodeFindModule(
+        val newInstance = BarcodeFindModule(
             FrameworksBarcodeFindListener(emitter),
             FrameworksBarcodeFindViewUiListener(emitter),
             FrameworksBarcodeFindTransformer(emitter)
         ).also {
             it.onCreate(reactContext)
         }
+        barcodeFindModule = newInstance
+        return newInstance
     }
+
+    private var barcodePickModule: BarcodePickModule? = null
 
     private fun getBarcodePickModule(
         reactContext: ReactApplicationContext
     ): BarcodePickModule {
+        val existingInstance = this.barcodePickModule
+        if (existingInstance != null) {
+            return existingInstance.also {
+                it.onCreate(reactContext)
+            }
+        }
+
         val emitter = ReactNativeEventEmitter(reactContext)
-        return BarcodePickModule(
+        val instance = BarcodePickModule(
             emitter
         ).also {
             it.onCreate(reactContext)
         }
+        this.barcodePickModule = instance
+        return instance
     }
 }

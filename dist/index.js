@@ -528,7 +528,7 @@ class NativeBarcodePickViewProxy extends BaseNativeProxy {
         return NativeModule$6.viewStart();
     }
     viewPause() {
-        return NativeModule$6.viewPause();
+        return Promise.resolve();
     }
     viewFreeze() {
         return NativeModule$6.viewFreeze();
@@ -537,7 +537,7 @@ class NativeBarcodePickViewProxy extends BaseNativeProxy {
         return NativeModule$6.viewStop();
     }
     viewResume() {
-        return NativeModule$6.viewResume();
+        return Promise.resolve();
     }
     finishPickAction(code, result) {
         return NativeModule$6.finishPickAction(code, result);
@@ -814,8 +814,12 @@ class NativeSparkScanViewProxy extends BaseNativeProxy {
         const fastFindButtonTappedListener = EventEmitter$1.addListener(SparkScanViewEvents.fastFindButtonTapped, () => {
             this.eventEmitter.emit(SparkScanViewEvents.fastFindButtonTapped, this.view);
         });
+        const barcodeFindButtonTappedListener = EventEmitter$1.addListener(SparkScanViewEvents.barcodeFindButtonTapped, () => {
+            this.eventEmitter.emit(SparkScanViewEvents.barcodeFindButtonTapped, this.view);
+        });
         this.nativeListeners.push(barcodeCountButtonTappedListener);
         this.nativeListeners.push(fastFindButtonTappedListener);
+        this.nativeListeners.push(barcodeFindButtonTappedListener);
     }
     showToast(text) {
         return NativeModule$2.showToast(text);
@@ -1309,6 +1313,9 @@ class SparkScanView extends React.Component {
             },
             didTapBarcodeCountButton(view) {
                 listener?.onBarcodeCountButtonTappedIn?.(rnView);
+            },
+            didTapBarcodeFindButton(view) {
+                listener?.onBarcodeFindButtonTappedIn?.(rnView);
             }
         };
         this.rnViewListener = listener;
@@ -1328,9 +1335,15 @@ class SparkScanView extends React.Component {
     render() {
         return React.createElement(RNTSparkScanView, { ...this.props });
     }
+    /**
+     * @deprecated This property is deprecated as it's no longer needed.
+     */
     get shouldShowScanAreaGuides() {
         return this.baseSparkScanView.shouldShowScanAreaGuides;
     }
+    /**
+     * @deprecated This property is deprecated as it's no longer needed.
+     */
     set shouldShowScanAreaGuides(newValue) {
         this.baseSparkScanView.shouldShowScanAreaGuides = newValue;
     }
@@ -1370,11 +1383,23 @@ class SparkScanView extends React.Component {
     set barcodeCountButtonVisible(newValue) {
         this.baseSparkScanView.barcodeCountButtonVisible = newValue;
     }
+    /**
+     * @deprecated This property was renamed. Use the property `barcodeFindButtonVisible` instead.
+     */
     get fastFindButtonVisible() {
         return this.baseSparkScanView.fastFindButtonVisible;
     }
+    /**
+     * @deprecated This property was renamed. Use the property `barcodeFindButtonVisible` instead.
+     */
     set fastFindButtonVisible(newValue) {
         this.baseSparkScanView.fastFindButtonVisible = newValue;
+    }
+    get barcodeFindButtonVisible() {
+        return this.baseSparkScanView.barcodeFindButtonVisible;
+    }
+    set barcodeFindButtonVisible(newValue) {
+        this.baseSparkScanView.barcodeFindButtonVisible = newValue;
     }
     get targetModeButtonVisible() {
         return this.baseSparkScanView.targetModeButtonVisible;
@@ -1382,15 +1407,27 @@ class SparkScanView extends React.Component {
     set targetModeButtonVisible(newValue) {
         this.baseSparkScanView.targetModeButtonVisible = newValue;
     }
+    /**
+     * @deprecated This property is deprecated as sound mode button will be removed in the future.
+     */
     get soundModeButtonVisible() {
         return this.baseSparkScanView.soundModeButtonVisible;
     }
+    /**
+     * @deprecated This property is deprecated as sound mode button will be removed in the future.
+     */
     set soundModeButtonVisible(newValue) {
         this.baseSparkScanView.soundModeButtonVisible = newValue;
     }
+    /**
+     * @deprecated This property is deprecated as haptic mode button will be removed in the future.
+     */
     get hapticModeButtonVisible() {
         return this.baseSparkScanView.hapticModeButtonVisible;
     }
+    /**
+     * @deprecated This property is deprecated as haptic mode button will be removed in the future.
+     */
     set hapticModeButtonVisible(newValue) {
         this.baseSparkScanView.hapticModeButtonVisible = newValue;
     }
@@ -1547,8 +1584,8 @@ class BarcodeCountViewProxy {
     }
     update() {
         const barcodeCountView = this.view.toJSON();
-        const json = JSON.stringify(barcodeCountView);
-        return NativeModule.updateView(json);
+        const json = barcodeCountView.View;
+        return NativeModule.updateView(JSON.stringify(json));
     }
     create() {
         const barcodeCountView = this.view.toJSON();
@@ -1999,6 +2036,20 @@ class BarcodeCountView extends React.Component {
         this._textForUnrecognizedBarcodesDetectedHint = newValue;
         this.updateNative();
     }
+    get shouldShowTorchControl() {
+        return this._shouldShowTorchControl;
+    }
+    set shouldShowTorchControl(newValue) {
+        this._shouldShowTorchControl = newValue;
+        this.updateNative();
+    }
+    get torchControlPosition() {
+        return this._torchControlPosition;
+    }
+    set torchControlPosition(newValue) {
+        this._torchControlPosition = newValue;
+        this.updateNative();
+    }
     static get barcodeCountDefaults() {
         return getBarcodeCountDefaults();
     }
@@ -2047,6 +2098,8 @@ class BarcodeCountView extends React.Component {
     _shouldShowListProgressBar = BarcodeCountView.barcodeCountDefaults.BarcodeCountView.shouldShowListProgressBar;
     _textForUnrecognizedBarcodesDetectedHint = BarcodeCountView.barcodeCountDefaults.BarcodeCountView.textForUnrecognizedBarcodesDetectedHint;
     _toolbarSettings = null;
+    _shouldShowTorchControl = BarcodeCountView.barcodeCountDefaults.BarcodeCountView.shouldShowTorchControl;
+    _torchControlPosition = BarcodeCountView.barcodeCountDefaults.BarcodeCountView.torchControlPosition;
     constructor(props) {
         super(props);
         this.viewProxy = BarcodeCountViewProxy.forBarcodeCount(this);
@@ -2095,6 +2148,8 @@ class BarcodeCountView extends React.Component {
                 shouldShowToolbar: this.shouldShowToolbar,
                 shouldShowScanAreaGuides: this.shouldShowScanAreaGuides,
                 toolbarSettings: this._toolbarSettings?.toJSON(),
+                shouldShowTorchControl: this._shouldShowTorchControl,
+                torchControlPosition: this._torchControlPosition,
             },
             BarcodeCount: this.props.barcodeCount.toJSON()
         };
@@ -2215,6 +2270,11 @@ class BarcodePickView extends React.Component {
     set uiListener(value) {
         this.baseBarcodePickView.uiListener = value;
     }
+    componentDidMount() {
+        if (Platform.OS === 'android') {
+            this.createFragment();
+        }
+    }
     componentWillUnmount() {
         this.baseBarcodePickView.dispose();
     }
@@ -2228,10 +2288,12 @@ class BarcodePickView extends React.Component {
         this.baseBarcodePickView.freeze();
     }
     pause() {
-        this.baseBarcodePickView.pause();
+        // tslint:disable-next-line:no-console
+        console.warn('BarcodePickView.pause is deprecated. There is no need to manually call pause.');
     }
     resume() {
-        this.baseBarcodePickView.resume();
+        // tslint:disable-next-line:no-console
+        console.warn('BarcodePickView.resume is deprecated. There is no need to manually call resume.');
     }
     addListener(listener) {
         this.baseBarcodePickView.addListener(listener);
@@ -2250,6 +2312,12 @@ class BarcodePickView extends React.Component {
     }
     release() {
         this.baseBarcodePickView.dispose();
+    }
+    createFragment() {
+        const viewId = findNodeHandle(this);
+        UIManager.dispatchViewManagerCommand(viewId, 
+        // @ts-ignore - It complains that RNTBarcodeCountView doesn't exist
+        UIManager.RNTBarcodePickView.Commands.create.toString(), [viewId, JSON.stringify(this.toJSON())]);
     }
     toJSON() {
         return this.baseBarcodePickView.toJSON();
@@ -2384,6 +2452,17 @@ class BarcodeFindView extends React.Component {
     }
     componentWillUnmount() {
         this.baseBarcodeFindView.dispose();
+    }
+    componentDidMount() {
+        if (Platform.OS === 'android') {
+            this.createFragment();
+        }
+    }
+    createFragment() {
+        const viewId = findNodeHandle(this);
+        UIManager.dispatchViewManagerCommand(viewId, 
+        // @ts-ignore - It complains that RNTBarcodeFindView doesn't exist
+        UIManager.RNTBarcodeFindView.Commands.create.toString(), [viewId, JSON.stringify(this.toJSON())]);
     }
     toJSON() {
         return this.baseBarcodeFindView.toJSON();

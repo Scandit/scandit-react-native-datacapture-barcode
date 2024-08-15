@@ -49,6 +49,14 @@ class BarcodeCountViewManager(
         fragmentsCache[root] = barcodeCountViewFragment
     }
 
+    override fun onDropViewInstance(view: FrameLayout) {
+        super.onDropViewInstance(view)
+        fragmentsCache.remove(view)?.let {
+            val activity = reactContext.currentActivity as FragmentActivity
+            activity.supportFragmentManager.beginTransaction().remove(it).commit()
+        }
+    }
+
     companion object {
         private const val CREATE_FRAGMENT_COMMAND = 1
     }
