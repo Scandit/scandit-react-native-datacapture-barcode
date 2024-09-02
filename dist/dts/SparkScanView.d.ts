@@ -3,11 +3,7 @@ import { SparkScanViewFeedback, SparkScanFeedbackDelegate, SparkScanViewSettings
 import { Brush, Color, DataCaptureContext } from 'scandit-datacapture-frameworks-core';
 export interface SparkScanViewUiListener {
     onBarcodeCountButtonTappedIn?(view: SparkScanView): void;
-    /**
-     * @deprecated This method was renamed. Use onBarcodeFindButtonTappedIn instead.
-     */
     onFastFindButtonTappedIn?(view: SparkScanView): void;
-    onBarcodeFindButtonTappedIn?(view: SparkScanView): void;
 }
 interface SparkScanViewProps {
     context: DataCaptureContext;
@@ -25,13 +21,7 @@ export declare class SparkScanView extends React.Component<SparkScanViewProps> {
     constructor(props: SparkScanViewProps);
     componentWillUnmount(): void;
     render(): React.JSX.Element;
-    /**
-     * @deprecated This property is deprecated as it's no longer needed.
-     */
     get shouldShowScanAreaGuides(): boolean;
-    /**
-     * @deprecated This property is deprecated as it's no longer needed.
-     */
     set shouldShowScanAreaGuides(newValue: boolean);
     get brush(): Brush;
     set brush(newValue: Brush);
@@ -45,33 +35,13 @@ export declare class SparkScanView extends React.Component<SparkScanViewProps> {
     set handModeButtonVisible(newValue: boolean);
     get barcodeCountButtonVisible(): boolean;
     set barcodeCountButtonVisible(newValue: boolean);
-    /**
-     * @deprecated This property was renamed. Use the property `barcodeFindButtonVisible` instead.
-     */
     get fastFindButtonVisible(): boolean;
-    /**
-     * @deprecated This property was renamed. Use the property `barcodeFindButtonVisible` instead.
-     */
     set fastFindButtonVisible(newValue: boolean);
-    get barcodeFindButtonVisible(): boolean;
-    set barcodeFindButtonVisible(newValue: boolean);
     get targetModeButtonVisible(): boolean;
     set targetModeButtonVisible(newValue: boolean);
-    /**
-     * @deprecated This property is deprecated as sound mode button will be removed in the future.
-     */
     get soundModeButtonVisible(): boolean;
-    /**
-     * @deprecated This property is deprecated as sound mode button will be removed in the future.
-     */
     set soundModeButtonVisible(newValue: boolean);
-    /**
-     * @deprecated This property is deprecated as haptic mode button will be removed in the future.
-     */
     get hapticModeButtonVisible(): boolean;
-    /**
-     * @deprecated This property is deprecated as haptic mode button will be removed in the future.
-     */
     set hapticModeButtonVisible(newValue: boolean);
     get stopCapturingText(): string | null;
     set stopCapturingText(newValue: string | null);

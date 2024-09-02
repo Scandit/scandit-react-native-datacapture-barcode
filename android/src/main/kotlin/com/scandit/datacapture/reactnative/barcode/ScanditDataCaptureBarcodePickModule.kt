@@ -11,11 +11,13 @@ import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
 import com.scandit.datacapture.frameworks.barcode.pick.BarcodePickModule
+import com.scandit.datacapture.reactnative.barcode.ui.BarcodePickViewManager
 import com.scandit.datacapture.reactnative.core.utils.ReactNativeResult
 
 class ScanditDataCaptureBarcodePickModule(
     reactContext: ReactApplicationContext,
-    private val barcodePickModule: BarcodePickModule
+    private val barcodePickModule: BarcodePickModule,
+    private val viewManager: BarcodePickViewManager
 ) : ReactContextBaseJavaModule(reactContext) {
     override fun getName(): String = "ScanditDataCaptureBarcodePick"
 
@@ -26,6 +28,7 @@ class ScanditDataCaptureBarcodePickModule(
     }
 
     override fun invalidate() {
+        viewManager.dispose()
         barcodePickModule.onDestroy()
         super.invalidate()
     }
@@ -33,11 +36,19 @@ class ScanditDataCaptureBarcodePickModule(
     @ReactMethod
     fun createView(
         @Suppress("UNUSED_PARAMETER") reactTag: Int,
-        @Suppress("UNUSED_PARAMETER") jsonString: String,
+        jsonString: String,
         promise: Promise
     ) {
-        // Noop. The view is created inside the BarcodePickViewFragment.
-        promise.resolve(null)
+        val container = viewManager.currentContainer
+        if (container == null) {
+            viewManager.postContainerCreationAction = {
+                viewManager.currentContainer?.let {
+                    barcodePickModule.addViewToContainer(it, jsonString, ReactNativeResult(promise))
+                }
+            }
+            return
+        }
+        barcodePickModule.addViewToContainer(container, jsonString, ReactNativeResult(promise))
     }
 
     @ReactMethod

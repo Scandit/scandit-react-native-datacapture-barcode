@@ -1,6 +1,6 @@
 import { BarcodeCount, BarcodeCountViewListener, BarcodeCountViewUiListener, BarcodeCountToolbarSettings, BarcodeFilterHighlightSettings } from 'scandit-datacapture-frameworks-barcode';
 import React from 'react';
-import { Anchor, DataCaptureContext } from 'scandit-datacapture-frameworks-core';
+import { DataCaptureContext } from 'scandit-datacapture-frameworks-core';
 import { Brush } from 'scandit-react-native-datacapture-core';
 export declare enum BarcodeCountViewStyle {
     Icon = "icon",
@@ -102,10 +102,6 @@ export declare class BarcodeCountView extends React.Component<BarcodeCountViewPr
     set shouldShowListProgressBar(newValue: boolean);
     get textForUnrecognizedBarcodesDetectedHint(): string;
     set textForUnrecognizedBarcodesDetectedHint(newValue: string);
-    get shouldShowTorchControl(): boolean;
-    set shouldShowTorchControl(newValue: boolean);
-    get torchControlPosition(): Anchor;
-    set torchControlPosition(newValue: Anchor);
     private static get barcodeCountDefaults();
     private viewProxy;
     private _uiListener;
@@ -152,8 +148,6 @@ export declare class BarcodeCountView extends React.Component<BarcodeCountViewPr
     private _shouldShowListProgressBar;
     private _textForUnrecognizedBarcodesDetectedHint;
     private _toolbarSettings;
-    private _shouldShowTorchControl;
-    private _torchControlPosition;
     constructor(props: BarcodeCountViewProps);
     componentDidMount(): void;
     componentWillUnmount(): void;

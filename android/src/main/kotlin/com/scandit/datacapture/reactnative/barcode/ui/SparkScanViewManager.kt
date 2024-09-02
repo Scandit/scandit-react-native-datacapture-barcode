@@ -23,22 +23,18 @@ class SparkScanViewManager : ScanditViewGroupManager<SparkScanCoordinatorLayout>
     override fun createNewInstance(reactContext: ThemedReactContext): SparkScanCoordinatorLayout {
         val sparkScanCoordinatorLayout = LayoutInflater.from(reactContext)
             .inflate(R.layout.spark_scan_integration, null) as SparkScanCoordinatorLayout
-        rnViewsContainer = sparkScanCoordinatorLayout.findViewById(R.id.rn_container)
+        rnViewsContainer =
+            sparkScanCoordinatorLayout.findViewById(R.id.rn_container) as ReactRootView
         return sparkScanCoordinatorLayout
     }
+
+    override fun getName(): String = "RNTSparkScanView"
 
     override fun addView(parent: SparkScanCoordinatorLayout?, child: View?, index: Int) {
         rnViewsContainer.addView(child, index)
     }
 
-    override fun getName(): String = "RNTSparkScanView"
-
     fun dispose() {
-        disposeInternal()
-    }
-
-    override fun invalidate() {
-        super.invalidate()
         disposeInternal()
     }
 }

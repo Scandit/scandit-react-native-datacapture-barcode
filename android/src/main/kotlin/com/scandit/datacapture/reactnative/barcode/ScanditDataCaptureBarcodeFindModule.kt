@@ -11,11 +11,13 @@ import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
 import com.scandit.datacapture.frameworks.barcode.find.BarcodeFindModule
+import com.scandit.datacapture.reactnative.barcode.ui.BarcodeFindViewManager
 import com.scandit.datacapture.reactnative.core.utils.ReactNativeResult
 
 class ScanditDataCaptureBarcodeFindModule(
     reactContext: ReactApplicationContext,
     private val barcodeFindModule: BarcodeFindModule,
+    private val viewManager: BarcodeFindViewManager
 ) : ReactContextBaseJavaModule(reactContext) {
     override fun getName(): String = "ScanditDataCaptureBarcodeFind"
 
@@ -26,6 +28,7 @@ class ScanditDataCaptureBarcodeFindModule(
     }
 
     override fun invalidate() {
+        viewManager.dispose()
         barcodeFindModule.onDestroy()
         super.invalidate()
     }
@@ -33,10 +36,19 @@ class ScanditDataCaptureBarcodeFindModule(
     @ReactMethod
     fun createFindView(
         @Suppress("UNUSED_PARAMETER") reactTag: Int,
-        @Suppress("UNUSED_PARAMETER") jsonString: String,
+        jsonString: String,
         promise: Promise
     ) {
-        promise.resolve(null)
+        val container = viewManager.currentContainer
+        if (container == null) {
+            viewManager.postContainerCreationAction = {
+                viewManager.currentContainer?.let {
+                    barcodeFindModule.addViewToContainer(it, jsonString, ReactNativeResult(promise))
+                }
+            }
+            return
+        }
+        barcodeFindModule.addViewToContainer(container, jsonString, ReactNativeResult(promise))
     }
 
     @ReactMethod
