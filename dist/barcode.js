@@ -1,4 +1,4 @@
-import { nameForSerialization, serializationDefault, NoViewfinder, NoneLocationSelection, DefaultSerializeable, ignoreFromSerialization, FactoryMaker, Quadrilateral, CameraController, Feedback, Brush, AimerViewfinder, Anchor, PointWithUnit, BaseController, CameraSettings, Color } from 'scandit-react-native-datacapture-core/dist/core';
+import { nameForSerialization, serializationDefault, NoViewfinder, NoneLocationSelection, DefaultSerializeable, ignoreFromSerialization, FactoryMaker, Feedback, Quadrilateral, CameraController, Brush, AimerViewfinder, Anchor, PointWithUnit, BaseController, CameraSettings, Color } from 'scandit-react-native-datacapture-core/dist/core';
 
 var Symbology;
 (function (Symbology) {
@@ -308,7 +308,7 @@ function parseBarcodeCaptureDefaults(jsonDefaults) {
             .fromJSON(jsonDefaults.RecommendedCameraSettings),
         BarcodeCaptureSettings: {
             codeDuplicateFilter: jsonDefaults.BarcodeCaptureSettings.codeDuplicateFilter,
-            batterySavingMode: jsonDefaults.BarcodeCaptureSettings.batterySavingMode,
+            batterySaving: jsonDefaults.BarcodeCaptureSettings.batterySaving,
             scanIntention: jsonDefaults.BarcodeCaptureSettings.scanIntention,
         },
         BarcodeCaptureOverlay: {
@@ -416,6 +416,867 @@ function parseBarcodeSelectionDefaults(jsonDefaults) {
     return barcodeSelectionDefaults;
 }
 
+class BarcodeCountFeedback extends DefaultSerializeable {
+    static get default() {
+        return new BarcodeCountFeedback(BarcodeCountFeedback.barcodeCountDefaults.Feedback.success, BarcodeCountFeedback.barcodeCountDefaults.Feedback.failure);
+    }
+    static fromJSON(json) {
+        const success = Feedback.fromJSON(json.success);
+        const failure = Feedback.fromJSON(json.failure);
+        return new BarcodeCountFeedback(success, failure);
+    }
+    static get barcodeCountDefaults() {
+        return getBarcodeCountDefaults();
+    }
+    constructor(success, error) {
+        super();
+        this.success = BarcodeCountFeedback.barcodeCountDefaults.Feedback.success;
+        this.failure = BarcodeCountFeedback.barcodeCountDefaults.Feedback.success;
+        this.success = success;
+        this.failure = error;
+    }
+}
+__decorate([
+    ignoreFromSerialization
+], BarcodeCountFeedback, "barcodeCountDefaults", null);
+
+class BarcodeCountCaptureListSession extends DefaultSerializeable {
+    get correctBarcodes() {
+        return this._correctBarcodes;
+    }
+    get wrongBarcodes() {
+        return this._wrongBarcodes;
+    }
+    get missingBarcodes() {
+        return this._missingBarcodes;
+    }
+    get additionalBarcodes() {
+        return this._additionalBarcodes;
+    }
+    static fromJSON(json) {
+        const correctBarcodes = json.correctBarcodes;
+        const wrongBarcodes = json.wrongBarcodes;
+        const missingBarcodes = json.missingBarcodes;
+        const additionalBarcodes = json.additionalBarcodes;
+        return new BarcodeCountCaptureListSession(correctBarcodes, wrongBarcodes, missingBarcodes, additionalBarcodes);
+    }
+    constructor(correctBarcodes, wrongBarcodes, missingBarcodes, additionalBarcodes) {
+        super();
+        this._correctBarcodes = correctBarcodes;
+        this._wrongBarcodes = wrongBarcodes;
+        this._missingBarcodes = missingBarcodes;
+        this._additionalBarcodes = additionalBarcodes;
+    }
+}
+__decorate([
+    nameForSerialization('correctBarcodes')
+], BarcodeCountCaptureListSession.prototype, "_correctBarcodes", void 0);
+__decorate([
+    nameForSerialization('wrongBarcodes')
+], BarcodeCountCaptureListSession.prototype, "_wrongBarcodes", void 0);
+__decorate([
+    nameForSerialization('missingBarcodes')
+], BarcodeCountCaptureListSession.prototype, "_missingBarcodes", void 0);
+__decorate([
+    nameForSerialization('additionalBarcodes')
+], BarcodeCountCaptureListSession.prototype, "_additionalBarcodes", void 0);
+
+class EncodingRange {
+    get ianaName() { return this._ianaName; }
+    get startIndex() { return this._startIndex; }
+    get endIndex() { return this._endIndex; }
+    static fromJSON(json) {
+        const encodingRange = new EncodingRange();
+        encodingRange._ianaName = json.ianaName;
+        encodingRange._startIndex = json.startIndex;
+        encodingRange._endIndex = json.endIndex;
+        return encodingRange;
+    }
+}
+
+class StructuredAppendData {
+    get isComplete() { return this._isComplete; }
+    get barcodeSetId() { return this._barcodeSetId; }
+    get scannedSegmentCount() { return this._scannedSegmentCount; }
+    get totalSegmentCount() { return this._totalSegmentCount; }
+    get encodingRanges() { return this._encodingRanges; }
+    get completeData() { return this._completeData; }
+    get rawCompleteData() { return this._rawCompleteData; }
+    static fromJSON(json) {
+        const structuredAppendData = new StructuredAppendData();
+        if (!json)
+            return null;
+        structuredAppendData._isComplete = json.complete;
+        structuredAppendData._barcodeSetId = json.barcodeSetId;
+        structuredAppendData._scannedSegmentCount = json.scannedSegmentCount;
+        structuredAppendData._totalSegmentCount = json.totalSegmentCount;
+        structuredAppendData._encodingRanges =
+            json.completeDataEncodings.map(EncodingRange.fromJSON);
+        structuredAppendData._completeData = json.completeDataUtf8String;
+        structuredAppendData._rawCompleteData = json.completeDataRaw;
+        return structuredAppendData;
+    }
+}
+
+class Barcode extends DefaultSerializeable {
+    get symbology() { return this._symbology; }
+    get data() { return this._data; }
+    get rawData() { return this._rawData; }
+    get compositeData() { return this._compositeData; }
+    get compositeRawData() { return this._compositeRawData; }
+    get addOnData() { return this._addOnData; }
+    get encodingRanges() { return this._encodingRanges; }
+    get location() { return this._location; }
+    get isGS1DataCarrier() { return this._isGS1DataCarrier; }
+    get compositeFlag() { return this._compositeFlag; }
+    get isColorInverted() { return this._isColorInverted; }
+    get symbolCount() { return this._symbolCount; }
+    get frameID() { return this._frameID; }
+    get isStructuredAppend() { return this._structuredAppendData !== null; }
+    get structuredAppendData() { return this._structuredAppendData; }
+    get selectionIdentifier() { return this.data + this.symbology; }
+    static fromJSON(json) {
+        const barcode = new Barcode();
+        barcode._symbology = json.symbology;
+        barcode._data = json.data;
+        barcode._rawData = json.rawData;
+        barcode._compositeData = json.compositeData;
+        barcode._compositeRawData = json.compositeRawData;
+        barcode._addOnData = json.addOnData === undefined ? null : json.addOnData;
+        barcode._isGS1DataCarrier = json.isGS1DataCarrier;
+        barcode._compositeFlag = json.compositeFlag;
+        barcode._isColorInverted = json.isColorInverted;
+        barcode._symbolCount = json.symbolCount;
+        barcode._frameID = json.frameId;
+        barcode._encodingRanges = json.encodingRanges.map(EncodingRange.fromJSON);
+        barcode._location = Quadrilateral.fromJSON(json.location);
+        barcode._structuredAppendData =
+            StructuredAppendData.fromJSON(json.structuredAppendData);
+        return barcode;
+    }
+}
+__decorate([
+    nameForSerialization('symbology')
+], Barcode.prototype, "_symbology", void 0);
+__decorate([
+    nameForSerialization('data')
+], Barcode.prototype, "_data", void 0);
+__decorate([
+    nameForSerialization('rawData')
+], Barcode.prototype, "_rawData", void 0);
+__decorate([
+    nameForSerialization('compositeData')
+], Barcode.prototype, "_compositeData", void 0);
+__decorate([
+    nameForSerialization('compositeRawData')
+], Barcode.prototype, "_compositeRawData", void 0);
+__decorate([
+    nameForSerialization('addOnData')
+], Barcode.prototype, "_addOnData", void 0);
+__decorate([
+    nameForSerialization('encodingRanges')
+], Barcode.prototype, "_encodingRanges", void 0);
+__decorate([
+    nameForSerialization('location')
+], Barcode.prototype, "_location", void 0);
+__decorate([
+    nameForSerialization('isGS1DataCarrier')
+], Barcode.prototype, "_isGS1DataCarrier", void 0);
+__decorate([
+    nameForSerialization('compositeFlag')
+], Barcode.prototype, "_compositeFlag", void 0);
+__decorate([
+    nameForSerialization('isColorInverted')
+], Barcode.prototype, "_isColorInverted", void 0);
+__decorate([
+    nameForSerialization('symbolCount')
+], Barcode.prototype, "_symbolCount", void 0);
+__decorate([
+    nameForSerialization('frameID')
+], Barcode.prototype, "_frameID", void 0);
+__decorate([
+    nameForSerialization('structuredAppendData')
+], Barcode.prototype, "_structuredAppendData", void 0);
+
+class TrackedBarcode {
+    constructor() {
+        /**
+         * @deprecated
+         */
+        this._deltaTime = 0;
+        /**
+         * @deprecated
+         */
+        this._predictedLocation = undefined;
+    }
+    get barcode() { return this._barcode; }
+    get location() { return this._location; }
+    get identifier() { return this._identifier; }
+    get sessionFrameSequenceID() {
+        return this._sessionFrameSequenceID;
+    }
+    /**
+     * @deprecated
+     */
+    get deltaTime() {
+        return this._deltaTime;
+    }
+    /**
+     * @deprecated
+     */
+    get predictedLocation() {
+        return this._predictedLocation;
+    }
+    get shouldAnimateFromPreviousToNextState() {
+        // tslint:disable-next-line:no-console
+        console.warn('shouldAnimateFromPreviousToNextState is deprecated and returns "false" when accessed');
+        return false;
+    }
+    static fromJSON(json, sessionFrameSequenceID) {
+        const trackedBarcode = new TrackedBarcode();
+        // The serialization returns the identifier as a string, not a number, which it originally is.
+        // This is because the identifier needs to be used as a key in a dictionary, which in JSON can only be a string.
+        // We can assume that it is a number in the string that we can safely parse.
+        trackedBarcode._identifier = parseInt(json.identifier, 10);
+        trackedBarcode._barcode = Barcode.fromJSON(json.barcode);
+        trackedBarcode._location = Quadrilateral.fromJSON(json.location);
+        trackedBarcode._sessionFrameSequenceID = sessionFrameSequenceID ? sessionFrameSequenceID : null;
+        trackedBarcode._deltaTime = json.deltaTime;
+        trackedBarcode._predictedLocation = trackedBarcode._location;
+        return trackedBarcode;
+    }
+}
+
+var BatterySavingMode;
+(function (BatterySavingMode) {
+    BatterySavingMode["On"] = "on";
+    BatterySavingMode["Off"] = "off";
+    BatterySavingMode["Auto"] = "auto";
+})(BatterySavingMode || (BatterySavingMode = {}));
+
+var CompositeFlag;
+(function (CompositeFlag) {
+    CompositeFlag["None"] = "none";
+    CompositeFlag["Unknown"] = "unknown";
+    CompositeFlag["Linked"] = "linked";
+    CompositeFlag["GS1TypeA"] = "gs1TypeA";
+    CompositeFlag["GS1TypeB"] = "gs1TypeB";
+    CompositeFlag["GS1TypeC"] = "gs1TypeC";
+})(CompositeFlag || (CompositeFlag = {}));
+
+class LocalizedOnlyBarcode {
+    get location() {
+        return this._location;
+    }
+    get frameID() {
+        return this._frameID;
+    }
+    static fromJSON(json) {
+        const localizedBarcode = new LocalizedOnlyBarcode();
+        localizedBarcode._location = Quadrilateral.fromJSON(json.location);
+        localizedBarcode._frameID = json.frameId;
+        return localizedBarcode;
+    }
+}
+
+class TargetBarcode extends DefaultSerializeable {
+    get data() {
+        return this._data;
+    }
+    get quantity() {
+        return this._quantity;
+    }
+    static create(data, quantity) {
+        return new TargetBarcode(data, quantity);
+    }
+    static fromJSON(json) {
+        const data = json.data;
+        const quantity = json.quantity;
+        return TargetBarcode.create(data, quantity);
+    }
+    constructor(data, quantity) {
+        super();
+        this._data = data;
+        this._quantity = quantity;
+    }
+}
+__decorate([
+    nameForSerialization('data')
+], TargetBarcode.prototype, "_data", void 0);
+__decorate([
+    nameForSerialization('quantity')
+], TargetBarcode.prototype, "_quantity", void 0);
+
+class BarcodeSpatialGrid extends DefaultSerializeable {
+    static fromJSON(json) {
+        const spatialGrid = new BarcodeSpatialGrid();
+        spatialGrid._rows = json.rows;
+        spatialGrid._columns = json.columns;
+        spatialGrid._grid = json.grid;
+        return spatialGrid;
+    }
+    get rows() {
+        return this._rows;
+    }
+    get columns() {
+        return this._columns;
+    }
+    barcodeAt(row, column) {
+        const barcodeJSON = this._grid[row][column];
+        if (barcodeJSON) {
+            return Barcode.fromJSON(barcodeJSON);
+        }
+        return null;
+    }
+    row(index) {
+        const barcodesJSON = this._grid[index];
+        if (barcodesJSON) {
+            return (barcodesJSON.map(Barcode.fromJSON));
+        }
+        return [];
+    }
+    column(index) {
+        const barcodesJSON = this._grid.map(barcodes => barcodes[index]);
+        if (barcodesJSON) {
+            return (barcodesJSON.map(Barcode.fromJSON));
+        }
+        return [];
+    }
+}
+__decorate([
+    nameForSerialization('rows')
+], BarcodeSpatialGrid.prototype, "_rows", void 0);
+__decorate([
+    nameForSerialization('columns')
+], BarcodeSpatialGrid.prototype, "_columns", void 0);
+__decorate([
+    nameForSerialization('grid')
+], BarcodeSpatialGrid.prototype, "_grid", void 0);
+
+class BarcodeCountSessionController {
+    get _proxy() {
+        return FactoryMaker.getInstance('BarcodeCountSessionProxy');
+    }
+    resetSession() {
+        return this._proxy.resetSession();
+    }
+    getSpatialMap() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const barcodeSpatialGridJSON = yield this._proxy.getSpatialMap();
+            if (barcodeSpatialGridJSON) {
+                const payload = JSON.parse(barcodeSpatialGridJSON);
+                return BarcodeSpatialGrid.fromJSON(payload);
+            }
+        });
+    }
+    getSpatialMapWithHints(expectedNumberOfRows, expectedNumberOfColumns) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const barcodeSpatialGridJSON = yield this._proxy.getSpatialMapWithHints(expectedNumberOfRows, expectedNumberOfColumns);
+            if (barcodeSpatialGridJSON) {
+                const payload = JSON.parse(barcodeSpatialGridJSON);
+                return BarcodeSpatialGrid.fromJSON(payload);
+            }
+        });
+    }
+}
+
+class BarcodeCountSession extends DefaultSerializeable {
+    static fromJSON(json) {
+        const session = new BarcodeCountSession();
+        session._frameSequenceID = json.frameSequenceId;
+        session._additionalBarcodes = json.additionalBarcodes;
+        session._recognizedBarcodes = {};
+        Object.entries(json.recognizedBarcodes)
+            .forEach(([key, value]) => {
+            const trackedBarcode = TrackedBarcode.fromJSON(value, session._frameSequenceID);
+            session._recognizedBarcodes[parseInt(key, 10)] = trackedBarcode;
+        });
+        return session;
+    }
+    constructor() {
+        super();
+        this.sessionController = new BarcodeCountSessionController();
+    }
+    get recognizedBarcodes() {
+        return this._recognizedBarcodes;
+    }
+    get additionalBarcodes() {
+        return this._additionalBarcodes;
+    }
+    get frameSequenceID() {
+        return this._frameSequenceID;
+    }
+    reset() {
+        return this.sessionController.resetSession();
+    }
+    getSpatialMap() {
+        var _a;
+        return __awaiter(this, void 0, void 0, function* () {
+            return (_a = yield this.sessionController.getSpatialMap()) !== null && _a !== void 0 ? _a : null;
+        });
+    }
+    getSpatialMapWithHints(expectedNumberOfRows, expectedNumberOfColumns) {
+        var _a;
+        return __awaiter(this, void 0, void 0, function* () {
+            return (_a = yield this.sessionController.getSpatialMapWithHints(expectedNumberOfRows, expectedNumberOfColumns)) !== null && _a !== void 0 ? _a : null;
+        });
+    }
+}
+__decorate([
+    nameForSerialization('recognizedBarcodes')
+], BarcodeCountSession.prototype, "_recognizedBarcodes", void 0);
+__decorate([
+    nameForSerialization('additionalBarcodes')
+], BarcodeCountSession.prototype, "_additionalBarcodes", void 0);
+__decorate([
+    nameForSerialization('frameSequenceID')
+], BarcodeCountSession.prototype, "_frameSequenceID", void 0);
+__decorate([
+    ignoreFromSerialization
+], BarcodeCountSession.prototype, "sessionController", void 0);
+
+var BarcodeCountListenerEvents;
+(function (BarcodeCountListenerEvents) {
+    BarcodeCountListenerEvents["inCallback"] = "BarcodeCountCaptureListListener.inCallback";
+    BarcodeCountListenerEvents["didListSessionUpdate"] = "BarcodeCountCaptureListListener.didUpdateSession";
+    BarcodeCountListenerEvents["didScan"] = "BarcodeCountListener.onScan";
+})(BarcodeCountListenerEvents || (BarcodeCountListenerEvents = {}));
+class BarcodeCountListenerController {
+    get _proxy() {
+        return FactoryMaker.getInstance('BarcodeCountListenerProxy');
+    }
+    constructor() {
+        this.eventEmitter = FactoryMaker.getInstance('EventEmitter');
+    }
+    static forBarcodeCount(barcodeCount) {
+        const controller = new BarcodeCountListenerController();
+        controller.barcodeCount = barcodeCount;
+        controller._proxy.isModeEnabled = () => barcodeCount.isEnabled;
+        return controller;
+    }
+    update() {
+        const barcodeCount = this.barcodeCount.toJSON();
+        const json = JSON.stringify(barcodeCount);
+        return this._proxy.updateMode(json);
+    }
+    reset() {
+        return this._proxy.resetBarcodeCount();
+    }
+    setModeEnabledState(enabled) {
+        this._proxy.setModeEnabledState(enabled);
+    }
+    subscribeListener() {
+        this._proxy.registerBarcodeCountListener();
+        this._proxy.subscribeDidScan();
+        this._proxy.subscribeDidListSessionUpdate();
+        this.eventEmitter.on(BarcodeCountListenerEvents.didScan, (body) => {
+            const payload = JSON.parse(body);
+            const session = BarcodeCountSession.fromJSON(JSON.parse(payload.session));
+            this.notifyListenersOfDidScanSession(session);
+            this._proxy.finishOnScan();
+        });
+        this.eventEmitter.on(BarcodeCountListenerEvents.didListSessionUpdate, (body) => {
+            const payload = JSON.parse(body);
+            const session = BarcodeCountCaptureListSession
+                .fromJSON(JSON.parse(payload.session));
+            this.notifyListenersOfDidListSessionUpdate(session);
+        });
+    }
+    unsubscribeListener() {
+        this._proxy.unregisterBarcodeCountListener();
+        this.eventEmitter.removeAllListeners(BarcodeCountListenerEvents.didScan);
+        this.eventEmitter.removeAllListeners(BarcodeCountListenerEvents.didListSessionUpdate);
+    }
+    startScanningPhase() {
+        this._proxy.startScanningPhase();
+    }
+    endScanningPhase() {
+        this._proxy.endScanningPhase();
+    }
+    setBarcodeCountCaptureList(barcodeCountCaptureList) {
+        this._barcodeCountCaptureList = barcodeCountCaptureList;
+        this._proxy.setBarcodeCountCaptureList(JSON.stringify(barcodeCountCaptureList.targetBarcodes));
+    }
+    notifyListenersOfDidScanSession(session) {
+        const mode = this.barcodeCount;
+        mode.isInListenerCallback = true;
+        mode.listeners.forEach(listener => {
+            if (listener.didScan) {
+                listener.didScan(this.barcodeCount, session, CameraController.getLastFrame);
+            }
+        });
+        mode.isInListenerCallback = false;
+    }
+    notifyListenersOfDidListSessionUpdate(session) {
+        var _a;
+        const mode = this.barcodeCount;
+        const barcodeCountCaptureListListener = (_a = this._barcodeCountCaptureList) === null || _a === void 0 ? void 0 : _a.listener;
+        mode.isInListenerCallback = true;
+        if (barcodeCountCaptureListListener && (barcodeCountCaptureListListener === null || barcodeCountCaptureListListener === void 0 ? void 0 : barcodeCountCaptureListListener.didUpdateSession)) {
+            barcodeCountCaptureListListener === null || barcodeCountCaptureListListener === void 0 ? void 0 : barcodeCountCaptureListListener.didUpdateSession(this._barcodeCountCaptureList, session);
+        }
+        mode.isInListenerCallback = false;
+    }
+}
+
+class BarcodeCount extends DefaultSerializeable {
+    get isEnabled() {
+        return this._isEnabled;
+    }
+    set isEnabled(isEnabled) {
+        this._isEnabled = isEnabled;
+        this.listenerController.setModeEnabledState(isEnabled);
+    }
+    get context() {
+        return this._context;
+    }
+    get feedback() {
+        return this._feedback;
+    }
+    set feedback(feedback) {
+        this._feedback = feedback;
+        this.didChange();
+    }
+    get _context() {
+        return this.privateContext;
+    }
+    set _context(newContext) {
+        this.privateContext = newContext;
+    }
+    static forContext(context, settings) {
+        const barcodeCount = new BarcodeCount();
+        barcodeCount.settings = settings;
+        return barcodeCount;
+    }
+    static get barcodeCountDefaults() {
+        return getBarcodeCountDefaults();
+    }
+    constructor() {
+        super();
+        this.type = 'barcodeCount';
+        this._feedback = BarcodeCountFeedback.default;
+        this._isEnabled = true;
+        this.listeners = [];
+        this._additionalBarcodes = [];
+        this.isInListenerCallback = false;
+        this.privateContext = null;
+        this.listenerController = BarcodeCountListenerController.forBarcodeCount(this);
+    }
+    applySettings(settings) {
+        this.settings = settings;
+        return this.didChange();
+    }
+    addListener(listener) {
+        this.checkAndSubscribeListeners();
+        if (this.listeners.includes(listener)) {
+            return;
+        }
+        this.listeners.push(listener);
+    }
+    checkAndSubscribeListeners() {
+        if (this.listeners.length === 0) {
+            this.listenerController.subscribeListener();
+        }
+    }
+    removeListener(listener) {
+        if (!this.listeners.includes(listener)) {
+            return;
+        }
+        this.listeners.splice(this.listeners.indexOf(listener));
+        this.checkAndUnsubscribeListeners();
+    }
+    checkAndUnsubscribeListeners() {
+        if (this.listeners.length === 0) {
+            this.listenerController.unsubscribeListener();
+        }
+    }
+    reset() {
+        return this.listenerController.reset();
+    }
+    startScanningPhase() {
+        this.listenerController.startScanningPhase();
+    }
+    endScanningPhase() {
+        this.listenerController.endScanningPhase();
+    }
+    setBarcodeCountCaptureList(barcodeCountCaptureList) {
+        this.listenerController.setBarcodeCountCaptureList(barcodeCountCaptureList);
+    }
+    setAdditionalBarcodes(barcodes) {
+        this._additionalBarcodes = barcodes;
+        return this.didChange();
+    }
+    clearAdditionalBarcodes() {
+        this._additionalBarcodes = [];
+        return this.didChange();
+    }
+    static get recommendedCameraSettings() {
+        return BarcodeCount.barcodeCountDefaults.RecommendedCameraSettings;
+    }
+    didChange() {
+        return this.listenerController.update();
+    }
+    unsubscribeNativeListeners() {
+        this.listenerController.unsubscribeListener();
+    }
+}
+__decorate([
+    nameForSerialization('feedback')
+], BarcodeCount.prototype, "_feedback", void 0);
+__decorate([
+    ignoreFromSerialization
+], BarcodeCount.prototype, "_isEnabled", void 0);
+__decorate([
+    ignoreFromSerialization
+], BarcodeCount.prototype, "listeners", void 0);
+__decorate([
+    nameForSerialization('additionalBarcodes')
+], BarcodeCount.prototype, "_additionalBarcodes", void 0);
+__decorate([
+    ignoreFromSerialization
+], BarcodeCount.prototype, "isInListenerCallback", void 0);
+__decorate([
+    ignoreFromSerialization
+], BarcodeCount.prototype, "privateContext", void 0);
+__decorate([
+    ignoreFromSerialization
+], BarcodeCount.prototype, "listenerController", void 0);
+__decorate([
+    ignoreFromSerialization
+], BarcodeCount, "barcodeCountDefaults", null);
+
+class BarcodeCountCaptureList {
+    static create(listener, targetBarcodes) {
+        return new BarcodeCountCaptureList(listener, targetBarcodes);
+    }
+    constructor(listener, targetBarcodes) {
+        this.listener = listener;
+        this.targetBarcodes = targetBarcodes;
+    }
+}
+
+var BarcodeCountViewStyle;
+(function (BarcodeCountViewStyle) {
+    BarcodeCountViewStyle["Icon"] = "icon";
+    BarcodeCountViewStyle["Dot"] = "dot";
+})(BarcodeCountViewStyle || (BarcodeCountViewStyle = {}));
+
+var BarcodeFilterHighlightType;
+(function (BarcodeFilterHighlightType) {
+    BarcodeFilterHighlightType["Brush"] = "brush";
+})(BarcodeFilterHighlightType || (BarcodeFilterHighlightType = {}));
+
+class BarcodeCountSettings extends DefaultSerializeable {
+    static get barcodeCountDefaults() {
+        return getBarcodeCountDefaults();
+    }
+    static get barcodeDefaults() {
+        return getBarcodeDefaults();
+    }
+    constructor() {
+        super();
+        this.symbologies = {};
+        this.properties = {};
+        this._filterSettings = BarcodeCountSettings.barcodeCountDefaults.BarcodeCountSettings.barcodeFilterSettings;
+        this._expectsOnlyUniqueBarcodes = BarcodeCountSettings.barcodeCountDefaults.BarcodeCountSettings.expectOnlyUniqueBarcodes;
+        this._mappingEnabled = BarcodeCountSettings.barcodeCountDefaults.BarcodeCountSettings.mappingEnabled;
+    }
+    get expectsOnlyUniqueBarcodes() {
+        return this._expectsOnlyUniqueBarcodes;
+    }
+    set expectsOnlyUniqueBarcodes(expectsOnlyUniqueBarcodes) {
+        this._expectsOnlyUniqueBarcodes = expectsOnlyUniqueBarcodes;
+    }
+    get mappingEnabled() {
+        return this._mappingEnabled;
+    }
+    set mappingEnabled(mappingEnabled) {
+        this._mappingEnabled = mappingEnabled;
+    }
+    get filterSettings() {
+        return this._filterSettings;
+    }
+    get enabledSymbologies() {
+        return Object.keys(this.symbologies)
+            .filter(symbology => this.symbologies[symbology].isEnabled);
+    }
+    settingsForSymbology(symbology) {
+        if (!this.symbologies[symbology]) {
+            const symbologySettings = BarcodeCountSettings.barcodeDefaults.SymbologySettings[symbology];
+            symbologySettings._symbology = symbology;
+            this.symbologies[symbology] = symbologySettings;
+        }
+        return this.symbologies[symbology];
+    }
+    enableSymbologies(symbologies) {
+        symbologies.forEach(symbology => this.enableSymbology(symbology, true));
+    }
+    enableSymbology(symbology, enabled) {
+        this.settingsForSymbology(symbology).isEnabled = enabled;
+    }
+    setProperty(name, value) {
+        this.properties[name] = value;
+    }
+    getProperty(name) {
+        return this.properties[name];
+    }
+}
+__decorate([
+    nameForSerialization('filterSettings')
+], BarcodeCountSettings.prototype, "_filterSettings", void 0);
+__decorate([
+    nameForSerialization('expectsOnlyUniqueBarcodes')
+], BarcodeCountSettings.prototype, "_expectsOnlyUniqueBarcodes", void 0);
+__decorate([
+    nameForSerialization('mappingEnabled')
+], BarcodeCountSettings.prototype, "_mappingEnabled", void 0);
+__decorate([
+    ignoreFromSerialization
+], BarcodeCountSettings, "barcodeCountDefaults", null);
+__decorate([
+    ignoreFromSerialization
+], BarcodeCountSettings, "barcodeDefaults", null);
+
+class BarcodeCountToolbarSettings extends DefaultSerializeable {
+    constructor() {
+        super(...arguments);
+        this.audioOnButtonText = BarcodeCountToolbarSettings.barcodeCountDefaults.BarcodeCountView.toolbarSettings.audioOnButtonText;
+        this.audioOffButtonText = BarcodeCountToolbarSettings.barcodeCountDefaults.BarcodeCountView.toolbarSettings.audioOffButtonText;
+        this.audioButtonContentDescription = BarcodeCountToolbarSettings.barcodeCountDefaults.BarcodeCountView.toolbarSettings.audioButtonContentDescription;
+        this.audioButtonAccessibilityHint = BarcodeCountToolbarSettings.barcodeCountDefaults.BarcodeCountView.toolbarSettings.audioButtonAccessibilityHint;
+        this.audioButtonAccessibilityLabel = BarcodeCountToolbarSettings.barcodeCountDefaults.BarcodeCountView.toolbarSettings.audioButtonAccessibilityLabel;
+        this.vibrationOnButtonText = BarcodeCountToolbarSettings.barcodeCountDefaults.BarcodeCountView.toolbarSettings.vibrationOnButtonText;
+        this.vibrationOffButtonText = BarcodeCountToolbarSettings.barcodeCountDefaults.BarcodeCountView.toolbarSettings.vibrationOffButtonText;
+        this.vibrationButtonContentDescription = BarcodeCountToolbarSettings.barcodeCountDefaults.BarcodeCountView.toolbarSettings.vibrationButtonContentDescription;
+        this.vibrationButtonAccessibilityHint = BarcodeCountToolbarSettings.barcodeCountDefaults.BarcodeCountView.toolbarSettings.vibrationButtonAccessibilityHint;
+        this.vibrationButtonAccessibilityLabel = BarcodeCountToolbarSettings.barcodeCountDefaults.BarcodeCountView.toolbarSettings.vibrationButtonAccessibilityLabel;
+        this.strapModeOnButtonText = BarcodeCountToolbarSettings.barcodeCountDefaults.BarcodeCountView.toolbarSettings.strapModeOnButtonText;
+        this.strapModeOffButtonText = BarcodeCountToolbarSettings.barcodeCountDefaults.BarcodeCountView.toolbarSettings.strapModeOffButtonText;
+        this.strapModeButtonContentDescription = BarcodeCountToolbarSettings.barcodeCountDefaults.BarcodeCountView.toolbarSettings.strapModeButtonContentDescription;
+        this.strapModeButtonAccessibilityHint = BarcodeCountToolbarSettings.barcodeCountDefaults.BarcodeCountView.toolbarSettings.strapModeButtonAccessibilityHint;
+        this.strapModeButtonAccessibilityLabel = BarcodeCountToolbarSettings.barcodeCountDefaults.BarcodeCountView.toolbarSettings.strapModeButtonAccessibilityLabel;
+        this.colorSchemeOnButtonText = BarcodeCountToolbarSettings.barcodeCountDefaults.BarcodeCountView.toolbarSettings.colorSchemeOnButtonText;
+        this.colorSchemeOffButtonText = BarcodeCountToolbarSettings.barcodeCountDefaults.BarcodeCountView.toolbarSettings.colorSchemeOffButtonText;
+        this.colorSchemeButtonContentDescription = BarcodeCountToolbarSettings.barcodeCountDefaults.BarcodeCountView.toolbarSettings.colorSchemeButtonContentDescription;
+        this.colorSchemeButtonAccessibilityHint = BarcodeCountToolbarSettings.barcodeCountDefaults.BarcodeCountView.toolbarSettings.colorSchemeButtonAccessibilityHint;
+        this.colorSchemeButtonAccessibilityLabel = BarcodeCountToolbarSettings.barcodeCountDefaults.BarcodeCountView.toolbarSettings.colorSchemeButtonAccessibilityLabel;
+    }
+    static get barcodeCountDefaults() {
+        return getBarcodeCountDefaults();
+    }
+}
+__decorate([
+    ignoreFromSerialization
+], BarcodeCountToolbarSettings, "barcodeCountDefaults", null);
+
+var BarcodeCountViewEvents;
+(function (BarcodeCountViewEvents) {
+    BarcodeCountViewEvents["singleScanButtonTapped"] = "BarcodeCountViewUiListener.onSingleScanButtonTapped";
+    BarcodeCountViewEvents["listButtonTapped"] = "BarcodeCountViewUiListener.onListButtonTapped";
+    BarcodeCountViewEvents["exitButtonTapped"] = "BarcodeCountViewUiListener.onExitButtonTapped";
+    BarcodeCountViewEvents["brushForRecognizedBarcode"] = "BarcodeCountViewListener.brushForRecognizedBarcode";
+    BarcodeCountViewEvents["brushForRecognizedBarcodeNotInList"] = "BarcodeCountViewListener.brushForRecognizedBarcodeNotInList";
+    BarcodeCountViewEvents["brushForUnrecognizedBarcode"] = "BarcodeCountViewListener.brushForUnrecognizedBarcode";
+    BarcodeCountViewEvents["filteredBarcodeTapped"] = "BarcodeCountViewListener.didTapFilteredBarcode";
+    BarcodeCountViewEvents["recognizedBarcodeNotInListTapped"] = "BarcodeCountViewListener.didTapRecognizedBarcodeNotInList";
+    BarcodeCountViewEvents["recognizedBarcodeTapped"] = "BarcodeCountViewListener.didTapRecognizedBarcode";
+    BarcodeCountViewEvents["unrecognizedBarcodeTapped"] = "BarcodeCountViewListener.didTapUnrecognizedBarcode";
+    BarcodeCountViewEvents["captureListCompleted"] = "BarcodeCountViewListener.didCompleteCaptureList";
+})(BarcodeCountViewEvents || (BarcodeCountViewEvents = {}));
+
+class BarcodeFilterHighlightSettingsBrush extends DefaultSerializeable {
+    static create(brush) {
+        return new BarcodeFilterHighlightSettingsBrush(brush);
+    }
+    constructor(brush) {
+        super();
+        this._brush = null;
+        this._highlightType = BarcodeFilterHighlightType.Brush;
+        this._brush = brush;
+    }
+    get highlightType() {
+        return this._highlightType;
+    }
+    get brush() {
+        return this._brush;
+    }
+}
+__decorate([
+    nameForSerialization('highlightType')
+], BarcodeFilterHighlightSettingsBrush.prototype, "_highlightType", void 0);
+__decorate([
+    nameForSerialization('brush')
+], BarcodeFilterHighlightSettingsBrush.prototype, "_brush", void 0);
+
+class BarcodeFilterSettings extends DefaultSerializeable {
+    get excludeEan13() {
+        return this._excludeEan13;
+    }
+    set excludeEan13(value) {
+        this._excludeEan13 = value;
+    }
+    get excludeUpca() {
+        return this._excludeUpca;
+    }
+    set excludeUpca(value) {
+        this._excludeUpca = value;
+    }
+    get excludedCodesRegex() {
+        return this._excludedCodesRegex;
+    }
+    set excludedCodesRegex(value) {
+        this._excludedCodesRegex = value;
+    }
+    get excludedSymbologies() {
+        return this._excludedSymbologies;
+    }
+    set excludedSymbologies(values) {
+        this._excludedSymbologies = values;
+    }
+    static fromJSON(json) {
+        const excludeEan13 = json.excludeEan13;
+        const excludeUpca = json.excludeUpca;
+        const excludedCodesRegex = json.excludedCodesRegex;
+        const excludedSymbologies = json.excludedSymbologies;
+        const excludedSymbolCounts = json.excludedSymbolCounts;
+        return new BarcodeFilterSettings(excludeEan13, excludeUpca, excludedCodesRegex, excludedSymbolCounts, excludedSymbologies);
+    }
+    constructor(excludeEan13, excludeUpca, excludedCodesRegex, excludedSymbolCounts, excludedSymbologies) {
+        super();
+        this._excludeEan13 = false;
+        this._excludeUpca = false;
+        this._excludedCodesRegex = '';
+        this._excludedSymbolCounts = {};
+        this._excludedSymbologies = [];
+        this.excludeEan13 = excludeEan13;
+        this.excludeUpca = excludeUpca;
+        this.excludedCodesRegex = excludedCodesRegex;
+        this._excludedSymbolCounts = excludedSymbolCounts;
+        this.excludedSymbologies = excludedSymbologies;
+    }
+    getExcludedSymbolCountsForSymbology(symbology) {
+        return this._excludedSymbolCounts[symbology] || [];
+    }
+    setExcludedSymbolCounts(excludedSymbolCounts, symbology) {
+        this._excludedSymbolCounts[symbology] = excludedSymbolCounts;
+    }
+}
+__decorate([
+    nameForSerialization('excludeEan13')
+], BarcodeFilterSettings.prototype, "_excludeEan13", void 0);
+__decorate([
+    nameForSerialization('excludeUpca')
+], BarcodeFilterSettings.prototype, "_excludeUpca", void 0);
+__decorate([
+    nameForSerialization('excludedCodesRegex')
+], BarcodeFilterSettings.prototype, "_excludedCodesRegex", void 0);
+__decorate([
+    nameForSerialization('excludedSymbolCounts')
+], BarcodeFilterSettings.prototype, "_excludedSymbolCounts", void 0);
+__decorate([
+    nameForSerialization('excludedSymbologies')
+], BarcodeFilterSettings.prototype, "_excludedSymbologies", void 0);
+
 function getBarcodeCountDefaults() {
     return FactoryMaker.getInstance('BarcodeCountDefaults');
 }
@@ -457,7 +1318,8 @@ function parseBarcodeCountDefaults(jsonDefaults) {
         BarcodeCountSettings: {
             expectOnlyUniqueBarcodes: jsonDefaults.BarcodeCountSettings.expectOnlyUniqueBarcodes,
             disableModeWhenCaptureListCompleted: jsonDefaults.BarcodeCountSettings.disableModeWhenCaptureListCompleted,
-            barcodeFilterSettings: viewJsonDefaults.filterSettings,
+            barcodeFilterSettings: BarcodeFilterSettings
+                .fromJSON(jsonDefaults.BarcodeCountSettings.BarcodeFilterSettings),
             mappingEnabled: jsonDefaults.BarcodeCountSettings.mappingEnabled
         },
         BarcodeCountView: {
@@ -503,6 +1365,8 @@ function parseBarcodeCountDefaults(jsonDefaults) {
             singleScanButtonAccessibilityHint: viewJsonDefaults.singleScanButtonAccessibilityHint || null,
             singleScanButtonAccessibilityLabel: viewJsonDefaults.singleScanButtonAccessibilityLabel || null,
             singleScanButtonContentDescription: viewJsonDefaults.singleScanButtonContentDescription || null,
+            shouldShowTorchControl: viewJsonDefaults.shouldShowTorchControl,
+            torchControlPosition: viewJsonDefaults.torchControlPosition,
         }
     };
     return barcodeCountDefaults;
@@ -655,10 +1519,10 @@ function parseSparkScanDefaults(jsonDefaults) {
             scanningBehaviorButtonVisible: jsonDefaults.SparkScanView.scanningBehaviorButtonVisible,
             handModeButtonVisible: jsonDefaults.SparkScanView.handModeButtonVisible,
             barcodeCountButtonVisible: jsonDefaults.SparkScanView.barcodeCountButtonVisible,
-            fastFindButtonVisible: jsonDefaults.SparkScanView.fastFindButtonVisible,
+            barcodeFindButtonVisible: jsonDefaults.SparkScanView.barcodeFindButtonVisible,
             targetModeButtonVisible: jsonDefaults.SparkScanView.targetModeButtonVisible,
-            soundModeButtonVisible: jsonDefaults.SparkScanView.soundModeButtonVisible,
-            hapticModeButtonVisible: jsonDefaults.SparkScanView.hapticModeButtonVisible,
+            soundModeButtonVisible: false, // Deprecated, will be removed in the next version
+            hapticModeButtonVisible: false, // Deprecated, will be removed in the next version
             previewSizeControlVisible: jsonDefaults.SparkScanView.previewSizeControlVisible,
             stopCapturingText: jsonDefaults.SparkScanView.stopCapturingText || null,
             startCapturingText: jsonDefaults.SparkScanView.stopCapturingText || null,
@@ -700,17 +1564,17 @@ function parseSparkScanDefaults(jsonDefaults) {
                     toastTextColor: toastSettingsDefaults.toastTextColor ? Color
                         .fromJSON(toastSettingsDefaults.toastTextColor) : null,
                     targetModeEnabledMessage: toastSettingsDefaults.targetModeEnabledMessage,
-                    targetModeDisabledMessage: toastSettingsDefaults.targetModeEnabledMessage,
-                    continuousModeEnabledMessage: toastSettingsDefaults.targetModeEnabledMessage,
-                    continuousModeDisabledMessage: toastSettingsDefaults.targetModeEnabledMessage,
-                    cameraTimeoutMessage: toastSettingsDefaults.targetModeEnabledMessage,
-                    worldFacingCameraEnabledMessage: toastSettingsDefaults.targetModeEnabledMessage,
-                    userFacingCameraEnabledMessage: toastSettingsDefaults.targetModeEnabledMessage,
-                    scanPausedMessage: toastSettingsDefaults.targetModeEnabledMessage,
-                    zoomedInMessage: toastSettingsDefaults.targetModeEnabledMessage,
-                    zoomedOutMessage: toastSettingsDefaults.targetModeEnabledMessage,
-                    torchEnabledMessage: toastSettingsDefaults.targetModeEnabledMessage,
-                    torchDisabledMessage: toastSettingsDefaults.targetModeEnabledMessage,
+                    targetModeDisabledMessage: toastSettingsDefaults.targetModeDisabledMessage,
+                    continuousModeEnabledMessage: toastSettingsDefaults.continuousModeEnabledMessage,
+                    continuousModeDisabledMessage: toastSettingsDefaults.continuousModeDisabledMessage,
+                    cameraTimeoutMessage: toastSettingsDefaults.cameraTimeoutMessage,
+                    worldFacingCameraEnabledMessage: toastSettingsDefaults.worldFacingCameraEnabledMessage,
+                    userFacingCameraEnabledMessage: toastSettingsDefaults.userFacingCameraEnabledMessage,
+                    scanPausedMessage: toastSettingsDefaults.scanPausedMessage,
+                    zoomedInMessage: toastSettingsDefaults.zoomedInMessage,
+                    zoomedOutMessage: toastSettingsDefaults.zoomedOutMessage,
+                    torchEnabledMessage: toastSettingsDefaults.torchEnabledMessage,
+                    torchDisabledMessage: toastSettingsDefaults.torchDisabledMessage,
                 },
                 targetZoomFactorOut: sparkScanViewSettingsDefaults.targetZoomFactorOut,
                 targetZoomFactorIn: sparkScanViewSettingsDefaults.targetZoomFactorIn,
@@ -757,281 +1621,17 @@ function loadBarcodeFindDefaults(jsonDefaults) {
     FactoryMaker.bindInstanceIfNotExists('BarcodeFindDefaults', defaults);
 }
 
-class EncodingRange {
-    get ianaName() { return this._ianaName; }
-    get startIndex() { return this._startIndex; }
-    get endIndex() { return this._endIndex; }
-    static fromJSON(json) {
-        const encodingRange = new EncodingRange();
-        encodingRange._ianaName = json.ianaName;
-        encodingRange._startIndex = json.startIndex;
-        encodingRange._endIndex = json.endIndex;
-        return encodingRange;
-    }
-}
-
-class StructuredAppendData {
-    get isComplete() { return this._isComplete; }
-    get barcodeSetId() { return this._barcodeSetId; }
-    get scannedSegmentCount() { return this._scannedSegmentCount; }
-    get totalSegmentCount() { return this._totalSegmentCount; }
-    get encodingRanges() { return this._encodingRanges; }
-    get completeData() { return this._completeData; }
-    get rawCompleteData() { return this._rawCompleteData; }
-    static fromJSON(json) {
-        const structuredAppendData = new StructuredAppendData();
-        if (!json)
-            return null;
-        structuredAppendData._isComplete = json.complete;
-        structuredAppendData._barcodeSetId = json.barcodeSetId;
-        structuredAppendData._scannedSegmentCount = json.scannedSegmentCount;
-        structuredAppendData._totalSegmentCount = json.totalSegmentCount;
-        structuredAppendData._encodingRanges =
-            json.completeDataEncodings.map(EncodingRange.fromJSON);
-        structuredAppendData._completeData = json.completeDataUtf8String;
-        structuredAppendData._rawCompleteData = json.completeDataRaw;
-        return structuredAppendData;
-    }
-}
-
-class Barcode extends DefaultSerializeable {
-    get symbology() { return this._symbology; }
-    get data() { return this._data; }
-    get rawData() { return this._rawData; }
-    get compositeData() { return this._compositeData; }
-    get compositeRawData() { return this._compositeRawData; }
-    get addOnData() { return this._addOnData; }
-    get encodingRanges() { return this._encodingRanges; }
-    get location() { return this._location; }
-    get isGS1DataCarrier() { return this._isGS1DataCarrier; }
-    get compositeFlag() { return this._compositeFlag; }
-    get isColorInverted() { return this._isColorInverted; }
-    get symbolCount() { return this._symbolCount; }
-    get frameID() { return this._frameID; }
-    get isStructuredAppend() { return this._structuredAppendData !== null; }
-    get structuredAppendData() { return this._structuredAppendData; }
-    get selectionIdentifier() { return this.data + this.symbology; }
-    static fromJSON(json) {
-        const barcode = new Barcode();
-        barcode._symbology = json.symbology;
-        barcode._data = json.data;
-        barcode._rawData = json.rawData;
-        barcode._compositeData = json.compositeData;
-        barcode._compositeRawData = json.compositeRawData;
-        barcode._addOnData = json.addOnData === undefined ? null : json.addOnData;
-        barcode._isGS1DataCarrier = json.isGS1DataCarrier;
-        barcode._compositeFlag = json.compositeFlag;
-        barcode._isColorInverted = json.isColorInverted;
-        barcode._symbolCount = json.symbolCount;
-        barcode._frameID = json.frameId;
-        barcode._encodingRanges = json.encodingRanges.map(EncodingRange.fromJSON);
-        barcode._location = Quadrilateral.fromJSON(json.location);
-        barcode._structuredAppendData =
-            StructuredAppendData.fromJSON(json.structuredAppendData);
-        return barcode;
-    }
-}
-__decorate([
-    nameForSerialization('symbology')
-], Barcode.prototype, "_symbology", void 0);
-__decorate([
-    nameForSerialization('data')
-], Barcode.prototype, "_data", void 0);
-__decorate([
-    nameForSerialization('rawData')
-], Barcode.prototype, "_rawData", void 0);
-__decorate([
-    nameForSerialization('compositeData')
-], Barcode.prototype, "_compositeData", void 0);
-__decorate([
-    nameForSerialization('compositeRawData')
-], Barcode.prototype, "_compositeRawData", void 0);
-__decorate([
-    nameForSerialization('addOnData')
-], Barcode.prototype, "_addOnData", void 0);
-__decorate([
-    nameForSerialization('encodingRanges')
-], Barcode.prototype, "_encodingRanges", void 0);
-__decorate([
-    nameForSerialization('location')
-], Barcode.prototype, "_location", void 0);
-__decorate([
-    nameForSerialization('isGS1DataCarrier')
-], Barcode.prototype, "_isGS1DataCarrier", void 0);
-__decorate([
-    nameForSerialization('compositeFlag')
-], Barcode.prototype, "_compositeFlag", void 0);
-__decorate([
-    nameForSerialization('isColorInverted')
-], Barcode.prototype, "_isColorInverted", void 0);
-__decorate([
-    nameForSerialization('symbolCount')
-], Barcode.prototype, "_symbolCount", void 0);
-__decorate([
-    nameForSerialization('frameID')
-], Barcode.prototype, "_frameID", void 0);
-__decorate([
-    nameForSerialization('structuredAppendData')
-], Barcode.prototype, "_structuredAppendData", void 0);
-
-var BatterySavingMode;
-(function (BatterySavingMode) {
-    BatterySavingMode["On"] = "on";
-    BatterySavingMode["Off"] = "off";
-    BatterySavingMode["Auto"] = "auto";
-})(BatterySavingMode || (BatterySavingMode = {}));
-
-var CompositeFlag;
-(function (CompositeFlag) {
-    CompositeFlag["None"] = "none";
-    CompositeFlag["Unknown"] = "unknown";
-    CompositeFlag["Linked"] = "linked";
-    CompositeFlag["GS1TypeA"] = "gs1TypeA";
-    CompositeFlag["GS1TypeB"] = "gs1TypeB";
-    CompositeFlag["GS1TypeC"] = "gs1TypeC";
-})(CompositeFlag || (CompositeFlag = {}));
-
-class LocalizedOnlyBarcode {
-    get location() {
-        return this._location;
-    }
-    get frameID() {
-        return this._frameID;
-    }
-    static fromJSON(json) {
-        const localizedBarcode = new LocalizedOnlyBarcode();
-        localizedBarcode._location = Quadrilateral.fromJSON(json.location);
-        localizedBarcode._frameID = json.frameId;
-        return localizedBarcode;
-    }
-}
-
-class TargetBarcode extends DefaultSerializeable {
-    get data() {
-        return this._data;
-    }
-    get quantity() {
-        return this._quantity;
-    }
-    static create(data, quantity) {
-        return new TargetBarcode(data, quantity);
-    }
-    static fromJSON(json) {
-        const data = json.data;
-        const quantity = json.quantity;
-        return TargetBarcode.create(data, quantity);
-    }
-    constructor(data, quantity) {
-        super();
-        this._data = data;
-        this._quantity = quantity;
-    }
-}
-__decorate([
-    nameForSerialization('data')
-], TargetBarcode.prototype, "_data", void 0);
-__decorate([
-    nameForSerialization('quantity')
-], TargetBarcode.prototype, "_quantity", void 0);
-
-class TrackedBarcode {
-    constructor() {
-        /**
-         * @deprecated
-         */
-        this._deltaTime = 0;
-        /**
-         * @deprecated
-         */
-        this._predictedLocation = undefined;
-    }
-    get barcode() { return this._barcode; }
-    get location() { return this._location; }
-    get identifier() { return this._identifier; }
-    get sessionFrameSequenceID() {
-        return this._sessionFrameSequenceID;
-    }
-    /**
-     * @deprecated
-     */
-    get deltaTime() {
-        return this._deltaTime;
-    }
-    /**
-     * @deprecated
-     */
-    get predictedLocation() {
-        return this._predictedLocation;
-    }
-    get shouldAnimateFromPreviousToNextState() {
-        // tslint:disable-next-line:no-console
-        console.warn('shouldAnimateFromPreviousToNextState is deprecated and returns "false" when accessed');
-        return false;
-    }
-    static fromJSON(json, sessionFrameSequenceID) {
-        const trackedBarcode = new TrackedBarcode();
-        // The serialization returns the identifier as a string, not a number, which it originally is.
-        // This is because the identifier needs to be used as a key in a dictionary, which in JSON can only be a string.
-        // We can assume that it is a number in the string that we can safely parse.
-        trackedBarcode._identifier = parseInt(json.identifier, 10);
-        trackedBarcode._barcode = Barcode.fromJSON(json.barcode);
-        trackedBarcode._location = Quadrilateral.fromJSON(json.location);
-        trackedBarcode._sessionFrameSequenceID = sessionFrameSequenceID ? sessionFrameSequenceID : null;
-        trackedBarcode._deltaTime = json.deltaTime;
-        trackedBarcode._predictedLocation = trackedBarcode._location;
-        return trackedBarcode;
-    }
-}
-
-class BarcodeSpatialGrid extends DefaultSerializeable {
-    static fromJSON(json) {
-        const spatialGrid = new BarcodeSpatialGrid();
-        spatialGrid._rows = json.rows;
-        spatialGrid._columns = json.columns;
-        spatialGrid._grid = json.grid;
-        return spatialGrid;
-    }
-    get rows() {
-        return this._rows;
-    }
-    get columns() {
-        return this._columns;
-    }
-    barcodeAt(row, column) {
-        const barcodeJSON = this._grid[row][column];
-        if (barcodeJSON) {
-            return Barcode.fromJSON(barcodeJSON);
-        }
-        return null;
-    }
-    row(index) {
-        const barcodesJSON = this._grid[index];
-        if (barcodesJSON) {
-            return (barcodesJSON.map(Barcode.fromJSON));
-        }
-        return [];
-    }
-    column(index) {
-        const barcodesJSON = this._grid.map(barcodes => barcodes[index]);
-        if (barcodesJSON) {
-            return (barcodesJSON.map(Barcode.fromJSON));
-        }
-        return [];
-    }
-}
-__decorate([
-    nameForSerialization('rows')
-], BarcodeSpatialGrid.prototype, "_rows", void 0);
-__decorate([
-    nameForSerialization('columns')
-], BarcodeSpatialGrid.prototype, "_columns", void 0);
-__decorate([
-    nameForSerialization('grid')
-], BarcodeSpatialGrid.prototype, "_grid", void 0);
-
 class BarcodeCaptureSession {
+    /**
+     * @deprecated Prefer use of the property `newlyRecognizedBarcode` instead.
+     */
     get newlyRecognizedBarcodes() {
+        // tslint:disable-next-line:no-console
+        console.warn('The newlyRecognizedBarcodes has been deprecated. Prefer use of the property `newlyRecognizedBarcode` instead.');
         return this._newlyRecognizedBarcodes;
+    }
+    get newlyRecognizedBarcode() {
+        return this._newlyRecognizedBarcode;
     }
     get newlyLocalizedBarcodes() {
         return this._newlyLocalizedBarcodes;
@@ -1041,6 +1641,9 @@ class BarcodeCaptureSession {
     }
     static fromJSON(json) {
         const session = new BarcodeCaptureSession();
+        session._newlyRecognizedBarcode = json.newlyRecognizedBarcode != null ?
+            Barcode.fromJSON(json.newlyRecognizedBarcode) :
+            null;
         session._newlyRecognizedBarcodes = json.newlyRecognizedBarcodes
             .map(Barcode.fromJSON);
         session._newlyLocalizedBarcodes = json.newlyLocalizedBarcodes
@@ -1338,6 +1941,9 @@ __decorate([
 var BarcodeCaptureOverlayStyle;
 (function (BarcodeCaptureOverlayStyle) {
     BarcodeCaptureOverlayStyle["Frame"] = "frame";
+    /**
+     * @deprecated The legacy is deprecated.
+     */
     BarcodeCaptureOverlayStyle["Legacy"] = "legacy";
 })(BarcodeCaptureOverlayStyle || (BarcodeCaptureOverlayStyle = {}));
 
@@ -1366,7 +1972,11 @@ class BarcodeCaptureSettings extends DefaultSerializeable {
         this.symbologies = {};
         this._codeDuplicateFilter = BarcodeCaptureSettings.barcodeCaptureDefaults.BarcodeCaptureSettings.codeDuplicateFilter;
         this._arucoDictionary = null;
-        this.batterySavingMode = BarcodeCaptureSettings.barcodeCaptureDefaults.BarcodeCaptureSettings.batterySavingMode;
+        /**
+         * @deprecated replaced with batterySaving
+         */
+        this.batterySavingMode = BarcodeCaptureSettings.barcodeCaptureDefaults.BarcodeCaptureSettings.batterySaving;
+        this.batterySaving = BarcodeCaptureSettings.barcodeCaptureDefaults.BarcodeCaptureSettings.batterySaving;
         this.scanIntention = BarcodeCaptureSettings.barcodeCaptureDefaults.BarcodeCaptureSettings.scanIntention;
     }
     settingsForSymbology(symbology) {
@@ -2087,602 +2697,19 @@ __decorate([
     ignoreFromSerialization
 ], BarcodeSelectionSettings, "barcodeDefaults", null);
 
-class BarcodeCountFeedback extends DefaultSerializeable {
-    static get default() {
-        return new BarcodeCountFeedback(BarcodeCountFeedback.barcodeCountDefaults.Feedback.success, BarcodeCountFeedback.barcodeCountDefaults.Feedback.failure);
-    }
-    static fromJSON(json) {
-        const success = Feedback.fromJSON(json.success);
-        const failure = Feedback.fromJSON(json.failure);
-        return new BarcodeCountFeedback(success, failure);
-    }
-    static get barcodeCountDefaults() {
-        return getBarcodeCountDefaults();
-    }
-    constructor(success, error) {
-        super();
-        this.success = BarcodeCountFeedback.barcodeCountDefaults.Feedback.success;
-        this.failure = BarcodeCountFeedback.barcodeCountDefaults.Feedback.success;
-        this.success = success;
-        this.failure = error;
-    }
-}
-__decorate([
-    ignoreFromSerialization
-], BarcodeCountFeedback, "barcodeCountDefaults", null);
-
-class BarcodeCountCaptureListSession extends DefaultSerializeable {
-    get correctBarcodes() {
-        return this._correctBarcodes;
-    }
-    get wrongBarcodes() {
-        return this._wrongBarcodes;
-    }
-    get missingBarcodes() {
-        return this._missingBarcodes;
-    }
-    get additionalBarcodes() {
-        return this._additionalBarcodes;
-    }
-    static fromJSON(json) {
-        const correctBarcodes = json.correctBarcodes;
-        const wrongBarcodes = json.wrongBarcodes;
-        const missingBarcodes = json.missingBarcodes;
-        const additionalBarcodes = json.additionalBarcodes;
-        return new BarcodeCountCaptureListSession(correctBarcodes, wrongBarcodes, missingBarcodes, additionalBarcodes);
-    }
-    constructor(correctBarcodes, wrongBarcodes, missingBarcodes, additionalBarcodes) {
-        super();
-        this._correctBarcodes = correctBarcodes;
-        this._wrongBarcodes = wrongBarcodes;
-        this._missingBarcodes = missingBarcodes;
-        this._additionalBarcodes = additionalBarcodes;
-    }
-}
-__decorate([
-    nameForSerialization('correctBarcodes')
-], BarcodeCountCaptureListSession.prototype, "_correctBarcodes", void 0);
-__decorate([
-    nameForSerialization('wrongBarcodes')
-], BarcodeCountCaptureListSession.prototype, "_wrongBarcodes", void 0);
-__decorate([
-    nameForSerialization('missingBarcodes')
-], BarcodeCountCaptureListSession.prototype, "_missingBarcodes", void 0);
-__decorate([
-    nameForSerialization('additionalBarcodes')
-], BarcodeCountCaptureListSession.prototype, "_additionalBarcodes", void 0);
-
-class BarcodeCountSessionController {
-    get _proxy() {
-        return FactoryMaker.getInstance('BarcodeCountSessionProxy');
-    }
-    resetSession() {
-        return this._proxy.resetSession();
-    }
-    getSpatialMap() {
-        return __awaiter(this, void 0, void 0, function* () {
-            const barcodeSpatialGridJSON = yield this._proxy.getSpatialMap();
-            if (barcodeSpatialGridJSON) {
-                const payload = JSON.parse(barcodeSpatialGridJSON);
-                return BarcodeSpatialGrid.fromJSON(payload);
-            }
-        });
-    }
-    getSpatialMapWithHints(expectedNumberOfRows, expectedNumberOfColumns) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const barcodeSpatialGridJSON = yield this._proxy.getSpatialMapWithHints(expectedNumberOfRows, expectedNumberOfColumns);
-            if (barcodeSpatialGridJSON) {
-                const payload = JSON.parse(barcodeSpatialGridJSON);
-                return BarcodeSpatialGrid.fromJSON(payload);
-            }
-        });
-    }
-}
-
-class BarcodeCountSession extends DefaultSerializeable {
-    static fromJSON(json) {
-        const session = new BarcodeCountSession();
-        session._frameSequenceID = json.frameSequenceId;
-        session._additionalBarcodes = json.additionalBarcodes;
-        session._recognizedBarcodes = {};
-        Object.entries(json.recognizedBarcodes)
-            .forEach(([key, value]) => {
-            const trackedBarcode = TrackedBarcode.fromJSON(value, session._frameSequenceID);
-            session._recognizedBarcodes[parseInt(key, 10)] = trackedBarcode;
-        });
-        return session;
-    }
-    constructor() {
-        super();
-        this.sessionController = new BarcodeCountSessionController();
-    }
-    get recognizedBarcodes() {
-        return this._recognizedBarcodes;
-    }
-    get additionalBarcodes() {
-        return this._additionalBarcodes;
-    }
-    get frameSequenceID() {
-        return this._frameSequenceID;
-    }
-    reset() {
-        return this.sessionController.resetSession();
-    }
-    getSpatialMap() {
-        var _a;
-        return __awaiter(this, void 0, void 0, function* () {
-            return (_a = yield this.sessionController.getSpatialMap()) !== null && _a !== void 0 ? _a : null;
-        });
-    }
-    getSpatialMapWithHints(expectedNumberOfRows, expectedNumberOfColumns) {
-        var _a;
-        return __awaiter(this, void 0, void 0, function* () {
-            return (_a = yield this.sessionController.getSpatialMapWithHints(expectedNumberOfRows, expectedNumberOfColumns)) !== null && _a !== void 0 ? _a : null;
-        });
-    }
-}
-__decorate([
-    nameForSerialization('recognizedBarcodes')
-], BarcodeCountSession.prototype, "_recognizedBarcodes", void 0);
-__decorate([
-    nameForSerialization('additionalBarcodes')
-], BarcodeCountSession.prototype, "_additionalBarcodes", void 0);
-__decorate([
-    nameForSerialization('frameSequenceID')
-], BarcodeCountSession.prototype, "_frameSequenceID", void 0);
-__decorate([
-    ignoreFromSerialization
-], BarcodeCountSession.prototype, "sessionController", void 0);
-
-var BarcodeCountListenerEvents;
-(function (BarcodeCountListenerEvents) {
-    BarcodeCountListenerEvents["inCallback"] = "BarcodeCountCaptureListListener.inCallback";
-    BarcodeCountListenerEvents["didListSessionUpdate"] = "BarcodeCountCaptureListListener.didUpdateSession";
-    BarcodeCountListenerEvents["didScan"] = "BarcodeCountListener.onScan";
-})(BarcodeCountListenerEvents || (BarcodeCountListenerEvents = {}));
-class BarcodeCountListenerController {
-    get _proxy() {
-        return FactoryMaker.getInstance('BarcodeCountListenerProxy');
-    }
-    constructor() {
-        this.eventEmitter = FactoryMaker.getInstance('EventEmitter');
-    }
-    static forBarcodeCount(barcodeCount) {
-        const controller = new BarcodeCountListenerController();
-        controller.barcodeCount = barcodeCount;
-        controller._proxy.isModeEnabled = () => barcodeCount.isEnabled;
-        return controller;
-    }
-    update() {
-        const barcodeCount = this.barcodeCount.toJSON();
-        const json = JSON.stringify(barcodeCount);
-        return this._proxy.updateMode(json);
-    }
-    reset() {
-        return this._proxy.resetBarcodeCount();
-    }
-    setModeEnabledState(enabled) {
-        this._proxy.setModeEnabledState(enabled);
-    }
-    subscribeListener() {
-        this._proxy.registerBarcodeCountListener();
-        this._proxy.subscribeDidScan();
-        this._proxy.subscribeDidListSessionUpdate();
-        this.eventEmitter.on(BarcodeCountListenerEvents.didScan, (body) => {
-            const payload = JSON.parse(body);
-            const session = BarcodeCountSession.fromJSON(JSON.parse(payload.session));
-            this.notifyListenersOfDidScanSession(session);
-            this._proxy.finishOnScan();
-        });
-        this.eventEmitter.on(BarcodeCountListenerEvents.didListSessionUpdate, (body) => {
-            const payload = JSON.parse(body);
-            const session = BarcodeCountCaptureListSession
-                .fromJSON(JSON.parse(payload.session));
-            this.notifyListenersOfDidListSessionUpdate(session);
-        });
-    }
-    unsubscribeListener() {
-        this._proxy.unregisterBarcodeCountListener();
-        this.eventEmitter.removeAllListeners(BarcodeCountListenerEvents.didScan);
-        this.eventEmitter.removeAllListeners(BarcodeCountListenerEvents.didListSessionUpdate);
-    }
-    startScanningPhase() {
-        this._proxy.startScanningPhase();
-    }
-    endScanningPhase() {
-        this._proxy.endScanningPhase();
-    }
-    setBarcodeCountCaptureList(barcodeCountCaptureList) {
-        this._barcodeCountCaptureList = barcodeCountCaptureList;
-        this._proxy.setBarcodeCountCaptureList(JSON.stringify(barcodeCountCaptureList.targetBarcodes));
-    }
-    notifyListenersOfDidScanSession(session) {
-        const mode = this.barcodeCount;
-        mode.isInListenerCallback = true;
-        mode.listeners.forEach(listener => {
-            if (listener.didScan) {
-                listener.didScan(this.barcodeCount, session, CameraController.getLastFrame);
-            }
-        });
-        mode.isInListenerCallback = false;
-    }
-    notifyListenersOfDidListSessionUpdate(session) {
-        var _a;
-        const mode = this.barcodeCount;
-        const barcodeCountCaptureListListener = (_a = this._barcodeCountCaptureList) === null || _a === void 0 ? void 0 : _a.listener;
-        mode.isInListenerCallback = true;
-        if (barcodeCountCaptureListListener && (barcodeCountCaptureListListener === null || barcodeCountCaptureListListener === void 0 ? void 0 : barcodeCountCaptureListListener.didUpdateSession)) {
-            barcodeCountCaptureListListener === null || barcodeCountCaptureListListener === void 0 ? void 0 : barcodeCountCaptureListListener.didUpdateSession(this._barcodeCountCaptureList, session);
-        }
-        mode.isInListenerCallback = false;
-    }
-}
-
-class BarcodeCount extends DefaultSerializeable {
-    get isEnabled() {
-        return this._isEnabled;
-    }
-    set isEnabled(isEnabled) {
-        this._isEnabled = isEnabled;
-        this.listenerController.setModeEnabledState(isEnabled);
-    }
-    get context() {
-        return this._context;
-    }
-    get feedback() {
-        return this._feedback;
-    }
-    set feedback(feedback) {
-        this._feedback = feedback;
-        this.didChange();
-    }
-    get _context() {
-        return this.privateContext;
-    }
-    set _context(newContext) {
-        this.privateContext = newContext;
-    }
-    static forContext(context, settings) {
-        const barcodeCount = new BarcodeCount();
-        barcodeCount.settings = settings;
-        return barcodeCount;
-    }
-    static get barcodeCountDefaults() {
-        return getBarcodeCountDefaults();
-    }
-    constructor() {
-        super();
-        this.type = 'barcodeCount';
-        this._feedback = BarcodeCountFeedback.default;
-        this._isEnabled = true;
-        this.listeners = [];
-        this._additionalBarcodes = [];
-        this.isInListenerCallback = false;
-        this.privateContext = null;
-        this.listenerController = BarcodeCountListenerController.forBarcodeCount(this);
-    }
-    applySettings(settings) {
-        this.settings = settings;
-        return this.didChange();
-    }
-    addListener(listener) {
-        this.checkAndSubscribeListeners();
-        if (this.listeners.includes(listener)) {
-            return;
-        }
-        this.listeners.push(listener);
-    }
-    checkAndSubscribeListeners() {
-        if (this.listeners.length === 0) {
-            this.listenerController.subscribeListener();
-        }
-    }
-    removeListener(listener) {
-        if (!this.listeners.includes(listener)) {
-            return;
-        }
-        this.listeners.splice(this.listeners.indexOf(listener));
-        this.checkAndUnsubscribeListeners();
-    }
-    checkAndUnsubscribeListeners() {
-        if (this.listeners.length === 0) {
-            this.listenerController.unsubscribeListener();
-        }
-    }
-    reset() {
-        return this.listenerController.reset();
-    }
-    startScanningPhase() {
-        this.listenerController.startScanningPhase();
-    }
-    endScanningPhase() {
-        this.listenerController.endScanningPhase();
-    }
-    setBarcodeCountCaptureList(barcodeCountCaptureList) {
-        this.listenerController.setBarcodeCountCaptureList(barcodeCountCaptureList);
-    }
-    setAdditionalBarcodes(barcodes) {
-        this._additionalBarcodes = barcodes;
-        return this.didChange();
-    }
-    clearAdditionalBarcodes() {
-        this._additionalBarcodes = [];
-        return this.didChange();
-    }
-    static get recommendedCameraSettings() {
-        return BarcodeCount.barcodeCountDefaults.RecommendedCameraSettings;
-    }
-    didChange() {
-        return this.listenerController.update();
-    }
-    unsubscribeNativeListeners() {
-        this.listenerController.unsubscribeListener();
-    }
-}
-__decorate([
-    nameForSerialization('feedback')
-], BarcodeCount.prototype, "_feedback", void 0);
-__decorate([
-    ignoreFromSerialization
-], BarcodeCount.prototype, "_isEnabled", void 0);
-__decorate([
-    ignoreFromSerialization
-], BarcodeCount.prototype, "listeners", void 0);
-__decorate([
-    nameForSerialization('additionalBarcodes')
-], BarcodeCount.prototype, "_additionalBarcodes", void 0);
-__decorate([
-    ignoreFromSerialization
-], BarcodeCount.prototype, "isInListenerCallback", void 0);
-__decorate([
-    ignoreFromSerialization
-], BarcodeCount.prototype, "privateContext", void 0);
-__decorate([
-    ignoreFromSerialization
-], BarcodeCount.prototype, "listenerController", void 0);
-__decorate([
-    ignoreFromSerialization
-], BarcodeCount, "barcodeCountDefaults", null);
-
-class BarcodeCountCaptureList {
-    static create(listener, targetBarcodes) {
-        return new BarcodeCountCaptureList(listener, targetBarcodes);
-    }
-    constructor(listener, targetBarcodes) {
-        this.listener = listener;
-        this.targetBarcodes = targetBarcodes;
-    }
-}
-
-var BarcodeCountViewStyle;
-(function (BarcodeCountViewStyle) {
-    BarcodeCountViewStyle["Icon"] = "icon";
-    BarcodeCountViewStyle["Dot"] = "dot";
-})(BarcodeCountViewStyle || (BarcodeCountViewStyle = {}));
-
-var BarcodeFilterHighlightType;
-(function (BarcodeFilterHighlightType) {
-    BarcodeFilterHighlightType["Brush"] = "brush";
-})(BarcodeFilterHighlightType || (BarcodeFilterHighlightType = {}));
-
-class BarcodeCountSettings extends DefaultSerializeable {
-    static get barcodeCountDefaults() {
-        return getBarcodeCountDefaults();
-    }
-    static get barcodeDefaults() {
-        return getBarcodeDefaults();
-    }
-    constructor() {
-        super();
-        this.symbologies = {};
-        this.properties = {};
-        this._filterSettings = BarcodeCountSettings.barcodeCountDefaults.BarcodeCountSettings.barcodeFilterSettings;
-        this._expectsOnlyUniqueBarcodes = BarcodeCountSettings.barcodeCountDefaults.BarcodeCountSettings.expectOnlyUniqueBarcodes;
-        this._mappingEnabled = BarcodeCountSettings.barcodeCountDefaults.BarcodeCountSettings.mappingEnabled;
-    }
-    get expectsOnlyUniqueBarcodes() {
-        return this._expectsOnlyUniqueBarcodes;
-    }
-    set expectsOnlyUniqueBarcodes(expectsOnlyUniqueBarcodes) {
-        this._expectsOnlyUniqueBarcodes = expectsOnlyUniqueBarcodes;
-    }
-    get mappingEnabled() {
-        return this._mappingEnabled;
-    }
-    set mappingEnabled(mappingEnabled) {
-        this._mappingEnabled = mappingEnabled;
-    }
-    get filterSettings() {
-        return this._filterSettings;
-    }
-    get enabledSymbologies() {
-        return Object.keys(this.symbologies)
-            .filter(symbology => this.symbologies[symbology].isEnabled);
-    }
-    settingsForSymbology(symbology) {
-        if (!this.symbologies[symbology]) {
-            const symbologySettings = BarcodeCountSettings.barcodeDefaults.SymbologySettings[symbology];
-            symbologySettings._symbology = symbology;
-            this.symbologies[symbology] = symbologySettings;
-        }
-        return this.symbologies[symbology];
-    }
-    enableSymbologies(symbologies) {
-        symbologies.forEach(symbology => this.enableSymbology(symbology, true));
-    }
-    enableSymbology(symbology, enabled) {
-        this.settingsForSymbology(symbology).isEnabled = enabled;
-    }
-    setProperty(name, value) {
-        this.properties[name] = value;
-    }
-    getProperty(name) {
-        return this.properties[name];
-    }
-}
-__decorate([
-    nameForSerialization('filterSettings')
-], BarcodeCountSettings.prototype, "_filterSettings", void 0);
-__decorate([
-    nameForSerialization('expectsOnlyUniqueBarcodes')
-], BarcodeCountSettings.prototype, "_expectsOnlyUniqueBarcodes", void 0);
-__decorate([
-    nameForSerialization('mappingEnabled')
-], BarcodeCountSettings.prototype, "_mappingEnabled", void 0);
-__decorate([
-    ignoreFromSerialization
-], BarcodeCountSettings, "barcodeCountDefaults", null);
-__decorate([
-    ignoreFromSerialization
-], BarcodeCountSettings, "barcodeDefaults", null);
-
-class BarcodeCountToolbarSettings extends DefaultSerializeable {
-    constructor() {
-        super(...arguments);
-        this.audioOnButtonText = BarcodeCountToolbarSettings.barcodeCountDefaults.BarcodeCountView.toolbarSettings.audioOnButtonText;
-        this.audioOffButtonText = BarcodeCountToolbarSettings.barcodeCountDefaults.BarcodeCountView.toolbarSettings.audioOffButtonText;
-        this.audioButtonContentDescription = BarcodeCountToolbarSettings.barcodeCountDefaults.BarcodeCountView.toolbarSettings.audioButtonContentDescription;
-        this.audioButtonAccessibilityHint = BarcodeCountToolbarSettings.barcodeCountDefaults.BarcodeCountView.toolbarSettings.audioButtonAccessibilityHint;
-        this.audioButtonAccessibilityLabel = BarcodeCountToolbarSettings.barcodeCountDefaults.BarcodeCountView.toolbarSettings.audioButtonAccessibilityLabel;
-        this.vibrationOnButtonText = BarcodeCountToolbarSettings.barcodeCountDefaults.BarcodeCountView.toolbarSettings.vibrationOnButtonText;
-        this.vibrationOffButtonText = BarcodeCountToolbarSettings.barcodeCountDefaults.BarcodeCountView.toolbarSettings.vibrationOffButtonText;
-        this.vibrationButtonContentDescription = BarcodeCountToolbarSettings.barcodeCountDefaults.BarcodeCountView.toolbarSettings.vibrationButtonContentDescription;
-        this.vibrationButtonAccessibilityHint = BarcodeCountToolbarSettings.barcodeCountDefaults.BarcodeCountView.toolbarSettings.vibrationButtonAccessibilityHint;
-        this.vibrationButtonAccessibilityLabel = BarcodeCountToolbarSettings.barcodeCountDefaults.BarcodeCountView.toolbarSettings.vibrationButtonAccessibilityLabel;
-        this.strapModeOnButtonText = BarcodeCountToolbarSettings.barcodeCountDefaults.BarcodeCountView.toolbarSettings.strapModeOnButtonText;
-        this.strapModeOffButtonText = BarcodeCountToolbarSettings.barcodeCountDefaults.BarcodeCountView.toolbarSettings.strapModeOffButtonText;
-        this.strapModeButtonContentDescription = BarcodeCountToolbarSettings.barcodeCountDefaults.BarcodeCountView.toolbarSettings.strapModeButtonContentDescription;
-        this.strapModeButtonAccessibilityHint = BarcodeCountToolbarSettings.barcodeCountDefaults.BarcodeCountView.toolbarSettings.strapModeButtonAccessibilityHint;
-        this.strapModeButtonAccessibilityLabel = BarcodeCountToolbarSettings.barcodeCountDefaults.BarcodeCountView.toolbarSettings.strapModeButtonAccessibilityLabel;
-        this.colorSchemeOnButtonText = BarcodeCountToolbarSettings.barcodeCountDefaults.BarcodeCountView.toolbarSettings.colorSchemeOnButtonText;
-        this.colorSchemeOffButtonText = BarcodeCountToolbarSettings.barcodeCountDefaults.BarcodeCountView.toolbarSettings.colorSchemeOffButtonText;
-        this.colorSchemeButtonContentDescription = BarcodeCountToolbarSettings.barcodeCountDefaults.BarcodeCountView.toolbarSettings.colorSchemeButtonContentDescription;
-        this.colorSchemeButtonAccessibilityHint = BarcodeCountToolbarSettings.barcodeCountDefaults.BarcodeCountView.toolbarSettings.colorSchemeButtonAccessibilityHint;
-        this.colorSchemeButtonAccessibilityLabel = BarcodeCountToolbarSettings.barcodeCountDefaults.BarcodeCountView.toolbarSettings.colorSchemeButtonAccessibilityLabel;
-    }
-    static get barcodeCountDefaults() {
-        return getBarcodeCountDefaults();
-    }
-}
-__decorate([
-    ignoreFromSerialization
-], BarcodeCountToolbarSettings, "barcodeCountDefaults", null);
-
-var BarcodeCountViewEvents;
-(function (BarcodeCountViewEvents) {
-    BarcodeCountViewEvents["singleScanButtonTapped"] = "BarcodeCountViewUiListener.onSingleScanButtonTapped";
-    BarcodeCountViewEvents["listButtonTapped"] = "BarcodeCountViewUiListener.onListButtonTapped";
-    BarcodeCountViewEvents["exitButtonTapped"] = "BarcodeCountViewUiListener.onExitButtonTapped";
-    BarcodeCountViewEvents["brushForRecognizedBarcode"] = "BarcodeCountViewListener.brushForRecognizedBarcode";
-    BarcodeCountViewEvents["brushForRecognizedBarcodeNotInList"] = "BarcodeCountViewListener.brushForRecognizedBarcodeNotInList";
-    BarcodeCountViewEvents["brushForUnrecognizedBarcode"] = "BarcodeCountViewListener.brushForUnrecognizedBarcode";
-    BarcodeCountViewEvents["filteredBarcodeTapped"] = "BarcodeCountViewListener.didTapFilteredBarcode";
-    BarcodeCountViewEvents["recognizedBarcodeNotInListTapped"] = "BarcodeCountViewListener.didTapRecognizedBarcodeNotInList";
-    BarcodeCountViewEvents["recognizedBarcodeTapped"] = "BarcodeCountViewListener.didTapRecognizedBarcode";
-    BarcodeCountViewEvents["unrecognizedBarcodeTapped"] = "BarcodeCountViewListener.didTapUnrecognizedBarcode";
-    BarcodeCountViewEvents["captureListCompleted"] = "BarcodeCountViewListener.didCompleteCaptureList";
-})(BarcodeCountViewEvents || (BarcodeCountViewEvents = {}));
-
-class BarcodeFilterHighlightSettingsBrush extends DefaultSerializeable {
-    static create(brush) {
-        return new BarcodeFilterHighlightSettingsBrush(brush);
-    }
-    constructor(brush) {
-        super();
-        this._brush = null;
-        this._highlightType = BarcodeFilterHighlightType.Brush;
-        this._brush = brush;
-    }
-    get highlightType() {
-        return this._highlightType;
-    }
-    get brush() {
-        return this._brush;
-    }
-}
-__decorate([
-    nameForSerialization('highlightType')
-], BarcodeFilterHighlightSettingsBrush.prototype, "_highlightType", void 0);
-__decorate([
-    nameForSerialization('brush')
-], BarcodeFilterHighlightSettingsBrush.prototype, "_brush", void 0);
-
-class BarcodeFilterSettings extends DefaultSerializeable {
-    get excludeEan13() {
-        return this._excludeEan13;
-    }
-    set excludeEan13(value) {
-        this._excludeEan13 = value;
-    }
-    get excludeUpca() {
-        return this._excludeUpca;
-    }
-    set excludeUpca(value) {
-        this._excludeUpca = value;
-    }
-    get excludedCodesRegex() {
-        return this._excludedCodesRegex;
-    }
-    set excludedCodesRegex(value) {
-        this._excludedCodesRegex = value;
-    }
-    get excludedSymbologies() {
-        return this._excludedSymbologies;
-    }
-    set excludedSymbologies(values) {
-        this._excludedSymbologies = values;
-    }
-    static fromJSON(json) {
-        const excludeEan13 = json.excludeEan13;
-        const excludeUpca = json.excludeUpca;
-        const excludedCodesRegex = json.excludedCodesRegex;
-        const excludedSymbologies = json.excludedSymbologies;
-        const excludedSymbolCounts = json.excludedSymbolCounts;
-        return new BarcodeFilterSettings(excludeEan13, excludeUpca, excludedCodesRegex, excludedSymbolCounts, excludedSymbologies);
-    }
-    constructor(excludeEan13, excludeUpca, excludedCodesRegex, excludedSymbolCounts, excludedSymbologies) {
-        super();
-        this._excludeEan13 = false;
-        this._excludeUpca = false;
-        this._excludedCodesRegex = '';
-        this._excludedSymbolCounts = {};
-        this._excludedSymbologies = [];
-        this.excludeEan13 = excludeEan13;
-        this.excludeUpca = excludeUpca;
-        this.excludedCodesRegex = excludedCodesRegex;
-        this._excludedSymbolCounts = excludedSymbolCounts;
-        this.excludedSymbologies = excludedSymbologies;
-    }
-    getExcludedSymbolCountsForSymbology(symbology) {
-        return this._excludedSymbolCounts[symbology] || [];
-    }
-    setExcludedSymbolCounts(excludedSymbolCounts, symbology) {
-        this._excludedSymbolCounts[symbology] = excludedSymbolCounts;
-    }
-}
-__decorate([
-    nameForSerialization('excludeEan13')
-], BarcodeFilterSettings.prototype, "_excludeEan13", void 0);
-__decorate([
-    nameForSerialization('excludeUpca')
-], BarcodeFilterSettings.prototype, "_excludeUpca", void 0);
-__decorate([
-    nameForSerialization('excludedCodesRegex')
-], BarcodeFilterSettings.prototype, "_excludedCodesRegex", void 0);
-__decorate([
-    nameForSerialization('excludedSymbolCounts')
-], BarcodeFilterSettings.prototype, "_excludedSymbolCounts", void 0);
-__decorate([
-    nameForSerialization('excludedSymbologies')
-], BarcodeFilterSettings.prototype, "_excludedSymbologies", void 0);
-
 var BarcodeTrackingBasicOverlayStyle;
 (function (BarcodeTrackingBasicOverlayStyle) {
     BarcodeTrackingBasicOverlayStyle["Frame"] = "frame";
     BarcodeTrackingBasicOverlayStyle["Dot"] = "dot";
+    /**
+     * @deprecated The legacy style of the BarcodeTrackingBasicOverlay is deprecated.
+     */
     BarcodeTrackingBasicOverlayStyle["Legacy"] = "legacy";
 })(BarcodeTrackingBasicOverlayStyle || (BarcodeTrackingBasicOverlayStyle = {}));
 
+/**
+ * @deprecated Setting a scenario is no longer recommended, use the BarcodeTrackingSettings empty constructor instead.
+ */
 var BarcodeTrackingScenario;
 (function (BarcodeTrackingScenario) {
     BarcodeTrackingScenario["A"] = "A";
@@ -3138,7 +3165,11 @@ class BarcodeTrackingSettings extends DefaultSerializeable {
         return Object.keys(this.symbologies)
             .filter(symbology => this.symbologies[symbology].isEnabled);
     }
+    /**
+    * @deprecated Setting a scenario is no longer recommended, use the BarcodeTrackingSettings empty constructor instead.
+    */
     static forScenario(scenario) {
+        console.warn('Setting a scenario is no longer recommended, use the BarcodeTrackingSettings empty constructor instead.');
         const settings = new BarcodeTrackingSettings();
         settings.scenario = scenario;
         return settings;
@@ -3268,11 +3299,22 @@ __decorate([
 class SparkScanSession {
     static fromJSON(json) {
         const session = new SparkScanSession();
+        session._newlyRecognizedBarcode = json.newlyRecognizedBarcode != null ?
+            Barcode.fromJSON(json.newlyRecognizedBarcode) :
+            null;
         session._newlyRecognizedBarcodes = json.newlyRecognizedBarcodes.map(Barcode.fromJSON);
         session._frameSequenceID = json.frameSequenceId;
         return session;
     }
+    get newlyRecognizedBarcode() {
+        return this._newlyRecognizedBarcode;
+    }
+    /**
+     * @deprecated Prefer use of the property `newlyRecognizedBarcode` instead.
+     */
     get newlyRecognizedBarcodes() {
+        // tslint:disable-next-line:no-console
+        console.warn('The newlyRecognizedBarcodes has been deprecated. Prefer use of the property `newlyRecognizedBarcode` instead.');
         return this._newlyRecognizedBarcodes;
     }
     get frameSequenceID() {
@@ -3893,6 +3935,7 @@ __decorate([
 var SparkScanViewEvents;
 (function (SparkScanViewEvents) {
     SparkScanViewEvents["fastFindButtonTapped"] = "SparkScanViewUiListener.fastFindButtonTapped";
+    SparkScanViewEvents["barcodeFindButtonTapped"] = "SparkScanViewUiListener.barcodeFindButtonTapped";
     SparkScanViewEvents["barcodeCountButtonTapped"] = "SparkScanViewUiListener.barcodeCountButtonTapped";
 })(SparkScanViewEvents || (SparkScanViewEvents = {}));
 var SparkScanFeedbackDelegateEvents;
@@ -3940,6 +3983,10 @@ class SparkScanViewController extends BaseController {
         this.eventEmitter.on(SparkScanViewEvents.fastFindButtonTapped, () => {
             var _a, _b;
             (_b = (_a = this.view.uiListener) === null || _a === void 0 ? void 0 : _a.didTapFastFindButton) === null || _b === void 0 ? void 0 : _b.call(_a, this.view);
+        });
+        this.eventEmitter.on(SparkScanViewEvents.barcodeFindButtonTapped, () => {
+            var _a, _b;
+            (_b = (_a = this.view.uiListener) === null || _a === void 0 ? void 0 : _a.didTapBarcodeFindButton) === null || _b === void 0 ? void 0 : _b.call(_a, this.view);
         });
     }
     unsubscribeListeners() {
@@ -4024,7 +4071,8 @@ class BaseSparkScanView {
         this._scanningBehaviorButtonVisible = BaseSparkScanView.sparkScanDefaults.SparkScanView.scanningBehaviorButtonVisible;
         this._handModeButtonVisible = BaseSparkScanView.sparkScanDefaults.SparkScanView.handModeButtonVisible;
         this._barcodeCountButtonVisible = BaseSparkScanView.sparkScanDefaults.SparkScanView.barcodeCountButtonVisible;
-        this._fastFindButtonVisible = BaseSparkScanView.sparkScanDefaults.SparkScanView.fastFindButtonVisible;
+        this._fastFindButtonVisible = false;
+        this._barcodeFindButtonVisible = BaseSparkScanView.sparkScanDefaults.SparkScanView.barcodeFindButtonVisible;
         this._targetModeButtonVisible = BaseSparkScanView.sparkScanDefaults.SparkScanView.targetModeButtonVisible;
         this._soundModeButtonVisible = BaseSparkScanView.sparkScanDefaults.SparkScanView.soundModeButtonVisible;
         this._hapticModeButtonVisible = BaseSparkScanView.sparkScanDefaults.SparkScanView.hapticModeButtonVisible;
@@ -4059,10 +4107,18 @@ class BaseSparkScanView {
         this._previewSizeControlVisible = newValue;
         this.update();
     }
+    /**
+     * @deprecated This property is deprecated as it's no longer needed.
+     */
     get shouldShowScanAreaGuides() {
+        console.warn('This property is deprecated as it\'s no longer needed.');
         return this._shouldShowScanAreaGuides;
     }
+    /**
+     * @deprecated This property is deprecated as it's no longer needed.
+     */
     set shouldShowScanAreaGuides(newValue) {
+        console.warn('This property is deprecated as it\'s no longer needed.');
         this._shouldShowScanAreaGuides = newValue;
         this.update();
     }
@@ -4094,11 +4150,25 @@ class BaseSparkScanView {
         this._barcodeCountButtonVisible = newValue;
         this.update();
     }
+    /**
+     * @deprecated This method was renamed. Use onBarcodeFindButtonTappedIn instead.
+     */
     get fastFindButtonVisible() {
+        console.warn('This property was renamed. Use the property `barcodeFindButtonVisible` instead.');
         return this._fastFindButtonVisible;
     }
+    /**
+     * @deprecated This method was renamed. Use onBarcodeFindButtonTappedIn instead.
+     */
     set fastFindButtonVisible(newValue) {
-        this._fastFindButtonVisible = newValue;
+        // NOOP
+        console.warn('This property was renamed. Use the property `barcodeFindButtonVisible` instead.');
+    }
+    get barcodeFindButtonVisible() {
+        return this._barcodeFindButtonVisible;
+    }
+    set barcodeFindButtonVisible(newValue) {
+        this._barcodeFindButtonVisible = newValue;
         this.update();
     }
     get targetModeButtonVisible() {
@@ -4108,17 +4178,33 @@ class BaseSparkScanView {
         this._targetModeButtonVisible = newValue;
         this.update();
     }
+    /**
+     * @deprecated This property is deprecated as sound mode button will be removed in the future.
+     */
     get soundModeButtonVisible() {
+        console.warn('This property is deprecated as sound mode button will be removed in the future.');
         return this._soundModeButtonVisible;
     }
+    /**
+     * @deprecated This property is deprecated as sound mode button will be removed in the future.
+     */
     set soundModeButtonVisible(newValue) {
+        console.warn('This property is deprecated as sound mode button will be removed in the future.');
         this._soundModeButtonVisible = newValue;
         this.update();
     }
+    /**
+     * @deprecated This property is deprecated as haptic mode button will be removed in the future.
+     */
     get hapticModeButtonVisible() {
+        console.warn('This property is deprecated as haptic mode button will be removed in the future.');
         return this._hapticModeButtonVisible;
     }
+    /**
+     * @deprecated This property is deprecated as haptic mode button will be removed in the future.
+     */
     set hapticModeButtonVisible(newValue) {
+        console.warn('This property is deprecated as haptic mode button will be removed in the future.');
         this._hapticModeButtonVisible = newValue;
         this.update();
     }
@@ -4279,7 +4365,7 @@ class BaseSparkScanView {
             scanningBehaviorButtonVisible: this.scanningBehaviorButtonVisible,
             handModeButtonVisible: this.handModeButtonVisible,
             barcodeCountButtonVisible: this.barcodeCountButtonVisible,
-            fastFindButtonVisible: this.fastFindButtonVisible,
+            barcodeFindButtonVisible: this.barcodeFindButtonVisible,
             targetModeButtonVisible: this.targetModeButtonVisible,
             soundModeButtonVisible: this.soundModeButtonVisible,
             hapticModeButtonVisible: this.hapticModeButtonVisible,

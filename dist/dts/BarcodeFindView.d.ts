@@ -49,6 +49,8 @@ export declare class BarcodeFindView extends React.Component<BarcodeFindViewProp
     pauseSearching(): Promise<void>;
     render(): React.JSX.Element;
     componentWillUnmount(): void;
+    componentDidMount(): void;
+    private createFragment;
     private toJSON;
 }
 export {};

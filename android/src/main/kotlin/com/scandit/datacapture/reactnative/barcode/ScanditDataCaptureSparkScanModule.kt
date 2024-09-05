@@ -97,6 +97,7 @@ class ScanditDataCaptureSparkScanModule(
         // No click was allowed on the other UI elements because SparkScanView was covering
         // all of them. This behaviour happens only on RN
         viewManager.rnViewsContainer.bringToFront()
+        promise.resolve(null)
     }
 
     @ReactMethod

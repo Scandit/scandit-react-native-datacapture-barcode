@@ -1,13 +1,13 @@
 import { FactoryMaker, ignoreFromSerialization, BaseNativeProxy } from 'scandit-react-native-datacapture-core/dist/core';
 import { NativeModules, NativeEventEmitter, AppState, View, requireNativeComponent, Platform, findNodeHandle, UIManager } from 'react-native';
-import { BarcodeTracking as BarcodeTracking$1, BaseSparkScanView, getBarcodeCountDefaults, BaseBarcodePickView, BaseBarcodeFindView, loadBarcodeDefaults, loadBarcodeCaptureDefaults, loadBarcodeTrackingDefaults, loadBarcodeSelectionDefaults, loadBarcodeCountDefaults, loadBarcodePickDefaults, loadBarcodeFindDefaults, loadSparkScanDefaults, BaseBarcodeTrackingAdvancedOverlay, BarcodeTrackingSettings, BarcodeTrackingBasicOverlay, BarcodeTrackingBasicOverlayStyle, BarcodeCountViewEvents, TrackedBarcode, BarcodeCaptureListenerEvents, BarcodeSelectionListenerEvents, BarcodeSelectionBrushProviderEvents, BarcodeCountListenerEvents, BarcodeTrackingListenerEvents, BarcodeTrackingBasicOverlayListenerEvents, BarcodeTrackingAdvancedOverlayListenerEvents, SparkScanListenerEvents, BarcodePickEvents, BarcodePickViewListenerEvents, BarcodePickViewUiListenerEvents, BarcodeFindListenerEvents, BarcodeFindViewEvents, BarcodePickListenerEvents, SparkScanViewEvents, SparkScanFeedbackDelegateEvents } from './barcode.js';
+import { BarcodeTracking as BarcodeTracking$1, BaseSparkScanView, getBarcodeCountDefaults, BaseBarcodePickView, BaseBarcodeFindView, loadBarcodeDefaults, loadBarcodeCaptureDefaults, loadBarcodeTrackingDefaults, loadBarcodeSelectionDefaults, loadBarcodeCountDefaults, loadBarcodePickDefaults, loadBarcodeFindDefaults, loadSparkScanDefaults, BarcodeTrackingSettings, BarcodeTrackingBasicOverlay, BarcodeTrackingBasicOverlayStyle, BarcodeCountViewEvents, TrackedBarcode, BarcodeCaptureListenerEvents, BarcodeSelectionListenerEvents, BarcodeSelectionBrushProviderEvents, BarcodeCountListenerEvents, BarcodeTrackingListenerEvents, BarcodeTrackingBasicOverlayListenerEvents, SparkScanListenerEvents, BarcodePickEvents, BarcodePickViewListenerEvents, BarcodePickViewUiListenerEvents, BarcodeFindListenerEvents, BarcodeFindViewEvents, BarcodePickListenerEvents, SparkScanViewEvents, SparkScanFeedbackDelegateEvents } from './barcode.js';
 export { ArucoDictionary, ArucoDictionaryPreset, ArucoMarker, Barcode, BarcodeCapture, BarcodeCaptureFeedback, BarcodeCaptureOverlay, BarcodeCaptureOverlayStyle, BarcodeCaptureSession, BarcodeCaptureSettings, BarcodeCount, BarcodeCountCaptureList, BarcodeCountCaptureListSession, BarcodeCountFeedback, BarcodeCountSession, BarcodeCountSettings, BarcodeCountToolbarSettings, BarcodeFilterHighlightSettingsBrush, BarcodeFilterHighlightType, BarcodeFilterSettings, BarcodeFind, BarcodeFindFeedback, BarcodeFindItem, BarcodeFindItemContent, BarcodeFindItemSearchOptions, BarcodeFindSettings, BarcodeFindViewSettings, BarcodeGenerator, BarcodeGeneratorBuilder, BarcodePick, BarcodePickActionCallback, BarcodePickAsyncMapperProductProvider, BarcodePickIconStyle, BarcodePickProduct, BarcodePickProductProviderCallback, BarcodePickProductProviderCallbackItem, BarcodePickScanningSession, BarcodePickSettings, BarcodePickState, BarcodePickViewListenerEvents, BarcodePickViewSettings, BarcodePickViewUiListenerEvents, BarcodeSelection, BarcodeSelectionAimerSelection, BarcodeSelectionAutoSelectionStrategy, BarcodeSelectionBasicOverlay, BarcodeSelectionBasicOverlayStyle, BarcodeSelectionFeedback, BarcodeSelectionFreezeBehavior, BarcodeSelectionManualSelectionStrategy, BarcodeSelectionSession, BarcodeSelectionSettings, BarcodeSelectionTapBehavior, BarcodeSelectionTapSelection, BarcodeSpatialGrid, BarcodeTracking, BarcodeTrackingBasicOverlay, BarcodeTrackingBasicOverlayStyle, BarcodeTrackingScenario, BarcodeTrackingSession, BarcodeTrackingSettings, BatterySavingMode, Checksum, Code128BarcodeGeneratorBuilder, Code39BarcodeGeneratorBuilder, CompositeFlag, CompositeType, DataMatrixBarcodeGeneratorBuilder, Dot, DotWithIcons, Ean13BarcodeGeneratorBuilder, Ean13UpcaClassification, EncodingRange, InterleavedTwoOfFiveBarcodeGeneratorBuilder, LocalizedOnlyBarcode, QrCodeBarcodeGeneratorBuilder, QrCodeErrorCorrectionLevel, Range, Rectangular, RectangularWithIcons, SparkScan, SparkScanBarcodeErrorFeedback, SparkScanBarcodeFeedback, SparkScanBarcodeSuccessFeedback, SparkScanFeedback, SparkScanPreviewBehavior, SparkScanScanningBehavior, SparkScanScanningModeDefault, SparkScanScanningModeTarget, SparkScanScanningPrecision, SparkScanSession, SparkScanSettings, SparkScanToastSettings, SparkScanViewErrorFeedback, SparkScanViewFeedback, SparkScanViewHandMode, SparkScanViewSettings, SparkScanViewSuccessFeedback, StructuredAppendData, Symbology, SymbologyDescription, SymbologySettings, TargetBarcode, TrackedBarcode, UpcaBarcodeGeneratorBuilder } from './barcode.js';
-import { FrameSourceState, Anchor, PointWithUnit, NumberWithUnit, MeasureUnit, Camera, CameraPosition, DataCaptureView, initCoreProxy, initCoreDefaults } from 'scandit-react-native-datacapture-core';
+import { FrameSourceState, Camera, CameraPosition, DataCaptureView, initCoreProxy, initCoreDefaults } from 'scandit-react-native-datacapture-core';
 import React, { forwardRef, useRef, useState, useEffect } from 'react';
 
 // tslint:disable:variable-name
-const NativeModule$h = NativeModules.ScanditDataCaptureBarcodeCapture;
-const RNEventEmitter$c = new NativeEventEmitter(NativeModule$h);
+const NativeModule$g = NativeModules.ScanditDataCaptureBarcodeCapture;
+const RNEventEmitter$b = new NativeEventEmitter(NativeModule$g);
 // tslint:enable:variable-name
 class NativeBarcodeCaptureListenerProxy {
     nativeListeners = [];
@@ -17,51 +17,51 @@ class NativeBarcodeCaptureListenerProxy {
     }
     isModeEnabled = () => false;
     resetSession() {
-        return NativeModule$h.resetSession();
+        return NativeModule$g.resetSession();
     }
     registerListenerForEvents() {
-        NativeModule$h.registerListenerForEvents();
+        NativeModule$g.registerListenerForEvents();
     }
     setModeEnabledState(enabled) {
-        NativeModule$h.setModeEnabledState(enabled);
+        NativeModule$g.setModeEnabledState(enabled);
     }
     unregisterListenerForEvents() {
-        NativeModule$h.unregisterListenerForEvents();
+        NativeModule$g.unregisterListenerForEvents();
         this.nativeListeners.forEach(listener => listener.remove());
         this.nativeListeners = [];
     }
     subscribeDidUpdateSessionListener() {
-        const didUpdateSessionListener = RNEventEmitter$c.addListener(BarcodeCaptureListenerEvents.didUpdateSession, (body) => {
+        const didUpdateSessionListener = RNEventEmitter$b.addListener(BarcodeCaptureListenerEvents.didUpdateSession, (body) => {
             this.eventEmitter.emit(BarcodeCaptureListenerEvents.didUpdateSession, body);
         });
         this.nativeListeners.push(didUpdateSessionListener);
     }
     subscribeDidScanListener() {
-        const didScanListener = RNEventEmitter$c.addListener(BarcodeCaptureListenerEvents.didScan, (body) => {
+        const didScanListener = RNEventEmitter$b.addListener(BarcodeCaptureListenerEvents.didScan, (body) => {
             this.eventEmitter.emit(BarcodeCaptureListenerEvents.didScan, body);
         });
         this.nativeListeners.push(didScanListener);
     }
     finishDidUpdateSessionCallback(isFinished) {
-        NativeModule$h.finishDidUpdateSessionCallback(isFinished);
+        NativeModule$g.finishDidUpdateSessionCallback(isFinished);
     }
     finishDidScanCallback(isFinished) {
-        NativeModule$h.finishDidScanCallback(isFinished);
+        NativeModule$g.finishDidScanCallback(isFinished);
     }
     updateBarcodeCaptureMode(modeJson) {
-        return NativeModule$h.updateBarcodeCaptureMode(modeJson);
+        return NativeModule$g.updateBarcodeCaptureMode(modeJson);
     }
     applyBarcodeCaptureModeSettings(newSettingsJson) {
-        return NativeModule$h.applyBarcodeCaptureModeSettings(newSettingsJson);
+        return NativeModule$g.applyBarcodeCaptureModeSettings(newSettingsJson);
     }
     updateBarcodeCaptureOverlay(overlayJson) {
-        return NativeModule$h.updateBarcodeCaptureOverlay(overlayJson);
+        return NativeModule$g.updateBarcodeCaptureOverlay(overlayJson);
     }
 }
 
 // tslint:disable:variable-name
-const NativeModule$g = NativeModules.ScanditDataCaptureBarcodeSelection;
-const RNEventEmitter$b = new NativeEventEmitter(NativeModule$g);
+const NativeModule$f = NativeModules.ScanditDataCaptureBarcodeSelection;
+const RNEventEmitter$a = new NativeEventEmitter(NativeModule$f);
 // tslint:enable:variable-name
 class NativeBarcodeSelectionListenerProxy {
     eventEmitter;
@@ -71,42 +71,42 @@ class NativeBarcodeSelectionListenerProxy {
     }
     isModeEnabled = () => false;
     getCount(selectionIdentifier) {
-        return NativeModule$g.getCount(selectionIdentifier);
+        return NativeModule$f.getCount(selectionIdentifier);
     }
     resetSession() {
-        return NativeModule$g.resetSession();
+        return NativeModule$f.resetSession();
     }
     registerListenerForEvents() {
-        NativeModule$g.registerListenerForEvents();
+        NativeModule$f.registerListenerForEvents();
     }
     subscribeDidUpdateSelectionListener() {
-        const didUpdateSelectionListener = RNEventEmitter$b.addListener(BarcodeSelectionListenerEvents.didUpdateSelection, (body) => {
+        const didUpdateSelectionListener = RNEventEmitter$a.addListener(BarcodeSelectionListenerEvents.didUpdateSelection, (body) => {
             this.eventEmitter.emit(BarcodeSelectionListenerEvents.didUpdateSelection, body);
         });
         this.nativeListeners.push(didUpdateSelectionListener);
     }
     subscribeDidUpdateSession() {
-        const didUpdateSession = RNEventEmitter$b.addListener(BarcodeSelectionListenerEvents.didUpdateSession, (body) => {
+        const didUpdateSession = RNEventEmitter$a.addListener(BarcodeSelectionListenerEvents.didUpdateSession, (body) => {
             this.eventEmitter.emit(BarcodeSelectionListenerEvents.didUpdateSession, body);
         });
         this.nativeListeners.push(didUpdateSession);
     }
     finishDidUpdateSelectionCallback(isEnabled) {
-        NativeModule$g.finishDidUpdateSelectionCallback(isEnabled);
+        NativeModule$f.finishDidUpdateSelectionCallback(isEnabled);
     }
     finishDidUpdateSessionCallback(isEnabled) {
-        NativeModule$g.finishDidUpdateSessionCallback(isEnabled);
+        NativeModule$f.finishDidUpdateSessionCallback(isEnabled);
     }
     unregisterListenerForEvents() {
-        NativeModule$g.unregisterListenerForEvents();
+        NativeModule$f.unregisterListenerForEvents();
         this.nativeListeners.forEach(listener => listener.remove());
         this.nativeListeners = [];
     }
 }
 
 // tslint:disable:variable-name
-const NativeModule$f = NativeModules.ScanditDataCaptureBarcodeSelection;
-const RNEventEmitter$a = new NativeEventEmitter(NativeModule$f);
+const NativeModule$e = NativeModules.ScanditDataCaptureBarcodeSelection;
+const RNEventEmitter$9 = new NativeEventEmitter(NativeModule$e);
 // tslint:enable:variable-name
 class NativeBarcodeSelectionOverlayProxy {
     brushForAimedBarcodeProvider = null;
@@ -117,82 +117,82 @@ class NativeBarcodeSelectionOverlayProxy {
     }
     isModeEnabled = () => false;
     setTextForAimToSelectAutoHint(text) {
-        return NativeModule$f.setTextForAimToSelectAutoHint(text);
+        return NativeModule$e.setTextForAimToSelectAutoHint(text);
     }
     removeAimedBarcodeBrushProvider() {
         this.brushForAimedBarcodeProvider?.remove();
         this.brushForAimedBarcodeProvider = null;
-        return NativeModule$f.removeAimedBarcodeBrushProvider();
+        return NativeModule$e.removeAimedBarcodeBrushProvider();
     }
     setAimedBarcodeBrushProvider() {
-        return NativeModule$f.setAimedBarcodeBrushProvider();
+        return NativeModule$e.setAimedBarcodeBrushProvider();
     }
     finishBrushForAimedBarcodeCallback(brushStr, selectionIdentifier) {
-        NativeModule$f.finishBrushForAimedBarcodeCallback(brushStr, selectionIdentifier);
+        NativeModule$e.finishBrushForAimedBarcodeCallback(brushStr, selectionIdentifier);
     }
     subscribeBrushForAimedBarcode() {
-        this.brushForAimedBarcodeProvider = RNEventEmitter$a.addListener(BarcodeSelectionBrushProviderEvents.brushForAimedBarcode, (body) => {
+        this.brushForAimedBarcodeProvider = RNEventEmitter$9.addListener(BarcodeSelectionBrushProviderEvents.brushForAimedBarcode, (body) => {
             this.eventEmitter.emit(BarcodeSelectionBrushProviderEvents.brushForAimedBarcode, body);
         });
     }
     removeTrackedBarcodeBrushProvider() {
         this.brushForTrackedBarcodeProvider?.remove();
         this.brushForTrackedBarcodeProvider = null;
-        return NativeModule$f.removeTrackedBarcodeBrushProvider();
+        return NativeModule$e.removeTrackedBarcodeBrushProvider();
     }
     setTrackedBarcodeBrushProvider() {
-        return NativeModule$f.setTrackedBarcodeBrushProvider();
+        return NativeModule$e.setTrackedBarcodeBrushProvider();
     }
     finishBrushForTrackedBarcodeCallback(brushStr, selectionIdentifier) {
-        NativeModule$f.finishBrushForTrackedBarcodeCallback(brushStr, selectionIdentifier);
+        NativeModule$e.finishBrushForTrackedBarcodeCallback(brushStr, selectionIdentifier);
     }
     updateBarcodeSelectionBasicOverlay(overlayJson) {
-        return NativeModule$f.updateBarcodeSelectionBasicOverlay(overlayJson);
+        return NativeModule$e.updateBarcodeSelectionBasicOverlay(overlayJson);
     }
     subscribeBrushForTrackedBarcode() {
-        this.brushForTrackedBarcodeProvider = RNEventEmitter$a.addListener(BarcodeSelectionBrushProviderEvents.brushForTrackedBarcode, (body) => {
+        this.brushForTrackedBarcodeProvider = RNEventEmitter$9.addListener(BarcodeSelectionBrushProviderEvents.brushForTrackedBarcode, (body) => {
             this.eventEmitter.emit(BarcodeSelectionBrushProviderEvents.brushForTrackedBarcode, body);
         });
     }
 }
 
 // tslint:disable:variable-name
-const NativeModule$e = NativeModules.ScanditDataCaptureBarcodeSelection;
-new NativeEventEmitter(NativeModule$e);
+const NativeModule$d = NativeModules.ScanditDataCaptureBarcodeSelection;
+new NativeEventEmitter(NativeModule$d);
 // tslint:enable:variable-name
 class NativeBarcodeSelectionProxy {
     unfreezeCamera() {
-        return NativeModule$e.unfreezeCamera();
+        return NativeModule$d.unfreezeCamera();
     }
     resetMode() {
-        return NativeModule$e.resetMode();
+        return NativeModule$d.resetMode();
     }
     selectAimedBarcode() {
-        return NativeModule$e.selectAimedBarcode();
+        return NativeModule$d.selectAimedBarcode();
     }
     unselectBarcodes(barcodesStr) {
-        return NativeModule$e.unselectBarcodes(barcodesStr);
+        return NativeModule$d.unselectBarcodes(barcodesStr);
     }
     setSelectBarcodeEnabled(barcodeStr, enabled) {
-        return NativeModule$e.setSelectBarcodeEnabled(barcodeStr, enabled);
+        return NativeModule$d.setSelectBarcodeEnabled(barcodeStr, enabled);
     }
     increaseCountForBarcodes(barcodesStr) {
-        return NativeModule$e.increaseCountForBarcodes(barcodesStr);
+        return NativeModule$d.increaseCountForBarcodes(barcodesStr);
     }
     setModeEnabledState(enabled) {
-        NativeModule$e.setModeEnabledState(enabled);
+        NativeModule$d.setModeEnabledState(enabled);
     }
     updateBarcodeSelectionMode(modeJson) {
-        return NativeModule$e.updateBarcodeSelectionMode(modeJson);
+        return NativeModule$d.updateBarcodeSelectionMode(modeJson);
     }
     applyBarcodeSelectionModeSettings(newSettingsJson) {
-        return NativeModule$e.applyBarcodeSelectionModeSettings(newSettingsJson);
+        return NativeModule$d.applyBarcodeSelectionModeSettings(newSettingsJson);
     }
 }
 
 // tslint:disable:variable-name
-const NativeModule$d = NativeModules.ScanditDataCaptureBarcodeCount;
-const RNEventEmitter$9 = new NativeEventEmitter(NativeModule$d);
+const NativeModule$c = NativeModules.ScanditDataCaptureBarcodeCount;
+const RNEventEmitter$8 = new NativeEventEmitter(NativeModule$c);
 // tslint:enable:variable-name
 class NativeBarcodeCountListenerProxy {
     nativeListeners = [];
@@ -202,67 +202,67 @@ class NativeBarcodeCountListenerProxy {
     }
     isModeEnabled = () => false;
     resetBarcodeCount() {
-        return NativeModule$d.resetBarcodeCount();
+        return NativeModule$c.resetBarcodeCount();
     }
     updateMode(barcodeCountJson) {
-        return NativeModule$d.updateMode(barcodeCountJson);
+        return NativeModule$c.updateMode(barcodeCountJson);
     }
     registerBarcodeCountListener() {
-        return NativeModule$d.registerBarcodeCountListener();
+        return NativeModule$c.registerBarcodeCountListener();
     }
     unregisterBarcodeCountListener() {
-        const p = NativeModule$d.unregisterBarcodeCountListener();
+        const p = NativeModule$c.unregisterBarcodeCountListener();
         this.nativeListeners.forEach(listener => listener.remove());
         this.nativeListeners = [];
         return p;
     }
     subscribeDidScan() {
-        const didScanListener = RNEventEmitter$9.addListener(BarcodeCountListenerEvents.didScan, (body) => {
+        const didScanListener = RNEventEmitter$8.addListener(BarcodeCountListenerEvents.didScan, (body) => {
             this.eventEmitter.emit(BarcodeCountListenerEvents.didScan, body);
         });
         this.nativeListeners.push(didScanListener);
     }
     subscribeDidListSessionUpdate() {
-        const didUpdateSessionListener = RNEventEmitter$9.addListener(BarcodeCountListenerEvents.didListSessionUpdate, (body) => {
+        const didUpdateSessionListener = RNEventEmitter$8.addListener(BarcodeCountListenerEvents.didListSessionUpdate, (body) => {
             this.eventEmitter.emit(BarcodeCountListenerEvents.didListSessionUpdate, body);
         });
         this.nativeListeners.push(didUpdateSessionListener);
     }
     finishOnScan() {
-        NativeModule$d.finishOnScan();
+        NativeModule$c.finishOnScan();
     }
     startScanningPhase() {
-        NativeModule$d.startScanningPhase();
+        NativeModule$c.startScanningPhase();
     }
     endScanningPhase() {
-        NativeModule$d.endScanningPhase();
+        NativeModule$c.endScanningPhase();
     }
     setBarcodeCountCaptureList(captureListStr) {
-        NativeModule$d.setBarcodeCountCaptureList(captureListStr);
+        NativeModule$c.setBarcodeCountCaptureList(captureListStr);
     }
     setModeEnabledState(enabled) {
-        NativeModule$d.setModeEnabledState(enabled);
+        NativeModule$c.setModeEnabledState(enabled);
     }
 }
 
 // tslint:disable:variable-name
-const NativeModule$c = NativeModules.ScanditDataCaptureBarcodeCount;
+const NativeModule$b = NativeModules.ScanditDataCaptureBarcodeCount;
 // tslint:enable:variable-name
 class NativeBarcodeCountSessionProxy {
     resetSession() {
-        return NativeModule$c.resetSession();
+        return NativeModule$b.resetSession();
     }
     getSpatialMap() {
-        return NativeModule$c.getSpatialMap();
+        return NativeModule$b.getSpatialMap();
     }
     getSpatialMapWithHints(expectedNumberOfRows, expectedNumberOfColumns) {
-        return NativeModule$c.getSpatialMapWithHints(expectedNumberOfRows, expectedNumberOfColumns);
+        return NativeModule$b.getSpatialMapWithHints(expectedNumberOfRows, expectedNumberOfColumns);
     }
 }
 
 // tslint:disable:variable-name
-const NativeModule$b = NativeModules.ScanditDataCaptureBarcodeTracking;
-const RNEventEmitter$8 = new NativeEventEmitter(NativeModule$b);
+const NativeModule$a = NativeModules.ScanditDataCaptureBarcodeTracking;
+const RNEventEmitter$7 = new NativeEventEmitter(NativeModule$a);
 // tslint:enable:variable-name
 class NativeBarcodeTrackingListenerProxy {
     nativeListeners = [];
@@ -272,39 +272,39 @@ class NativeBarcodeTrackingListenerProxy {
     }
     isModeEnabled = () => false;
     resetSession() {
-        return NativeModule$b.resetSession();
+        return NativeModule$a.resetSession();
     }
     registerListenerForEvents() {
-        NativeModule$b.registerListenerForEvents();
+        NativeModule$a.registerListenerForEvents();
     }
     unregisterListenerForEvents() {
-        NativeModule$b.unregisterListenerForEvents();
+        NativeModule$a.unregisterListenerForEvents();
         this.nativeListeners.forEach(listener => listener.remove());
         this.nativeListeners = [];
     }
     subscribeDidUpdateSession() {
-        const listener = RNEventEmitter$8.addListener(BarcodeTrackingListenerEvents.didUpdateSession, (body) => {
+        const listener = RNEventEmitter$7.addListener(BarcodeTrackingListenerEvents.didUpdateSession, (body) => {
             this.eventEmitter.emit(BarcodeTrackingListenerEvents.didUpdateSession, body);
         });
         this.nativeListeners.push(listener);
     }
     finishDidUpdateSessionCallback(enabled) {
-        NativeModule$b.finishDidUpdateSessionCallback(enabled);
+        NativeModule$a.finishDidUpdateSessionCallback(enabled);
     }
     setModeEnabledState(enabled) {
-        NativeModule$b.setModeEnabledState(enabled);
+        NativeModule$a.setModeEnabledState(enabled);
     }
     updateBarcodeTrackingMode(modeJson) {
-        return NativeModule$b.updateBarcodeTrackingMode(modeJson);
+        return NativeModule$a.updateBarcodeTrackingMode(modeJson);
     }
     applyBarcodeTrackingModeSettings(newSettingsJson) {
-        return NativeModule$b.applyBarcodeTrackingModeSettings(newSettingsJson);
+        return NativeModule$a.applyBarcodeTrackingModeSettings(newSettingsJson);
     }
 }
 
 // tslint:disable:variable-name
-const NativeModule$a = NativeModules.ScanditDataCaptureBarcodeTracking;
-const RNEventEmitter$7 = new NativeEventEmitter(NativeModule$a);
+const NativeModule$9 = NativeModules.ScanditDataCaptureBarcodeTracking;
+const RNEventEmitter$6 = new NativeEventEmitter(NativeModule$9);
 // tslint:enable:variable-name
 class NativeBarcodeTrackingBasicOverlayProxy {
     nativeListeners = [];
@@ -313,138 +313,33 @@ class NativeBarcodeTrackingBasicOverlayProxy {
         this.eventEmitter = FactoryMaker.getInstance('EventEmitter');
     }
     setBrushForTrackedBarcode(brushJson, trackedBarcodeIdentifer, _sessionFrameSequenceID) {
-        return NativeModule$a.setBrushForTrackedBarcode(brushJson, trackedBarcodeIdentifer);
+        return NativeModule$9.setBrushForTrackedBarcode(brushJson, trackedBarcodeIdentifer);
     }
     clearTrackedBarcodeBrushes() {
-        return NativeModule$a.clearTrackedBarcodeBrushes();
+        return NativeModule$9.clearTrackedBarcodeBrushes();
     }
     registerListenerForBasicOverlayEvents() {
-        NativeModule$a.registerListenerForBasicOverlayEvents();
+        NativeModule$9.registerListenerForBasicOverlayEvents();
     }
     unregisterListenerForBasicOverlayEvents() {
-        NativeModule$a.unregisterListenerForBasicOverlayEvents();
+        NativeModule$9.unregisterListenerForBasicOverlayEvents();
         this.nativeListeners.forEach(listener => listener.remove());
         this.nativeListeners = [];
     }
     updateBarcodeTrackingBasicOverlay(overlayJson) {
-        return NativeModule$a.updateBarcodeTrackingBasicOverlay(overlayJson);
+        return NativeModule$9.updateBarcodeTrackingBasicOverlay(overlayJson);
     }
     subscribeBrushForTrackedBarcode() {
-        const brushForTrackedBarcodeListener = RNEventEmitter$7.addListener(BarcodeTrackingBasicOverlayListenerEvents.brushForTrackedBarcode, (body) => {
+        const brushForTrackedBarcodeListener = RNEventEmitter$6.addListener(BarcodeTrackingBasicOverlayListenerEvents.brushForTrackedBarcode, (body) => {
             this.eventEmitter.emit(BarcodeTrackingBasicOverlayListenerEvents.brushForTrackedBarcode, body);
         });
         this.nativeListeners.push(brushForTrackedBarcodeListener);
     }
     subscribeDidTapTrackedBarcode() {
-        const didTapTrackedBarcodeListener = RNEventEmitter$7.addListener(BarcodeTrackingBasicOverlayListenerEvents.didTapTrackedBarcode, (body) => {
+        const didTapTrackedBarcodeListener = RNEventEmitter$6.addListener(BarcodeTrackingBasicOverlayListenerEvents.didTapTrackedBarcode, (body) => {
             this.eventEmitter.emit(BarcodeTrackingBasicOverlayListenerEvents.didTapTrackedBarcode, body);
         });
         this.nativeListeners.push(didTapTrackedBarcodeListener);
-    }
-}
-
-// tslint:disable:variable-name
-const NativeModule$9 = NativeModules.ScanditDataCaptureBarcodeTracking;
-const RNEventEmitter$6 = new NativeEventEmitter(NativeModule$9);
-// tslint:enable:variable-name
-class NativeBarcodeTrackingAdvancedOverlayProxy {
-    nativeListeners = [];
-    eventEmitter;
-    constructor() {
-        this.eventEmitter = FactoryMaker.getInstance('EventEmitter');
-    }
-    isModeEnabled = () => false;
-    setBrushForTrackedBarcode(brushJson, sessionFrameSequenceID, trackedBarcodeIdentifer) {
-        return NativeModule$9.setBrushForTrackedBarcode(brushJson, sessionFrameSequenceID, trackedBarcodeIdentifer);
-    }
-    setViewForTrackedBarcode(viewJson, trackedBarcodeIdentifer) {
-        return NativeModule$9.setViewForTrackedBarcode(viewJson, trackedBarcodeIdentifer);
-    }
-    setAnchorForTrackedBarcode(anchor, trackedBarcodeIdentifer) {
-        return NativeModule$9.setAnchorForTrackedBarcode(anchor, trackedBarcodeIdentifer);
-    }
-    setOffsetForTrackedBarcode(offsetJson, trackedBarcodeIdentifer) {
-        return NativeModule$9.setOffsetForTrackedBarcode(offsetJson, trackedBarcodeIdentifer);
-    }
-    clearTrackedBarcodeViews() {
-        return NativeModule$9.clearTrackedBarcodeViews();
-    }
-    registerListenerForAdvancedOverlayEvents() {
-        NativeModule$9.registerListenerForAdvancedOverlayEvents();
-    }
-    unregisterListenerForAdvancedOverlayEvents() {
-        NativeModule$9.unregisterListenerForAdvancedOverlayEvents();
-        this.nativeListeners.forEach(listener => listener.remove());
-        this.nativeListeners = [];
-    }
-    subscribeViewForTrackedBarcode() {
-        const viewForTrackedBarcodeListener = RNEventEmitter$6.addListener(BarcodeTrackingAdvancedOverlayListenerEvents.viewForTrackedBarcode, (body) => {
-            this.eventEmitter.emit(BarcodeTrackingAdvancedOverlayListenerEvents.viewForTrackedBarcode, body);
-        });
-        this.nativeListeners.push(viewForTrackedBarcodeListener);
-    }
-    subscribeAnchorForTrackedBarcode() {
-        const anchorForTrackedBarcodeListener = RNEventEmitter$6.addListener(BarcodeTrackingAdvancedOverlayListenerEvents.anchorForTrackedBarcode, (body) => {
-            this.eventEmitter.emit(BarcodeTrackingAdvancedOverlayListenerEvents.anchorForTrackedBarcode, body);
-        });
-        this.nativeListeners.push(anchorForTrackedBarcodeListener);
-    }
-    subscribeOffsetForTrackedBarcode() {
-        const offsetForTrackedBarcodeListener = RNEventEmitter$6.addListener(BarcodeTrackingAdvancedOverlayListenerEvents.offsetForTrackedBarcode, (body) => {
-            this.eventEmitter.emit(BarcodeTrackingAdvancedOverlayListenerEvents.offsetForTrackedBarcode, body);
-        });
-        this.nativeListeners.push(offsetForTrackedBarcodeListener);
-    }
-    subscribeDidTapViewForTrackedBarcode() {
-        const didTapViewForTrackedBarcodeListener = RNEventEmitter$6.addListener(BarcodeTrackingAdvancedOverlayListenerEvents.didTapViewForTrackedBarcode, (body) => {
-            this.eventEmitter.emit(BarcodeTrackingAdvancedOverlayListenerEvents.didTapViewForTrackedBarcode, body);
-        });
-        this.nativeListeners.push(didTapViewForTrackedBarcodeListener);
-    }
-    updateBarcodeTrackingAdvancedOverlay(overlayJson) {
-        return NativeModule$9.updateBarcodeTrackingAdvancedOverlay(overlayJson);
-    }
-    getJSONStringForView(view) {
-        if (view == null) {
-            return null;
-        }
-        if (!view.moduleName) {
-            throw new Error('View must have moduleName defined');
-        }
-        if (!this.isSerializeable(view.props)) {
-            // react-navigation does something like this: https://reactnavigation.org/docs/troubleshooting/#i-get-the-warning-non-serializable-values-were-found-in-the-navigation-state
-            throw new Error('Non-serializable values were found in the view passed passed to a BarcodeTrackingAdvancedOverlay, which can break usage. This might happen if you have non-serializable values such as function, class instances etc. in the props for the view component that you are passing.');
-        }
-        const viewJSON = {
-            moduleName: view.moduleName,
-            initialProperties: view.props,
-        };
-        return JSON.stringify(viewJSON);
-    }
-    isSerializeable(o) {
-        if (o === undefined || o === null ||
-            typeof o === 'boolean' || typeof o === 'number' || typeof o === 'string') {
-            return true;
-        }
-        if (Object.prototype.toString.call(o) !== '[object Object]' &&
-            !Array.isArray(o)) {
-            return false;
-        }
-        if (Array.isArray(o)) {
-            for (const it of o) {
-                if (!this.isSerializeable(it)) {
-                    return false;
-                }
-            }
-        }
-        else {
-            for (const key in o) {
-                if (!this.isSerializeable(o[key])) {
-                    return false;
-                }
-            }
-        }
-        return true;
     }
 }
 
@@ -528,7 +423,7 @@ class NativeBarcodePickViewProxy extends BaseNativeProxy {
         return NativeModule$6.viewStart();
     }
     viewPause() {
-        return NativeModule$6.viewPause();
+        return Promise.resolve();
     }
     viewFreeze() {
         return NativeModule$6.viewFreeze();
@@ -537,7 +432,7 @@ class NativeBarcodePickViewProxy extends BaseNativeProxy {
         return NativeModule$6.viewStop();
     }
     viewResume() {
-        return NativeModule$6.viewResume();
+        return Promise.resolve();
     }
     finishPickAction(code, result) {
         return NativeModule$6.finishPickAction(code, result);
@@ -814,8 +709,12 @@ class NativeSparkScanViewProxy extends BaseNativeProxy {
         const fastFindButtonTappedListener = EventEmitter$1.addListener(SparkScanViewEvents.fastFindButtonTapped, () => {
             this.eventEmitter.emit(SparkScanViewEvents.fastFindButtonTapped, this.view);
         });
+        const barcodeFindButtonTappedListener = EventEmitter$1.addListener(SparkScanViewEvents.barcodeFindButtonTapped, () => {
+            this.eventEmitter.emit(SparkScanViewEvents.barcodeFindButtonTapped, this.view);
+        });
         this.nativeListeners.push(barcodeCountButtonTappedListener);
         this.nativeListeners.push(fastFindButtonTappedListener);
+        this.nativeListeners.push(barcodeFindButtonTappedListener);
     }
     showToast(text) {
         return NativeModule$2.showToast(text);
@@ -885,7 +784,6 @@ function initBarcodeProxy() {
     FactoryMaker.bindInstance('BarcodeCaptureListenerProxy', new NativeBarcodeCaptureListenerProxy());
     FactoryMaker.bindInstance('BarcodeTrackingListenerProxy', new NativeBarcodeTrackingListenerProxy());
     FactoryMaker.bindInstance('BarcodeTrackingBasicOverlayProxy', new NativeBarcodeTrackingBasicOverlayProxy());
-    FactoryMaker.bindInstance('BarcodeTrackingAdvancedOverlayProxy', new NativeBarcodeTrackingAdvancedOverlayProxy());
     FactoryMaker.bindInstance('BarcodeSelectionListenerProxy', new NativeBarcodeSelectionListenerProxy());
     FactoryMaker.bindInstance('BarcodeSelectionOverlayProxy', new NativeBarcodeSelectionOverlayProxy());
     FactoryMaker.bindInstance('BarcodeSelectionProxy', new NativeBarcodeSelectionProxy());
@@ -930,59 +828,10 @@ function initBarcodeDefaults() {
     loadBarcodeFindDefaults(BarcodeFind.Defaults);
 }
 
-class BarcodeTrackingAdvancedOverlay {
-    baseBarcodeTracking;
-    get listener() {
-        return this.baseBarcodeTracking.listener;
-    }
-    set listener(listener) {
-        this.baseBarcodeTracking.listener = listener;
-    }
-    get type() {
-        return this.baseBarcodeTracking.type;
-    }
-    get shouldShowScanAreaGuides() {
-        return this.baseBarcodeTracking.shouldShowScanAreaGuides;
-    }
-    set shouldShowScanAreaGuides(shouldShow) {
-        this.baseBarcodeTracking.shouldShowScanAreaGuides = shouldShow;
-    }
-    set view(newView) {
-        this.baseBarcodeTracking.view = newView;
-    }
-    get view() {
-        return this.baseBarcodeTracking.view;
-    }
-    static withBarcodeTrackingForView(barcodeTracking, view) {
-        const overlay = new BarcodeTrackingAdvancedOverlay();
-        overlay.baseBarcodeTracking.initialize(barcodeTracking, view);
-        return overlay;
-    }
-    constructor() {
-        this.baseBarcodeTracking = new BaseBarcodeTrackingAdvancedOverlay();
-    }
-    setViewForTrackedBarcode(view, trackedBarcode) {
-        return this.baseBarcodeTracking.setViewForTrackedBarcode(view, trackedBarcode);
-    }
-    setAnchorForTrackedBarcode(anchor, trackedBarcode) {
-        return this.baseBarcodeTracking.setAnchorForTrackedBarcode(anchor, trackedBarcode);
-    }
-    setOffsetForTrackedBarcode(offset, trackedBarcode) {
-        return this.baseBarcodeTracking.setOffsetForTrackedBarcode(offset, trackedBarcode);
-    }
-    clearTrackedBarcodeViews() {
-        return this.baseBarcodeTracking.clearTrackedBarcodeViews();
-    }
-    toJSON() {
-        return this.baseBarcodeTracking.toJSON();
-    }
-}
-
 // tslint:disable-next-line
 const BarcodeTrackingView = forwardRef(function BarcodeTrackingView(props, ref) {
     const viewRef = useRef(null);
     const componentIsSetUp = useRef(false);
-    const advancedOverlayRef = useRef(null);
     const barcodeTrackingModeRef = useRef(null);
     function getMode() {
         if (barcodeTrackingModeRef.current !== null) {
@@ -1008,10 +857,10 @@ const BarcodeTrackingView = forwardRef(function BarcodeTrackingView(props, ref) 
         return cameraRef.current;
     }
     const [basicOverlayListener, setBasicOverlayListener] = useState({});
-    const [advancedOverlayListener, setAdvancedOverlayListener] = useState({});
+    useState({});
     const torchSwitchControl = useRef(null);
     const zoomSwitchControl = useRef(null);
-    const [viewForTrackedBarcodeCache, setViewForTrackedBarcodeCache] = useState(new Map());
+    useState(new Map());
     const appState = useRef(AppState.currentState);
     useEffect(() => {
         doSetup();
@@ -1109,104 +958,6 @@ const BarcodeTrackingView = forwardRef(function BarcodeTrackingView(props, ref) 
             didTapTrackedBarcode: props.didTapTrackedBarcode,
         });
     }, [props.brushForTrackedBarcode, props.didTapTrackedBarcode]);
-    useEffect(() => {
-        if (advancedOverlayRef.current) {
-            advancedOverlayRef.current.listener = advancedOverlayListener;
-        }
-    }, [advancedOverlayListener]);
-    useEffect(() => {
-        const hasAdvancedOverlayListenerToSet = !!props.viewForTrackedBarcode ||
-            !!props.didTapViewForTrackedBarcode ||
-            !!props.anchorForTrackedBarcode ||
-            !!props.offsetForTrackedBarcode;
-        if (!viewRef.current)
-            return; // no overlay listener to set without a view.
-        if (!hasAdvancedOverlayListenerToSet && !advancedOverlayRef.current) {
-            // update with no listener, nothing had been set before; therefore nothing to do.
-            return;
-        }
-        if (!hasAdvancedOverlayListenerToSet && advancedOverlayRef.current) {
-            // update with no listener, something had been set before; therefore we do ONLY cleanup.)
-            viewRef.current.view?.overlays?.forEach((overlay) => {
-                if (overlay.type === 'barcodeTrackingAdvanced') {
-                    viewRef.current?.view?.removeOverlay(overlay);
-                }
-            });
-            advancedOverlayRef.current = null;
-            return;
-        }
-        if (hasAdvancedOverlayListenerToSet && !advancedOverlayRef.current) {
-            // update with listener, nothing set before; therefore we set WITHOUT cleanup.
-            advancedOverlayRef.current =
-                BarcodeTrackingAdvancedOverlay.withBarcodeTrackingForView(getMode(), viewRef.current);
-            // do not return, so we also set the listener afterwards.
-        }
-        else if (hasAdvancedOverlayListenerToSet && advancedOverlayRef.current) {
-            // update with listener, something had been set before; therefore we set WITH cleanup.
-            viewRef.current.view?.overlays?.forEach((overlay) => {
-                if (overlay.type === 'barcodeTrackingAdvanced') {
-                    viewRef.current?.view?.removeOverlay(overlay);
-                }
-            });
-            advancedOverlayRef.current =
-                BarcodeTrackingAdvancedOverlay.withBarcodeTrackingForView(getMode(), viewRef.current);
-            // do not return, so we also set the listener afterwards.
-        }
-        setAdvancedOverlayListener({
-            viewForTrackedBarcode: (overlay, trackedBarcode) => {
-                if (props.useCacheForViewsForTrackedBarcodes === true) {
-                    const barcodeTrackingKey = trackedBarcode.barcode.symbology.toString() +
-                        trackedBarcode.barcode.data;
-                    if (viewForTrackedBarcodeCache.has(barcodeTrackingKey)) {
-                        return viewForTrackedBarcodeCache.get(barcodeTrackingKey) || null;
-                    }
-                    if (props.viewForTrackedBarcode) {
-                        const view = props.viewForTrackedBarcode(overlay, trackedBarcode);
-                        if (view instanceof Promise) {
-                            return view.then(actualView => {
-                                setViewForTrackedBarcodeCache(viewForTrackedBarcodeCache.set(barcodeTrackingKey, actualView));
-                                return actualView;
-                            });
-                        }
-                        else {
-                            setViewForTrackedBarcodeCache(viewForTrackedBarcodeCache.set(barcodeTrackingKey, view));
-                            return view;
-                        }
-                    }
-                }
-                else {
-                    if (props.viewForTrackedBarcode) {
-                        return props.viewForTrackedBarcode(overlay, trackedBarcode);
-                    }
-                }
-                return null;
-            },
-            didTapViewForTrackedBarcode: props.didTapViewForTrackedBarcode,
-            anchorForTrackedBarcode: (overlay, trackedBarcode) => {
-                if (props.anchorForTrackedBarcode) {
-                    return props.anchorForTrackedBarcode(overlay, trackedBarcode);
-                }
-                else if (props.defaultAnchorForTrackedBarcode) {
-                    return props.defaultAnchorForTrackedBarcode;
-                }
-                return Anchor.TopCenter;
-            },
-            offsetForTrackedBarcode: (overlay, trackedBarcode) => {
-                if (props.offsetForTrackedBarcode) {
-                    return props.offsetForTrackedBarcode(overlay, trackedBarcode);
-                }
-                else if (props.defaultsOffsetForTrackedBarcode) {
-                    return props.defaultsOffsetForTrackedBarcode;
-                }
-                return new PointWithUnit(new NumberWithUnit(0, MeasureUnit.Fraction), new NumberWithUnit(0, MeasureUnit.Fraction));
-            },
-        });
-    }, [
-        props.viewForTrackedBarcode,
-        props.didTapViewForTrackedBarcode,
-        props.anchorForTrackedBarcode,
-        props.offsetForTrackedBarcode,
-    ]);
     /* CAMERA */
     useEffect(() => {
         // default to SDK recommended camera settings if the prop is unset
@@ -1283,13 +1034,6 @@ const BarcodeTrackingView = forwardRef(function BarcodeTrackingView(props, ref) 
         React.createElement(DataCaptureView, { context: props.context, style: { flex: 1 }, ref: viewRef })));
 });
 
-class BarcodeTrackingAdvancedOverlayView extends React.Component {
-    static moduleName = 'BarcodeTrackingAdvancedOverlayViewComponent';
-    get moduleName() {
-        return BarcodeTrackingAdvancedOverlayView.moduleName;
-    }
-}
-
 class SparkScanView extends React.Component {
     baseSparkScanView;
     rnViewListener = null;
@@ -1309,6 +1053,9 @@ class SparkScanView extends React.Component {
             },
             didTapBarcodeCountButton(view) {
                 listener?.onBarcodeCountButtonTappedIn?.(rnView);
+            },
+            didTapBarcodeFindButton(view) {
+                listener?.onBarcodeFindButtonTappedIn?.(rnView);
             }
         };
         this.rnViewListener = listener;
@@ -1328,9 +1075,15 @@ class SparkScanView extends React.Component {
     render() {
         return React.createElement(RNTSparkScanView, { ...this.props });
     }
+    /**
+     * @deprecated This property is deprecated as it's no longer needed.
+     */
     get shouldShowScanAreaGuides() {
         return this.baseSparkScanView.shouldShowScanAreaGuides;
     }
+    /**
+     * @deprecated This property is deprecated as it's no longer needed.
+     */
     set shouldShowScanAreaGuides(newValue) {
         this.baseSparkScanView.shouldShowScanAreaGuides = newValue;
     }
@@ -1370,11 +1123,23 @@ class SparkScanView extends React.Component {
     set barcodeCountButtonVisible(newValue) {
         this.baseSparkScanView.barcodeCountButtonVisible = newValue;
     }
+    /**
+     * @deprecated This property was renamed. Use the property `barcodeFindButtonVisible` instead.
+     */
     get fastFindButtonVisible() {
         return this.baseSparkScanView.fastFindButtonVisible;
     }
+    /**
+     * @deprecated This property was renamed. Use the property `barcodeFindButtonVisible` instead.
+     */
     set fastFindButtonVisible(newValue) {
         this.baseSparkScanView.fastFindButtonVisible = newValue;
+    }
+    get barcodeFindButtonVisible() {
+        return this.baseSparkScanView.barcodeFindButtonVisible;
+    }
+    set barcodeFindButtonVisible(newValue) {
+        this.baseSparkScanView.barcodeFindButtonVisible = newValue;
     }
     get targetModeButtonVisible() {
         return this.baseSparkScanView.targetModeButtonVisible;
@@ -1382,15 +1147,27 @@ class SparkScanView extends React.Component {
     set targetModeButtonVisible(newValue) {
         this.baseSparkScanView.targetModeButtonVisible = newValue;
     }
+    /**
+     * @deprecated This property is deprecated as sound mode button will be removed in the future.
+     */
     get soundModeButtonVisible() {
         return this.baseSparkScanView.soundModeButtonVisible;
     }
+    /**
+     * @deprecated This property is deprecated as sound mode button will be removed in the future.
+     */
     set soundModeButtonVisible(newValue) {
         this.baseSparkScanView.soundModeButtonVisible = newValue;
     }
+    /**
+     * @deprecated This property is deprecated as haptic mode button will be removed in the future.
+     */
     get hapticModeButtonVisible() {
         return this.baseSparkScanView.hapticModeButtonVisible;
     }
+    /**
+     * @deprecated This property is deprecated as haptic mode button will be removed in the future.
+     */
     set hapticModeButtonVisible(newValue) {
         this.baseSparkScanView.hapticModeButtonVisible = newValue;
     }
@@ -1547,8 +1324,8 @@ class BarcodeCountViewProxy {
     }
     update() {
         const barcodeCountView = this.view.toJSON();
-        const json = JSON.stringify(barcodeCountView);
-        return NativeModule.updateView(json);
+        const json = barcodeCountView.View;
+        return NativeModule.updateView(JSON.stringify(json));
     }
     create() {
         const barcodeCountView = this.view.toJSON();
@@ -1999,6 +1776,20 @@ class BarcodeCountView extends React.Component {
         this._textForUnrecognizedBarcodesDetectedHint = newValue;
         this.updateNative();
     }
+    get shouldShowTorchControl() {
+        return this._shouldShowTorchControl;
+    }
+    set shouldShowTorchControl(newValue) {
+        this._shouldShowTorchControl = newValue;
+        this.updateNative();
+    }
+    get torchControlPosition() {
+        return this._torchControlPosition;
+    }
+    set torchControlPosition(newValue) {
+        this._torchControlPosition = newValue;
+        this.updateNative();
+    }
     static get barcodeCountDefaults() {
         return getBarcodeCountDefaults();
     }
@@ -2047,6 +1838,8 @@ class BarcodeCountView extends React.Component {
     _shouldShowListProgressBar = BarcodeCountView.barcodeCountDefaults.BarcodeCountView.shouldShowListProgressBar;
     _textForUnrecognizedBarcodesDetectedHint = BarcodeCountView.barcodeCountDefaults.BarcodeCountView.textForUnrecognizedBarcodesDetectedHint;
     _toolbarSettings = null;
+    _shouldShowTorchControl = BarcodeCountView.barcodeCountDefaults.BarcodeCountView.shouldShowTorchControl;
+    _torchControlPosition = BarcodeCountView.barcodeCountDefaults.BarcodeCountView.torchControlPosition;
     constructor(props) {
         super(props);
         this.viewProxy = BarcodeCountViewProxy.forBarcodeCount(this);
@@ -2095,6 +1888,8 @@ class BarcodeCountView extends React.Component {
                 shouldShowToolbar: this.shouldShowToolbar,
                 shouldShowScanAreaGuides: this.shouldShowScanAreaGuides,
                 toolbarSettings: this._toolbarSettings?.toJSON(),
+                shouldShowTorchControl: this._shouldShowTorchControl,
+                torchControlPosition: this._torchControlPosition,
             },
             BarcodeCount: this.props.barcodeCount.toJSON()
         };
@@ -2215,6 +2010,11 @@ class BarcodePickView extends React.Component {
     set uiListener(value) {
         this.baseBarcodePickView.uiListener = value;
     }
+    componentDidMount() {
+        if (Platform.OS === 'android') {
+            this.createFragment();
+        }
+    }
     componentWillUnmount() {
         this.baseBarcodePickView.dispose();
     }
@@ -2228,10 +2028,12 @@ class BarcodePickView extends React.Component {
         this.baseBarcodePickView.freeze();
     }
     pause() {
-        this.baseBarcodePickView.pause();
+        // tslint:disable-next-line:no-console
+        console.warn('BarcodePickView.pause is deprecated. There is no need to manually call pause.');
     }
     resume() {
-        this.baseBarcodePickView.resume();
+        // tslint:disable-next-line:no-console
+        console.warn('BarcodePickView.resume is deprecated. There is no need to manually call resume.');
     }
     addListener(listener) {
         this.baseBarcodePickView.addListener(listener);
@@ -2250,6 +2052,12 @@ class BarcodePickView extends React.Component {
     }
     release() {
         this.baseBarcodePickView.dispose();
+    }
+    createFragment() {
+        const viewId = findNodeHandle(this);
+        UIManager.dispatchViewManagerCommand(viewId, 
+        // @ts-ignore - It complains that RNTBarcodeCountView doesn't exist
+        UIManager.RNTBarcodePickView.Commands.create.toString(), [viewId, JSON.stringify(this.toJSON())]);
     }
     toJSON() {
         return this.baseBarcodePickView.toJSON();
@@ -2385,6 +2193,17 @@ class BarcodeFindView extends React.Component {
     componentWillUnmount() {
         this.baseBarcodeFindView.dispose();
     }
+    componentDidMount() {
+        if (Platform.OS === 'android') {
+            this.createFragment();
+        }
+    }
+    createFragment() {
+        const viewId = findNodeHandle(this);
+        UIManager.dispatchViewManagerCommand(viewId, 
+        // @ts-ignore - It complains that RNTBarcodeFindView doesn't exist
+        UIManager.RNTBarcodeFindView.Commands.create.toString(), [viewId, JSON.stringify(this.toJSON())]);
+    }
     toJSON() {
         return this.baseBarcodeFindView.toJSON();
     }
@@ -2395,4 +2214,4 @@ const RNTBarcodeFindView = requireNativeComponent('RNTBarcodeFindView', BarcodeF
 initBarcodeDefaults();
 initBarcodeProxy();
 
-export { BarcodeCountView, BarcodeCountViewStyle, BarcodeFindView, BarcodePickView, BarcodeTrackingAdvancedOverlay, BarcodeTrackingAdvancedOverlayView, BarcodeTrackingView, SparkScanView };
+export { BarcodeCountView, BarcodeCountViewStyle, BarcodeFindView, BarcodePickView, BarcodeTrackingView, SparkScanView };
