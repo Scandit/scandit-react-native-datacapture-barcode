@@ -1,6 +1,7 @@
 import React from 'react';
 import { Anchor, Brush, CameraPosition, CameraSettings, DataCaptureContext, FrameData, FrameSourceState, PointWithUnit, TorchState, TorchSwitchControl, ZoomSwitchControl } from 'scandit-react-native-datacapture-core';
-import { BarcodeTracking, BarcodeTrackingBasicOverlay, BarcodeTrackingBasicOverlayStyle, BarcodeTrackingSession, BarcodeTrackingSettings, TrackedBarcode } from 'scandit-datacapture-frameworks-barcode';
+import { BarcodeTracking, BarcodeTrackingAdvancedOverlayView, BarcodeTrackingBasicOverlay, BarcodeTrackingBasicOverlayStyle, BarcodeTrackingSession, BarcodeTrackingSettings, TrackedBarcode } from 'scandit-datacapture-frameworks-barcode';
+import { BarcodeTrackingAdvancedOverlay } from './BarcodeTrackingAdvancedOverlay';
 interface BarcodeTrackingViewProps {
     context: DataCaptureContext;
     isEnabled: boolean;
@@ -22,6 +23,10 @@ interface BarcodeTrackingViewProps {
     didUpdateSession?(barcodeTracking: BarcodeTracking, session: BarcodeTrackingSession, getFrameData: () => Promise<FrameData>): void;
     brushForTrackedBarcode?(overlay: BarcodeTrackingBasicOverlay, trackedBarcode: TrackedBarcode): Brush | null;
     didTapTrackedBarcode?(overlay: BarcodeTrackingBasicOverlay, trackedBarcode: TrackedBarcode): void;
+    didTapViewForTrackedBarcode?(overlay: BarcodeTrackingAdvancedOverlay, trackedBarcode: TrackedBarcode): void;
+    viewForTrackedBarcode?(overlay: BarcodeTrackingAdvancedOverlay, trackedBarcode: TrackedBarcode): BarcodeTrackingAdvancedOverlayView | null | Promise<BarcodeTrackingAdvancedOverlayView | null>;
+    anchorForTrackedBarcode?(overlay: BarcodeTrackingAdvancedOverlay, trackedBarcode: TrackedBarcode): Anchor;
+    offsetForTrackedBarcode?(overlay: BarcodeTrackingAdvancedOverlay, trackedBarcode: TrackedBarcode): PointWithUnit;
 }
 export declare const BarcodeTrackingView: React.ForwardRefExoticComponent<BarcodeTrackingViewProps & React.RefAttributes<unknown>>;
 export {};
