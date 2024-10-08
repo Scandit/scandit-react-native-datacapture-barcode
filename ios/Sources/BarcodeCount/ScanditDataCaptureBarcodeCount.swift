@@ -237,4 +237,11 @@ class ScanditDataCaptureBarcodeCount: RCTEventEmitter {
     func setModeEnabledState(enabled: Bool) {
         barcodeCountModule.setModeEnabled(enabled: enabled)
     }
+
+    @objc(updateBarcodeCountFeedback:resolve:reject:)
+    func updateBarcodeCountFeedback(feedbackJson: String,
+                                    resolve: @escaping RCTPromiseResolveBlock,
+                                    reject: @escaping RCTPromiseRejectBlock) {
+        barcodeCountModule.updateFeedback(feedbackJson: feedbackJson, result: ReactNativeResult(resolve, reject))
+    }
 }

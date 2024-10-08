@@ -89,4 +89,9 @@ RCT_EXTERN_METHOD(submitBarcodeFindTransformerResult
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
+RCT_EXTERN_METHOD(updateBarcodeFindFeedback
+                  : (NSString *)feedbackJson resolver
+                  : (RCTPromiseResolveBlock)resolve rejecter
+                  : (RCTPromiseRejectBlock)reject)
+
 @end

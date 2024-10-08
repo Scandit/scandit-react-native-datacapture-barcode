@@ -45,7 +45,6 @@ class BarcodeCountViewWrapperView: UIView {
             if view.superview != nil {
                 view.removeFromSuperview()
             }
-            viewManager.containers.last?.addSubview(view)
         }
     }
 }

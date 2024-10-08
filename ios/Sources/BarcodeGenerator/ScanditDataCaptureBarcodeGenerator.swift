@@ -17,6 +17,10 @@ class ScanditDataCaptureBarcodeGenerator: RCTEventEmitter {
         []
     }
 
+    override class func requiresMainQueueSetup() -> Bool {
+        true
+    }
+
     override init() {
         super.init()
         let emitter = ReactNativeEmitter(emitter: self)

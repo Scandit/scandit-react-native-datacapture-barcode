@@ -12,6 +12,7 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
 import com.scandit.datacapture.core.ui.style.BrushDeserializer
 import com.scandit.datacapture.frameworks.barcode.count.BarcodeCountModule
+import com.scandit.datacapture.reactnative.core.utils.ReactNativeResult
 import org.json.JSONArray
 
 class ScanditDataCaptureBarcodeCountModule(
@@ -183,6 +184,11 @@ class ScanditDataCaptureBarcodeCountModule(
     @ReactMethod
     fun setModeEnabledState(enabled: Boolean) {
         barcodeCountModule.setModeEnabled(enabled)
+    }
+
+    @ReactMethod
+    fun updateBarcodeCountFeedback(feedbackJson: String, promise: Promise) {
+        barcodeCountModule.updateFeedback(feedbackJson, ReactNativeResult(promise))
     }
 
     override fun invalidate() {

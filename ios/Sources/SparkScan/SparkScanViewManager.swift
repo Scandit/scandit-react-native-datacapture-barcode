@@ -30,7 +30,6 @@ class RNTSparkScanViewWrapper: UIView {
             if sparkScanView.superview != nil {
                 sparkScanView.removeFromSuperview()
             }
-            viewManager.containers.last?.addSubview(sparkScanView)
         }
     }
 

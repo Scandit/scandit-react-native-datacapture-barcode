@@ -175,4 +175,11 @@ class ScanditDataCaptureBarcodeFind: RCTEventEmitter {
                                             reject: @escaping RCTPromiseRejectBlock) {
         barcodeFindModule.submitBarcodeFindTransformerResult(transformedData: transformedData, result: ReactNativeResult(resolve, reject))
     }
+
+    @objc(updateBarcodeFindFeedback:resolver:rejecter:)
+    func updateBarcodeFindFeedback(feedbackJson: String,
+                                   resolve: @escaping RCTPromiseResolveBlock,
+                                   reject: @escaping RCTPromiseRejectBlock) {
+        barcodeFindModule.updateFeedback(feedbackJson: feedbackJson, result: ReactNativeResult(resolve, reject))
+    }
 }

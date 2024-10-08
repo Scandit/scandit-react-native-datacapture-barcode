@@ -97,4 +97,9 @@ RCT_EXTERN_METHOD(getSpatialMapWithHints
 
 RCT_EXTERN_METHOD(setModeEnabledState : (BOOL)enabled)
 
+RCT_EXTERN_METHOD(updateBarcodeCountFeedback
+                  : (nonnull NSString *)feedbackJson resolve
+                  : (RCTPromiseResolveBlock)resolve reject
+                  : (RCTPromiseRejectBlock)reject)
+
 @end

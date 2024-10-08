@@ -131,4 +131,12 @@ class ScanditDataCaptureBarcodeFindModule(
             ReactNativeResult(promise)
         )
     }
+
+    @ReactMethod
+    fun updateBarcodeFindFeedback(feedbackJson: String, promise: Promise) {
+        barcodeFindModule.updateFeedback(
+            feedbackJson,
+            ReactNativeResult(promise)
+        )
+    }
 }

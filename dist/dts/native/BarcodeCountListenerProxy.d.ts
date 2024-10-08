@@ -6,6 +6,7 @@ export declare class NativeBarcodeCountListenerProxy implements BarcodeCountList
     isModeEnabled: () => boolean;
     resetBarcodeCount(): Promise<void>;
     updateMode(barcodeCountJson: string): Promise<void>;
+    updateFeedback(feedbackJson: string): void;
     registerBarcodeCountListener(): Promise<void>;
     unregisterBarcodeCountListener(): Promise<void>;
     subscribeDidScan(): void;

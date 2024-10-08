@@ -11,6 +11,7 @@ export declare class NativeBarcodeFindListenerProxy extends BaseNativeProxy impl
     setModeEnabledState(isEnabled: boolean): void;
     setBarcodeTransformer(): Promise<void>;
     submitBarcodeFindTransformerResult(transformedBarcode: string | null): Promise<void>;
+    updateFeedback(feedbackJson: string): Promise<void>;
     subscribeBarcodeFindListener(): Promise<void>;
     unsubscribeBarcodeFindListener(): Promise<void>;
 }

@@ -71,6 +71,7 @@ export { BarcodePickViewUiListener } from 'scandit-datacapture-frameworks-barcod
 export { BarcodePickViewUiListenerEvents } from 'scandit-datacapture-frameworks-barcode';
 export { BarcodePickViewSettings } from 'scandit-datacapture-frameworks-barcode';
 export { BarcodePickViewHighlightStyle } from 'scandit-datacapture-frameworks-barcode';
+export { BarcodePickStatusIconSettings } from 'scandit-datacapture-frameworks-barcode';
 export { Dot } from 'scandit-datacapture-frameworks-barcode';
 export { DotWithIcons } from 'scandit-datacapture-frameworks-barcode';
 export { Rectangular } from 'scandit-datacapture-frameworks-barcode';
