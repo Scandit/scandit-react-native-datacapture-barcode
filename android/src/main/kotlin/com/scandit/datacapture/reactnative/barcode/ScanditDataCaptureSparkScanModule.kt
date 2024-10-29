@@ -92,11 +92,6 @@ class ScanditDataCaptureSparkScanModule(
             jsonString,
             ReactNativeResult(promise)
         )
-        // This is a hack to bring all the views on top of the SparkScanView in order to solve the
-        // issue described here https://scandit.atlassian.net/browse/SDC-17175.
-        // No click was allowed on the other UI elements because SparkScanView was covering
-        // all of them. This behaviour happens only on RN
-        viewManager.rnViewsContainer.bringToFront()
         promise.resolve(null)
     }
 

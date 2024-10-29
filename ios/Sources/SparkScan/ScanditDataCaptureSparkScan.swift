@@ -9,14 +9,6 @@ import ScanditDataCaptureCore
 import ScanditFrameworksBarcode
 import ScanditFrameworksCore
 
-enum ScanditDataCaptureSparkScanEvent: String, CaseIterable {
-    case didUpdateSession = "SparkScanListener.didUpdateSession"
-    case didScan = "SparkScanListener.didScan"
-    case barcodeCountButtonTapped = "SparkScanViewUiListener.barcodeCountButtonTapped"
-    case fastFindButtonTapped = "SparkScanViewUiListener.fastFindButtonTapped"
-    case feedbackForBarcode = "SparkScanFeedbackDelegate.feedbackForBarcode"
-}
-
 @objc(ScanditDataCaptureSparkScan)
 class ScanditDataCaptureSparkScan: RCTEventEmitter {
     var sparkScanModule: SparkScanModule!
@@ -55,7 +47,8 @@ class ScanditDataCaptureSparkScan: RCTEventEmitter {
     }
 
     override func supportedEvents() -> [String]! {
-        ScanditDataCaptureSparkScanEvent.allCases.map { $0.rawValue }
+        FrameworksSparkScanEvent.allCases.map { $0.rawValue } +
+        FrameworksSparkScanViewUIEvent.allCases.map { $0.rawValue }
     }
 
     override func constantsToExport() -> [AnyHashable: Any]! {
@@ -200,13 +193,13 @@ class ScanditDataCaptureSparkScan: RCTEventEmitter {
                              reject: @escaping RCTPromiseRejectBlock) {
         sparkScanModule.addFeedbackDelegate(result: ReactNativeResult(resolve, reject))
     }
-    
+
     @objc(removeFeedbackDelegate:rejecter:)
     func removeFeedbackDelegate(resolve: @escaping RCTPromiseResolveBlock,
                                 reject: @escaping RCTPromiseRejectBlock) {
         sparkScanModule.removeFeedbackDelegate(result: ReactNativeResult(resolve, reject))
     }
-    
+
     @objc(submitSparkScanFeedbackForBarcode:resolver:rejecter:)
     func submitSparkScanFeedbackForBarcode(feedbackJson: String,
                                            resolve: @escaping RCTPromiseResolveBlock,
