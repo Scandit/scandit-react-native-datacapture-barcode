@@ -11,11 +11,16 @@ import com.facebook.react.bridge.NativeModule
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.uimanager.ViewManager
 import com.scandit.datacapture.frameworks.barcode.BarcodeModule
+import com.scandit.datacapture.frameworks.barcode.batch.BarcodeBatchModule
+import com.scandit.datacapture.frameworks.barcode.batch.listeners.FrameworksBarcodeBatchAdvancedOverlayListener
+import com.scandit.datacapture.frameworks.barcode.batch.listeners.FrameworksBarcodeBatchBasicOverlayListener
+import com.scandit.datacapture.frameworks.barcode.batch.listeners.FrameworksBarcodeBatchListener
 import com.scandit.datacapture.frameworks.barcode.capture.BarcodeCaptureModule
 import com.scandit.datacapture.frameworks.barcode.capture.listeners.FrameworksBarcodeCaptureListener
 import com.scandit.datacapture.frameworks.barcode.count.BarcodeCountModule
 import com.scandit.datacapture.frameworks.barcode.count.listeners.FrameworksBarcodeCountCaptureListListener
 import com.scandit.datacapture.frameworks.barcode.count.listeners.FrameworksBarcodeCountListener
+import com.scandit.datacapture.frameworks.barcode.count.listeners.FrameworksBarcodeCountStatusProvider
 import com.scandit.datacapture.frameworks.barcode.count.listeners.FrameworksBarcodeCountViewListener
 import com.scandit.datacapture.frameworks.barcode.count.listeners.FrameworksBarcodeCountViewUiListener
 import com.scandit.datacapture.frameworks.barcode.find.BarcodeFindModule
@@ -32,10 +37,6 @@ import com.scandit.datacapture.frameworks.barcode.spark.SparkScanModule
 import com.scandit.datacapture.frameworks.barcode.spark.delegates.FrameworksSparkScanFeedbackDelegate
 import com.scandit.datacapture.frameworks.barcode.spark.listeners.FrameworksSparkScanListener
 import com.scandit.datacapture.frameworks.barcode.spark.listeners.FrameworksSparkScanViewUiListener
-import com.scandit.datacapture.frameworks.barcode.tracking.BarcodeTrackingModule
-import com.scandit.datacapture.frameworks.barcode.tracking.listeners.FrameworksBarcodeTrackingAdvancedOverlayListener
-import com.scandit.datacapture.frameworks.barcode.tracking.listeners.FrameworksBarcodeTrackingBasicOverlayListener
-import com.scandit.datacapture.frameworks.barcode.tracking.listeners.FrameworksBarcodeTrackingListener
 import com.scandit.datacapture.reactnative.barcode.ui.BarcodeCountViewManager
 import com.scandit.datacapture.reactnative.barcode.ui.BarcodeFindViewManager
 import com.scandit.datacapture.reactnative.barcode.ui.BarcodePickViewManager
@@ -58,9 +59,9 @@ class ScanditDataCaptureBarcodePackage : ReactPackage {
                 reactContext,
                 getBarcodeCaptureModule(reactContext)
             ),
-            ScanditDataCaptureBarcodeTrackingModule(
+            ScanditDataCaptureBarcodeBatchModule(
                 reactContext,
-                getBarcodeTrackingModule(reactContext)
+                getBarcodeBatchModule(reactContext)
             ),
             ScanditDataCaptureBarcodeSelectionModule(
                 reactContext,
@@ -117,14 +118,14 @@ class ScanditDataCaptureBarcodePackage : ReactPackage {
         }
     }
 
-    private fun getBarcodeTrackingModule(
+    private fun getBarcodeBatchModule(
         reactContext: ReactApplicationContext
-    ): BarcodeTrackingModule {
+    ): BarcodeBatchModule {
         val emitter = ReactNativeEventEmitter(reactContext)
-        return BarcodeTrackingModule(
-            FrameworksBarcodeTrackingListener(emitter),
-            FrameworksBarcodeTrackingBasicOverlayListener(emitter),
-            FrameworksBarcodeTrackingAdvancedOverlayListener(emitter)
+        return BarcodeBatchModule(
+            FrameworksBarcodeBatchListener(emitter),
+            FrameworksBarcodeBatchBasicOverlayListener(emitter),
+            FrameworksBarcodeBatchAdvancedOverlayListener(emitter)
         ).also {
             it.onCreate(reactContext)
         }
@@ -161,7 +162,8 @@ class ScanditDataCaptureBarcodePackage : ReactPackage {
             FrameworksBarcodeCountListener(emitter),
             FrameworksBarcodeCountCaptureListListener(emitter),
             FrameworksBarcodeCountViewListener(emitter),
-            FrameworksBarcodeCountViewUiListener(emitter)
+            FrameworksBarcodeCountViewUiListener(emitter),
+            FrameworksBarcodeCountStatusProvider(emitter)
         ).also {
             it.onCreate(reactContext)
         }

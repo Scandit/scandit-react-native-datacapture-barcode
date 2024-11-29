@@ -48,6 +48,7 @@ class ScanditDataCaptureSparkScan: RCTEventEmitter {
 
     override func supportedEvents() -> [String]! {
         FrameworksSparkScanEvent.allCases.map { $0.rawValue } +
+        FrameworksSparkScanFeedbackDelegateEvent.allCases.map { $0.rawValue } +
         FrameworksSparkScanViewUIEvent.allCases.map { $0.rawValue }
     }
 
@@ -159,26 +160,19 @@ class ScanditDataCaptureSparkScan: RCTEventEmitter {
         resolve(nil)
     }
 
-    @objc(emitFeedback:arguments:resolver:rejecter:)
-    func emit(reactTag: NSNumber,
-              feedbackJson: String,
-              resolve: @escaping RCTPromiseResolveBlock,
-              reject: @escaping RCTPromiseRejectBlock) {
-        sparkScanModule.emitFeedback(feedbackJson: feedbackJson, result: ReactNativeResult(resolve, reject))
-    }
-
     @objc(prepareScanning:resolver:rejecter:)
     func prepareScanning(reactTag: NSNumber,
                          resolve: @escaping RCTPromiseResolveBlock,
                          reject: @escaping RCTPromiseRejectBlock) {
-        sparkScanModule.onResume(result: ReactNativeResult(resolve, reject))
+        sparkScanModule.prepareScanning(result: ReactNativeResult(resolve, reject))
     }
 
     @objc(stopScanning:resolver:rejecter:)
     func stopScanning(reactTag: NSNumber,
                       resolve: @escaping RCTPromiseResolveBlock,
                       reject: @escaping RCTPromiseRejectBlock) {
-        sparkScanModule.onPause(result: ReactNativeResult(resolve, reject))
+        sparkScanModule.stopScanning()
+        resolve(nil)
     }
 
     @objc(showToast:resolver:rejecter:)
@@ -205,5 +199,13 @@ class ScanditDataCaptureSparkScan: RCTEventEmitter {
                                            resolve: @escaping RCTPromiseResolveBlock,
                                            reject: @escaping RCTPromiseRejectBlock) {
         sparkScanModule.submitFeedbackForBarcode(feedbackJson: feedbackJson, result: ReactNativeResult(resolve, reject))
+    }
+
+    @objc(disposeSparkScanView:rejecter:)
+    func disposeSparkScanView(resolve: @escaping RCTPromiseResolveBlock,
+                              reject: @escaping RCTPromiseRejectBlock) {
+        sparkScanModule.stopScanning()
+        sparkScanModule.disposeView()
+        resolve(nil)
     }
 }

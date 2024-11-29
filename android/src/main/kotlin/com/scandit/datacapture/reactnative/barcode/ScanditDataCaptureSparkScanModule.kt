@@ -6,23 +6,43 @@
 
 package com.scandit.datacapture.reactnative.barcode
 
+import com.facebook.react.bridge.LifecycleEventListener
 import com.facebook.react.bridge.Promise
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
 import com.scandit.datacapture.barcode.spark.ui.SparkScanCoordinatorLayout
 import com.scandit.datacapture.frameworks.barcode.spark.SparkScanModule
+import com.scandit.datacapture.frameworks.core.result.NoopFrameworksResult
 import com.scandit.datacapture.frameworks.core.utils.DefaultMainThread
 import com.scandit.datacapture.frameworks.core.utils.MainThread
 import com.scandit.datacapture.reactnative.barcode.ui.SparkScanViewManager
 import com.scandit.datacapture.reactnative.core.utils.ReactNativeResult
 
 class ScanditDataCaptureSparkScanModule(
-    reactContext: ReactApplicationContext,
+    private val reactContext: ReactApplicationContext,
     private val sparkScanModule: SparkScanModule,
     private val viewManager: SparkScanViewManager,
     private val mainThread: MainThread = DefaultMainThread.getInstance()
 ) : ReactContextBaseJavaModule(reactContext) {
+
+    private val lifecycleListener = object : LifecycleEventListener {
+        override fun onHostResume() {
+            sparkScanModule.onResume(NoopFrameworksResult())
+        }
+
+        override fun onHostPause() {
+            sparkScanModule.onPause()
+        }
+
+        override fun onHostDestroy() {
+            // Noop
+        }
+    }
+
+    init {
+        reactContext.addLifecycleEventListener(lifecycleListener)
+    }
 
     @ReactMethod
     fun registerListenerForEvents() {
@@ -106,15 +126,6 @@ class ScanditDataCaptureSparkScanModule(
     }
 
     @ReactMethod
-    fun emitFeedback(
-        @Suppress("UNUSED_PARAMETER") reactTag: Int,
-        feedbackJson: String,
-        promise: Promise
-    ) {
-        sparkScanModule.emitFeedback(feedbackJson, ReactNativeResult(promise))
-    }
-
-    @ReactMethod
     fun pauseScanning(promise: Promise) {
         sparkScanModule.pauseScanning()
         promise.resolve(null)
@@ -127,12 +138,13 @@ class ScanditDataCaptureSparkScanModule(
 
     @ReactMethod
     fun onResume(promise: Promise) {
-        sparkScanModule.onResume(ReactNativeResult(promise))
+        // No need for this, the lifecycle is handled internally
+        promise.resolve(null)
     }
 
     @ReactMethod
     fun onPause(promise: Promise) {
-        sparkScanModule.onPause()
+        // No need for this, the lifecycle is handled internally
         promise.resolve(null)
     }
 
@@ -164,9 +176,17 @@ class ScanditDataCaptureSparkScanModule(
         )
     }
 
+    @ReactMethod
+    fun disposeSparkScanView(promise: Promise) {
+        sparkScanModule.pauseScanning()
+        sparkScanModule.disposeView()
+        promise.resolve(null)
+    }
+
     override fun invalidate() {
         viewManager.dispose()
         sparkScanModule.onDestroy()
+        reactContext.removeLifecycleEventListener(lifecycleListener)
         super.invalidate()
     }
 

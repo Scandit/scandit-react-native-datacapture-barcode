@@ -13,13 +13,21 @@ RCT_EXTERN_METHOD(registerBarcodeCountListener)
 
 RCT_EXTERN_METHOD(unregisterBarcodeCountListener)
 
-RCT_EXTERN_METHOD(registerBarcodeCountViewListener)
+RCT_EXTERN_METHOD(registerBarcodeCountViewListener
+                  : (RCTPromiseResolveBlock)resolve rejecter
+                  : (RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(unregisterBarcodeCountViewListener)
+RCT_EXTERN_METHOD(unregisterBarcodeCountViewListener
+                  : (RCTPromiseResolveBlock)resolve rejecter
+                  : (RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(registerBarcodeCountViewUiListener)
+RCT_EXTERN_METHOD(registerBarcodeCountViewUiListener
+                  : (RCTPromiseResolveBlock)resolve rejecter
+                  : (RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(unregisterBarcodeCountViewUiListener)
+RCT_EXTERN_METHOD(unregisterBarcodeCountViewUiListener
+                  : (RCTPromiseResolveBlock)resolve rejecter
+                  : (RCTPromiseRejectBlock)reject)
 
 RCT_EXTERN_METHOD(createView
                   : (nonnull NSNumber *)reactTag JSONString
