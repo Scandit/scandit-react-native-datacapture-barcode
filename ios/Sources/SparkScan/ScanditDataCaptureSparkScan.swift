@@ -97,17 +97,12 @@ class ScanditDataCaptureSparkScan: RCTEventEmitter {
                 reject: @escaping RCTPromiseRejectBlock) {
         let result = ReactNativeResult(resolve, reject)
 
-        // The RNTSparkScanViewWrapper can be created later than this call.
-        if let container = sparkScanViewManager.containers.last {
-            addViewIfFrameSet(container, jsonString: jsonString, result: result)
-        } else {
-            sparkScanViewManager.postContainerCreateAction = { [weak self] container in
-                guard let self = self else {
-                    result.reject(error: ScanditFrameworksCoreError.nilSelf)
-                    return
-                }
-                self.addViewIfFrameSet(container, jsonString: jsonString, result: result)
+        sparkScanViewManager.postContainerCreateAction = { [weak self] container in
+            guard let self = self else {
+                result.reject(error: ScanditFrameworksCoreError.nilSelf)
+                return
             }
+            self.addViewIfFrameSet(container, jsonString: jsonString, result: result)
         }
     }
 
