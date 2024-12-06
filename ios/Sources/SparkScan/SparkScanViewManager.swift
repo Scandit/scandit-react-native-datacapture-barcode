@@ -44,7 +44,6 @@ class SparkScanViewManager: RCTViewManager {
     override func view() -> UIView! {
         let container = RNTSparkScanViewWrapper()
         postContainerCreateAction?(container)
-        containers.append(container)
         return container
     }
 }
