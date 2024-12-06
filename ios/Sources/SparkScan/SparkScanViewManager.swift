@@ -17,6 +17,16 @@ class RNTSparkScanViewWrapper: UIView {
 
     var postFrameSetAction: (() -> Void)?
 
+    weak var viewManager: SparkScanViewManager?
+
+    override func removeFromSuperview() {
+        super.removeFromSuperview()
+        guard let index = viewManager?.containers.firstIndex(of: self) else {
+            return
+        }
+        viewManager?.containers.remove(at: index)
+    }
+
     override func didUpdateReactSubviews() {
         super.didUpdateReactSubviews()
         if let sparkScanView {
@@ -35,6 +45,8 @@ class RNTSparkScanViewWrapper: UIView {
 
 @objc(RNTSDCSparkScanViewManager)
 class SparkScanViewManager: RCTViewManager {
+    internal var containers: [RNTSparkScanViewWrapper] = []
+
     override class func requiresMainQueueSetup() -> Bool {
         true
     }
@@ -43,7 +55,9 @@ class SparkScanViewManager: RCTViewManager {
 
     override func view() -> UIView! {
         let container = RNTSparkScanViewWrapper()
+        container.viewManager = self
         postContainerCreateAction?(container)
+        containers.append(container)
         return container
     }
 }
