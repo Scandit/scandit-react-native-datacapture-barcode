@@ -7,17 +7,21 @@
 package com.scandit.datacapture.reactnative.barcode.ui
 
 import android.widget.FrameLayout
-import androidx.fragment.app.FragmentActivity
-import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReadableArray
 import com.facebook.react.uimanager.ThemedReactContext
+import com.scandit.datacapture.barcode.pick.ui.BarcodePickView
 import com.scandit.datacapture.frameworks.barcode.pick.BarcodePickModule
+import com.scandit.datacapture.frameworks.core.FrameworkModule
+import com.scandit.datacapture.frameworks.core.errors.ModuleNotStartedError
+import com.scandit.datacapture.frameworks.core.extensions.findViewOfType
+import com.scandit.datacapture.frameworks.core.locator.ServiceLocator
+import com.scandit.datacapture.frameworks.core.result.NoopFrameworksResult
 import com.scandit.datacapture.reactnative.core.ui.ScanditViewGroupManager
 
 class BarcodePickViewManager(
-    private val reactContext: ReactApplicationContext,
-    private val barcodePickModule: BarcodePickModule
+    private val serviceLocator: ServiceLocator<FrameworkModule>
 ) : ScanditViewGroupManager<FrameLayout>() {
+
     override fun getName(): String = "RNTBarcodePickView"
 
     override fun createNewInstance(reactContext: ThemedReactContext): FrameLayout =
@@ -25,47 +29,34 @@ class BarcodePickViewManager(
 
     override fun getCommandsMap(): MutableMap<String, Int> {
         return mutableMapOf(
-            "create" to CREATE_FRAGMENT_COMMAND
+            CREATE_BARCODE_PICK_VIEW_COMMAND to CREATE_BARCODE_PICK_VIEW_COMMAND_INDEX
         )
     }
 
     override fun receiveCommand(root: FrameLayout, commandId: String?, args: ReadableArray?) {
-        if (commandId?.toIntOrNull() == CREATE_FRAGMENT_COMMAND) {
-            val reactNativeViewId = args?.getInt(0) ?: 0
+        if (commandId == CREATE_BARCODE_PICK_VIEW_COMMAND) {
             val viewJson = args?.getString(1) ?: return
-
-            createFragment(root, reactNativeViewId, viewJson)
+            root.post {
+                barcodePickModule.addViewToContainer(root, viewJson, NoopFrameworksResult())
+            }
         }
-    }
-
-    private fun createFragment(root: FrameLayout, reactNativeViewId: Int, viewJson: String) {
-        val fragment = BarcodePickViewFragment(barcodePickModule, viewJson)
-        val activity = reactContext.currentActivity as FragmentActivity
-        activity.supportFragmentManager
-            .beginTransaction()
-            .replace(reactNativeViewId, fragment, reactNativeViewId.toString())
-            .commit()
-        fragmentsCache[root] = fragment
     }
 
     override fun onDropViewInstance(view: FrameLayout) {
+        view.findViewOfType(BarcodePickView::class.java)?.let {
+            barcodePickModule.viewDisposed()
+        }
         super.onDropViewInstance(view)
-        fragmentsCache.remove(view)?.let {
-            val activity = reactContext.currentActivity as FragmentActivity
-            activity.supportFragmentManager.beginTransaction().remove(it).commit()
-        }
-    }
-
-    override fun invalidate() {
-        super.invalidate()
-        fragmentsCache.forEach {
-            val activity = reactContext.currentActivity as FragmentActivity
-            activity.supportFragmentManager.beginTransaction().remove(it.value).commit()
-        }
-        fragmentsCache.clear()
     }
 
     companion object {
-        private const val CREATE_FRAGMENT_COMMAND = 1
+        private const val CREATE_BARCODE_PICK_VIEW_COMMAND_INDEX = 1
+        private const val CREATE_BARCODE_PICK_VIEW_COMMAND = "createBarcodePickView"
     }
+
+    private val barcodePickModule: BarcodePickModule
+        get() {
+            return serviceLocator.resolve(BarcodePickModule::class.java.name) as? BarcodePickModule?
+                ?: throw ModuleNotStartedError(BarcodePickModule::class.java.simpleName)
+        }
 }

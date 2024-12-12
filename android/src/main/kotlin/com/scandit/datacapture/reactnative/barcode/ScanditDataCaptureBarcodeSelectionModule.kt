@@ -11,11 +11,14 @@ import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
 import com.scandit.datacapture.frameworks.barcode.selection.BarcodeSelectionModule
+import com.scandit.datacapture.frameworks.core.FrameworkModule
+import com.scandit.datacapture.frameworks.core.errors.ModuleNotStartedError
+import com.scandit.datacapture.frameworks.core.locator.ServiceLocator
 import com.scandit.datacapture.reactnative.core.utils.ReactNativeResult
 
 class ScanditDataCaptureBarcodeSelectionModule(
     reactContext: ReactApplicationContext,
-    private val barcodeSelectionModule: BarcodeSelectionModule,
+    private val serviceLocator: ServiceLocator<FrameworkModule>
 ) : ReactContextBaseJavaModule(reactContext) {
 
     companion object {
@@ -180,13 +183,15 @@ class ScanditDataCaptureBarcodeSelectionModule(
         barcodeSelectionModule.applyModeSettings(modeSettingsJson, ReactNativeResult(promise))
     }
 
-    @ReactMethod
-    fun updateBarcodeSelectionFeedback(feedbackJson: String, promise: Promise) {
-        barcodeSelectionModule.updateFeedback(feedbackJson, ReactNativeResult(promise))
-    }
-
     override fun invalidate() {
         barcodeSelectionModule.onDestroy()
         super.invalidate()
     }
+
+    private val barcodeSelectionModule: BarcodeSelectionModule
+        get() {
+            return serviceLocator.resolve(
+                BarcodeSelectionModule::class.java.name
+            ) as? BarcodeSelectionModule? ?: throw ModuleNotStartedError(name)
+        }
 }

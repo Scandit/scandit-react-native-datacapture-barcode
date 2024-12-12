@@ -33,12 +33,14 @@ class BarcodePickViewWrapperView: UIView {
 
     override func removeFromSuperview() {
         super.removeFromSuperview()
-        guard let index = viewManager?.containers.firstIndex(of: self) else {
+        guard let index = BarcodePickViewManager.containers.firstIndex(of: self) else {
             return
         }
-        viewManager?.containers.remove(at: index)
+
+        BarcodePickViewManager.containers.remove(at: index)
+
         if let view = barcodePickView,
-           let viewManager = viewManager {
+           let _ = viewManager {
             if view.superview != nil {
                 view.removeFromSuperview()
             }
@@ -48,7 +50,7 @@ class BarcodePickViewWrapperView: UIView {
 
 @objc(RNTSDCBarcodePickViewManager)
 class BarcodePickViewManager: RCTViewManager {
-    var containers: [BarcodePickViewWrapperView] = []
+    static var containers: [BarcodePickViewWrapperView] = []
 
     override class func requiresMainQueueSetup() -> Bool {
         true
@@ -57,7 +59,9 @@ class BarcodePickViewManager: RCTViewManager {
     override func view() -> UIView! {
         let container = BarcodePickViewWrapperView()
         container.viewManager = self
-        containers.append(container)
+
+        BarcodePickViewManager.containers.append(container)
+
         return container
     }
 }

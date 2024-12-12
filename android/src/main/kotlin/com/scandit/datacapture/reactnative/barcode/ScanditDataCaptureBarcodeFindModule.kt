@@ -6,17 +6,41 @@
 
 package com.scandit.datacapture.reactnative.barcode
 
+import com.facebook.react.bridge.LifecycleEventListener
 import com.facebook.react.bridge.Promise
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
 import com.scandit.datacapture.frameworks.barcode.find.BarcodeFindModule
+import com.scandit.datacapture.frameworks.core.FrameworkModule
+import com.scandit.datacapture.frameworks.core.errors.ModuleNotStartedError
+import com.scandit.datacapture.frameworks.core.locator.ServiceLocator
+import com.scandit.datacapture.frameworks.core.result.NoopFrameworksResult
 import com.scandit.datacapture.reactnative.core.utils.ReactNativeResult
 
 class ScanditDataCaptureBarcodeFindModule(
-    reactContext: ReactApplicationContext,
-    private val barcodeFindModule: BarcodeFindModule,
+    private val reactContext: ReactApplicationContext,
+    private val serviceLocator: ServiceLocator<FrameworkModule>,
 ) : ReactContextBaseJavaModule(reactContext) {
+
+    private val lifecycleListener = object : LifecycleEventListener {
+        override fun onHostResume() {
+            barcodeFindModule.viewOnResume(NoopFrameworksResult())
+        }
+
+        override fun onHostPause() {
+            barcodeFindModule.viewOnPause(NoopFrameworksResult())
+        }
+
+        override fun onHostDestroy() {
+            barcodeFindModule.viewDisposed()
+        }
+    }
+
+    override fun initialize() {
+        reactContext.addLifecycleEventListener(lifecycleListener)
+    }
+
     override fun getName(): String = "ScanditDataCaptureBarcodeFind"
 
     override fun getConstants(): MutableMap<String, Any> {
@@ -26,6 +50,7 @@ class ScanditDataCaptureBarcodeFindModule(
     }
 
     override fun invalidate() {
+        reactContext.removeLifecycleEventListener(lifecycleListener)
         barcodeFindModule.onDestroy()
         super.invalidate()
     }
@@ -139,4 +164,11 @@ class ScanditDataCaptureBarcodeFindModule(
             ReactNativeResult(promise)
         )
     }
+
+    private val barcodeFindModule: BarcodeFindModule
+        get() {
+            return serviceLocator.resolve(
+                BarcodeFindModule::class.java.name
+            ) as? BarcodeFindModule? ?: throw ModuleNotStartedError(name)
+        }
 }

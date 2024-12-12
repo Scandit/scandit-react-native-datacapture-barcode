@@ -6,17 +6,40 @@
 
 package com.scandit.datacapture.reactnative.barcode
 
+import com.facebook.react.bridge.LifecycleEventListener
 import com.facebook.react.bridge.Promise
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
 import com.scandit.datacapture.frameworks.barcode.pick.BarcodePickModule
+import com.scandit.datacapture.frameworks.core.FrameworkModule
+import com.scandit.datacapture.frameworks.core.errors.ModuleNotStartedError
+import com.scandit.datacapture.frameworks.core.locator.ServiceLocator
 import com.scandit.datacapture.reactnative.core.utils.ReactNativeResult
 
 class ScanditDataCaptureBarcodePickModule(
-    reactContext: ReactApplicationContext,
-    private val barcodePickModule: BarcodePickModule
+    private val reactContext: ReactApplicationContext,
+    private val serviceLocator: ServiceLocator<FrameworkModule>,
 ) : ReactContextBaseJavaModule(reactContext) {
+
+    private val lifecycleListener = object : LifecycleEventListener {
+        override fun onHostResume() {
+            barcodePickModule.viewOnResume()
+        }
+
+        override fun onHostPause() {
+            barcodePickModule.viewOnPause()
+        }
+
+        override fun onHostDestroy() {
+            barcodePickModule.viewDisposed()
+        }
+    }
+
+    override fun initialize() {
+        reactContext.addLifecycleEventListener(lifecycleListener)
+    }
+
     override fun getName(): String = "ScanditDataCaptureBarcodePick"
 
     override fun getConstants(): MutableMap<String, Any> {
@@ -26,6 +49,7 @@ class ScanditDataCaptureBarcodePickModule(
     }
 
     override fun invalidate() {
+        reactContext.removeLifecycleEventListener(lifecycleListener)
         barcodePickModule.onDestroy()
         super.invalidate()
     }
@@ -138,4 +162,11 @@ class ScanditDataCaptureBarcodePickModule(
         barcodePickModule.finishPickAction(itemData = itemData, result = result)
         promise.resolve(null)
     }
+
+    private val barcodePickModule: BarcodePickModule
+        get() {
+            return serviceLocator.resolve(
+                BarcodePickModule::class.java.name
+            ) as? BarcodePickModule? ?: throw ModuleNotStartedError(name)
+        }
 }

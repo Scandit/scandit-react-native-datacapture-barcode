@@ -9,10 +9,13 @@ package com.scandit.datacapture.reactnative.barcode
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.scandit.datacapture.frameworks.barcode.BarcodeModule
+import com.scandit.datacapture.frameworks.core.FrameworkModule
+import com.scandit.datacapture.frameworks.core.errors.ModuleNotStartedError
+import com.scandit.datacapture.frameworks.core.locator.ServiceLocator
 
 class ScanditDataCaptureBarcodeModule(
     reactContext: ReactApplicationContext,
-    private val barcodeModule: BarcodeModule
+    private val serviceLocator: ServiceLocator<FrameworkModule>
 ) : ReactContextBaseJavaModule(reactContext) {
 
     companion object {
@@ -29,4 +32,11 @@ class ScanditDataCaptureBarcodeModule(
         barcodeModule.onDestroy()
         super.invalidate()
     }
+
+    private val barcodeModule: BarcodeModule
+        get() {
+            return serviceLocator.resolve(
+                BarcodeModule::class.java.name
+            ) as? BarcodeModule? ?: throw ModuleNotStartedError(name)
+        }
 }

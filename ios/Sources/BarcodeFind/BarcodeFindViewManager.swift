@@ -33,12 +33,14 @@ class BarcodeFindViewWrapperView: UIView {
 
     override func removeFromSuperview() {
         super.removeFromSuperview()
-        guard let index = viewManager?.containers.firstIndex(of: self) else {
+        guard let index = BarcodeFindViewManager.containers.firstIndex(of: self) else {
             return
         }
-        viewManager?.containers.remove(at: index)
+
+        BarcodeFindViewManager.containers.remove(at: index)
+
         if let view = barcodeCountView,
-           let viewManager = viewManager {
+           let _ = viewManager {
             if view.superview != nil {
                 view.removeFromSuperview()
             }
@@ -48,7 +50,7 @@ class BarcodeFindViewWrapperView: UIView {
 
 @objc(RNTSDCBarcodeFindViewManager)
 class BarcodeFindViewManager: RCTViewManager {
-    var containers: [BarcodeFindViewWrapperView] = []
+    static var containers: [BarcodeFindViewWrapperView] = []
 
     override class func requiresMainQueueSetup() -> Bool {
         true
@@ -57,7 +59,9 @@ class BarcodeFindViewManager: RCTViewManager {
     override func view() -> UIView! {
         let container = BarcodeFindViewWrapperView()
         container.viewManager = self
-        containers.append(container)
+
+        BarcodeFindViewManager.containers.append(container)
+
         return container
     }
 }

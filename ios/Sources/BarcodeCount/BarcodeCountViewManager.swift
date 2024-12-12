@@ -7,6 +7,7 @@
 import React
 import ScanditBarcodeCapture
 import ScanditDataCaptureCore
+import ScanditFrameworksCore
 
 class BarcodeCountViewWrapperView: UIView {
     weak var viewManager: BarcodeCountViewManager?
@@ -15,7 +16,7 @@ class BarcodeCountViewWrapperView: UIView {
         if Thread.isMainThread {
             return subviews.first { $0 is BarcodeCountView } as? BarcodeCountView
         }
-        
+
         return DispatchQueue.main.sync {
             subviews.first { $0 is BarcodeCountView } as? BarcodeCountView
         }
@@ -36,10 +37,12 @@ class BarcodeCountViewWrapperView: UIView {
 
     override func removeFromSuperview() {
         super.removeFromSuperview()
-        guard let index = viewManager?.containers.firstIndex(of: self) else {
+        guard let index = BarcodeCountViewManager.containers.firstIndex(of: self) else {
             return
         }
-        viewManager?.containers.remove(at: index)
+
+        BarcodeCountViewManager.containers.remove(at: index)
+
         if let view = barcodeCountView,
            let viewManager = viewManager {
             if view.superview != nil {
@@ -51,7 +54,7 @@ class BarcodeCountViewWrapperView: UIView {
 
 @objc(RNTSDCBarcodeCountViewManager)
 class BarcodeCountViewManager: RCTViewManager {
-    var containers: [BarcodeCountViewWrapperView] = []
+    static var containers: [BarcodeCountViewWrapperView] = []
 
     override class func requiresMainQueueSetup() -> Bool {
         true
@@ -60,7 +63,9 @@ class BarcodeCountViewManager: RCTViewManager {
     override func view() -> UIView! {
         let container = BarcodeCountViewWrapperView()
         container.viewManager = self
-        containers.append(container)
+
+        BarcodeCountViewManager.containers.append(container)
+
         return container
     }
 }

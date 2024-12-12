@@ -7,6 +7,7 @@
 import React
 import ScanditBarcodeCapture
 import ScanditDataCaptureCore
+import ScanditFrameworksCore
 
 class RNTSparkScanViewWrapper: UIView {
     var isFrameSet = false
@@ -21,12 +22,14 @@ class RNTSparkScanViewWrapper: UIView {
 
     override func removeFromSuperview() {
         super.removeFromSuperview()
-        guard let index = viewManager?.containers.firstIndex(of: self) else {
+        guard let index = SparkScanViewManager.containers.firstIndex(of: self) else {
             return
         }
-        viewManager?.containers.remove(at: index)
+
+        SparkScanViewManager.containers.remove(at: index)
+
         if let sparkScanView = sparkScanView,
-           let viewManager = viewManager {
+           let _ = viewManager {
             if sparkScanView.superview != nil {
                 sparkScanView.removeFromSuperview()
             }
@@ -39,12 +42,17 @@ class RNTSparkScanViewWrapper: UIView {
             isFrameSet = true
             postFrameSetAction?()
         }
+
+        // Ensure SparkScanView is always on top
+        if let sparkScanView = subviews.first(where: { $0 is SparkScanView }) {
+            bringSubviewToFront(sparkScanView)
+        }
     }
 }
 
 @objc(RNTSDCSparkScanViewManager)
 class SparkScanViewManager: RCTViewManager {
-    internal var containers: [RNTSparkScanViewWrapper] = []
+    static var containers: [RNTSparkScanViewWrapper] = []
 
     override class func requiresMainQueueSetup() -> Bool {
         true
@@ -55,10 +63,12 @@ class SparkScanViewManager: RCTViewManager {
     override func view() -> UIView! {
         let container = RNTSparkScanViewWrapper()
         container.viewManager = self
-        if containers.count == 0 {
+        if SparkScanViewManager.containers.count == 0 {
             postContainerCreateAction?(container)
         }
-        containers.append(container)
+
+        SparkScanViewManager.containers.append(container)
+
         return container
     }
 }

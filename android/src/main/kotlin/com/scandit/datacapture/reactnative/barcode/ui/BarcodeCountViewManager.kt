@@ -6,19 +6,22 @@
 
 package com.scandit.datacapture.reactnative.barcode.ui
 
+import android.view.ViewGroup
 import android.widget.FrameLayout
-import androidx.fragment.app.FragmentActivity
-import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReadableArray
 import com.facebook.react.uimanager.ThemedReactContext
+import com.scandit.datacapture.barcode.count.ui.view.BarcodeCountView
 import com.scandit.datacapture.frameworks.barcode.count.BarcodeCountModule
+import com.scandit.datacapture.frameworks.core.FrameworkModule
+import com.scandit.datacapture.frameworks.core.errors.ModuleNotStartedError
+import com.scandit.datacapture.frameworks.core.extensions.findViewOfType
+import com.scandit.datacapture.frameworks.core.locator.ServiceLocator
 import com.scandit.datacapture.reactnative.core.ui.ScanditViewGroupManager
 
 class BarcodeCountViewManager(
-    private val reactContext: ReactApplicationContext,
-    private val barcodeCountModule: BarcodeCountModule
-) :
-    ScanditViewGroupManager<FrameLayout>() {
+    private val serviceLocator: ServiceLocator<FrameworkModule>
+) : ScanditViewGroupManager<FrameLayout>() {
+
     override fun getName(): String = "RNTBarcodeCountView"
 
     override fun createNewInstance(reactContext: ThemedReactContext): FrameLayout =
@@ -26,38 +29,43 @@ class BarcodeCountViewManager(
 
     override fun getCommandsMap(): MutableMap<String, Int> {
         return mutableMapOf(
-            "create" to CREATE_FRAGMENT_COMMAND
+            CREATE_BARCODE_COUNT_VIEW_COMMAND to CREATE_BARCODE_COUNT_VIEW_COMMAND_INDEX
         )
     }
 
     override fun receiveCommand(root: FrameLayout, commandId: String?, args: ReadableArray?) {
-        if (commandId?.toIntOrNull() == CREATE_FRAGMENT_COMMAND) {
-            val reactNativeViewId = args?.getInt(0) ?: 0
+        if (commandId == CREATE_BARCODE_COUNT_VIEW_COMMAND) {
             val viewJson = args?.getString(1) ?: return
 
-            createFragment(root, reactNativeViewId, viewJson)
+            root.post {
+                barcodeCountModule.getViewFromJson(viewJson)?.let { bcView ->
+                    root.addView(
+                        bcView,
+                        ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.MATCH_PARENT
+                    )
+                }
+            }
         }
-    }
-
-    private fun createFragment(root: FrameLayout, reactNativeViewId: Int, viewJson: String) {
-        val barcodeCountViewFragment = BarcodeCountViewFragment(barcodeCountModule, viewJson)
-        val activity = reactContext.currentActivity as FragmentActivity
-        activity.supportFragmentManager
-            .beginTransaction()
-            .replace(reactNativeViewId, barcodeCountViewFragment, reactNativeViewId.toString())
-            .commit()
-        fragmentsCache[root] = barcodeCountViewFragment
     }
 
     override fun onDropViewInstance(view: FrameLayout) {
-        super.onDropViewInstance(view)
-        fragmentsCache.remove(view)?.let {
-            val activity = reactContext.currentActivity as FragmentActivity
-            activity.supportFragmentManager.beginTransaction().remove(it).commit()
+        view.findViewOfType(BarcodeCountView::class.java)?.let {
+            barcodeCountModule.disposeBarcodeCountView()
         }
+        super.onDropViewInstance(view)
     }
 
     companion object {
-        private const val CREATE_FRAGMENT_COMMAND = 1
+        private const val CREATE_BARCODE_COUNT_VIEW_COMMAND_INDEX = 1
+        private const val CREATE_BARCODE_COUNT_VIEW_COMMAND = "createBarcodeCountView"
     }
+
+    private val barcodeCountModule: BarcodeCountModule
+        get() {
+            return serviceLocator.resolve(
+                BarcodeCountModule::class.java.name
+            ) as? BarcodeCountModule?
+                ?: throw ModuleNotStartedError(BarcodeCountModule::class.java.simpleName)
+        }
 }

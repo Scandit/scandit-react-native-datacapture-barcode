@@ -4,7 +4,8 @@ import android.annotation.SuppressLint
 import android.view.MotionEvent
 import com.facebook.react.bridge.ReactContext
 import com.facebook.react.uimanager.JSTouchDispatcher
-import com.facebook.react.uimanager.UIManagerModule
+import com.facebook.react.uimanager.UIManagerHelper
+import com.facebook.react.uimanager.common.UIManagerType
 import com.facebook.react.views.view.ReactViewGroup
 
 @SuppressLint("ViewConstructor")
@@ -36,9 +37,11 @@ class CustomReactViewGroup(
 
     private fun dispatchJSTouchEvent(event: MotionEvent?) {
         if (event == null) return
-        val eventDispatcher = reactContext.getNativeModule(
-            UIManagerModule::class.java
-        )?.eventDispatcher
+        val eventDispatcher = UIManagerHelper.getEventDispatcher(
+            reactContext,
+            UIManagerType.DEFAULT
+        )
+
         if (eventDispatcher != null) {
             jsTouchDispatcher?.handleTouchEvent(event, eventDispatcher)
         }

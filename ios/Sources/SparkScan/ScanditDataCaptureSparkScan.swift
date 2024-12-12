@@ -40,6 +40,9 @@ class ScanditDataCaptureSparkScan: RCTEventEmitter {
     @objc override func invalidate() {
         super.invalidate()
         sparkScanModule.didStop()
+        dispatchMain {
+            SparkScanViewManager.containers.removeAll()
+        }
     }
 
     deinit {
@@ -98,15 +101,17 @@ class ScanditDataCaptureSparkScan: RCTEventEmitter {
         let result = ReactNativeResult(resolve, reject)
 
         // The RNTSparkScanViewWrapper can be created later than this call.
-        if let container = sparkScanViewManager.containers.last {
-            addViewIfFrameSet(container, jsonString: jsonString, result: result)
-        } else {
-            sparkScanViewManager.postContainerCreateAction = { [weak self] container in
-                guard let self = self else {
-                    result.reject(error: ScanditFrameworksCoreError.nilSelf)
-                    return
-                }
+        dispatchMain {
+            if let container = SparkScanViewManager.containers.last {
                 self.addViewIfFrameSet(container, jsonString: jsonString, result: result)
+            } else {
+                self.sparkScanViewManager.postContainerCreateAction = { [weak self] container in
+                    guard let self = self else {
+                        result.reject(error: ScanditFrameworksCoreError.nilSelf)
+                        return
+                    }
+                    self.addViewIfFrameSet(container, jsonString: jsonString, result: result)
+                }
             }
         }
     }
@@ -160,19 +165,26 @@ class ScanditDataCaptureSparkScan: RCTEventEmitter {
         resolve(nil)
     }
 
+    @objc(emitFeedback:arguments:resolver:rejecter:)
+    func emit(reactTag: NSNumber,
+              feedbackJson: String,
+              resolve: @escaping RCTPromiseResolveBlock,
+              reject: @escaping RCTPromiseRejectBlock) {
+        sparkScanModule.emitFeedback(feedbackJson: feedbackJson, result: ReactNativeResult(resolve, reject))
+    }
+
     @objc(prepareScanning:resolver:rejecter:)
     func prepareScanning(reactTag: NSNumber,
                          resolve: @escaping RCTPromiseResolveBlock,
                          reject: @escaping RCTPromiseRejectBlock) {
-        sparkScanModule.prepareScanning(result: ReactNativeResult(resolve, reject))
+        sparkScanModule.onResume(result: ReactNativeResult(resolve, reject))
     }
 
     @objc(stopScanning:resolver:rejecter:)
     func stopScanning(reactTag: NSNumber,
                       resolve: @escaping RCTPromiseResolveBlock,
                       reject: @escaping RCTPromiseRejectBlock) {
-        sparkScanModule.stopScanning()
-        resolve(nil)
+        sparkScanModule.onPause(result: ReactNativeResult(resolve, reject))
     }
 
     @objc(showToast:resolver:rejecter:)
@@ -199,13 +211,5 @@ class ScanditDataCaptureSparkScan: RCTEventEmitter {
                                            resolve: @escaping RCTPromiseResolveBlock,
                                            reject: @escaping RCTPromiseRejectBlock) {
         sparkScanModule.submitFeedbackForBarcode(feedbackJson: feedbackJson, result: ReactNativeResult(resolve, reject))
-    }
-
-    @objc(disposeSparkScanView:rejecter:)
-    func disposeSparkScanView(resolve: @escaping RCTPromiseResolveBlock,
-                              reject: @escaping RCTPromiseRejectBlock) {
-        sparkScanModule.stopScanning()
-        sparkScanModule.disposeView()
-        resolve(nil)
     }
 }

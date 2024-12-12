@@ -214,11 +214,4 @@ class ScanditDataCaptureBarcodeSelection: RCTEventEmitter {
     func applyBarcodeSelectionModeSettings(modeSettingsJson: String, resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
         barcodeSelectionModule.applyModeSettings(modeSettingsJson: modeSettingsJson, result: ReactNativeResult(resolve, reject))
     }
-    
-    @objc(updateBarcodeSelectionFeedback:resolve:reject:)
-    func updateBarcodeSelectionFeedback(feedbackJson: String,
-                                        resolve: @escaping RCTPromiseResolveBlock,
-                                        reject: @escaping RCTPromiseRejectBlock) {
-        barcodeSelectionModule.updateFeedback(feedbackJson: feedbackJson, result: ReactNativeResult(resolve, reject))
-    }
 }

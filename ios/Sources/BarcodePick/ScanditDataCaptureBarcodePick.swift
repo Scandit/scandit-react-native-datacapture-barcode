@@ -7,6 +7,7 @@
 import React
 import ScanditDataCaptureCore
 import ScanditFrameworksBarcode
+import ScanditFrameworksCore
 
 @objc(ScanditDataCaptureBarcodePick)
 class ScanditDataCaptureBarcodePick: RCTEventEmitter {
@@ -36,6 +37,9 @@ class ScanditDataCaptureBarcodePick: RCTEventEmitter {
     @objc override func invalidate() {
         super.invalidate()
         barcodePickModule.didStop()
+        dispatchMain {
+            BarcodePickViewManager.containers.removeAll()
+        }
     }
 
     deinit {
@@ -55,10 +59,12 @@ class ScanditDataCaptureBarcodePick: RCTEventEmitter {
                     jsonString: String,
                     resolve: @escaping RCTPromiseResolveBlock,
                     reject: @escaping RCTPromiseRejectBlock) {
-        if let container = barcodePickViewManager.containers.last {
-            barcodePickModule.addViewToContainer(container: container,
-                                                 jsonString: jsonString,
-                                                 result: ReactNativeResult(resolve, reject))
+        dispatchMain {
+            if let container = BarcodePickViewManager.containers.last {
+                self.barcodePickModule.addViewToContainer(container: container,
+                                                     jsonString: jsonString,
+                                                     result: ReactNativeResult(resolve, reject))
+            }
         }
     }
 

@@ -6,19 +6,47 @@
 
 package com.scandit.datacapture.reactnative.barcode
 
+import com.facebook.react.bridge.LifecycleEventListener
 import com.facebook.react.bridge.Promise
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
 import com.scandit.datacapture.core.ui.style.BrushDeserializer
 import com.scandit.datacapture.frameworks.barcode.count.BarcodeCountModule
+import com.scandit.datacapture.frameworks.core.FrameworkModule
+import com.scandit.datacapture.frameworks.core.errors.ModuleNotStartedError
+import com.scandit.datacapture.frameworks.core.locator.ServiceLocator
 import com.scandit.datacapture.reactnative.core.utils.ReactNativeResult
 import org.json.JSONArray
 
 class ScanditDataCaptureBarcodeCountModule(
-    reactContext: ReactApplicationContext,
-    private val barcodeCountModule: BarcodeCountModule,
+    private val reactContext: ReactApplicationContext,
+    private val serviceLocator: ServiceLocator<FrameworkModule>,
 ) : ReactContextBaseJavaModule(reactContext) {
+
+    private val lifecycleListener = object : LifecycleEventListener {
+        override fun onHostResume() {
+            // noop
+        }
+
+        override fun onHostPause() {
+            // noop
+        }
+
+        override fun onHostDestroy() {
+            barcodeCountModule.disposeBarcodeCountView()
+        }
+    }
+
+    override fun initialize() {
+        reactContext.addLifecycleEventListener(lifecycleListener)
+    }
+
+    override fun invalidate() {
+        reactContext.removeLifecycleEventListener(lifecycleListener)
+        barcodeCountModule.onDestroy()
+        super.invalidate()
+    }
 
     override fun getName(): String = "ScanditDataCaptureBarcodeCount"
 
@@ -125,11 +153,11 @@ class ScanditDataCaptureBarcodeCountModule(
     @ReactMethod
     fun finishBrushForRecognizedBarcodeCallback(
         @Suppress("UNUSED_PARAMETER") reactTag: Int,
-        brushJson: String?,
+        brushJson: String,
         trackedBarcodeId: Int,
         promise: Promise
     ) {
-        val brush = if (!brushJson.isNullOrBlank()) BrushDeserializer.fromJson(brushJson) else null
+        val brush = BrushDeserializer.fromJson(brushJson)
         barcodeCountModule.finishBrushForRecognizedBarcodeEvent(brush, trackedBarcodeId)
         promise.resolve(null)
     }
@@ -137,11 +165,11 @@ class ScanditDataCaptureBarcodeCountModule(
     @ReactMethod
     fun finishBrushForRecognizedBarcodeNotInListCallback(
         @Suppress("UNUSED_PARAMETER") reactTag: Int,
-        brushJson: String?,
+        brushJson: String,
         trackedBarcodeId: Int,
         promise: Promise
     ) {
-        val brush = if (!brushJson.isNullOrBlank()) BrushDeserializer.fromJson(brushJson) else null
+        val brush = BrushDeserializer.fromJson(brushJson)
         barcodeCountModule.finishBrushForRecognizedBarcodeNotInListEvent(brush, trackedBarcodeId)
         promise.resolve(null)
     }
@@ -149,11 +177,11 @@ class ScanditDataCaptureBarcodeCountModule(
     @ReactMethod
     fun finishBrushForUnrecognizedBarcodeCallback(
         @Suppress("UNUSED_PARAMETER") reactTag: Int,
-        brushJson: String?,
+        brushJson: String,
         trackedBarcodeId: Int,
         promise: Promise
     ) {
-        val brush = if (!brushJson.isNullOrBlank()) BrushDeserializer.fromJson(brushJson) else null
+        val brush = BrushDeserializer.fromJson(brushJson)
         barcodeCountModule.finishBrushForUnrecognizedBarcodeEvent(brush, trackedBarcodeId)
         promise.resolve(null)
     }
@@ -191,8 +219,10 @@ class ScanditDataCaptureBarcodeCountModule(
         barcodeCountModule.updateFeedback(feedbackJson, ReactNativeResult(promise))
     }
 
-    override fun invalidate() {
-        barcodeCountModule.onDestroy()
-        super.invalidate()
-    }
+    private val barcodeCountModule: BarcodeCountModule
+        get() {
+            return serviceLocator.resolve(
+                BarcodeCountModule::class.java.name
+            ) as? BarcodeCountModule? ?: throw ModuleNotStartedError(name)
+        }
 }
