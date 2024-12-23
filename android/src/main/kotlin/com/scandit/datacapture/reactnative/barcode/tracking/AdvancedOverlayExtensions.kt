@@ -4,7 +4,7 @@
  * Copyright (C) 2020- Scandit AG. All rights reserved.
  */
 
-package com.scandit.datacapture.reactnative.barcode.batch
+package com.scandit.datacapture.reactnative.barcode.tracking
 
 import android.app.Activity
 import android.os.Bundle
