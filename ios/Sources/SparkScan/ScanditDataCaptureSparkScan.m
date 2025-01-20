@@ -52,19 +52,17 @@ RCT_EXTERN_METHOD(stopScanning
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(emitFeedback
-                  : (nonnull NSNumber *)reactTag arguments
-                  : (nonnull NSString *)arguments resolver
-                  : (RCTPromiseResolveBlock)resolve rejecter
-                  : (RCTPromiseRejectBlock)reject)
-
 RCT_EXTERN_METHOD(prepareScanning
                   : (nonnull NSNumber *)reactTag resolver
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(stopScanning
+RCT_EXTERN_METHOD(pauseScanning
                   : (nonnull NSNumber *)reactTag resolver
+                  : (RCTPromiseResolveBlock)resolve rejecter
+                  : (RCTPromiseRejectBlock)reject)
+
+RCT_EXTERN_METHOD(disposeSparkScanView
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 

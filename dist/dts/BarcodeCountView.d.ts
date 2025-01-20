@@ -106,6 +106,10 @@ export declare class BarcodeCountView extends React.Component<BarcodeCountViewPr
     set shouldShowTorchControl(newValue: boolean);
     get torchControlPosition(): Anchor;
     set torchControlPosition(newValue: Anchor);
+    get tapToUncountEnabled(): boolean;
+    set tapToUncountEnabled(newValue: boolean);
+    get textForTapToUncountHint(): string;
+    set textForTapToUncountHint(newValue: string);
     private static get barcodeCountDefaults();
     private viewProxy;
     private _uiListener;
@@ -154,6 +158,8 @@ export declare class BarcodeCountView extends React.Component<BarcodeCountViewPr
     private _toolbarSettings;
     private _shouldShowTorchControl;
     private _torchControlPosition;
+    private _tapToUncountEnabled;
+    private _textForTapToUncountHint;
     constructor(props: BarcodeCountViewProps);
     componentDidMount(): void;
     componentWillUnmount(): void;

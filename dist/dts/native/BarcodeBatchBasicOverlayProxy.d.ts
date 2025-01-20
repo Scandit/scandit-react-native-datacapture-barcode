@@ -1,5 +1,5 @@
-import { BarcodeTrackingBasicOverlayProxy } from 'scandit-datacapture-frameworks-barcode';
-export declare class NativeBarcodeTrackingBasicOverlayProxy implements BarcodeTrackingBasicOverlayProxy {
+import { BarcodeBatchBasicOverlayProxy } from 'scandit-datacapture-frameworks-barcode';
+export declare class NativeBarcodeBatchBasicOverlayProxy implements BarcodeBatchBasicOverlayProxy {
     private nativeListeners;
     private eventEmitter;
     constructor();
@@ -7,7 +7,7 @@ export declare class NativeBarcodeTrackingBasicOverlayProxy implements BarcodeTr
     clearTrackedBarcodeBrushes(): Promise<void>;
     registerListenerForBasicOverlayEvents(): void;
     unregisterListenerForBasicOverlayEvents(): void;
-    updateBarcodeTrackingBasicOverlay(overlayJson: string): Promise<void>;
+    updateBarcodeBatchBasicOverlay(overlayJson: string): Promise<void>;
     subscribeBrushForTrackedBarcode(): void;
     subscribeDidTapTrackedBarcode(): void;
 }
