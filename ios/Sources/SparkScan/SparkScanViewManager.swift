@@ -38,15 +38,11 @@ class RNTSparkScanViewWrapper: UIView {
 
     override func layoutSubviews() {
         super.layoutSubviews()
-        // This is needed only the first time to execute the action queued in the postFrameSetAction
         if !frame.equalTo(.zero) && !isFrameSet {
             isFrameSet = true
             postFrameSetAction?()
         }
-    }
 
-    override func didUpdateReactSubviews() {
-        super.didUpdateReactSubviews()
         // Ensure SparkScanView is always on top
         if let sparkScanView = subviews.first(where: { $0 is SparkScanView }) {
             bringSubviewToFront(sparkScanView)

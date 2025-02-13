@@ -183,11 +183,6 @@ class ScanditDataCaptureBarcodeSelectionModule(
         barcodeSelectionModule.applyModeSettings(modeSettingsJson, ReactNativeResult(promise))
     }
 
-    @ReactMethod
-    fun updateBarcodeSelectionFeedback(feedbackJson: String, promise: Promise) {
-        barcodeSelectionModule.updateFeedback(feedbackJson, ReactNativeResult(promise))
-    }
-
     override fun invalidate() {
         barcodeSelectionModule.onDestroy()
         super.invalidate()
