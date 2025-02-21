@@ -153,11 +153,11 @@ class ScanditDataCaptureBarcodeCountModule(
     @ReactMethod
     fun finishBrushForRecognizedBarcodeCallback(
         @Suppress("UNUSED_PARAMETER") reactTag: Int,
-        brushJson: String,
+        brushJson: String?,
         trackedBarcodeId: Int,
         promise: Promise
     ) {
-        val brush = BrushDeserializer.fromJson(brushJson)
+        val brush = if (!brushJson.isNullOrBlank()) BrushDeserializer.fromJson(brushJson) else null
         barcodeCountModule.finishBrushForRecognizedBarcodeEvent(brush, trackedBarcodeId)
         promise.resolve(null)
     }
@@ -165,24 +165,36 @@ class ScanditDataCaptureBarcodeCountModule(
     @ReactMethod
     fun finishBrushForRecognizedBarcodeNotInListCallback(
         @Suppress("UNUSED_PARAMETER") reactTag: Int,
-        brushJson: String,
+        brushJson: String?,
         trackedBarcodeId: Int,
         promise: Promise
     ) {
-        val brush = BrushDeserializer.fromJson(brushJson)
+        val brush = if (!brushJson.isNullOrBlank()) BrushDeserializer.fromJson(brushJson) else null
         barcodeCountModule.finishBrushForRecognizedBarcodeNotInListEvent(brush, trackedBarcodeId)
         promise.resolve(null)
     }
 
     @ReactMethod
-    fun finishBrushForUnrecognizedBarcodeCallback(
+    fun finishBrushForAcceptedBarcodeCallback(
         @Suppress("UNUSED_PARAMETER") reactTag: Int,
-        brushJson: String,
+        brushJson: String?,
         trackedBarcodeId: Int,
         promise: Promise
     ) {
-        val brush = BrushDeserializer.fromJson(brushJson)
-        barcodeCountModule.finishBrushForUnrecognizedBarcodeEvent(brush, trackedBarcodeId)
+        val brush = if (!brushJson.isNullOrBlank()) BrushDeserializer.fromJson(brushJson) else null
+        barcodeCountModule.finishBrushForAcceptedBarcodeEvent(brush, trackedBarcodeId)
+        promise.resolve(null)
+    }
+
+    @ReactMethod
+    fun finishBrushForRejectedBarcodeCallback(
+        @Suppress("UNUSED_PARAMETER") reactTag: Int,
+        brushJson: String?,
+        trackedBarcodeId: Int,
+        promise: Promise
+    ) {
+        val brush = if (!brushJson.isNullOrBlank()) BrushDeserializer.fromJson(brushJson) else null
+        barcodeCountModule.finishBrushForRejectedBarcodeEvent(brush, trackedBarcodeId)
         promise.resolve(null)
     }
 
@@ -199,14 +211,16 @@ class ScanditDataCaptureBarcodeCountModule(
         expectedNumberOfColumns: Int,
         promise: Promise
     ) {
-        val map = barcodeCountModule.getSpatialMap(expectedNumberOfRows, expectedNumberOfColumns)
-        promise.resolve(map?.toJson())
+        barcodeCountModule.submitSpatialMap(
+            expectedNumberOfRows,
+            expectedNumberOfColumns,
+            ReactNativeResult(promise)
+        )
     }
 
     @ReactMethod
     fun getSpatialMap(promise: Promise) {
-        val map = barcodeCountModule.getSpatialMap()
-        promise.resolve(map?.toJson())
+        barcodeCountModule.submitSpatialMap(ReactNativeResult(promise))
     }
 
     @ReactMethod
@@ -217,6 +231,14 @@ class ScanditDataCaptureBarcodeCountModule(
     @ReactMethod
     fun updateBarcodeCountFeedback(feedbackJson: String, promise: Promise) {
         barcodeCountModule.updateFeedback(feedbackJson, ReactNativeResult(promise))
+    }
+
+    @ReactMethod
+    fun enableHardwareTrigger(hardwareTriggerKeyCode: Int?, promise: Promise) {
+        barcodeCountModule.enableHardwareTrigger(
+            hardwareTriggerKeyCode,
+            ReactNativeResult(promise)
+        )
     }
 
     private val barcodeCountModule: BarcodeCountModule

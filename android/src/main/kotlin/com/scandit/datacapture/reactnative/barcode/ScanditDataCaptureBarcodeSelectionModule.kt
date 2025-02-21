@@ -51,8 +51,10 @@ class ScanditDataCaptureBarcodeSelectionModule(
         selectionIdentifier: String,
         promise: Promise
     ) {
-        val count = barcodeSelectionModule.getBarcodeCount(selectionIdentifier)
-        promise.resolve(count)
+        barcodeSelectionModule.submitBarcodeCountForIdentifier(
+            selectionIdentifier,
+            ReactNativeResult(promise)
+        )
     }
 
     @ReactMethod
@@ -181,6 +183,11 @@ class ScanditDataCaptureBarcodeSelectionModule(
     @ReactMethod
     fun applyBarcodeSelectionModeSettings(modeSettingsJson: String, promise: Promise) {
         barcodeSelectionModule.applyModeSettings(modeSettingsJson, ReactNativeResult(promise))
+    }
+
+    @ReactMethod
+    fun updateBarcodeSelectionFeedback(feedbackJson: String, promise: Promise) {
+        barcodeSelectionModule.updateFeedback(feedbackJson, ReactNativeResult(promise))
     }
 
     override fun invalidate() {

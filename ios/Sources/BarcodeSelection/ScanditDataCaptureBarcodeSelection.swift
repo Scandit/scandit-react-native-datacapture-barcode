@@ -90,10 +90,12 @@ class ScanditDataCaptureBarcodeSelection: RCTEventEmitter {
 
     @objc(getCount:resolver:rejecter:)
     func getCount(selectionIdentifier: String,
-                  resolve: RCTPromiseResolveBlock,
-                  reject: RCTPromiseRejectBlock) {
-        let count = barcodeSelectionModule.getBarcodeCount(selectionIdentifier: selectionIdentifier)
-        resolve(count)
+                  resolve: @escaping RCTPromiseResolveBlock,
+                  reject: @escaping RCTPromiseRejectBlock) {
+        barcodeSelectionModule.submitBarcodeCountForIdentifier(
+            selectionIdentifier: selectionIdentifier,
+            result: ReactNativeResult(resolve, reject)
+        )
     }
 
     @objc(increaseCountForBarcodes:resolver:rejecter:)
@@ -213,5 +215,12 @@ class ScanditDataCaptureBarcodeSelection: RCTEventEmitter {
     @objc(applyBarcodeSelectionModeSettings:resolve:reject:)
     func applyBarcodeSelectionModeSettings(modeSettingsJson: String, resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
         barcodeSelectionModule.applyModeSettings(modeSettingsJson: modeSettingsJson, result: ReactNativeResult(resolve, reject))
+    }
+    
+    @objc(updateBarcodeSelectionFeedback:resolve:reject:)
+    func updateBarcodeSelectionFeedback(feedbackJson: String,
+                                        resolve: @escaping RCTPromiseResolveBlock,
+                                        reject: @escaping RCTPromiseRejectBlock) {
+        barcodeSelectionModule.updateFeedback(feedbackJson: feedbackJson, result: ReactNativeResult(resolve, reject))
     }
 }
