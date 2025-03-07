@@ -1,15 +1,12 @@
 import React from 'react';
-import { SparkScanFeedbackDelegate, SparkScanViewSettings, SparkScan, SparkScanViewState } from 'scandit-datacapture-frameworks-barcode';
-import { Brush, Color, DataCaptureContext } from 'scandit-datacapture-frameworks-core';
+import { SparkScanFeedbackDelegate, SparkScanViewState, BaseSparkScanViewProps } from 'scandit-datacapture-frameworks-barcode';
+import { Brush, Color } from 'scandit-datacapture-frameworks-core';
 export interface SparkScanViewUiListener {
     onBarcodeCountButtonTappedIn?(view: SparkScanView): void;
     onBarcodeFindButtonTappedIn?(view: SparkScanView): void;
     didChangeViewState?(newState: SparkScanViewState): void;
 }
-interface SparkScanViewProps {
-    context: DataCaptureContext;
-    sparkScan: SparkScan;
-    sparkScanViewSettings: SparkScanViewSettings;
+interface SparkScanViewProps extends BaseSparkScanViewProps {
     style: any;
     children?: React.ReactNode;
 }
@@ -104,6 +101,7 @@ export declare class SparkScanView extends React.Component<SparkScanViewProps> {
     set feedbackDelegate(delegate: SparkScanFeedbackDelegate | null);
     showToast(text: string): Promise<void>;
     componentDidMount(): void;
+    componentDidUpdate(prevProps: SparkScanViewProps): void;
     private createSparkScanView;
     private toJSON;
 }

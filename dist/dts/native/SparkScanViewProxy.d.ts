@@ -18,5 +18,5 @@ export declare class NativeSparkScanViewProxy extends BaseNativeProxy implements
     registerDelegateForEvents(): Promise<void>;
     unregisterDelegateForEvents(): Promise<void>;
     unregisterSparkScanViewListenerEvents(): Promise<void>;
-    updateSparkScanView(viewJson: string): Promise<void>;
+    updateSparkScanView(viewId: number | null, viewJson: string): Promise<void>;
 }

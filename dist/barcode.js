@@ -1,4 +1,4 @@
-import { nameForSerialization, serializationDefault, NoViewfinder, NoneLocationSelection, DefaultSerializeable, ignoreFromSerialization, FactoryMaker, Feedback, Quadrilateral, EventDataParser, BaseController, Brush, Observable, TextAlignment, FontFamily, AimerViewfinder, Anchor, PointWithUnit, CameraSettings, Color, ScanditIcon, CameraController, DataCaptureContextFeatures } from 'scandit-react-native-datacapture-core/dist/core';
+import { nameForSerialization, serializationDefault, NoViewfinder, NoneLocationSelection, DefaultSerializeable, ignoreFromSerialization, FactoryMaker, Feedback, Quadrilateral, EventDataParser, BaseController, Brush, Observable, TextAlignment, FontFamily, AimerViewfinder, Anchor, PointWithUnit, BaseNewController, CameraSettings, Color, ScanditIcon, CameraController, DataCaptureContextFeatures } from 'scandit-react-native-datacapture-core/dist/core';
 
 var Symbology;
 (function (Symbology) {
@@ -6261,7 +6261,7 @@ var SparkScanListenerEvents;
     SparkScanListenerEvents["didUpdateSession"] = "SparkScanListener.didUpdateSession";
     SparkScanListenerEvents["didScan"] = "SparkScanListener.didScan";
 })(SparkScanListenerEvents || (SparkScanListenerEvents = {}));
-class SparkScanListenerController extends BaseController {
+class SparkScanListenerController extends BaseNewController {
     static forSparkScan(sparkScan) {
         const controller = new SparkScanListenerController();
         controller.sparkScan = sparkScan;
@@ -6269,6 +6269,27 @@ class SparkScanListenerController extends BaseController {
     }
     constructor() {
         super('SparkScanListenerProxy');
+        this.hasNativeListenerSubscriptions = false;
+        this.didUpdateSessionListener = (data) => __awaiter(this, void 0, void 0, function* () {
+            const payload = EventDataParser.parse(data);
+            if (payload === null) {
+                console.error('SparkScanListenerController didUpdateSession payload is null');
+                return;
+            }
+            const session = SparkScanSession.fromJSON(payload);
+            yield this.notifyListenersOfDidUpdateSession(session);
+            this._proxy.finishDidUpdateSessionCallback(this.sparkScan.isEnabled);
+        });
+        this.didScanListener = (data) => __awaiter(this, void 0, void 0, function* () {
+            const payload = EventDataParser.parse(data);
+            if (payload === null) {
+                console.error('SparkScanListenerController.subscribeListener: didScan payload is null');
+                return;
+            }
+            const session = SparkScanSession.fromJSON(payload);
+            yield this.notifyListenersOfDidScan(session);
+            this._proxy.finishDidScanCallback(this.sparkScan.isEnabled);
+        });
     }
     reset() {
         return this._proxy.resetSession();
@@ -6279,34 +6300,22 @@ class SparkScanListenerController extends BaseController {
         return this._proxy.updateMode(json);
     }
     subscribeListener() {
-        this._proxy.registerListenerForEvents();
+        if (this.hasNativeListenerSubscriptions === false) {
+            this._proxy.registerListenerForEvents();
+            this.hasNativeListenerSubscriptions = true;
+        }
         this._proxy.subscribeDidScanListener();
         this._proxy.subscribeDidUpdateSessionListener();
-        this.eventEmitter.on(SparkScanListenerEvents.didUpdateSession, (data) => __awaiter(this, void 0, void 0, function* () {
-            const payload = EventDataParser.parse(data);
-            if (payload === null) {
-                console.error('SparkScanListenerController didUpdateSession payload is null');
-                return;
-            }
-            const session = SparkScanSession.fromJSON(payload);
-            yield this.notifyListenersOfDidUpdateSession(session);
-            this._proxy.finishDidUpdateSessionCallback(this.sparkScan.isEnabled);
-        }));
-        this.eventEmitter.on(SparkScanListenerEvents.didScan, (data) => __awaiter(this, void 0, void 0, function* () {
-            const payload = EventDataParser.parse(data);
-            if (payload === null) {
-                console.error('SparkScanListenerController.subscribeListener: didScan payload is null');
-                return;
-            }
-            const session = SparkScanSession.fromJSON(payload);
-            yield this.notifyListenersOfDidScan(session);
-            this._proxy.finishDidScanCallback(this.sparkScan.isEnabled);
-        }));
+        this.eventEmitter.on(SparkScanListenerEvents.didUpdateSession, this.didUpdateSessionListener);
+        this.eventEmitter.on(SparkScanListenerEvents.didScan, this.didScanListener);
     }
     unsubscribeListener() {
-        this._proxy.unregisterListenerForEvents();
-        this.eventEmitter.removeAllListeners(SparkScanListenerEvents.didUpdateSession);
-        this.eventEmitter.removeAllListeners(SparkScanListenerEvents.didScan);
+        if (this.hasNativeListenerSubscriptions === true) {
+            this._proxy.unregisterListenerForEvents();
+            this.hasNativeListenerSubscriptions = false;
+        }
+        this.eventEmitter.off(SparkScanListenerEvents.didUpdateSession, this.didUpdateSessionListener);
+        this.eventEmitter.off(SparkScanListenerEvents.didScan, this.didScanListener);
     }
     setModeEnabledState(enabled) {
         this._proxy.setModeEnabledState(enabled);
@@ -6793,7 +6802,7 @@ var SparkScanFeedbackDelegateEvents;
 (function (SparkScanFeedbackDelegateEvents) {
     SparkScanFeedbackDelegateEvents["feedbackForBarcode"] = "SparkScanFeedbackDelegate.feedbackForBarcode";
 })(SparkScanFeedbackDelegateEvents || (SparkScanFeedbackDelegateEvents = {}));
-class SparkScanViewController extends BaseController {
+class SparkScanViewController extends BaseNewController {
     static forSparkScanView(view, sparkScan, autoCreateNativeView = true) {
         const controller = new SparkScanViewController();
         controller.view = view;
@@ -6806,6 +6815,25 @@ class SparkScanViewController extends BaseController {
     constructor() {
         super('SparkScanViewProxy');
         this.hasFeedbackDelegateListener = false;
+        this.hasNativeListenerSubscriptions = false;
+        this.barcodeCountButtonTappedListener = () => {
+            var _a, _b;
+            (_b = (_a = this.view.uiListener) === null || _a === void 0 ? void 0 : _a.didTapBarcodeCountButton) === null || _b === void 0 ? void 0 : _b.call(_a, this.view);
+        };
+        this.barcodeFindButtonTappedListener = () => {
+            var _a, _b;
+            (_b = (_a = this.view.uiListener) === null || _a === void 0 ? void 0 : _a.didTapBarcodeFindButton) === null || _b === void 0 ? void 0 : _b.call(_a, this.view);
+        };
+        this.didChangeViewStateListener = (data) => {
+            var _a, _b;
+            const payload = EventDataParser.parse(data);
+            if (payload === null) {
+                console.error('SparkScanViewController didChangeViewState payload is null');
+                return;
+            }
+            const newState = payload.state;
+            (_b = (_a = this.view.uiListener) === null || _a === void 0 ? void 0 : _a.didChangeViewState) === null || _b === void 0 ? void 0 : _b.call(_a, newState);
+        };
     }
     initialize(autoCreateNativeView) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -6824,30 +6852,22 @@ class SparkScanViewController extends BaseController {
         this._proxy.disposeSparkScanView();
     }
     subscribeListeners() {
-        this._proxy.registerSparkScanViewListenerEvents();
-        this.eventEmitter.on(SparkScanViewEvents.barcodeCountButtonTapped, () => {
-            var _a, _b;
-            (_b = (_a = this.view.uiListener) === null || _a === void 0 ? void 0 : _a.didTapBarcodeCountButton) === null || _b === void 0 ? void 0 : _b.call(_a, this.view);
-        });
-        this.eventEmitter.on(SparkScanViewEvents.barcodeFindButtonTapped, () => {
-            var _a, _b;
-            (_b = (_a = this.view.uiListener) === null || _a === void 0 ? void 0 : _a.didTapBarcodeFindButton) === null || _b === void 0 ? void 0 : _b.call(_a, this.view);
-        });
-        this.eventEmitter.on(SparkScanViewEvents.didChangeViewState, (data) => {
-            var _a, _b;
-            const payload = EventDataParser.parse(data);
-            if (payload === null) {
-                console.error('SparkScanViewController didChangeViewState payload is null');
-                return;
-            }
-            const newState = payload.state;
-            (_b = (_a = this.view.uiListener) === null || _a === void 0 ? void 0 : _a.didChangeViewState) === null || _b === void 0 ? void 0 : _b.call(_a, newState);
-        });
+        if (this.hasNativeListenerSubscriptions === false) {
+            this._proxy.registerSparkScanViewListenerEvents();
+            this.hasNativeListenerSubscriptions = true;
+        }
+        this.eventEmitter.on(SparkScanViewEvents.barcodeCountButtonTapped, this.barcodeCountButtonTappedListener);
+        this.eventEmitter.on(SparkScanViewEvents.barcodeFindButtonTapped, this.barcodeFindButtonTappedListener);
+        this.eventEmitter.on(SparkScanViewEvents.didChangeViewState, this.didChangeViewStateListener);
     }
     unsubscribeListeners() {
-        this._proxy.unregisterSparkScanViewListenerEvents();
-        this.eventEmitter.off(SparkScanViewEvents.barcodeCountButtonTapped);
-        this.eventEmitter.off(SparkScanViewEvents.barcodeFindButtonTapped);
+        if (this.hasNativeListenerSubscriptions === true) {
+            this._proxy.unregisterSparkScanViewListenerEvents();
+            this.hasNativeListenerSubscriptions = false;
+        }
+        this.eventEmitter.off(SparkScanViewEvents.barcodeCountButtonTapped, this.barcodeCountButtonTappedListener);
+        this.eventEmitter.off(SparkScanViewEvents.barcodeFindButtonTapped, this.barcodeFindButtonTappedListener);
+        this.eventEmitter.off(SparkScanViewEvents.didChangeViewState, this.didChangeViewStateListener);
     }
     create() {
         const viewJson = {
@@ -6860,7 +6880,7 @@ class SparkScanViewController extends BaseController {
     update() {
         const sparkScanViewJson = this.view.toJSON();
         const json = JSON.stringify({ View: sparkScanViewJson });
-        return this._proxy.updateSparkScanView(json);
+        return this._proxy.updateSparkScanView(this.view.viewId, json);
     }
     stopScanning() {
         return this._proxy.stopSparkScanViewScanning();
@@ -6897,7 +6917,14 @@ class SparkScanViewController extends BaseController {
             }
             const barcode = Barcode.fromJSON(JSON.parse(payload.barcode));
             const feedback = (_b = (_a = this.view.feedbackDelegate) === null || _a === void 0 ? void 0 : _a.feedbackForBarcode) === null || _b === void 0 ? void 0 : _b.call(_a, barcode);
-            this._proxy.submitFeedbackForBarcode(JSON.stringify(feedback === null || feedback === void 0 ? void 0 : feedback.toJSON()));
+            if (feedback instanceof Promise) {
+                feedback.then((feedback) => {
+                    this._proxy.submitFeedbackForBarcode(JSON.stringify(feedback === null || feedback === void 0 ? void 0 : feedback.toJSON()));
+                });
+            }
+            else {
+                this._proxy.submitFeedbackForBarcode(JSON.stringify(feedback === null || feedback === void 0 ? void 0 : feedback.toJSON()));
+            }
         });
         this.hasFeedbackDelegateListener = true;
     }
@@ -6916,10 +6943,77 @@ class BaseSparkScanView {
         const view = new BaseSparkScanView({ context, sparkScan, settings, autoCreateNativeView });
         return view;
     }
+    static withProps(props, autoCreateNativeView = true) {
+        const view = new BaseSparkScanView({
+            context: props.context,
+            sparkScan: props.sparkScan,
+            settings: props.sparkScanViewSettings,
+            autoCreateNativeView
+        });
+        if (props.uiListener) {
+            view.uiListener = props.uiListener;
+        }
+        if (props.previewSizeControlVisible !== undefined && props.previewSizeControlVisible !== null) {
+            view._previewSizeControlVisible = props.previewSizeControlVisible;
+        }
+        if (props.cameraSwitchButtonVisible !== undefined && props.cameraSwitchButtonVisible !== null) {
+            view._cameraSwitchButtonVisible = props.cameraSwitchButtonVisible;
+        }
+        if (props.scanningBehaviorButtonVisible !== undefined && props.scanningBehaviorButtonVisible !== null) {
+            view._scanningBehaviorButtonVisible = props.scanningBehaviorButtonVisible;
+        }
+        if (props.barcodeCountButtonVisible !== undefined && props.barcodeCountButtonVisible !== null) {
+            view._barcodeCountButtonVisible = props.barcodeCountButtonVisible;
+        }
+        if (props.barcodeFindButtonVisible !== undefined && props.barcodeFindButtonVisible !== null) {
+            view._barcodeFindButtonVisible = props.barcodeFindButtonVisible;
+        }
+        if (props.targetModeButtonVisible !== undefined && props.targetModeButtonVisible !== null) {
+            view._targetModeButtonVisible = props.targetModeButtonVisible;
+        }
+        if (props.torchControlVisible !== undefined && props.torchControlVisible !== null) {
+            view._torchControlVisible = props.torchControlVisible;
+        }
+        if (props.previewCloseControlVisible !== undefined && props.previewCloseControlVisible !== null) {
+            view._previewCloseControlVisible = props.previewCloseControlVisible;
+        }
+        if (props.triggerButtonVisible !== undefined) {
+            view._triggerButtonVisible = props.triggerButtonVisible;
+        }
+        if (props.triggerButtonImage !== undefined) {
+            view._triggerButtonImage = props.triggerButtonImage;
+        }
+        if (props.triggerButtonTintColor !== undefined) {
+            view._triggerButtonTintColor = props.triggerButtonTintColor;
+        }
+        if (props.triggerButtonAnimationColor !== undefined) {
+            view._triggerButtonAnimationColor = props.triggerButtonAnimationColor;
+        }
+        if (props.triggerButtonExpandedColor !== undefined) {
+            view._triggerButtonExpandedColor = props.triggerButtonExpandedColor;
+        }
+        if (props.triggerButtonCollapsedColor !== undefined) {
+            view._triggerButtonCollapsedColor = props.triggerButtonCollapsedColor;
+        }
+        if (props.toolbarBackgroundColor !== undefined) {
+            view._toolbarBackgroundColor = props.toolbarBackgroundColor;
+        }
+        if (props.toolbarIconActiveTintColor !== undefined) {
+            view._toolbarIconActiveTintColor = props.toolbarIconActiveTintColor;
+        }
+        if (props.toolbarIconInactiveTintColor !== undefined) {
+            view._toolbarIconInactiveTintColor = props.toolbarIconInactiveTintColor;
+        }
+        if (props.feedbackDelegate !== undefined) {
+            view.feedbackDelegate = props.feedbackDelegate;
+        }
+        return view;
+    }
     static get defaultBrush() {
         return BaseSparkScanView.sparkScanDefaults.SparkScanView.brush;
     }
     constructor({ context, sparkScan, settings, autoCreateNativeView }) {
+        this.viewId = null;
         this.uiListener = null;
         this._brush = BaseSparkScanView.defaultBrush;
         this._feedbackDelegate = null;
@@ -6956,9 +7050,8 @@ class BaseSparkScanView {
     /**
      * @deprecated The torch button has been moved to the mini preview. Use property `torchControlVisible` instead.
      */
-    // @ts-ignore
     get torchButtonVisible() {
-        console.warn('The torch button has been moved to the mini preview. Use property `torchControlVisible` instead.');
+        return false;
     }
     /**
      * @deprecated The torch button has been moved to the mini preview. Use property `torchControlVisible` instead.
@@ -7012,9 +7105,8 @@ class BaseSparkScanView {
     /**
      * @deprecated The trigger button no longer displays text.
      */
-    // @ts-ignore
     get stopCapturingText() {
-        console.warn('The trigger button no longer displays text.');
+        return null;
     }
     /**
      * @deprecated The trigger button no longer displays text.
@@ -7026,9 +7118,8 @@ class BaseSparkScanView {
     /**
      * @deprecated The trigger button no longer displays text.
      */
-    // @ts-ignore
     get startCapturingText() {
-        console.warn('The trigger button no longer displays text.');
+        return null;
     }
     /**
      * @deprecated The trigger button no longer displays text.
@@ -7040,9 +7131,8 @@ class BaseSparkScanView {
     /**
      * @deprecated The trigger button no longer displays text.
      */
-    // @ts-ignore
     get resumeCapturingText() {
-        console.warn('The trigger button no longer displays text.');
+        return null;
     }
     /**
      * @deprecated The trigger button no longer displays text.
@@ -7054,9 +7144,8 @@ class BaseSparkScanView {
     /**
      * @deprecated The trigger button no longer displays text.
      */
-    // @ts-ignore
     get scanningCapturingText() {
-        console.warn('The trigger button no longer displays text.');
+        return null;
     }
     /**
      * @deprecated The trigger button no longer displays text.
@@ -7068,9 +7157,8 @@ class BaseSparkScanView {
     /**
      * @deprecated This property is not relevant anymore.
      */
-    // @ts-ignore
     get captureButtonActiveBackgroundColor() {
-        console.warn('captureButtonActiveBackgroundColor is deprecated.');
+        return null;
     }
     /**
      * @deprecated This property is not relevant anymore.
@@ -7082,10 +7170,8 @@ class BaseSparkScanView {
     /**
      * @deprecated Use triggerButtonCollapsedColor and triggerButtonExpandedColor instead.
      */
-    // @ts-ignore
     get captureButtonBackgroundColor() {
-        console.warn('captureButtonBackgroundColor is deprecated. ' +
-            'Use triggerButtonCollapsedColor and triggerButtonExpandedColor instead.');
+        return null;
     }
     /**
      * @deprecated Use triggerButtonCollapsedColor and triggerButtonExpandedColor instead.
@@ -7098,9 +7184,8 @@ class BaseSparkScanView {
     /**
      * @deprecated use triggerButtonTintColor instead.
      */
-    // @ts-ignore
     get captureButtonTintColor() {
-        console.warn('triggerButtonTintColor is deprecated. Use triggerButtonTintColor instead.');
+        return null;
     }
     /**
      * @deprecated use triggerButtonTintColor instead.
@@ -7258,6 +7343,7 @@ class BaseSparkScanView {
             triggerButtonImage: this.triggerButtonImage,
             torchControlVisible: this.torchControlVisible,
             previewCloseControlVisible: this.previewCloseControlVisible,
+            viewId: this.viewId,
         };
         if (this._viewSettings != null) {
             json.viewSettings = (_a = this._viewSettings) === null || _a === void 0 ? void 0 : _a.toJSON();

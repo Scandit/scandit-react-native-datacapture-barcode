@@ -866,10 +866,9 @@ class NativeSparkScanViewProxy extends BaseNativeProxy {
         });
         this.nativeListeners = [];
     }
-    updateSparkScanView(viewJson) {
-        const id = findNodeHandle(this.view);
+    updateSparkScanView(viewId, viewJson) {
         const parsedViewJson = JSON.parse(viewJson).View;
-        return NativeModule$4.update(id, JSON.stringify(parsedViewJson));
+        return NativeModule$4.update(viewId, JSON.stringify(parsedViewJson));
     }
 }
 
@@ -1231,8 +1230,8 @@ function initBarcodeProxy() {
     FactoryMaker.bindInstance('BarcodePickListenerProxy', new NativeBarcodePickListenerProxy());
     FactoryMaker.bindInstance('BarcodePickProductProxy', new NativeBarcodePickProductProxy());
     FactoryMaker.bindInstance('BarcodePickViewProxy', new NativeBarcodePickViewProxy());
-    FactoryMaker.bindInstance('SparkScanListenerProxy', new NativeSparkScanListenerProxy());
-    FactoryMaker.bindInstance('SparkScanViewProxy', new NativeSparkScanViewProxy());
+    FactoryMaker.bindLazyInstance('SparkScanListenerProxy', () => new NativeSparkScanListenerProxy());
+    FactoryMaker.bindLazyInstance('SparkScanViewProxy', () => new NativeSparkScanViewProxy());
     FactoryMaker.bindInstance('BarcodeFindProxy', new NativeBarcodeFindListenerProxy());
     FactoryMaker.bindInstance('BarcodeFindViewProxy', new NativeBarcodeFindViewProxy());
     FactoryMaker.bindInstance('BarcodeGeneratorProxy', new NativeBarcodeGeneratorProxy());
@@ -2247,9 +2246,7 @@ class SparkScanView extends React.Component {
     }
     constructor(props) {
         super(props);
-        const proxy = FactoryMaker.getInstance('SparkScanViewProxy');
-        proxy?.bindView(this);
-        this.baseSparkScanView = BaseSparkScanView.forContext(props.context, props.sparkScan, this.props.sparkScanViewSettings, Platform.OS === 'ios');
+        this.baseSparkScanView = BaseSparkScanView.withProps(props, Platform.OS === 'ios');
     }
     componentWillUnmount() {
         this.baseSparkScanView.dispose();
@@ -2455,16 +2452,99 @@ class SparkScanView extends React.Component {
     componentDidMount() {
         this.createSparkScanView();
     }
+    componentDidUpdate(prevProps) {
+        // Handle prop changes
+        // Update UI Listener
+        if (this.props.uiListener !== prevProps.uiListener) {
+            this.uiListener = this.props.uiListener || null;
+        }
+        // Update visibility controls
+        if (this.props.previewSizeControlVisible !== prevProps.previewSizeControlVisible &&
+            this.props.previewSizeControlVisible !== undefined) {
+            this.previewSizeControlVisible = this.props.previewSizeControlVisible;
+        }
+        if (this.props.scanningBehaviorButtonVisible !== prevProps.scanningBehaviorButtonVisible &&
+            this.props.scanningBehaviorButtonVisible !== undefined) {
+            this.scanningBehaviorButtonVisible = this.props.scanningBehaviorButtonVisible;
+        }
+        if (this.props.barcodeCountButtonVisible !== prevProps.barcodeCountButtonVisible &&
+            this.props.barcodeCountButtonVisible !== undefined) {
+            this.barcodeCountButtonVisible = this.props.barcodeCountButtonVisible;
+        }
+        if (this.props.barcodeFindButtonVisible !== prevProps.barcodeFindButtonVisible &&
+            this.props.barcodeFindButtonVisible !== undefined) {
+            this.barcodeFindButtonVisible = this.props.barcodeFindButtonVisible;
+        }
+        if (this.props.targetModeButtonVisible !== prevProps.targetModeButtonVisible &&
+            this.props.targetModeButtonVisible !== undefined) {
+            this.targetModeButtonVisible = this.props.targetModeButtonVisible;
+        }
+        if (this.props.cameraSwitchButtonVisible !== prevProps.cameraSwitchButtonVisible &&
+            this.props.cameraSwitchButtonVisible !== undefined) {
+            this.cameraSwitchButtonVisible = this.props.cameraSwitchButtonVisible;
+        }
+        if (this.props.torchControlVisible !== prevProps.torchControlVisible &&
+            this.props.torchControlVisible !== undefined) {
+            this.torchControlVisible = this.props.torchControlVisible;
+        }
+        if (this.props.previewCloseControlVisible !== prevProps.previewCloseControlVisible &&
+            this.props.previewCloseControlVisible !== undefined) {
+            this.previewCloseControlVisible = this.props.previewCloseControlVisible;
+        }
+        if (this.props.triggerButtonVisible !== prevProps.triggerButtonVisible &&
+            this.props.triggerButtonVisible !== undefined) {
+            this.triggerButtonVisible = this.props.triggerButtonVisible;
+        }
+        // Update color customizations
+        if (this.props.toolbarBackgroundColor !== prevProps.toolbarBackgroundColor &&
+            this.props.toolbarBackgroundColor !== undefined) {
+            this.toolbarBackgroundColor = this.props.toolbarBackgroundColor;
+        }
+        if (this.props.toolbarIconActiveTintColor !== prevProps.toolbarIconActiveTintColor &&
+            this.props.toolbarIconActiveTintColor !== undefined) {
+            this.toolbarIconActiveTintColor = this.props.toolbarIconActiveTintColor;
+        }
+        if (this.props.toolbarIconInactiveTintColor !== prevProps.toolbarIconInactiveTintColor &&
+            this.props.toolbarIconInactiveTintColor !== undefined) {
+            this.toolbarIconInactiveTintColor = this.props.toolbarIconInactiveTintColor;
+        }
+        if (this.props.triggerButtonAnimationColor !== prevProps.triggerButtonAnimationColor &&
+            this.props.triggerButtonAnimationColor !== undefined) {
+            this.triggerButtonAnimationColor = this.props.triggerButtonAnimationColor;
+        }
+        if (this.props.triggerButtonExpandedColor !== prevProps.triggerButtonExpandedColor &&
+            this.props.triggerButtonExpandedColor !== undefined) {
+            this.triggerButtonExpandedColor = this.props.triggerButtonExpandedColor;
+        }
+        if (this.props.triggerButtonCollapsedColor !== prevProps.triggerButtonCollapsedColor &&
+            this.props.triggerButtonCollapsedColor !== undefined) {
+            this.triggerButtonCollapsedColor = this.props.triggerButtonCollapsedColor;
+        }
+        if (this.props.triggerButtonTintColor !== prevProps.triggerButtonTintColor &&
+            this.props.triggerButtonTintColor !== undefined) {
+            this.triggerButtonTintColor = this.props.triggerButtonTintColor;
+        }
+        // Update image customizations
+        if (this.props.triggerButtonImage !== prevProps.triggerButtonImage &&
+            this.props.triggerButtonImage !== undefined) {
+            this.triggerButtonImage = this.props.triggerButtonImage;
+        }
+        // Update feedback delegate
+        if (this.props.feedbackDelegate !== prevProps.feedbackDelegate &&
+            this.props.feedbackDelegate !== undefined) {
+            this.feedbackDelegate = this.props.feedbackDelegate;
+        }
+    }
     createSparkScanView() {
         if (Platform.OS === 'ios')
             return;
-        const viewId = findNodeHandle(this);
+        this.baseSparkScanView.viewId = findNodeHandle(this);
         const viewJson = {
             SparkScan: this.baseSparkScanView._sparkScan.toJSON(),
             SparkScanView: this.toJSON(),
         };
         const json = JSON.stringify(viewJson);
-        UIManager.dispatchViewManagerCommand(viewId, 'createSparkScanView', [json]);
+        UIManager.dispatchViewManagerCommand(this.baseSparkScanView.viewId, 'createSparkScanView', [json]);
     }
     toJSON() {
         return this.baseSparkScanView.toJSON();
