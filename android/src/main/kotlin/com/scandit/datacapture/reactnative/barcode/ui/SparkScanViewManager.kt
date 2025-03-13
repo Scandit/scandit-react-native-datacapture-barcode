@@ -166,6 +166,18 @@ class SparkScanViewManager(
                     viewJson,
                     NoopFrameworksResult()
                 )
+                val json = JSONObject(viewJson)
+                val viewJsonObject = if (json.has("SparkScanView")) {
+                    json.getJSONObject("SparkScanView")
+                } else {
+                    json.getJSONObject("View")
+                }
+
+                if (viewJsonObject.optBoolean("hasFeedbackDelegate", false)) {
+                    sparkScanModule.addFeedbackDelegate(NoopFrameworksResult())
+                } else {
+                    sparkScanModule.removeFeedbackDelegate(NoopFrameworksResult())
+                }
             } catch (e: Exception) {
                 DefaultFrameworksLog.getInstance().error(e)
             }
