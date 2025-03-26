@@ -1,4 +1,4 @@
-import { FactoryMaker, DataCaptureContextFeatures, ignoreFromSerialization, BaseNativeProxy } from 'scandit-react-native-datacapture-core/dist/core';
+import { FactoryMaker, ignoreFromSerialization, BaseNativeProxy } from 'scandit-react-native-datacapture-core/dist/core';
 import { NativeModules, NativeEventEmitter, AppState, View, Platform, findNodeHandle, UIManager, requireNativeComponent } from 'react-native';
 import { BarcodeBatch as BarcodeBatch$1, BarcodeCapture as BarcodeCapture$1, BaseBarcodeCheckView, BarcodeSelection as BarcodeSelection$1, BarcodeSelectionSettings, BaseSparkScanView, BaseBarcodeCountView, BaseBarcodePickView, BaseBarcodeFindView, loadBarcodeDefaults, loadBarcodeCaptureDefaults, loadBarcodeCheckDefaults, loadBarcodeBatchDefaults, loadBarcodeSelectionDefaults, loadBarcodeCountDefaults, loadBarcodePickDefaults, loadBarcodeFindDefaults, loadSparkScanDefaults, BaseBarcodeBatchAdvancedOverlay, BarcodeBatchSettings, BarcodeBatchBasicOverlay, BarcodeBatchBasicOverlayStyle, BarcodeCaptureSettings, BarcodeCaptureOverlay, BarcodeCaptureOverlayStyle, BarcodeSelectionBasicOverlay, BarcodeSelectionBasicOverlayStyle, BarcodeCaptureListenerEvents, BarcodeSelectionListenerEvents, BarcodeSelectionBrushProviderEvents, BarcodeCountListenerEvents, BarcodeBatchListenerEvents, BarcodeBatchBasicOverlayListenerEvents, BarcodeBatchAdvancedOverlayListenerEvents, SparkScanListenerEvents, BarcodePickEvents, BarcodePickViewListenerEvents, BarcodePickViewUiListenerEvents, BarcodeFindListenerEvents, BarcodeFindViewEvents, BarcodePickListenerEvents, SparkScanViewEvents, SparkScanFeedbackDelegateEvents, BarcodeCountViewEvents, BarcodeCheckListenerEvents, BarcodeCheckViewEvents } from './barcode.js';
 export { ArucoDictionary, ArucoDictionaryPreset, ArucoMarker, AztecBarcodeGeneratorBuilder, Barcode, BarcodeBatch, BarcodeBatchBasicOverlay, BarcodeBatchBasicOverlayStyle, BarcodeBatchScenario, BarcodeBatchSession, BarcodeBatchSettings, BarcodeCapture, BarcodeCaptureFeedback, BarcodeCaptureOverlay, BarcodeCaptureOverlayStyle, BarcodeCaptureSession, BarcodeCaptureSettings, BarcodeCheck, BarcodeCheckAnnotationTrigger, BarcodeCheckCircleHighlight, BarcodeCheckCircleHighlightPreset, BarcodeCheckFeedback, BarcodeCheckInfoAnnotation, BarcodeCheckInfoAnnotationAnchor, BarcodeCheckInfoAnnotationBodyComponent, BarcodeCheckInfoAnnotationFooter, BarcodeCheckInfoAnnotationHeader, BarcodeCheckInfoAnnotationWidthPreset, BarcodeCheckPopoverAnnotation, BarcodeCheckPopoverAnnotationButton, BarcodeCheckRectangleHighlight, BarcodeCheckSession, BarcodeCheckSettings, BarcodeCheckStatusIconAnnotation, BarcodeCheckViewSettings, BarcodeCount, BarcodeCountCaptureList, BarcodeCountCaptureListSession, BarcodeCountFeedback, BarcodeCountNotInListActionSettings, BarcodeCountSession, BarcodeCountSettings, BarcodeCountToolbarSettings, BarcodeFilterHighlightSettingsBrush, BarcodeFilterHighlightType, BarcodeFilterSettings, BarcodeFind, BarcodeFindFeedback, BarcodeFindItem, BarcodeFindItemContent, BarcodeFindItemSearchOptions, BarcodeFindSettings, BarcodeFindViewSettings, BarcodeGenerator, BarcodeGeneratorBuilder, BarcodePick, BarcodePickActionCallback, BarcodePickAsyncMapperProductProvider, BarcodePickIconStyle, BarcodePickProduct, BarcodePickProductProviderCallback, BarcodePickProductProviderCallbackItem, BarcodePickScanningSession, BarcodePickSettings, BarcodePickState, BarcodePickStatusIconSettings, BarcodePickViewListenerEvents, BarcodePickViewSettings, BarcodePickViewUiListenerEvents, BarcodeSelection, BarcodeSelectionAimerSelection, BarcodeSelectionAutoSelectionStrategy, BarcodeSelectionBasicOverlay, BarcodeSelectionBasicOverlayStyle, BarcodeSelectionFeedback, BarcodeSelectionFreezeBehavior, BarcodeSelectionManualSelectionStrategy, BarcodeSelectionSession, BarcodeSelectionSettings, BarcodeSelectionTapBehavior, BarcodeSelectionTapSelection, BarcodeSpatialGrid, BatterySavingMode, Checksum, Code128BarcodeGeneratorBuilder, Code39BarcodeGeneratorBuilder, CompositeFlag, CompositeType, DataMatrixBarcodeGeneratorBuilder, Dot, DotWithIcons, Ean13BarcodeGeneratorBuilder, Ean13UpcaClassification, EncodingRange, InterleavedTwoOfFiveBarcodeGeneratorBuilder, LocalizedOnlyBarcode, QrCodeBarcodeGeneratorBuilder, QrCodeErrorCorrectionLevel, Range, Rectangular, RectangularWithIcons, SparkScan, SparkScanBarcodeErrorFeedback, SparkScanBarcodeFeedback, SparkScanBarcodeSuccessFeedback, SparkScanMiniPreviewSize, SparkScanPreviewBehavior, SparkScanScanningBehavior, SparkScanScanningModeDefault, SparkScanScanningModeTarget, SparkScanSession, SparkScanSettings, SparkScanToastSettings, SparkScanViewSettings, SparkScanViewState, StructuredAppendData, Symbology, SymbologyDescription, SymbologySettings, TargetBarcode, TrackedBarcode, UpcaBarcodeGeneratorBuilder } from './barcode.js';
@@ -1301,14 +1301,6 @@ class BarcodeBatchAdvancedOverlay {
         this.baseBarcodeBatch = new BaseBarcodeBatchAdvancedOverlay();
     }
     setViewForTrackedBarcode(view, trackedBarcode) {
-        const errorText = 'The method no longer supports rendering any kind of images. Remove them to be able to set the view for your barcode. For further details about this backwards incompatible change, contact support@scandit.com.';
-        const isArFullSupported = DataCaptureContextFeatures.isFeatureSupported('barcode-ar-full');
-        if (isArFullSupported) {
-            return this.baseBarcodeBatch.setViewForTrackedBarcode(view, trackedBarcode);
-        }
-        if (view.hasImageInRender()) {
-            return new Promise((resolve, reject) => reject(errorText));
-        }
         return this.baseBarcodeBatch.setViewForTrackedBarcode(view, trackedBarcode);
     }
     setAnchorForTrackedBarcode(anchor, trackedBarcode) {
@@ -1632,34 +1624,6 @@ const BarcodeBatchView = forwardRef(function BarcodeBatchView(props, ref) {
 
 class BarcodeBatchAdvancedOverlayView extends React.Component {
     static moduleName = 'BarcodeBatchAdvancedOverlayViewComponent';
-    hasImageInRender() {
-        const element = this.render();
-        let foundImage = false;
-        if (!element)
-            return false;
-        // @ts-ignore
-        function checkIfElementIsImage(el) {
-            if (el.type.displayName && (el.type.displayName.toLowerCase() === 'image')) {
-                return foundImage = true;
-            }
-            if (!el.props.children) {
-                return false;
-            }
-            if (typeof el.props.children === 'object' && el.props.children.length > 0) {
-                return el.props.children.forEach((child) => checkIfElementIsImage(child));
-            }
-            else if (typeof el.props.children === 'object' && !el.props.children.length) {
-                return checkIfElementIsImage(el.props.children);
-            }
-        }
-        try {
-            checkIfElementIsImage(element);
-        }
-        catch (e) {
-            return foundImage;
-        }
-        return foundImage;
-    }
     get moduleName() {
         return BarcodeBatchAdvancedOverlayView.moduleName;
     }

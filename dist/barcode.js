@@ -1,4 +1,4 @@
-import { nameForSerialization, serializationDefault, NoViewfinder, NoneLocationSelection, DefaultSerializeable, ignoreFromSerialization, FactoryMaker, Feedback, Quadrilateral, EventDataParser, BaseController, Brush, Observable, TextAlignment, FontFamily, AimerViewfinder, Anchor, PointWithUnit, BaseNewController, CameraSettings, Color, ScanditIcon, CameraController, DataCaptureContextFeatures } from 'scandit-react-native-datacapture-core/dist/core';
+import { nameForSerialization, serializationDefault, NoViewfinder, NoneLocationSelection, DefaultSerializeable, ignoreFromSerialization, FactoryMaker, Feedback, Quadrilateral, EventDataParser, BaseController, Brush, Observable, TextAlignment, FontFamily, AimerViewfinder, Anchor, PointWithUnit, BaseNewController, CameraSettings, Color, ScanditIcon, CameraController } from 'scandit-react-native-datacapture-core/dist/core';
 
 var Symbology;
 (function (Symbology) {
@@ -5719,15 +5719,12 @@ class BarcodeBatchListenerController {
             this.barcodeBatch.isInListenerCallback = value;
         });
         this.eventEmitter.on(BarcodeBatchListenerEvents.didUpdateSession, (data) => __awaiter(this, void 0, void 0, function* () {
-            var _a;
             const payload = EventDataParser.parse(data);
             if (payload === null) {
                 console.error('BarcodeBatchListenerController didUpdateSession payload is null');
                 return;
             }
             const session = BarcodeBatchSession.fromJSON(payload);
-            // Read the feature flag from the payload and set it in the DataCaptureContextFeatures.
-            DataCaptureContextFeatures.setIsFeatureSupported("barcode-ar-full", (_a = payload.isBarcodeArFull) !== null && _a !== void 0 ? _a : false);
             yield this.notifyListenersOfDidUpdateSession(session);
             this._proxy.finishDidUpdateSessionCallback(this.barcodeBatch.isEnabled);
         }));
