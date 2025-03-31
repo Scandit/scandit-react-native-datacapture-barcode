@@ -6,7 +6,6 @@
 
 package com.scandit.datacapture.reactnative.barcode
 
-import com.facebook.react.bridge.LifecycleEventListener
 import com.facebook.react.bridge.Promise
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
@@ -15,11 +14,10 @@ import com.scandit.datacapture.frameworks.barcode.check.BarcodeCheckModule
 import com.scandit.datacapture.frameworks.core.FrameworkModule
 import com.scandit.datacapture.frameworks.core.errors.ModuleNotStartedError
 import com.scandit.datacapture.frameworks.core.locator.ServiceLocator
-import com.scandit.datacapture.frameworks.core.result.NoopFrameworksResult
 import com.scandit.datacapture.reactnative.core.utils.ReactNativeResult
 
 class ScanditDataCaptureBarcodeCheckModule(
-    private val reactContext: ReactApplicationContext,
+    reactContext: ReactApplicationContext,
     private val serviceLocator: ServiceLocator<FrameworkModule>,
 ) : ReactContextBaseJavaModule(reactContext) {
 
@@ -29,20 +27,6 @@ class ScanditDataCaptureBarcodeCheckModule(
         private const val DEFAULTS_KEY = "Defaults"
     }
 
-    private val lifecycleListener = object : LifecycleEventListener {
-        override fun onHostDestroy() {
-            // Noop
-        }
-
-        override fun onHostPause() {
-            barcodeCheckModule.onPause(NoopFrameworksResult())
-        }
-
-        override fun onHostResume() {
-            barcodeCheckModule.onResume(NoopFrameworksResult())
-        }
-    }
-
     private val barcodeCheckModule: BarcodeCheckModule
         get() {
             return serviceLocator.resolve(
@@ -50,14 +34,9 @@ class ScanditDataCaptureBarcodeCheckModule(
             ) as? BarcodeCheckModule? ?: throw ModuleNotStartedError(name)
         }
 
-    init {
-        reactContext.addLifecycleEventListener(lifecycleListener)
-    }
-
     override fun invalidate() {
         barcodeCheckModule.onDestroy()
         barcodeCheckModule.viewDisposed()
-        reactContext.removeLifecycleEventListener(lifecycleListener)
         super.invalidate()
     }
 
@@ -176,7 +155,7 @@ class ScanditDataCaptureBarcodeCheckModule(
 
     @ReactMethod
     fun barcodeCheckViewPause(promise: Promise) {
-        barcodeCheckModule.onPause(ReactNativeResult(promise))
+        promise.resolve(null)
     }
 
     @ReactMethod
@@ -187,5 +166,10 @@ class ScanditDataCaptureBarcodeCheckModule(
     @ReactMethod
     fun barcodeCheckViewStop(promise: Promise) {
         barcodeCheckModule.viewStop(ReactNativeResult(promise))
+    }
+
+    @ReactMethod
+    fun barcodeCheckViewReset(promise: Promise) {
+        barcodeCheckModule.viewReset(ReactNativeResult(promise))
     }
 }

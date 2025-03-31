@@ -10,9 +10,11 @@ import com.facebook.react.bridge.Promise
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
+import com.facebook.react.bridge.ReadableMap
 import com.scandit.datacapture.frameworks.barcode.selection.BarcodeSelectionModule
 import com.scandit.datacapture.frameworks.core.FrameworkModule
 import com.scandit.datacapture.frameworks.core.errors.ModuleNotStartedError
+import com.scandit.datacapture.frameworks.core.errors.ParameterNullError
 import com.scandit.datacapture.frameworks.core.locator.ServiceLocator
 import com.scandit.datacapture.reactnative.core.utils.ReactNativeResult
 
@@ -32,25 +34,28 @@ class ScanditDataCaptureBarcodeSelectionModule(
     )
 
     @ReactMethod
-    fun registerListenerForEvents() {
+    fun registerBarcodeSelectionListenerForEvents() {
         barcodeSelectionModule.addListener()
     }
 
     @ReactMethod
-    fun unregisterListenerForEvents() {
+    fun unregisterBarcodeSelectionListenerForEvents() {
         barcodeSelectionModule.removeListener()
     }
 
     @ReactMethod
-    fun finishDidUpdateSessionCallback(enabled: Boolean) {
+    fun finishBarcodeSelectionDidUpdateSession(readableMap: ReadableMap) {
+        val enabled = readableMap.getBoolean("enabled")
         barcodeSelectionModule.finishDidUpdateSession(enabled)
     }
 
     @ReactMethod
-    fun getCount(
-        selectionIdentifier: String,
+    fun getCountForBarcodeInBarcodeSelectionSession(
+        readableMap: ReadableMap,
         promise: Promise
     ) {
+        val selectionIdentifier = readableMap.getString("selectionIdentifier")
+            ?: return promise.reject(ParameterNullError("selectionIdentifier"))
         barcodeSelectionModule.submitBarcodeCountForIdentifier(
             selectionIdentifier,
             ReactNativeResult(promise)
@@ -59,17 +64,20 @@ class ScanditDataCaptureBarcodeSelectionModule(
 
     @ReactMethod
     fun increaseCountForBarcodes(
-        barcodesJson: String,
+        readableMap: ReadableMap,
         promise: Promise
     ) {
+        val barcodesJson = readableMap.getString("barcodesJson")
+            ?: return promise.reject(ParameterNullError("barcodesJson"))
         barcodeSelectionModule.increaseCountForBarcodes(barcodesJson, ReactNativeResult(promise))
     }
 
     @ReactMethod
     fun finishBrushForAimedBarcodeCallback(
-        brushJson: String?,
-        selectionIdentifier: String?
+        readableMap: ReadableMap
     ) {
+        val brushJson = readableMap.getString("brushJson") ?: return
+        val selectionIdentifier = readableMap.getString("selectionIdentifier") ?: return
         barcodeSelectionModule.finishBrushForAimedBarcode(brushJson, selectionIdentifier)
     }
 
@@ -82,9 +90,11 @@ class ScanditDataCaptureBarcodeSelectionModule(
 
     @ReactMethod
     fun setTextForAimToSelectAutoHint(
-        text: String,
+        readableMap: ReadableMap,
         promise: Promise
     ) {
+        val text = readableMap.getString("text")
+            ?: return promise.reject(ParameterNullError("text"))
         barcodeSelectionModule.setTextForAimToSelectAutoHint(text, ReactNativeResult(promise))
     }
 
@@ -98,9 +108,10 @@ class ScanditDataCaptureBarcodeSelectionModule(
 
     @ReactMethod
     fun finishBrushForTrackedBarcodeCallback(
-        brushJson: String?,
-        selectionIdentifier: String?
+        readableMap: ReadableMap
     ) {
+        val brushJson = readableMap.getString("brushJson") ?: return
+        val selectionIdentifier = readableMap.getString("selectionIdentifier") ?: return
         barcodeSelectionModule.finishBrushForTrackedBarcode(brushJson, selectionIdentifier)
     }
 
@@ -120,7 +131,7 @@ class ScanditDataCaptureBarcodeSelectionModule(
     }
 
     @ReactMethod
-    fun unfreezeCamera() {
+    fun unfreezeCameraInBarcodeSelection() {
         barcodeSelectionModule.unfreezeCamera()
     }
 
@@ -130,34 +141,39 @@ class ScanditDataCaptureBarcodeSelectionModule(
     }
 
     @ReactMethod
-    fun resetMode() {
+    fun resetBarcodeSelection() {
         barcodeSelectionModule.resetSelection()
     }
 
     @ReactMethod
-    fun resetSession() {
+    fun resetBarcodeSelectionSession() {
         barcodeSelectionModule.resetLatestSession(null)
     }
 
     @ReactMethod
-    fun finishDidUpdateSelectionCallback(enabled: Boolean) {
+    fun finishBarcodeSelectionDidSelect(readableMap: ReadableMap) {
+        val enabled = readableMap.getBoolean("enabled")
         barcodeSelectionModule.finishDidSelect(enabled)
     }
 
     @ReactMethod
     fun unselectBarcodes(
-        barcodesJson: String,
+        readableMap: ReadableMap,
         promise: Promise
     ) {
+        val barcodesJson = readableMap.getString("barcodesJson")
+            ?: return promise.reject(ParameterNullError("barcodesJson"))
         barcodeSelectionModule.unselectBarcodes(barcodesJson, ReactNativeResult(promise))
     }
 
     @ReactMethod
     fun setSelectBarcodeEnabled(
-        barcodesJson: String,
-        enabled: Boolean,
+        readableMap: ReadableMap,
         promise: Promise
     ) {
+        val barcodesJson = readableMap.getString("barcodesJson")
+            ?: return promise.reject(ParameterNullError("barcodesJson"))
+        val enabled = readableMap.getBoolean("enabled")
         barcodeSelectionModule.setSelectBarcodeEnabled(
             barcodesJson,
             enabled,
@@ -166,27 +182,36 @@ class ScanditDataCaptureBarcodeSelectionModule(
     }
 
     @ReactMethod
-    fun setModeEnabledState(enabled: Boolean) {
+    fun setBarcodeSelectionModeEnabledState(readableMap: ReadableMap) {
+        val enabled = readableMap.getBoolean("enabled")
         barcodeSelectionModule.setModeEnabled(enabled)
     }
 
     @ReactMethod
-    fun updateBarcodeSelectionBasicOverlay(overlayJson: String, promise: Promise) {
+    fun updateBarcodeSelectionBasicOverlay(readableMap: ReadableMap, promise: Promise) {
+        val overlayJson = readableMap.getString("overlayJson")
+            ?: return promise.reject(ParameterNullError("overlayJson"))
         barcodeSelectionModule.updateBasicOverlay(overlayJson, ReactNativeResult(promise))
     }
 
     @ReactMethod
-    fun updateBarcodeSelectionMode(modeJson: String, promise: Promise) {
+    fun updateBarcodeSelectionMode(readableMap: ReadableMap, promise: Promise) {
+        val modeJson = readableMap.getString("modeJson")
+            ?: return promise.reject(ParameterNullError("modeJson"))
         barcodeSelectionModule.updateModeFromJson(modeJson, ReactNativeResult(promise))
     }
 
     @ReactMethod
-    fun applyBarcodeSelectionModeSettings(modeSettingsJson: String, promise: Promise) {
+    fun applyBarcodeSelectionModeSettings(readableMap: ReadableMap, promise: Promise) {
+        val modeSettingsJson = readableMap.getString("modeSettingsJson")
+            ?: return promise.reject(ParameterNullError("modeSettingsJson"))
         barcodeSelectionModule.applyModeSettings(modeSettingsJson, ReactNativeResult(promise))
     }
 
     @ReactMethod
-    fun updateBarcodeSelectionFeedback(feedbackJson: String, promise: Promise) {
+    fun updateBarcodeSelectionFeedback(readableMap: ReadableMap, promise: Promise) {
+        val feedbackJson = readableMap.getString("feedbackJson")
+            ?: return promise.reject(ParameterNullError("feedbackJson"))
         barcodeSelectionModule.updateFeedback(feedbackJson, ReactNativeResult(promise))
     }
 

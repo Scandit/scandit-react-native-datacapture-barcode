@@ -28,6 +28,7 @@ export declare class BarcodeCheckView extends React.Component<BarcodeCheckViewPr
     start(): void;
     stop(): void;
     pause(): void;
+    reset(): void;
     get shouldShowTorchControl(): boolean;
     set shouldShowTorchControl(value: boolean);
     get torchControlPosition(): Anchor;

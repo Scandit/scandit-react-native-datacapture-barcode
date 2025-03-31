@@ -29,43 +29,38 @@ RCT_EXTERN_METHOD(unregisterBarcodeCountViewUiListener
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(createView
-                  : (nonnull NSNumber *)reactTag JSONString
-                  : (nonnull NSString *)JSONString resolver
+RCT_EXTERN_METHOD(createBarcodeCountView
+                  : (nonnull NSDictionary *)data resolver
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(updateView
-                  : (nonnull NSString *)JSONString resolver
+RCT_EXTERN_METHOD(updateBarcodeCountView
+                  : (nonnull NSDictionary *)data resolver
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(clearHighlights
+RCT_EXTERN_METHOD(clearBarcodeCountHighlights
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(updateMode
-                  : (nonnull NSString *)JSONString resolver
+RCT_EXTERN_METHOD(updateBarcodeCountMode
+                  : (nonnull NSDictionary *)data resolver
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(finishBrushForRecognizedBarcodeCallback
-                  : (nonnull NSNumber *)reactTag jsonString
-                  : (nullable NSString *)jsonString trackedBarcodeId
-                  : (NSInteger)trackedBarcodeId resolve
-                  : (RCTPromiseResolveBlock)resolve reject
+RCT_EXTERN_METHOD(finishBarcodeCountBrushForRecognizedBarcode
+                  : (nonnull NSDictionary *)data resolver
+                  : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(finishBrushForRecognizedBarcodeNotInListCallback
-                  : (nonnull NSNumber *)reactTag jsonString
-                  : (nullable NSString *)jsonString trackedBarcodeId
-                  : (NSInteger)trackedBarcodeId resolve
-                  : (RCTPromiseResolveBlock)resolve reject
+RCT_EXTERN_METHOD(finishBarcodeCountBrushForRecognizedBarcodeNotInList
+                  : (nonnull NSDictionary *)data resolver
+                  : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(finishOnScan)
+RCT_EXTERN_METHOD(finishBarcodeCountOnScan)
 
-RCT_EXTERN_METHOD(resetSession
+RCT_EXTERN_METHOD(resetBarcodeCountSession
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
@@ -73,11 +68,11 @@ RCT_EXTERN_METHOD(resetBarcodeCount
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(startScanningPhase
+RCT_EXTERN_METHOD(startBarcodeCountScanningPhase
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(endScanningPhase
+RCT_EXTERN_METHOD(endBarcodeCountScanningPhase
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
@@ -86,17 +81,16 @@ RCT_EXTERN_METHOD(setBarcodeCountCaptureList
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(getSpatialMap
+RCT_EXTERN_METHOD(getBarcodeCountSpatialMap
                   : (RCTPromiseResolveBlock)resolve reject
                   : (RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(getSpatialMapWithHints
-                  : (NSInteger)expectedNumberOfRows expectedNumberOfColumns
-                  : (NSInteger)expectedNumberOfColumns resolve
-                  : (RCTPromiseResolveBlock)resolve reject
+RCT_EXTERN_METHOD(getBarcodeCountSpatialMapWithHints
+                  : (nonnull NSDictionary *)data resolver
+                  : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(setModeEnabledState : (BOOL)enabled)
+RCT_EXTERN_METHOD(setBarcodeCountModeEnabledState : (nonnull NSDictionary *)data)
 
 RCT_EXTERN_METHOD(updateBarcodeCountFeedback
                   : (nonnull NSString *)feedbackJson resolve

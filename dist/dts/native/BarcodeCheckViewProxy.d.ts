@@ -22,6 +22,7 @@ export declare class NativeBarcodeCheckViewProxy extends BaseNativeProxy impleme
     stop(): Promise<void>;
     pause(): Promise<void>;
     update(json: string): Promise<void>;
+    barcodeCheckViewReset(): Promise<void>;
     private findNodeHandle;
     createView(view: BarcodeCheckView | null, viewJson: string): Promise<void>;
     subscribeViewListeners(): Promise<void>;

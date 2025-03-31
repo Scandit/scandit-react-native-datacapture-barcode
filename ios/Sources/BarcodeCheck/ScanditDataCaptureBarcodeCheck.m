@@ -105,4 +105,8 @@ RCT_EXTERN_METHOD(finishBarcodeCheckHighlightForBarcode
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
+RCT_EXTERN_METHOD(barcodeCheckViewReset
+                  : (RCTPromiseResolveBlock)resolve rejecter
+                  : (RCTPromiseRejectBlock)reject)
+
 @end

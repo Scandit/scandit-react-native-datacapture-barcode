@@ -145,6 +145,12 @@ class ScanditDataCaptureBarcodeCheck: RCTEventEmitter {
         barcodeCheckModule.viewStop(result: ReactNativeResult(resolve, reject))
     }
 
+    @objc(barcodeCheckViewReset:rejecter:)
+    func barcodeCheckViewReset(resolve: @escaping RCTPromiseResolveBlock,
+                               reject: @escaping RCTPromiseRejectBlock) {
+        barcodeCheckModule.viewReset(result: ReactNativeResult(resolve, reject))
+    }
+
     @objc(registerBarcodeCheckAnnotationProvider:rejecter:)
     func registerBarcodeCheckAnnotationProvider(resolve: @escaping RCTPromiseResolveBlock,
                                                 reject: @escaping RCTPromiseRejectBlock) {

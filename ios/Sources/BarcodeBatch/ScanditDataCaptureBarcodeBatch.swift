@@ -119,20 +119,24 @@ class ScanditDataCaptureBarcodeBatch: RCTEventEmitter {
             let configuration = try! JSONSerialization.jsonObject(with: viewJSON.data(using: .utf8)!,
                                                                   options: []) as! [String: Any]
             let jsView = try! JSView(with: configuration)
-            dispatchMainSync {
-                let rctRootView = rootViewWith(jsView: jsView)
-                if let trackedBarcode = barcodeBatchModule.trackedBarcode(by: trackedBarcodeId) {
-                    trackedBarcodeViewCache[rctRootView] = trackedBarcode
+            dispatchMain {
+                let rctRootView = self.rootViewWith(jsView: jsView)
+                if let trackedBarcode = self.barcodeBatchModule.trackedBarcode(by: trackedBarcodeId) {
+                    self.trackedBarcodeViewCache[rctRootView] = trackedBarcode
                 }
-                barcodeBatchModule.setViewForTrackedBarcode(view: rctRootView,
-                                                               trackedBarcodeId: trackedBarcodeId,
-                                                               sessionFrameSequenceId: nil)
+                self.barcodeBatchModule.setViewForTrackedBarcode(
+                    view: rctRootView,
+                    trackedBarcodeId: trackedBarcodeId,
+                    sessionFrameSequenceId: nil
+                )
             }
         } else {
-            dispatchMainSync {
-                barcodeBatchModule.setViewForTrackedBarcode(view: nil,
-                                                               trackedBarcodeId: trackedBarcodeId,
-                                                               sessionFrameSequenceId: nil)
+            dispatchMain {
+                self.barcodeBatchModule.setViewForTrackedBarcode(
+                    view: nil,
+                    trackedBarcodeId: trackedBarcodeId,
+                    sessionFrameSequenceId: nil
+                )
             }
         }
         resolve(nil)

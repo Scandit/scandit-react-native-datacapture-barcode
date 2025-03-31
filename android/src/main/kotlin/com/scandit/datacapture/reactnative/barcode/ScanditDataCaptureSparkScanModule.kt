@@ -6,7 +6,6 @@
 
 package com.scandit.datacapture.reactnative.barcode
 
-import com.facebook.react.bridge.LifecycleEventListener
 import com.facebook.react.bridge.Promise
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
@@ -16,7 +15,6 @@ import com.scandit.datacapture.frameworks.barcode.spark.SparkScanModule
 import com.scandit.datacapture.frameworks.core.FrameworkModule
 import com.scandit.datacapture.frameworks.core.errors.ModuleNotStartedError
 import com.scandit.datacapture.frameworks.core.locator.ServiceLocator
-import com.scandit.datacapture.frameworks.core.result.NoopFrameworksResult
 import com.scandit.datacapture.reactnative.barcode.ui.SparkScanViewManager
 import com.scandit.datacapture.reactnative.core.utils.ReactNativeResult
 
@@ -25,24 +23,6 @@ class ScanditDataCaptureSparkScanModule(
     private val serviceLocator: ServiceLocator<FrameworkModule>,
     private val viewManagers: Map<String, ViewGroupManager<*>>,
 ) : ReactContextBaseJavaModule(reactContext) {
-
-    private val lifecycleListener = object : LifecycleEventListener {
-        override fun onHostResume() {
-            sparkScanModule.onResume(NoopFrameworksResult())
-        }
-
-        override fun onHostPause() {
-            sparkScanModule.onPause()
-        }
-
-        override fun onHostDestroy() {
-            // Noop
-        }
-    }
-
-    init {
-        reactContext.addLifecycleEventListener(lifecycleListener)
-    }
 
     @ReactMethod
     fun registerListenerForEvents() {
@@ -107,18 +87,6 @@ class ScanditDataCaptureSparkScanModule(
     }
 
     @ReactMethod
-    fun onResume(promise: Promise) {
-        // No need for this, the lifecycle is handled internally
-        promise.resolve(null)
-    }
-
-    @ReactMethod
-    fun onPause(promise: Promise) {
-        // No need for this, the lifecycle is handled internally
-        promise.resolve(null)
-    }
-
-    @ReactMethod
     fun showToast(text: String, promise: Promise) {
         sparkScanModule.showToast(text, ReactNativeResult(promise))
     }
@@ -155,7 +123,6 @@ class ScanditDataCaptureSparkScanModule(
 
     override fun invalidate() {
         sparkScanModule.onDestroy()
-        reactContext.removeLifecycleEventListener(lifecycleListener)
         super.invalidate()
     }
 
