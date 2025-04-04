@@ -6,6 +6,7 @@
 
 package com.scandit.datacapture.reactnative.barcode
 
+import com.facebook.react.bridge.LifecycleEventListener
 import com.facebook.react.bridge.Promise
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
@@ -21,6 +22,24 @@ class ScanditDataCaptureBarcodePickModule(
     private val serviceLocator: ServiceLocator<FrameworkModule>,
 ) : ReactContextBaseJavaModule(reactContext) {
 
+    private val lifecycleListener = object : LifecycleEventListener {
+        override fun onHostResume() {
+            barcodePickModule.viewOnResume()
+        }
+
+        override fun onHostPause() {
+            barcodePickModule.viewOnPause()
+        }
+
+        override fun onHostDestroy() {
+            barcodePickModule.viewDisposed()
+        }
+    }
+
+    override fun initialize() {
+        reactContext.addLifecycleEventListener(lifecycleListener)
+    }
+
     override fun getName(): String = "ScanditDataCaptureBarcodePick"
 
     override fun getConstants(): MutableMap<String, Any> {
@@ -30,6 +49,7 @@ class ScanditDataCaptureBarcodePickModule(
     }
 
     override fun invalidate() {
+        reactContext.removeLifecycleEventListener(lifecycleListener)
         barcodePickModule.onDestroy()
         super.invalidate()
     }
@@ -121,7 +141,19 @@ class ScanditDataCaptureBarcodePickModule(
 
     @ReactMethod
     fun viewRelease(promise: Promise) {
-        barcodePickModule.viewDisposed()
+        barcodePickModule.viewOnDestroy()
+        promise.resolve(null)
+    }
+
+    @ReactMethod
+    fun viewResume(promise: Promise) {
+        barcodePickModule.viewOnResume()
+        promise.resolve(null)
+    }
+
+    @ReactMethod
+    fun viewPause(promise: Promise) {
+        barcodePickModule.viewOnPause()
         promise.resolve(null)
     }
 
