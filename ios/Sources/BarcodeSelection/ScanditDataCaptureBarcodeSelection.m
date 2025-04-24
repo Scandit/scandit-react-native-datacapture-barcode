@@ -3,32 +3,31 @@
 
 @interface RCT_EXTERN_MODULE (ScanditDataCaptureBarcodeSelection, RCTEventEmitter)
 
-RCT_EXTERN_METHOD(finishDidUpdateSessionCallback : (BOOL)enabled)
+RCT_EXTERN_METHOD(finishBarcodeSelectionDidUpdateSession : (NSDictionary *)data)
 
-RCT_EXTERN_METHOD(finishDidUpdateSelectionCallback : (BOOL)enabled)
+RCT_EXTERN_METHOD(finishBarcodeSelectionDidSelect : (NSDictionary *)data)
 
-RCT_EXTERN_METHOD(registerListenerForEvents)
+RCT_EXTERN_METHOD(registerBarcodeSelectionListenerForEvents)
 
-RCT_EXTERN_METHOD(unregisterListenerForEvents)
+RCT_EXTERN_METHOD(unregisterBarcodeSelectionListenerForEvents)
 
-RCT_EXTERN_METHOD(getCount
-                  : (NSString *)selectionIdentifier resolver
+RCT_EXTERN_METHOD(getCountForBarcodeInBarcodeSelectionSession
+                  : (NSDictionary *)data resolver
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
 RCT_EXTERN_METHOD(increaseCountForBarcodes
-                  : (NSString *)barcodesJson resolver
+                  : (NSDictionary *)data resolver
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
 RCT_EXTERN_METHOD(unselectBarcodes
-                  : (NSString *)barcodesJson resolver
+                  : (NSDictionary *)data resolver
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
 RCT_EXTERN_METHOD(setSelectBarcodeEnabled
-                  : (NSString *)barcodesJson enabled
-                  : (BOOL)enabled resolver
+                  : (NSDictionary *)data resolver
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
@@ -37,8 +36,7 @@ RCT_EXTERN_METHOD(setAimedBarcodeBrushProvider
                   : (RCTPromiseRejectBlock)reject)
 
 RCT_EXTERN_METHOD(finishBrushForAimedBarcodeCallback
-                  : (NSString *)brushJson selectionIdentifier
-                  : (NSString *)selectionIdentifier resolver
+                  : (NSDictionary *)data resolver
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
@@ -51,8 +49,7 @@ RCT_EXTERN_METHOD(setTrackedBarcodeBrushProvider
                   : (RCTPromiseRejectBlock)reject)
 
 RCT_EXTERN_METHOD(finishBrushForTrackedBarcodeCallback
-                  : (NSString *)brushJson selectionIdentifier
-                  : (NSString *)selectionIdentifier resolver
+                  : (NSDictionary *)data resolver
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
@@ -60,11 +57,11 @@ RCT_EXTERN_METHOD(removeTrackedBarcodeBrushProvider
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(resetSession
+RCT_EXTERN_METHOD(resetBarcodeSelectionSession
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(unfreezeCamera
+RCT_EXTERN_METHOD(unfreezeCameraInBarcodeSelection
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
@@ -72,29 +69,34 @@ RCT_EXTERN_METHOD(selectAimedBarcode
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(resetMode
+RCT_EXTERN_METHOD(resetBarcodeSelection
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
 RCT_EXTERN_METHOD(setTextForAimToSelectAutoHint
-                  : (NSString *)text resolver
+                  : (NSDictionary *)data resolver
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(setModeEnabledState : (BOOL)enabled)
+RCT_EXTERN_METHOD(setBarcodeSelectionModeEnabledState : (NSDictionary *)data)
 
 RCT_EXTERN_METHOD(updateBarcodeSelectionBasicOverlay
-                  : (NSString *)overlayJson resolve
+                  : (NSDictionary *)data resolve
                   : (RCTPromiseResolveBlock)resolve reject
                   : (RCTPromiseRejectBlock)reject)
 
 RCT_EXTERN_METHOD(updateBarcodeSelectionMode
-                  : (NSString *)modeJson resolve
+                  : (NSDictionary *)data resolve
                   : (RCTPromiseResolveBlock)resolve reject
                   : (RCTPromiseRejectBlock)reject)
 
 RCT_EXTERN_METHOD(applyBarcodeSelectionModeSettings
-                  : (NSString *)modeSettingsJson resolve
+                  : (NSDictionary *)data resolve
+                  : (RCTPromiseResolveBlock)resolve reject
+                  : (RCTPromiseRejectBlock)reject)
+
+RCT_EXTERN_METHOD(updateBarcodeSelectionFeedback
+                  : (NSDictionary *)data resolve
                   : (RCTPromiseResolveBlock)resolve reject
                   : (RCTPromiseRejectBlock)reject)
 

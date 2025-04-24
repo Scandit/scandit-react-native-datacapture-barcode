@@ -10,17 +10,17 @@ import com.facebook.react.bridge.Promise
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
-import com.scandit.datacapture.frameworks.barcode.tracking.BarcodeTrackingModule
+import com.scandit.datacapture.frameworks.barcode.batch.BarcodeBatchModule
 import com.scandit.datacapture.frameworks.core.FrameworkModule
 import com.scandit.datacapture.frameworks.core.errors.ModuleNotStartedError
 import com.scandit.datacapture.frameworks.core.locator.ServiceLocator
-import com.scandit.datacapture.reactnative.barcode.tracking.nativeViewFromJson
+import com.scandit.datacapture.reactnative.barcode.batch.nativeViewFromJson
 import com.scandit.datacapture.reactnative.core.utils.ReactNativeResult
 import org.json.JSONObject
 
-class ScanditDataCaptureBarcodeTrackingModule(
+class ScanditDataCaptureBarcodeBatchModule(
     reactContext: ReactApplicationContext,
-    private val serviceLocator: ServiceLocator<FrameworkModule>
+    private val serviceLocator: ServiceLocator<FrameworkModule>,
 ) : ReactContextBaseJavaModule(reactContext) {
 
     companion object {
@@ -28,44 +28,44 @@ class ScanditDataCaptureBarcodeTrackingModule(
     }
 
     override fun invalidate() {
-        barcodeTrackingModule.onDestroy()
+        barcodeBatchModule.onDestroy()
         super.invalidate()
     }
 
-    override fun getName(): String = "ScanditDataCaptureBarcodeTracking"
+    override fun getName(): String = "ScanditDataCaptureBarcodeBatch"
 
     override fun getConstants(): MutableMap<String, Any> = mutableMapOf(
-        DEFAULTS_KEY to barcodeTrackingModule.getDefaults()
+        DEFAULTS_KEY to barcodeBatchModule.getDefaults()
     )
 
     @ReactMethod
     fun registerListenerForEvents() {
-        barcodeTrackingModule.addBarcodeTrackingListener()
+        barcodeBatchModule.addBarcodeBatchListener()
     }
 
     @ReactMethod
     fun unregisterListenerForEvents() {
-        barcodeTrackingModule.removeBarcodeTrackingListener()
+        barcodeBatchModule.removeBarcodeBatchListener()
     }
 
     @ReactMethod
     fun registerListenerForBasicOverlayEvents() {
-        barcodeTrackingModule.addBasicOverlayListener()
+        barcodeBatchModule.addBasicOverlayListener()
     }
 
     @ReactMethod
     fun unregisterListenerForBasicOverlayEvents() {
-        barcodeTrackingModule.removeBasicOverlayListener()
+        barcodeBatchModule.removeBasicOverlayListener()
     }
 
     @ReactMethod
     fun registerListenerForAdvancedOverlayEvents() {
-        barcodeTrackingModule.addAdvancedOverlayListener()
+        barcodeBatchModule.addAdvancedOverlayListener()
     }
 
     @ReactMethod
     fun unregisterListenerForAdvancedOverlayEvents() {
-        barcodeTrackingModule.removeAdvancedOverlayListener()
+        barcodeBatchModule.removeAdvancedOverlayListener()
     }
 
     @ReactMethod
@@ -79,19 +79,19 @@ class ScanditDataCaptureBarcodeTrackingModule(
             "trackedBarcodeID" to trackedBarcodeId
         )
 
-        barcodeTrackingModule.setBasicOverlayBrushForTrackedBarcode(JSONObject(payload).toString())
+        barcodeBatchModule.setBasicOverlayBrushForTrackedBarcode(JSONObject(payload).toString())
         promise.resolve(null)
     }
 
     @ReactMethod
     fun clearTrackedBarcodeBrushes(promise: Promise) {
-        barcodeTrackingModule.clearBasicOverlayTrackedBarcodeBrushes()
+        barcodeBatchModule.clearBasicOverlayTrackedBarcodeBrushes()
         promise.resolve(null)
     }
 
     @ReactMethod
     fun finishDidUpdateSessionCallback(enabled: Boolean) {
-        barcodeTrackingModule.finishDidUpdateSession(enabled)
+        barcodeBatchModule.finishDidUpdateSession(enabled)
     }
 
     @ReactMethod
@@ -102,7 +102,7 @@ class ScanditDataCaptureBarcodeTrackingModule(
     ) {
         currentActivity?.let {
             it.runOnUiThread {
-                barcodeTrackingModule.setViewForTrackedBarcode(
+                barcodeBatchModule.setViewForTrackedBarcode(
                     nativeViewFromJson(it, view),
                     trackedBarcodeId,
                     null
@@ -118,7 +118,7 @@ class ScanditDataCaptureBarcodeTrackingModule(
         trackedBarcodeId: Int,
         promise: Promise
     ) {
-        barcodeTrackingModule.setAnchorForTrackedBarcode(
+        barcodeBatchModule.setAnchorForTrackedBarcode(
             hashMapOf(
                 "anchor" to anchor,
                 "identifier" to trackedBarcodeId,
@@ -135,7 +135,7 @@ class ScanditDataCaptureBarcodeTrackingModule(
         trackedBarcodeId: Int,
         promise: Promise
     ) {
-        barcodeTrackingModule.setOffsetForTrackedBarcode(
+        barcodeBatchModule.setOffsetForTrackedBarcode(
             hashMapOf(
                 "offset" to offset,
                 "identifier" to trackedBarcodeId,
@@ -148,44 +148,44 @@ class ScanditDataCaptureBarcodeTrackingModule(
 
     @ReactMethod
     fun clearTrackedBarcodeViews(promise: Promise) {
-        barcodeTrackingModule.clearAdvancedOverlayTrackedBarcodeViews()
+        barcodeBatchModule.clearAdvancedOverlayTrackedBarcodeViews()
         promise.resolve(null)
     }
 
     @ReactMethod
     fun resetSession() {
-        barcodeTrackingModule.resetSession(null)
+        barcodeBatchModule.resetSession(null)
     }
 
     @ReactMethod
     fun setModeEnabledState(enabled: Boolean) {
-        barcodeTrackingModule.setModeEnabled(enabled)
+        barcodeBatchModule.setModeEnabled(enabled)
     }
 
     @ReactMethod
-    fun updateBarcodeTrackingBasicOverlay(overlayJson: String, promise: Promise) {
-        barcodeTrackingModule.updateBasicOverlay(overlayJson, ReactNativeResult(promise))
+    fun updateBarcodeBatchBasicOverlay(overlayJson: String, promise: Promise) {
+        barcodeBatchModule.updateBasicOverlay(overlayJson, ReactNativeResult(promise))
     }
 
     @ReactMethod
-    fun updateBarcodeTrackingAdvancedOverlay(overlayJson: String, promise: Promise) {
-        barcodeTrackingModule.updateAdvancedOverlay(overlayJson, ReactNativeResult(promise))
+    fun updateBarcodeBatchAdvancedOverlay(overlayJson: String, promise: Promise) {
+        barcodeBatchModule.updateAdvancedOverlay(overlayJson, ReactNativeResult(promise))
     }
 
     @ReactMethod
-    fun updateBarcodeTrackingMode(modeJson: String, promise: Promise) {
-        barcodeTrackingModule.updateModeFromJson(modeJson, ReactNativeResult(promise))
+    fun updateBarcodeBatchMode(modeJson: String, promise: Promise) {
+        barcodeBatchModule.updateModeFromJson(modeJson, ReactNativeResult(promise))
     }
 
     @ReactMethod
-    fun applyBarcodeTrackingModeSettings(modeSettingsJson: String, promise: Promise) {
-        barcodeTrackingModule.applyModeSettings(modeSettingsJson, ReactNativeResult(promise))
+    fun applyBarcodeBatchModeSettings(modeSettingsJson: String, promise: Promise) {
+        barcodeBatchModule.applyModeSettings(modeSettingsJson, ReactNativeResult(promise))
     }
 
-    private val barcodeTrackingModule: BarcodeTrackingModule
+    private val barcodeBatchModule: BarcodeBatchModule
         get() {
             return serviceLocator.resolve(
-                BarcodeTrackingModule::class.java.name
-            ) as? BarcodeTrackingModule? ?: throw ModuleNotStartedError(name)
+                BarcodeBatchModule::class.java.name
+            ) as? BarcodeBatchModule? ?: throw ModuleNotStartedError(name)
         }
 }

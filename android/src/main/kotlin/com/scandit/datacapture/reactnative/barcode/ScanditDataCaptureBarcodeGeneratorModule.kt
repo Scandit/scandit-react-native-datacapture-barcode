@@ -53,8 +53,8 @@ class ScanditDataCaptureBarcodeGeneratorModule(
     }
 
     @ReactMethod
-    fun disposeGenerator(generatorId: String, text: String, imageWidth: Int, promise: Promise) {
-        barcodeGenerator.generate(generatorId, text, imageWidth, ReactNativeResult(promise))
+    fun disposeGenerator(generatorId: String, promise: Promise) {
+        barcodeGenerator.disposeGenerator(generatorId, ReactNativeResult(promise))
     }
 
     override fun invalidate() {

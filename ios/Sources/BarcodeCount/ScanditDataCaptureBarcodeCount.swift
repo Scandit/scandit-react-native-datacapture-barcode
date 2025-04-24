@@ -16,12 +16,16 @@ enum ScanditDataCaptureBarcodeCountEvent: String, CaseIterable {
 
     case brushForRecognizedBarcode = "BarcodeCountViewListener.brushForRecognizedBarcode"
     case brushForRecognizedBarcodeNotInList = "BarcodeCountViewListener.brushForRecognizedBarcodeNotInList"
-    case brushForUnrecognizedBarcode = "BarcodeCountViewListener.brushForUnrecognizedBarcode"
+    case brushForAcceptedBarcode = "BarcodeCountViewListener.brushForAcceptedBarcode"
+    case brushForRejectedBarcode = "BarcodeCountViewListener.brushForRejectedBarcode"
+
     case filteredBarcodeTapped = "BarcodeCountViewListener.didTapFilteredBarcode"
     case recognizedBarcodeNotInListTapped = "BarcodeCountViewListener.didTapRecognizedBarcodeNotInList"
     case recognizedBarcodeTapped = "BarcodeCountViewListener.didTapRecognizedBarcode"
-    case unrecognizedBarcodeTapped = "BarcodeCountViewListener.didTapUnrecognizedBarcode"
     case didCompleteCaptureList = "BarcodeCountViewListener.didCompleteCaptureList"
+
+    case didTapAcceptedBarcode = "BarcodeCountViewListener.didTapAcceptedBarcode"
+    case didTapRejectedBarcode = "BarcodeCountViewListener.didTapRejectedBarcode"
 
     case singleScanButtonTapped = "BarcodeCountViewUiListener.onSingleScanButtonTapped"
     case listButtonTapped = "BarcodeCountViewUiListener.onListButtonTapped"
@@ -43,10 +47,12 @@ class ScanditDataCaptureBarcodeCount: RCTEventEmitter {
         let captureListListener = FrameworksBarcodeCountCaptureListListener(emitter: emitter)
         let viewListener = FrameworksBarcodeCountViewListener(emitter: emitter)
         let viewUIListener = FrameworksBarcodeCountViewUIListener(emitter: emitter)
+        let statusProvider = FrameworksBarcodeCountStatusProvider(emitter: emitter)
         barcodeCountModule = BarcodeCountModule(barcodeCountListener: barcodeCountListener,
                                                 captureListListener: captureListListener,
                                                 viewListener: viewListener,
-                                                viewUiListener: viewUIListener)
+                                                viewUiListener: viewUIListener,
+                                                statusProvider: statusProvider)
         barcodeCountModule.didStart()
     }
 
@@ -80,44 +86,43 @@ class ScanditDataCaptureBarcodeCount: RCTEventEmitter {
         invalidate()
     }
 
-    @objc(createView:JSONString:resolver:rejecter:)
-    func createView(reactTag: NSNumber,
-                    jsonString: String,
+    @objc(createBarcodeCountView:resolver:rejecter:)
+    func createBarcodeCountView(data: [String: Any],
                     resolve: @escaping RCTPromiseResolveBlock,
                     reject: @escaping RCTPromiseRejectBlock) {
+        let viewJson = data["viewJson"] as! String
         dispatchMain {
             if let container = BarcodeCountViewManager.containers.last {
-                self.barcodeCountModule.addViewFromJson(parent: container, viewJson: jsonString)
-                resolve(nil)
+                self.barcodeCountModule.addViewFromJson(parent: container, viewJson: viewJson, result: ReactNativeResult(resolve, reject))
             }
         }
     }
 
-    @objc(updateView:resolver:rejecter:)
-    func updateView(jsonString: String,
+    @objc(updateBarcodeCountView:resolver:rejecter:)
+    func updateBarcodeCountView(data: [String: Any],
                     resolve: @escaping RCTPromiseResolveBlock,
                     reject: @escaping RCTPromiseRejectBlock) {
-        barcodeCountModule.updateBarcodeCountView(viewJson: jsonString)
-        resolve(nil)
+        let viewJson = data["viewJson"] as! String
+        barcodeCountModule.updateBarcodeCountView(viewJson: viewJson, result: ReactNativeResult(resolve, reject))
     }
 
-    @objc(clearHighlights:rejecter:)
-    func clearHighlights(resolve: @escaping RCTPromiseResolveBlock,
+    @objc(clearBarcodeCountHighlights:rejecter:)
+    func clearBarcodeCountHighlights(resolve: @escaping RCTPromiseResolveBlock,
                          reject: @escaping RCTPromiseRejectBlock) {
         barcodeCountModule.clearHighlights()
         resolve(nil)
     }
 
-    @objc(updateMode:resolver:rejecter:)
-    func update(jsonString: String,
+    @objc(updateBarcodeCountMode:resolver:rejecter:)
+    func updateBarcodeCountMode(data: [String: Any],
                 resolve: @escaping RCTPromiseResolveBlock,
                 reject: @escaping RCTPromiseRejectBlock) {
-        barcodeCountModule.updateBarcodeCount(modeJson: jsonString)
-        resolve(nil)
+        let modeJson = data["barcodeCountJson"] as! String
+        barcodeCountModule.updateBarcodeCount(modeJson: modeJson, result: ReactNativeResult(resolve, reject))
     }
 
-    @objc(resetSession:rejecter:)
-    func reset(resolve: @escaping RCTPromiseResolveBlock,
+    @objc(resetBarcodeCountSession:rejecter:)
+    func resetBarcodeCountSession(resolve: @escaping RCTPromiseResolveBlock,
                reject: @escaping RCTPromiseRejectBlock) {
         barcodeCountModule.resetBarcodeCountSession(frameSequenceId: nil)
         resolve(nil)
@@ -130,15 +135,15 @@ class ScanditDataCaptureBarcodeCount: RCTEventEmitter {
         resolve(nil)
     }
 
-    @objc(startScanningPhase:rejecter:)
-    func startScanningPhase(resolve: @escaping RCTPromiseResolveBlock,
+    @objc(startBarcodeCountScanningPhase:rejecter:)
+    func startBarcodeCountScanningPhase(resolve: @escaping RCTPromiseResolveBlock,
                             reject: @escaping RCTPromiseRejectBlock) {
         barcodeCountModule.startScanningPhase()
         resolve(nil)
     }
 
-    @objc(endScanningPhase:rejecter:)
-    func endScanningPhase(resolve: @escaping RCTPromiseResolveBlock,
+    @objc(endBarcodeCountScanningPhase:rejecter:)
+    func endBarcodeCountScanningPhase(resolve: @escaping RCTPromiseResolveBlock,
                           reject: @escaping RCTPromiseRejectBlock) {
         barcodeCountModule.endScanningPhase()
         resolve(nil)
@@ -162,84 +167,101 @@ class ScanditDataCaptureBarcodeCount: RCTEventEmitter {
         barcodeCountModule.removeBarcodeCountListener()
     }
 
-    @objc
-    func registerBarcodeCountViewListener() {
-        barcodeCountModule.addBarcodeCountViewListener()
+    @objc(registerBarcodeCountViewListener:rejecter:)
+    func registerBarcodeCountViewListener(resolve: @escaping RCTPromiseResolveBlock,
+                                          reject: @escaping RCTPromiseRejectBlock) {
+        barcodeCountModule.addBarcodeCountViewListener(result: ReactNativeResult(resolve, reject))
+    }
+
+    @objc(unregisterBarcodeCountViewListener:rejecter:)
+    func unregisterBarcodeCountViewListener(resolve: @escaping RCTPromiseResolveBlock,
+                                            reject: @escaping RCTPromiseRejectBlock) {
+        barcodeCountModule.removeBarcodeCountViewListener(result: ReactNativeResult(resolve, reject))
+    }
+
+    @objc(registerBarcodeCountViewUiListener:rejecter:)
+    func registerBarcodeCountViewUiListener(resolve: @escaping RCTPromiseResolveBlock,
+                                            reject: @escaping RCTPromiseRejectBlock) {
+        barcodeCountModule.addBarcodeCountViewUiListener(result: ReactNativeResult(resolve, reject))
+    }
+
+    @objc(unregisterBarcodeCountViewUiListener:rejecter:)
+    func unregisterBarcodeCountViewUiListener(resolve: @escaping RCTPromiseResolveBlock,
+                                              reject: @escaping RCTPromiseRejectBlock) {
+        barcodeCountModule.removeBarcodeCountViewUiListener(result: ReactNativeResult(resolve, reject))
     }
 
     @objc
-    func unregisterBarcodeCountViewListener() {
-        barcodeCountModule.removeBarcodeCountViewListener()
-    }
-
-    @objc
-    func registerBarcodeCountViewUiListener() {
-        barcodeCountModule.addBarcodeCountViewUiListener()
-    }
-
-    @objc
-    func unregisterBarcodeCountViewUiListener() {
-        barcodeCountModule.removeBarcodeCountViewUiListener()
-    }
-
-    @objc
-    func finishOnScan() {
+    func finishBarcodeCountOnScan() {
         barcodeCountModule.finishOnScan(enabled: true)
     }
 
-    @objc(finishBrushForUnrecognizedBarcodeCallback:jsonString:trackedBarcodeId:resolve:reject:)
-    func finishBrushForUnrecognizedBarcodeCallback(reactTag: NSNumber,
-                                                   jsonString: String,
-                                                   trackedBarcodeId: Int,
-                                                   resolve: @escaping RCTPromiseResolveBlock,
-                                                   reject: @escaping RCTPromiseRejectBlock) {
-        let brush = Brush(jsonString: jsonString)
-        barcodeCountModule.finishBrushForUnrecognizedBarcodeEvent(brush: brush,
-                                                                  trackedBarcodeId: trackedBarcodeId)
-        resolve(nil)
-    }
-
-    @objc(finishBrushForRecognizedBarcodeCallback:jsonString:trackedBarcodeId:resolve:reject:)
-    func finishBrushForRecognizedBarcodeCallback(reactTag: NSNumber,
-                                                 jsonString: String,
-                                                 trackedBarcodeId: Int,
+    @objc(finishBarcodeCountBrushForRecognizedBarcode:resolver:rejecter:)
+    func finishBarcodeCountBrushForRecognizedBarcode(data: [String: Any],
                                                  resolve: @escaping RCTPromiseResolveBlock,
                                                  reject: @escaping RCTPromiseRejectBlock) {
-        let brush = Brush(jsonString: jsonString)
+        let brush = data["brushJson"].flatMap { $0 as? String }.flatMap { Brush(jsonString: $0) }
+        let trackedBarcodeId = data["trackedBarcodeId"] as! Int
         barcodeCountModule.finishBrushForRecognizedBarcodeEvent(brush: brush,
-                                                                trackedBarcodeId: trackedBarcodeId)
-        resolve(nil)
+                                                                trackedBarcodeId: trackedBarcodeId,
+                                                                result: ReactNativeResult(resolve, reject))
     }
 
-    @objc(finishBrushForRecognizedBarcodeNotInListCallback:jsonString:trackedBarcodeId:resolve:reject:)
-    func finishBrushForRecognizedBarcodeNotInListCallback(reactTag: NSNumber,
-                                                          jsonString: String,
-                                                          trackedBarcodeId: Int,
+    @objc(finishBarcodeCountBrushForRecognizedBarcodeNotInList:resolver:rejecter:)
+    func finishBarcodeCountBrushForRecognizedBarcodeNotInList(data: [String: Any],
+                                                                      resolve: @escaping RCTPromiseResolveBlock,
+                                                                      reject: @escaping RCTPromiseRejectBlock) {
+        let brush = data["brushJson"].flatMap { $0 as? String }.flatMap { Brush(jsonString: $0) }
+        let trackedBarcodeId = data["trackedBarcodeId"] as! Int
+        barcodeCountModule.finishBrushForRecognizedBarcodeNotInListEvent(brush: brush,
+                                                                         trackedBarcodeId: trackedBarcodeId,
+                                                                         result: ReactNativeResult(resolve, reject))
+    }
+
+    @objc(finishBarcodeCountBrushForAcceptedBarcode:resolver:rejecter:)
+    func finishBarcodeCountBrushForAcceptedBarcode(data: [String: Any],
                                                           resolve: @escaping RCTPromiseResolveBlock,
                                                           reject: @escaping RCTPromiseRejectBlock) {
-        let brush = Brush(jsonString: jsonString)
-        barcodeCountModule.finishBrushForRecognizedBarcodeNotInListEvent(brush: brush,
-                                                                         trackedBarcodeId: trackedBarcodeId)
+        let brush = data["brushJson"].flatMap { $0 as? String }.flatMap { Brush(jsonString: $0) }
+        let trackedBarcodeId = data["trackedBarcodeId"] as! Int
+        barcodeCountModule.finishBrushForAcceptedBarcodeEvent(brush: brush,
+                                                              trackedBarcodeId: trackedBarcodeId)
         resolve(nil)
     }
 
-    @objc(getSpatialMap:reject:)
-    func getSpatialMap(resolve: @escaping RCTPromiseResolveBlock,
-                       reject: @escaping RCTPromiseRejectBlock) {
-        resolve(barcodeCountModule.getSpatialMap()?.jsonString)
+    @objc(finishBarcodeCountBrushForRejectedBarcode:resolver:rejecter:)
+    func finishBarcodeCountBrushForRejectedBarcode(data: [String: Any],
+                                                          resolve: @escaping RCTPromiseResolveBlock,
+                                                          reject: @escaping RCTPromiseRejectBlock) {
+        let brush = data["brushJson"].flatMap { $0 as? String }.flatMap { Brush(jsonString: $0) }
+        let trackedBarcodeId = data["trackedBarcodeId"] as! Int
+        barcodeCountModule.finishBrushForRejectedBarcodeEvent(brush: brush,
+                                                              trackedBarcodeId: trackedBarcodeId)
+        resolve(nil)
     }
 
-    @objc(getSpatialMapWithHints:expectedNumberOfColumns:resolve:reject:)
-    func getSpatialMapWithHints(expectedNumberOfRows: NSInteger,
-                       expectedNumberOfColumns: NSInteger,
+    @objc(getBarcodeCountSpatialMap:reject:)
+    func getBarcodeCountSpatialMap(resolve: @escaping RCTPromiseResolveBlock,
+                       reject: @escaping RCTPromiseRejectBlock) {
+        barcodeCountModule.submitSpatialMap(result: ReactNativeResult(resolve, reject))
+    }
+
+    @objc(getBarcodeCountSpatialMapWithHints:resolver:rejecter:)
+    func getBarcodeCountSpatialMapWithHints(data: [String: Any],
                        resolve: @escaping RCTPromiseResolveBlock,
                        reject: @escaping RCTPromiseRejectBlock) {
-        resolve(barcodeCountModule.getSpatialMap(expectedNumberOfRows: expectedNumberOfRows,
-                                                 expectedNumberOfColumns: expectedNumberOfColumns)?.jsonString)
+        let expectedNumberOfRows = data["expectedNumberOfRows"] as! Int
+        let expectedNumberOfColumns = data["expectedNumberOfColumns"] as! Int
+        barcodeCountModule.submitSpatialMap(
+            expectedNumberOfRows: expectedNumberOfRows,
+            expectedNumberOfColumns: expectedNumberOfColumns,
+            result: ReactNativeResult(resolve, reject)
+        )
     }
 
-    @objc(setModeEnabledState:)
-    func setModeEnabledState(enabled: Bool) {
+    @objc(setBarcodeCountModeEnabledState:)
+    func setBarcodeCountodeEnabledState(data: [String: Any]) {
+        let enabled = data["isEnabled"] as! Bool
         barcodeCountModule.setModeEnabled(enabled: enabled)
     }
 
