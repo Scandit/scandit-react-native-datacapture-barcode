@@ -1,10 +1,10 @@
-import { BarcodeCheckViewProxy } from 'scandit-datacapture-frameworks-barcode';
+import { BarcodeArViewProxy } from 'scandit-datacapture-frameworks-barcode';
 import { BaseNativeProxy } from 'scandit-datacapture-frameworks-core';
-import { BarcodeCheckView } from 'ts/BarcodeCheckView';
-export declare class NativeBarcodeCheckViewProxy extends BaseNativeProxy implements BarcodeCheckViewProxy {
+import { BarcodeArView } from 'ts/BarcodeArView';
+export declare class NativeBarcodeArViewProxy extends BaseNativeProxy implements BarcodeArViewProxy {
     private nativeListeners;
-    private barcodeCheckAnnotationProvider;
-    private barcodeCheckHighlightProvider;
+    private barcodeArAnnotationProvider;
+    private barcodeArHighlightProvider;
     private didTapInfoAnnotationEvent;
     private didTapInfoAnnotationFooterEvent;
     private didTapInfoAnnotationHeaderEvent;
@@ -12,19 +12,19 @@ export declare class NativeBarcodeCheckViewProxy extends BaseNativeProxy impleme
     private didTapInfoAnnotationRightIconEvent;
     private didTapPopoverButtonEvent;
     private didTapPopoverEvent;
-    registerBarcodeCheckViewUiListener(): Promise<void>;
-    unregisterBarcodeCheckViewUiListener(): Promise<void>;
-    registerBarcodeCheckAnnotationProvider(): Promise<void>;
-    unregisterBarcodeCheckAnnotationProvider(): Promise<void>;
-    registerBarcodeCheckHighlightProvider(): Promise<void>;
-    unregisterBarcodeCheckHighlightProvider(): Promise<void>;
+    registerBarcodeArViewUiListener(): Promise<void>;
+    unregisterBarcodeArViewUiListener(): Promise<void>;
+    registerBarcodeArAnnotationProvider(): Promise<void>;
+    unregisterBarcodeArAnnotationProvider(): Promise<void>;
+    registerBarcodeArHighlightProvider(): Promise<void>;
+    unregisterBarcodeArHighlightProvider(): Promise<void>;
     start(): Promise<void>;
     stop(): Promise<void>;
     pause(): Promise<void>;
     update(json: string): Promise<void>;
-    barcodeCheckViewReset(): Promise<void>;
+    barcodeArViewReset(): Promise<void>;
     private findNodeHandle;
-    createView(view: BarcodeCheckView | null, viewJson: string): Promise<void>;
+    createView(view: BarcodeArView | null, viewJson: string): Promise<void>;
     subscribeViewListeners(): Promise<void>;
     updateHighlight(highlightJson: string): Promise<void>;
     updateAnnotation(annotationJson: string): Promise<void>;

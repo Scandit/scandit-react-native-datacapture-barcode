@@ -12,7 +12,7 @@ interface BarcodeBatchViewProps {
     defaultAnchorForTrackedBarcode?: Anchor;
     defaultsOffsetForTrackedBarcode?: PointWithUnit;
     cameraSettings?: CameraSettings | null;
-    desiredCameraState?: FrameSourceState | null;
+    desiredCameraState?: FrameSourceState;
     desiredCameraPosition?: CameraPosition | null;
     desiredTorchState?: TorchState | null;
     torchSwitchControl?: TorchSwitchControl | null;

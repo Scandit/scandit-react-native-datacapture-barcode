@@ -3,18 +3,18 @@ import ScanditBarcodeCapture
 import ScanditDataCaptureCore
 import ScanditFrameworksCore
 
-class BarcodeCheckViewWrapperView: UIView {
-    weak var viewManager: BarcodeCheckViewManager?
+class BarcodeArViewWrapperView: UIView {
+    weak var viewManager: BarcodeArViewManager?
 
-    var barcodeCheckView: BarcodeCheckView? {
+    var barcodeArView: BarcodeArView? {
         dispatchMainSync {
-            subviews.first { $0 is BarcodeCheckView } as? BarcodeCheckView
+            subviews.first { $0 is BarcodeArView } as? BarcodeArView
         }
     }
 
     override func addSubview(_ view: UIView) {
         super.addSubview(view)
-        if view is BarcodeCheckView {
+        if view is BarcodeArView {
             view.translatesAutoresizingMaskIntoConstraints = false
             addConstraints([
                 view.leadingAnchor.constraint(equalTo: leadingAnchor),
@@ -27,13 +27,13 @@ class BarcodeCheckViewWrapperView: UIView {
 
     override func removeFromSuperview() {
         super.removeFromSuperview()
-        guard let index = BarcodeCheckViewManager.containers.firstIndex(of: self) else {
+        guard let index = BarcodeArViewManager.containers.firstIndex(of: self) else {
             return
         }
 
-        BarcodeCheckViewManager.containers.remove(at: index)
+        BarcodeArViewManager.containers.remove(at: index)
 
-        if let view = barcodeCheckView,
+        if let view = barcodeArView,
            let _ = viewManager {
             if view.superview != nil {
                 view.removeFromSuperview()
@@ -42,19 +42,19 @@ class BarcodeCheckViewWrapperView: UIView {
     }
 }
 
-@objc(RNTSDCBarcodeCheckViewManager)
-class BarcodeCheckViewManager: RCTViewManager {
-    static var containers: [BarcodeCheckViewWrapperView] = []
+@objc(RNTSDCBarcodeArViewManager)
+class BarcodeArViewManager: RCTViewManager {
+    static var containers: [BarcodeArViewWrapperView] = []
 
     override class func requiresMainQueueSetup() -> Bool {
         true
     }
 
     override func view() -> UIView! {
-        let container = BarcodeCheckViewWrapperView()
+        let container = BarcodeArViewWrapperView()
         container.viewManager = self
 
-        BarcodeCheckViewManager.containers.append(container)
+        BarcodeArViewManager.containers.append(container)
 
         return container
     }
