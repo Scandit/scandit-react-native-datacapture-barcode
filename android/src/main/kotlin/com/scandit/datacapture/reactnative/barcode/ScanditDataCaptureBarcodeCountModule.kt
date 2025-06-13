@@ -185,7 +185,8 @@ class ScanditDataCaptureBarcodeCountModule(
     }
 
     @ReactMethod
-    fun setBarcodeCountCaptureList(targetBarcodesJson: String, promise: Promise) {
+    fun setBarcodeCountCaptureList(readableMap: ReadableMap, promise: Promise) {
+        val targetBarcodesJson = readableMap.getString("captureListJson")
         val barcodes = JSONArray(targetBarcodesJson)
         barcodeCountModule.setBarcodeCountCaptureList(barcodes)
         promise.resolve(null)
