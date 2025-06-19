@@ -93,5 +93,4 @@ RCT_EXTERN_METHOD(updateBarcodeFindFeedback
                   : (NSString *)feedbackJson resolver
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
-
 @end
