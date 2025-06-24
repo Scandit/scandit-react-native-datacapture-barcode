@@ -7,7 +7,6 @@
 package com.scandit.datacapture.reactnative.barcode.batch
 
 import android.app.Activity
-import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
@@ -21,23 +20,19 @@ import java.util.*
 
 fun nativeViewFromJson(currentActivity: Activity, viewJson: String?): View? {
     UiThreadUtil.assertOnUiThread()
-    val viewJsonObject = if (viewJson != null) JSONObject(viewJson) else return null
+    val viewJson = viewJson ?: return null
+    val viewJsonObject = JSONObject(viewJson)
 
     val reactInstanceManager = (currentActivity.application as ReactApplication)
         .reactNativeHost
         .reactInstanceManager
-    return ScanditReactRootView(currentActivity).apply {
+    return ReactRootView(currentActivity).apply {
         startReactApplication(
             reactInstanceManager,
             viewJsonObject.moduleName,
             viewJsonObject.initialProperties
         )
         layoutParams = ViewGroup.LayoutParams(WRAP_CONTENT, WRAP_CONTENT)
-
-        // Force the view to respect content bounds in debug builds
-        if (isAppInDebugMode(currentActivity)) {
-            setBackgroundColor(android.graphics.Color.TRANSPARENT)
-        }
     }
 }
 
@@ -64,38 +59,5 @@ private fun JSONObject.toBundle(): Bundle = Bundle().also { bundle ->
 private fun JSONArray.toArrayList(): ArrayList<Any> = ArrayList<Any>().also { list ->
     for (i in 0 until length()) {
         list.add(get(i))
-    }
-}
-
-private fun isAppInDebugMode(context: Context? = null): Boolean {
-    return try {
-        // Method 1: Check if the app is debuggable via ApplicationInfo
-        val appInfo = context?.applicationInfo ?: return false
-        (appInfo.flags and android.content.pm.ApplicationInfo.FLAG_DEBUGGABLE) != 0
-    } catch (e: Exception) {
-        // Fallback: assume production if we can't determine
-        false
-    }
-}
-
-// In Debug Builds the Debug Layouts introduced by RN are breaking the layout of the MSBubbles
-private class ScanditReactRootView(context: Context) : ReactRootView(context) {
-    private val debugMode = isAppInDebugMode(context)
-
-    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-
-        // In debug builds, if we're getting full screen size, constrain to content size
-        if (debugMode && measuredWidth > 600 && measuredHeight > 600) {
-            // Find the actual content child (usually the first one with reasonable size)
-            for (i in 0 until childCount) {
-                val child = getChildAt(i)
-                if (child.measuredWidth in 100..600 && child.measuredHeight in 50..200) {
-                    // Override the measured dimensions to match the content
-                    setMeasuredDimension(child.measuredWidth, child.measuredHeight)
-                    break
-                }
-            }
-        }
     }
 }

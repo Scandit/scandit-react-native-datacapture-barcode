@@ -150,11 +150,10 @@ class ScanditDataCaptureBarcodeCount: RCTEventEmitter {
     }
 
     @objc(setBarcodeCountCaptureList:resolver:rejecter:)
-    func setBarcodeCountCaptureList(data: [String: Any],
+    func setBarcodeCountCaptureList(jsonString: String,
                                     resolve: @escaping RCTPromiseResolveBlock,
                                     reject: @escaping RCTPromiseRejectBlock) {
-        let barcodesJson = data["captureListJson"] as! String
-        barcodeCountModule.setBarcodeCountCaptureList(barcodesJson: barcodesJson)
+        barcodeCountModule.setBarcodeCountCaptureList(barcodesJson: jsonString)
         resolve(nil)
     }
 

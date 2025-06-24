@@ -1,111 +1,112 @@
 #import <React/RCTBridgeModule.h>
 #import <React/RCTEventEmitter.h>
 
-@interface RCT_EXTERN_MODULE (ScanditDataCaptureBarcodeAr, RCTEventEmitter)
+@interface RCT_EXTERN_MODULE (ScanditDataCaptureBarcodeCheck, RCTEventEmitter)
 
-RCT_EXTERN_METHOD(createBarcodeArView
+RCT_EXTERN_METHOD(createBarcodeCheckView
                   : (NSInteger)reactTag jsonString
                   : (nonnull NSString *)JSONString resolver
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(updateBarcodeArFeedback
+RCT_EXTERN_METHOD(updateBarcodeCheckFeedback
                   : (nonnull NSString *)feedbackJson resolver
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(updateBarcodeArMode
-                  : (nonnull NSString *)barcodeArJson resolver
+RCT_EXTERN_METHOD(updateBarcodeCheckMode
+                  : (nonnull NSString *)barcodeCheckJson resolver
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(updateBarcodeArView
+RCT_EXTERN_METHOD(updateBarcodeCheckView
                   : (nonnull NSString *)viewJson resolver
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(updateBarcodeArAnnotation
+RCT_EXTERN_METHOD(updateBarcodeCheckAnnotation
                   : (nonnull NSString *)annotationJson resolver
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(updateBarcodeArHighlight
+RCT_EXTERN_METHOD(updateBarcodeCheckHighlight
                   : (nonnull NSString *)highlightJson resolver
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(updateBarcodeArPopoverButtonAtIndex
+RCT_EXTERN_METHOD(updateBarcodeCheckPopoverButtonAtIndex
                   : (nonnull NSString *)updateJson resolver
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(resetBarcodeAr
+RCT_EXTERN_METHOD(resetBarcodeCheck
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(resetBarcodeArSession
+RCT_EXTERN_METHOD(resetBarcodeCheckSession
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(barcodeArViewPause
+RCT_EXTERN_METHOD(barcodeCheckViewPause
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(barcodeArViewStart
+RCT_EXTERN_METHOD(barcodeCheckViewStart
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(barcodeArViewStop
+RCT_EXTERN_METHOD(barcodeCheckViewStop
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(registerBarcodeArAnnotationProvider
+RCT_EXTERN_METHOD(registerBarcodeCheckAnnotationProvider
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(unregisterBarcodeArAnnotationProvider
+RCT_EXTERN_METHOD(unregisterBarcodeCheckAnnotationProvider
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(registerBarcodeArListener
+RCT_EXTERN_METHOD(registerBarcodeCheckListener
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(unregisterBarcodeArListener
+RCT_EXTERN_METHOD(unregisterBarcodeCheckListener
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(registerBarcodeArHighlightProvider
+RCT_EXTERN_METHOD(registerBarcodeCheckHighlightProvider
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(unregisterBarcodeArHighlightProvider
+RCT_EXTERN_METHOD(unregisterBarcodeCheckHighlightProvider
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(registerBarcodeArViewUiListener
+RCT_EXTERN_METHOD(registerBarcodeCheckViewUiListener
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(unregisterBarcodeArViewUiListener
+RCT_EXTERN_METHOD(unregisterBarcodeCheckViewUiListener
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(finishBarcodeArOnDidUpdateSession
+RCT_EXTERN_METHOD(finishBarcodeCheckOnDidUpdateSession
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(finishBarcodeArAnnotationForBarcode
+RCT_EXTERN_METHOD(finishBarcodeCheckAnnotationForBarcode
                   : (nonnull NSString *)annotationJson resolver
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(finishBarcodeArHighlightForBarcode
+RCT_EXTERN_METHOD(finishBarcodeCheckHighlightForBarcode
                   : (nonnull NSString *)highlightJson resolver
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(barcodeArViewReset
+RCT_EXTERN_METHOD(barcodeCheckViewReset
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
+
 @end

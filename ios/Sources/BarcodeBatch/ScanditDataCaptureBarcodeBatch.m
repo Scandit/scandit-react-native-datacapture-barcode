@@ -23,13 +23,6 @@ RCT_EXTERN_METHOD(setViewForTrackedBarcode
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(updateSizeOfTrackedBarcodeView
-                  : (NSInteger *)trackedBarcodeId width
-                  : (NSInteger)width height
-                  : (NSInteger)height resolver
-                  : (RCTPromiseResolveBlock)resolve rejecter
-                  : (RCTPromiseRejectBlock)reject)
-
 RCT_EXTERN_METHOD(setAnchorForTrackedBarcode
                   : (NSString *)anchorJSON trackedBarcodeId
                   : (NSInteger)trackedBarcodeId resolver
@@ -83,4 +76,5 @@ RCT_EXTERN_METHOD(applyBarcodeBatchModeSettings
                   : (NSString *)modeSettingsJson resolve
                   : (RCTPromiseResolveBlock)resolve reject
                   : (RCTPromiseRejectBlock)reject)
+
 @end

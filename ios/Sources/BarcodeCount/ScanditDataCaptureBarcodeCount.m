@@ -77,7 +77,7 @@ RCT_EXTERN_METHOD(endBarcodeCountScanningPhase
                   : (RCTPromiseRejectBlock)reject)
 
 RCT_EXTERN_METHOD(setBarcodeCountCaptureList
-                  : (nonnull NSDictionary *)data resolver
+                  : (nonnull NSString *)jsonString resolver
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
@@ -96,4 +96,5 @@ RCT_EXTERN_METHOD(updateBarcodeCountFeedback
                   : (nonnull NSString *)feedbackJson resolve
                   : (RCTPromiseResolveBlock)resolve reject
                   : (RCTPromiseRejectBlock)reject)
+
 @end
