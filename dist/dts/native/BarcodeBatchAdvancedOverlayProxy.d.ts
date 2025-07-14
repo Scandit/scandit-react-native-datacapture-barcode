@@ -18,6 +18,7 @@ export declare class NativeBarcodeBatchAdvancedOverlayProxy implements BarcodeBa
     subscribeOffsetForTrackedBarcode(): void;
     subscribeDidTapViewForTrackedBarcode(): void;
     updateBarcodeBatchAdvancedOverlay(overlayJson: string): Promise<void>;
+    updateSizeOfTrackedBarcodeView(trackedBarcodeIdentifer: number, width: number, height: number): Promise<void>;
     getJSONStringForView(view: BarcodeBatchAdvancedOverlayView | null): string | null;
     private isSerializeable;
 }

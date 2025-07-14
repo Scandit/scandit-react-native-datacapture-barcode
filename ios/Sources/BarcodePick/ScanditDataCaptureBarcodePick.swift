@@ -54,11 +54,14 @@ class ScanditDataCaptureBarcodePick: RCTEventEmitter {
         return sdcSharedMethodQueue
     }
 
-    @objc(createView:jsonString:resolver:rejecter:)
-    func createView(reactTag: Int,
-                    jsonString: String,
+    @objc(createPickView:resolver:rejecter:)
+    func createPickView(data: [String: Any],
                     resolve: @escaping RCTPromiseResolveBlock,
                     reject: @escaping RCTPromiseRejectBlock) {
+        guard let jsonString = data["json"] as? String else {
+            ReactNativeResult(resolve, reject).reject(error: ScanditFrameworksCoreError.nilArgument)
+            return
+        }
         dispatchMain {
             if let container = BarcodePickViewManager.containers.last {
                 self.barcodePickModule.addViewToContainer(container: container,
@@ -68,45 +71,49 @@ class ScanditDataCaptureBarcodePick: RCTEventEmitter {
         }
     }
 
-    @objc(updateView:resolver:rejecter:)
-    func updateView(jsonString: String,
+    @objc(updatePickView:resolver:rejecter:)
+    func updatePickView(data: [String: Any],
                     resolve: @escaping RCTPromiseResolveBlock,
                     reject: @escaping RCTPromiseRejectBlock) {
+        guard let jsonString = data["json"] as? String else {
+            ReactNativeResult(resolve, reject).reject(error: ScanditFrameworksCoreError.nilArgument)
+            return
+        }
         barcodePickModule.updateView(viewJson: jsonString, result: ReactNativeResult(resolve, reject))
     }
 
-    @objc(addActionListener:rejecter:)
-    func addActionListener(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
+    @objc(addPickActionListener:rejecter:)
+    func addPickActionListener(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
         barcodePickModule.addActionListener()
         resolve(nil)
     }
 
-    @objc(removeActionListener:rejecter:)
-    func removeActionListener(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
+    @objc(removePickActionListener:rejecter:)
+    func removePickActionListener(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
         barcodePickModule.removeActionListener()
         resolve(nil)
     }
 
-    @objc(addScanningListener:rejecter:)
-    func addScanningListener(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
+    @objc(addBarcodePickScanningListener:rejecter:)
+    func addBarcodePickScanningListener(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
         barcodePickModule.addScanningListener()
         resolve(nil)
     }
 
-    @objc(removeScanningListener:rejecter:)
-    func removeScanningListener(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
+    @objc(removeBarcodePickScanningListener:rejecter:)
+    func removeBarcodePickScanningListener(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
         barcodePickModule.removeScanningListener()
         resolve(nil)
     }
 
-    @objc(addViewListener:rejecter:)
-    func addViewListener(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
+    @objc(addPickViewListener:rejecter:)
+    func addPickViewListener(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
         barcodePickModule.addViewListener()
         resolve(nil)
     }
 
-    @objc(removeViewListener:rejecter:)
-    func removeViewListener(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
+    @objc(removePickViewListener:rejecter:)
+    func removePickViewListener(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
         barcodePickModule.removeViewListener()
         resolve(nil)
     }
@@ -124,48 +131,58 @@ class ScanditDataCaptureBarcodePick: RCTEventEmitter {
     }
 
     @objc(finishOnProductIdentifierForItems:resolver:rejecter:)
-    func finishOnProductIdentifierForItems(jsonString: String,
-                                           resolve: RCTPromiseResolveBlock,
-                                           reject: RCTPromiseRejectBlock) {
+    func finishOnProductIdentifierForItems(data: [String: Any],
+                                           resolve: @escaping RCTPromiseResolveBlock,
+                                           reject: @escaping RCTPromiseRejectBlock) {
+        guard let jsonString = data["itemsJson"] as? String else {
+            ReactNativeResult(resolve, reject).reject(error: ScanditFrameworksCoreError.nilArgument)
+            return
+        }
         barcodePickModule.finishProductIdentifierForItems(barcodePickProductProviderCallbackItemsJson: jsonString)
         resolve(nil)
     }
 
-    @objc(finishPickAction:result:resolver:rejecter:)
-    func finishPickAction(data: String,
-                          result: Bool,
+    @objc(finishPickAction:resolver:rejecter:)
+    func finishPickAction(data: [String: Any],
                           resolve: @escaping RCTPromiseResolveBlock,
                           reject: @escaping RCTPromiseRejectBlock) {
-        barcodePickModule.finishPickAction(data: data, result: result)
-    }
-
-    @objc(viewPause:rejecter:)
-    func viewPause(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
-        // DO NOTHING ON IOS
+        guard let code = data["code"] as? String else {
+            ReactNativeResult(resolve, reject).reject(error: ScanditFrameworksCoreError.nilArgument)
+            return
+        }
+        guard let result = data["result"] as? Bool else {
+            ReactNativeResult(resolve, reject).reject(error: ScanditFrameworksCoreError.nilArgument)
+            return
+        }
+        barcodePickModule.finishPickAction(data: code, result: result)
         resolve(nil)
     }
 
-    @objc(viewResume:rejecter:)
-    func viewResume(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
-        // DO NOTHING ON IOS
+    @objc(pickViewStop:rejecter:)
+    func pickViewStop(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
+        barcodePickModule.viewStop()
         resolve(nil)
     }
 
-    @objc(viewStop:rejecter:)
-    func viewStop(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
-        barcodePickModule.viewPause()
-        resolve(nil)
-    }
-
-    @objc(viewStart:rejecter:)
-    func viewStart(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
+    @objc(pickViewStart:rejecter:)
+    func pickViewStart(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
         barcodePickModule.viewStart()
         resolve(nil)
     }
 
-    @objc(viewFreeze:rejecter:)
-    func viewFreeze(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
+    @objc(pickViewFreeze:rejecter:)
+    func pickViewFreeze(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
         barcodePickModule.viewFreeze()
+        resolve(nil)
+    }
+
+    @objc(registerOnProductIdentifierForItemsListener:rejecter:)
+    func registerOnProductIdentifierForItemsListener(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
+        resolve(nil)
+    }
+
+    @objc(unregisterOnProductIdentifierForItemsListener:rejecter:)
+    func unregisterOnProductIdentifierForItemsListener(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
         resolve(nil)
     }
 }

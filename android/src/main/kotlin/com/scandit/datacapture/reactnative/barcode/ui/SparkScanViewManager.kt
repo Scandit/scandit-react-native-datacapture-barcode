@@ -61,14 +61,6 @@ class SparkScanViewManager(
         rnViewsContainers[parent.id]?.addView(child, index)
     }
 
-    override fun addViews(parent: SparkScanCoordinatorLayout, views: MutableList<View>) {
-        rnViewsContainers[parent.id]?.let {
-            for (view in views) {
-                it.addView(view)
-            }
-        }
-    }
-
     override fun removeView(parent: SparkScanCoordinatorLayout, view: View) {
         rnViewsContainers[parent.id]?.removeView(view)
     }

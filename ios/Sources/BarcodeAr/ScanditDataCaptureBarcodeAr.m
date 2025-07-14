@@ -108,5 +108,4 @@ RCT_EXTERN_METHOD(finishBarcodeArHighlightForBarcode
 RCT_EXTERN_METHOD(barcodeArViewReset
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
-
 @end

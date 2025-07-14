@@ -26,5 +26,4 @@ RCT_EXTERN_METHOD(generate
                   : (NSInteger *)imageWidth resolve
                   : (RCTPromiseResolveBlock)resolve reject
                   : (RCTPromiseRejectBlock)reject)
-
 @end

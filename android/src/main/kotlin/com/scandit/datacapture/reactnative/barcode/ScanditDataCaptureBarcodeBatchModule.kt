@@ -6,29 +6,31 @@
 
 package com.scandit.datacapture.reactnative.barcode
 
+import android.view.View
 import com.facebook.react.bridge.Promise
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
+import com.scandit.datacapture.core.internal.sdk.utils.pxFromDp
 import com.scandit.datacapture.frameworks.barcode.batch.BarcodeBatchModule
 import com.scandit.datacapture.frameworks.core.FrameworkModule
 import com.scandit.datacapture.frameworks.core.errors.ModuleNotStartedError
 import com.scandit.datacapture.frameworks.core.locator.ServiceLocator
 import com.scandit.datacapture.reactnative.barcode.batch.nativeViewFromJson
+import com.scandit.datacapture.reactnative.barcode.extensions.animateSizeTo
 import com.scandit.datacapture.reactnative.core.utils.ReactNativeResult
 import org.json.JSONObject
+import java.util.concurrent.ConcurrentHashMap
 
 class ScanditDataCaptureBarcodeBatchModule(
     reactContext: ReactApplicationContext,
     private val serviceLocator: ServiceLocator<FrameworkModule>,
 ) : ReactContextBaseJavaModule(reactContext) {
-
-    companion object {
-        private const val DEFAULTS_KEY = "Defaults"
-    }
+    private val arViewsCache: MutableMap<Int, View> = ConcurrentHashMap()
 
     override fun invalidate() {
         barcodeBatchModule.onDestroy()
+        arViewsCache.clear()
         super.invalidate()
     }
 
@@ -102,14 +104,39 @@ class ScanditDataCaptureBarcodeBatchModule(
     ) {
         currentActivity?.let {
             it.runOnUiThread {
+                val reactView = nativeViewFromJson(it, view)
+
+                if (reactView != null) {
+                    arViewsCache[trackedBarcodeId] = reactView
+                }
+
                 barcodeBatchModule.setViewForTrackedBarcode(
-                    nativeViewFromJson(it, view),
+                    reactView,
                     trackedBarcodeId,
                     null
                 )
             }
         }
         promise.resolve(null)
+    }
+
+    @ReactMethod
+    fun updateSizeOfTrackedBarcodeView(
+        trackedBarcodeId: Int,
+        width: Int,
+        height: Int,
+        promise: Promise
+    ) {
+        val cachedView = arViewsCache[trackedBarcodeId] ?: run {
+            promise.reject(Error("View for tracked barcode $trackedBarcodeId not found."))
+            return
+        }
+        currentActivity?.let { context ->
+            context.runOnUiThread {
+                cachedView.animateSizeTo(width.pxFromDp(), height.pxFromDp())
+                promise.resolve(null)
+            }
+        }
     }
 
     @ReactMethod
@@ -149,17 +176,22 @@ class ScanditDataCaptureBarcodeBatchModule(
     @ReactMethod
     fun clearTrackedBarcodeViews(promise: Promise) {
         barcodeBatchModule.clearAdvancedOverlayTrackedBarcodeViews()
+        arViewsCache.clear()
         promise.resolve(null)
     }
 
     @ReactMethod
     fun resetSession() {
         barcodeBatchModule.resetSession(null)
+        arViewsCache.clear()
     }
 
     @ReactMethod
     fun setModeEnabledState(enabled: Boolean) {
         barcodeBatchModule.setModeEnabled(enabled)
+        if (!enabled) {
+            arViewsCache.clear()
+        }
     }
 
     @ReactMethod
@@ -182,10 +214,24 @@ class ScanditDataCaptureBarcodeBatchModule(
         barcodeBatchModule.applyModeSettings(modeSettingsJson, ReactNativeResult(promise))
     }
 
+    @ReactMethod
+    fun addListener(@Suppress("UNUSED_PARAMETER") eventName: String?) {
+        // Keep: Required for RN built in Event Emitter Calls.
+    }
+
+    @ReactMethod
+    fun removeListeners(@Suppress("UNUSED_PARAMETER") count: Int?) {
+        // Keep: Required for RN built in Event Emitter Calls.
+    }
+
     private val barcodeBatchModule: BarcodeBatchModule
         get() {
             return serviceLocator.resolve(
                 BarcodeBatchModule::class.java.name
             ) as? BarcodeBatchModule? ?: throw ModuleNotStartedError(name)
         }
+
+    companion object {
+        private const val DEFAULTS_KEY = "Defaults"
+    }
 }

@@ -133,6 +133,16 @@ class ScanditDataCaptureBarcodeFindModule(
         )
     }
 
+    @ReactMethod
+    fun addListener(@Suppress("UNUSED_PARAMETER") eventName: String?) {
+        // Keep: Required for RN built in Event Emitter Calls.
+    }
+
+    @ReactMethod
+    fun removeListeners(@Suppress("UNUSED_PARAMETER") count: Int?) {
+        // Keep: Required for RN built in Event Emitter Calls.
+    }
+
     private val barcodeFindModule: BarcodeFindModule
         get() {
             return serviceLocator.resolve(
