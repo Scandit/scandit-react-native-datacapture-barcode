@@ -100,4 +100,5 @@ RCT_EXTERN_METHOD(hideSparkScanView
                   : (NSDictionary *)data resolver
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
+
 @end

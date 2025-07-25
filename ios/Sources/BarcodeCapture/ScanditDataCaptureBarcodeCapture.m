@@ -31,4 +31,5 @@ RCT_EXTERN_METHOD(applyBarcodeCaptureModeSettings
                   : (NSDictionary *)data resolve
                   : (RCTPromiseResolveBlock)resolve reject
                   : (RCTPromiseRejectBlock)reject)
+
 @end

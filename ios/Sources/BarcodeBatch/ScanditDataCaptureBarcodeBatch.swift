@@ -142,64 +142,6 @@ class ScanditDataCaptureBarcodeBatch: RCTEventEmitter {
         resolve(nil)
     }
 
-    @objc(updateSizeOfTrackedBarcodeView:width:height:resolver:rejecter:)
-    func updateSizeOfTrackedBarcodeView(trackedBarcodeId: Int,
-                                        width: Int,
-                                        height: Int,
-                                        resolve: RCTPromiseResolveBlock,
-                                        reject: RCTPromiseRejectBlock) {
-        guard let trackedBarcode = barcodeBatchModule.trackedBarcode(by: trackedBarcodeId) else {
-            reject("error", "View for tracked barcode \(trackedBarcodeId) not found.", nil)
-            return
-        }
-
-        guard let view = trackedBarcodeViewCache.filter { $0.value.identifier == trackedBarcodeId }.first?.key as? ScanditRootView  else {
-            reject("error", "View for tracked barcode \(trackedBarcodeId) not found.", nil)
-            return
-        }
-
-        dispatchMain {
-            if view.isAnimating {
-                return
-            }
-            view.isAnimating = true
-
-            let currentWidth = view.frame.width
-            let currentHeight = view.frame.height
-            let targetWidth = CGFloat(width)
-            let targetHeight = CGFloat(height)
-
-            let originalFrame = view.frame
-            let originalCenter = view.center
-
-            view.sizeFlexibility = .none
-
-            UIView.animate(
-                withDuration: 0.5,
-                delay: 0,
-                usingSpringWithDamping: 0.8,
-                initialSpringVelocity: 0.3,
-                options: [.curveEaseInOut, .allowUserInteraction],
-                animations: {
-                    let newFrame = CGRect(
-                        x: originalCenter.x - targetWidth/2,
-                        y: originalCenter.y - targetHeight/2,
-                        width: targetWidth,
-                        height: targetHeight
-                    )
-                    view.frame = newFrame
-                    view.center = originalCenter
-                    view.layoutIfNeeded()
-                },
-                completion: { finished in
-                    view.isAnimating = false
-                }
-            )
-        }
-
-        resolve(nil)
-    }
-
     @objc(setAnchorForTrackedBarcode:trackedBarcodeId:resolver:rejecter:)
     func setAchorForTrackedBarcode(anchorJSON: String,
                                    trackedBarcodeId: Int,
@@ -287,11 +229,16 @@ extension ScanditDataCaptureBarcodeBatch: RCTRootViewDelegate {
     func rootViewDidChangeIntrinsicSize(_ rootView: RCTRootView!) {
         guard let view = rootView as? ScanditRootView else { return }
         rootView.bounds.size = rootView.intrinsicContentSize
+        guard let trackedBarcode = trackedBarcodeViewCache[view] else {
+            // Barcode was lost before the view updated its size.
+            return
+        }
+        barcodeBatchModule.setViewForTrackedBarcode(view: view,
+                                                       trackedBarcodeId: trackedBarcode.identifier,
+                                                       sessionFrameSequenceId: nil)
     }
 }
 
 public class ScanditRootView: RCTRootView, TappableView {
     public var didTap: (() -> Void)?
-    // Flag to track if animation is in progress
-    internal var isAnimating = false
 }
