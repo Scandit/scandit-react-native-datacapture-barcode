@@ -8,16 +8,15 @@ export declare class NativeSparkScanViewProxy extends BaseNativeProxy implements
     bindView(view: SparkScanView): void;
     createSparkScanView(viewJson: string): Promise<void>;
     disposeSparkScanView(): Promise<void>;
-    emitSparkScanViewFeedback(feedbackJson: string): Promise<void>;
-    pauseSparkScanViewScanning(): Promise<void>;
     prepareSparkScanViewScanning(): Promise<void>;
     registerSparkScanViewListenerEvents(): void;
     showToast(text: string): Promise<void>;
     startSparkScanViewScanning(): Promise<void>;
     stopSparkScanViewScanning(): Promise<void>;
+    pauseSparkScanViewScanning(): Promise<void>;
     submitFeedbackForBarcode(feedbackJson: string): Promise<void>;
     registerDelegateForEvents(): Promise<void>;
     unregisterDelegateForEvents(): Promise<void>;
     unregisterSparkScanViewListenerEvents(): Promise<void>;
-    updateSparkScanView(viewJson: string): Promise<void>;
+    updateSparkScanView(viewId: number | null, viewJson: string): Promise<void>;
 }

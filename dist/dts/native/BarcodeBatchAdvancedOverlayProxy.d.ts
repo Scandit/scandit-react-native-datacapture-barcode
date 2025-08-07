@@ -1,7 +1,7 @@
 import { Anchor } from 'scandit-react-native-datacapture-core';
-import { BarcodeTrackingAdvancedOverlayProxy } from 'scandit-datacapture-frameworks-barcode';
-import { BarcodeTrackingAdvancedOverlayView } from '../BarcodeTrackingAdvancedOverlayView';
-export declare class NativeBarcodeTrackingAdvancedOverlayProxy implements BarcodeTrackingAdvancedOverlayProxy {
+import { BarcodeBatchAdvancedOverlayProxy } from 'scandit-datacapture-frameworks-barcode';
+import { BarcodeBatchAdvancedOverlayView } from '../BarcodeBatchAdvancedOverlayView';
+export declare class NativeBarcodeBatchAdvancedOverlayProxy implements BarcodeBatchAdvancedOverlayProxy {
     private nativeListeners;
     private eventEmitter;
     constructor();
@@ -17,7 +17,7 @@ export declare class NativeBarcodeTrackingAdvancedOverlayProxy implements Barcod
     subscribeAnchorForTrackedBarcode(): void;
     subscribeOffsetForTrackedBarcode(): void;
     subscribeDidTapViewForTrackedBarcode(): void;
-    updateBarcodeTrackingAdvancedOverlay(overlayJson: string): Promise<void>;
-    getJSONStringForView(view: BarcodeTrackingAdvancedOverlayView | null): string | null;
+    updateBarcodeBatchAdvancedOverlay(overlayJson: string): Promise<void>;
+    getJSONStringForView(view: BarcodeBatchAdvancedOverlayView | null): string | null;
     private isSerializeable;
 }

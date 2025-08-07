@@ -7,12 +7,17 @@
 import React
 import ScanditBarcodeCapture
 import ScanditDataCaptureCore
+import ScanditFrameworksBarcode
 import ScanditFrameworksCore
 
-class BarcodeFindViewWrapperView: UIView {
-    weak var viewManager: BarcodeFindViewManager?
+protocol BarcodeFindViewWrapperDelegate: NSObject {
+    func wrapperViewWillBeRemoved(_ view: BarcodeFindViewWrapperView)
+}
 
-    var barcodeCountView: BarcodeFindView? {
+class BarcodeFindViewWrapperView: UIView {
+    weak var delegate: BarcodeFindViewWrapperDelegate?
+
+    var barcodeFindView: BarcodeFindView? {
         dispatchMainSync {
             subviews.first { $0 is BarcodeFindView } as? BarcodeFindView
         }
@@ -32,25 +37,20 @@ class BarcodeFindViewWrapperView: UIView {
     }
 
     override func removeFromSuperview() {
+        delegate?.wrapperViewWillBeRemoved(self)
         super.removeFromSuperview()
-        guard let index = BarcodeFindViewManager.containers.firstIndex(of: self) else {
-            return
-        }
 
-        BarcodeFindViewManager.containers.remove(at: index)
-
-        if let view = barcodeCountView,
-           let _ = viewManager {
-            if view.superview != nil {
-                view.removeFromSuperview()
-            }
+        if let view = barcodeFindView, view.superview != nil {
+            view.removeFromSuperview()
         }
     }
 }
 
 @objc(RNTSDCBarcodeFindViewManager)
-class BarcodeFindViewManager: RCTViewManager {
+class BarcodeFindViewManager: RCTViewManager, BarcodeFindViewWrapperDelegate {
     static var containers: [BarcodeFindViewWrapperView] = []
+
+    weak var barcodeFindModule: BarcodeFindModule?
 
     override class func requiresMainQueueSetup() -> Bool {
         true
@@ -58,10 +58,18 @@ class BarcodeFindViewManager: RCTViewManager {
 
     override func view() -> UIView! {
         let container = BarcodeFindViewWrapperView()
-        container.viewManager = self
-
+        container.delegate = self
         BarcodeFindViewManager.containers.append(container)
-
         return container
+    }
+
+    func wrapperViewWillBeRemoved(_ view: BarcodeFindViewWrapperView) {
+        guard let index = BarcodeFindViewManager.containers.firstIndex(of: view) else {
+            return
+        }
+        BarcodeFindViewManager.containers.remove(at: index)
+        if let findView = view.barcodeFindView {
+            barcodeFindModule?.onViewRemovedFromSuperview(removedView: findView)
+        }
     }
 }

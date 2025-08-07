@@ -39,6 +39,7 @@ class ScanditDataCaptureBarcodeFind: RCTEventEmitter {
 
     @objc override func invalidate() {
         super.invalidate()
+        viewManager.barcodeFindModule = nil
         barcodeFindModule.didStop()
         dispatchMain {
             BarcodeFindViewManager.containers.removeAll()
@@ -62,6 +63,7 @@ class ScanditDataCaptureBarcodeFind: RCTEventEmitter {
                         jsonString: String,
                         resolve: @escaping RCTPromiseResolveBlock,
                         reject: @escaping RCTPromiseRejectBlock) {
+        viewManager.barcodeFindModule = barcodeFindModule
         dispatchMain {
             if let container = BarcodeFindViewManager.containers.last {
                 self.barcodeFindModule.addViewToContainer(container: container,

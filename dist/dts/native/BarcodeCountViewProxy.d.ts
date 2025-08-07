@@ -1,16 +1,16 @@
-import { BarcodeCountView } from '../BarcodeCountView';
-import { BarcodeCountViewUiListener } from 'scandit-datacapture-frameworks-barcode';
-import { BarcodeCountViewListener } from 'scandit-datacapture-frameworks-barcode';
-export declare class BarcodeCountViewProxy {
-    private view;
-    private nativeListeners;
-    static forBarcodeCount(view: BarcodeCountView): BarcodeCountViewProxy;
-    update(): Promise<void>;
-    private create;
-    setUiListener(listener: BarcodeCountViewUiListener | null): void;
-    setViewListener(listener: BarcodeCountViewListener | null): void;
-    clearHighlights(): void;
-    dispose(): void;
-    private subscribeListeners;
-    private unsubscribeListeners;
+import { AdvancedNativeProxy } from 'scandit-datacapture-frameworks-core';
+import { BarcodeCountViewProxy } from 'scandit-datacapture-frameworks-barcode';
+export declare class NativeBarcodeCountViewProxy extends AdvancedNativeProxy implements Partial<BarcodeCountViewProxy> {
+    $hideBarcodeCountView(): Promise<void>;
+    $setBarcodeCountViewPositionAndSize({ top, left, width, height, shouldBeUnderWebView }: {
+        top: number;
+        left: number;
+        width: number;
+        height: number;
+        shouldBeUnderWebView: boolean;
+    }): Promise<void>;
+    $showBarcodeCountView(): Promise<void>;
+    $enableBarcodeCountHardwareTrigger({ hardwareTriggerKeyCode }: {
+        hardwareTriggerKeyCode: number | null;
+    }): Promise<void>;
 }
