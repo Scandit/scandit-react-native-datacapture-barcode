@@ -10,15 +10,21 @@ import com.facebook.react.bridge.Promise
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
+import com.facebook.react.bridge.ReadableMap
+import com.facebook.react.uimanager.ViewGroupManager
 import com.scandit.datacapture.frameworks.barcode.find.BarcodeFindModule
 import com.scandit.datacapture.frameworks.core.FrameworkModule
 import com.scandit.datacapture.frameworks.core.errors.ModuleNotStartedError
+import com.scandit.datacapture.frameworks.core.errors.ParameterNullError
 import com.scandit.datacapture.frameworks.core.locator.ServiceLocator
+import com.scandit.datacapture.reactnative.barcode.ui.BarcodeFindViewManager
 import com.scandit.datacapture.reactnative.core.utils.ReactNativeResult
+import com.scandit.datacapture.reactnative.core.utils.viewId
 
 class ScanditDataCaptureBarcodeFindModule(
-    private val reactContext: ReactApplicationContext,
+    reactContext: ReactApplicationContext,
     private val serviceLocator: ServiceLocator<FrameworkModule>,
+    private val viewManagers: Map<String, ViewGroupManager<*>>,
 ) : ReactContextBaseJavaModule(reactContext) {
     override fun getName(): String = "ScanditDataCaptureBarcodeFind"
 
@@ -34,103 +40,194 @@ class ScanditDataCaptureBarcodeFindModule(
     }
 
     @ReactMethod
+    fun setBarcodeFindModeEnabledState(
+        readableMap: ReadableMap,
+        promise: Promise
+    ) {
+        val enabled = readableMap.getBoolean("enabled")
+        barcodeFindModule.setModeEnabled(readableMap.viewId, enabled)
+        promise.resolve(null)
+    }
+
+    @ReactMethod
     fun createFindView(
-        @Suppress("UNUSED_PARAMETER") reactTag: Int,
-        @Suppress("UNUSED_PARAMETER") jsonString: String,
+        readableMap: ReadableMap,
+        promise: Promise
+    ) {
+        val viewId = readableMap.viewId
+        val viewJson = readableMap.getString("json") ?: run {
+            promise.reject(ParameterNullError("json"))
+            return
+        }
+
+        val viewManager = viewManagers[BarcodeFindViewManager::class.java.name] as?
+            BarcodeFindViewManager
+        if (viewManager == null) {
+            promise.reject(VIEW_MANAGER_NULL_ERROR)
+            return
+        }
+
+        viewManager.createBarcodeFindView(viewId, viewJson, promise)
+    }
+
+    @ReactMethod
+    fun removeFindView(
+        @Suppress("UNUSED_PARAMETER") readableMap: ReadableMap,
+        promise: Promise
+    ) {
+        // handled in view manager
+        promise.resolve(null)
+    }
+
+    @ReactMethod
+    fun showFindView(
+        @Suppress("UNUSED_PARAMETER") readableMap: ReadableMap,
         promise: Promise
     ) {
         promise.resolve(null)
     }
 
     @ReactMethod
-    fun updateFindView(jsonString: String, promise: Promise) {
-        barcodeFindModule.updateBarcodeFindView(jsonString, ReactNativeResult(promise))
+    fun hideFindView(
+        @Suppress("UNUSED_PARAMETER") readableMap: ReadableMap,
+        promise: Promise
+    ) {
+        promise.resolve(null)
     }
 
     @ReactMethod
-    fun updateFindMode(jsonString: String, promise: Promise) {
-        barcodeFindModule.updateBarcodeFindMode(jsonString, ReactNativeResult(promise))
+    fun updateFindView(readableMap: ReadableMap, promise: Promise) {
+        val jsonString = readableMap.getString("barcodeFindViewJson") ?: return promise.reject(
+            ParameterNullError("barcodeFindViewJson")
+        )
+
+        barcodeFindModule.updateBarcodeFindView(
+            readableMap.viewId,
+            jsonString,
+            ReactNativeResult(promise)
+        )
     }
 
     @ReactMethod
-    fun registerBarcodeFindListener(promise: Promise) {
-        barcodeFindModule.addBarcodeFindListener(ReactNativeResult(promise))
+    fun updateFindMode(readableMap: ReadableMap, promise: Promise) {
+        val jsonString = readableMap.getString("barcodeFindJson") ?: return promise.reject(
+            ParameterNullError("barcodeFindJson")
+        )
+        barcodeFindModule.updateBarcodeFindMode(
+            readableMap.viewId,
+            jsonString,
+            ReactNativeResult(promise)
+        )
     }
 
     @ReactMethod
-    fun unregisterBarcodeFindListener(promise: Promise) {
-        barcodeFindModule.removeBarcodeFindListener(ReactNativeResult(promise))
+    fun registerBarcodeFindListener(readableMap: ReadableMap, promise: Promise) {
+        barcodeFindModule.addBarcodeFindListener(readableMap.viewId, ReactNativeResult(promise))
     }
 
     @ReactMethod
-    fun registerBarcodeFindViewListener(promise: Promise) {
-        barcodeFindModule.addBarcodeFindViewListener(ReactNativeResult(promise))
+    fun unregisterBarcodeFindListener(readableMap: ReadableMap, promise: Promise) {
+        barcodeFindModule.removeBarcodeFindListener(readableMap.viewId, ReactNativeResult(promise))
     }
 
     @ReactMethod
-    fun unregisterBarcodeFindViewListener(promise: Promise) {
-        barcodeFindModule.removeBarcodeFindViewListener(ReactNativeResult(promise))
+    fun registerBarcodeFindViewListener(readableMap: ReadableMap, promise: Promise) {
+        barcodeFindModule.addBarcodeFindViewListener(readableMap.viewId, ReactNativeResult(promise))
     }
 
     @ReactMethod
-    fun barcodeFindSetItemList(barcodeFindItemsJson: String, promise: Promise) {
-        barcodeFindModule.setItemList(barcodeFindItemsJson, ReactNativeResult(promise))
+    fun unregisterBarcodeFindViewListener(readableMap: ReadableMap, promise: Promise) {
+        barcodeFindModule.removeBarcodeFindViewListener(
+            readableMap.viewId,
+            ReactNativeResult(promise)
+        )
     }
 
     @ReactMethod
-    fun barcodeFindViewStopSearching(promise: Promise) {
-        barcodeFindModule.viewStopSearching(ReactNativeResult(promise))
+    fun barcodeFindSetItemList(readableMap: ReadableMap, promise: Promise) {
+        val barcodeFindItemsJson = readableMap.getString("itemsJson") ?: return promise.reject(
+            ParameterNullError("itemsJson")
+        )
+        barcodeFindModule.setItemList(
+            readableMap.viewId,
+            barcodeFindItemsJson,
+            ReactNativeResult(promise)
+        )
     }
 
     @ReactMethod
-    fun barcodeFindViewStartSearching(promise: Promise) {
-        barcodeFindModule.viewStartSearching(ReactNativeResult(promise))
+    fun barcodeFindViewStopSearching(readableMap: ReadableMap, promise: Promise) {
+        barcodeFindModule.viewStopSearching(readableMap.viewId, ReactNativeResult(promise))
     }
 
     @ReactMethod
-    fun barcodeFindViewPauseSearching(promise: Promise) {
-        barcodeFindModule.viewPauseSearching(ReactNativeResult(promise))
+    fun barcodeFindViewStartSearching(readableMap: ReadableMap, promise: Promise) {
+        barcodeFindModule.viewStartSearching(readableMap.viewId, ReactNativeResult(promise))
     }
 
     @ReactMethod
-    fun barcodeFindModeStart(promise: Promise) {
-        barcodeFindModule.modeStart(ReactNativeResult(promise))
+    fun barcodeFindViewPauseSearching(readableMap: ReadableMap, promise: Promise) {
+        barcodeFindModule.viewPauseSearching(readableMap.viewId, ReactNativeResult(promise))
     }
 
     @ReactMethod
-    fun barcodeFindModePause(promise: Promise) {
-        barcodeFindModule.modePause(ReactNativeResult(promise))
+    fun barcodeFindModeStart(readableMap: ReadableMap, promise: Promise) {
+        barcodeFindModule.modeStart(readableMap.viewId, ReactNativeResult(promise))
     }
 
     @ReactMethod
-    fun barcodeFindModeStop(promise: Promise) {
-        barcodeFindModule.modeStop(ReactNativeResult(promise))
+    fun barcodeFindModePause(readableMap: ReadableMap, promise: Promise) {
+        barcodeFindModule.modePause(readableMap.viewId, ReactNativeResult(promise))
     }
 
     @ReactMethod
-    fun setModeEnabledState(enabled: Boolean) {
-        barcodeFindModule.setModeEnabled(enabled)
+    fun barcodeFindModeStop(readableMap: ReadableMap, promise: Promise) {
+        barcodeFindModule.modeStop(readableMap.viewId, ReactNativeResult(promise))
     }
 
     @ReactMethod
-    fun setBarcodeTransformer(promise: Promise) {
-        barcodeFindModule.setBarcodeFindTransformer(ReactNativeResult(promise))
+    fun setBarcodeTransformer(readableMap: ReadableMap, promise: Promise) {
+        barcodeFindModule.setBarcodeFindTransformer(readableMap.viewId, ReactNativeResult(promise))
     }
 
     @ReactMethod
-    fun submitBarcodeFindTransformerResult(transformedBarcode: String?, promise: Promise) {
+    fun unsetBarcodeTransformer(readableMap: ReadableMap, promise: Promise) {
+        barcodeFindModule.unsetBarcodeFindTransformer(
+            readableMap.viewId,
+            ReactNativeResult(promise)
+        )
+    }
+
+    @ReactMethod
+    fun submitBarcodeFindTransformerResult(readableMap: ReadableMap, promise: Promise) {
+        val transformedBarcode = readableMap.getString("transformedBarcode")
         barcodeFindModule.submitBarcodeFindTransformerResult(
+            readableMap.viewId,
             transformedBarcode,
             ReactNativeResult(promise)
         )
     }
 
     @ReactMethod
-    fun updateBarcodeFindFeedback(feedbackJson: String, promise: Promise) {
+    fun updateBarcodeFindFeedback(readableMap: ReadableMap, promise: Promise) {
+        val feedbackJson = readableMap.getString("feedbackJson") ?: return promise.reject(
+            ParameterNullError("feedbackJson")
+        )
         barcodeFindModule.updateFeedback(
+            readableMap.viewId,
             feedbackJson,
             ReactNativeResult(promise)
         )
+    }
+
+    @ReactMethod
+    fun addListener(@Suppress("UNUSED_PARAMETER") eventName: String?) {
+        // Keep: Required for RN built in Event Emitter Calls.
+    }
+
+    @ReactMethod
+    fun removeListeners(@Suppress("UNUSED_PARAMETER") count: Int?) {
+        // Keep: Required for RN built in Event Emitter Calls.
     }
 
     private val barcodeFindModule: BarcodeFindModule
@@ -139,4 +236,11 @@ class ScanditDataCaptureBarcodeFindModule(
                 BarcodeFindModule::class.java.name
             ) as? BarcodeFindModule? ?: throw ModuleNotStartedError(name)
         }
+
+    companion object {
+        private val VIEW_MANAGER_NULL_ERROR = Error(
+            "Unable to add the BarcodeFindView on Android. " +
+                "The BarcodeFindViewManager instance is null."
+        )
+    }
 }

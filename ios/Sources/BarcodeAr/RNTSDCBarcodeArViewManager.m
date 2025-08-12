@@ -6,6 +6,5 @@
 
 #import <React/RCTViewManager.h>
 
-@interface RCT_EXTERN_REMAP_MODULE (RNTBarcodeCheckView, RNTSDCBarcodeCheckViewManager,
-                                    RCTViewManager)
+@interface RCT_EXTERN_REMAP_MODULE (RNTBarcodeArView, RNTSDCBarcodeArViewManager, RCTViewManager)
 @end
