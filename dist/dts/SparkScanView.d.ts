@@ -14,7 +14,6 @@ interface SparkScanViewProps extends BaseSparkScanViewProps {
 export declare class SparkScanView extends React.Component<SparkScanViewProps> {
     private baseSparkScanView;
     private rnViewListener;
-    private _isMounted;
     get uiListener(): SparkScanViewUiListener | null;
     set uiListener(listener: SparkScanViewUiListener | null);
     static get defaultBrush(): Brush;

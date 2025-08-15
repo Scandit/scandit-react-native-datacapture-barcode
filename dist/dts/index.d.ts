@@ -83,8 +83,6 @@ export * from './BarcodeCountView';
 export { BarcodePick } from 'scandit-datacapture-frameworks-barcode';
 export { BarcodePickActionListener } from 'scandit-datacapture-frameworks-barcode';
 export { BarcodePickActionCallback } from 'scandit-datacapture-frameworks-barcode';
-export { BarcodePickListener } from 'scandit-datacapture-frameworks-barcode';
-export { BarcodePickSession } from 'scandit-datacapture-frameworks-barcode';
 export { BarcodePickState } from 'scandit-datacapture-frameworks-barcode';
 export { BarcodePickSettings } from 'scandit-datacapture-frameworks-barcode';
 export { BarcodePickProduct } from 'scandit-datacapture-frameworks-barcode';

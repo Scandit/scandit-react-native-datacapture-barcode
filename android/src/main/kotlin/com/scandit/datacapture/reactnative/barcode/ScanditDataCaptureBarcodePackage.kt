@@ -46,13 +46,13 @@ class ScanditDataCaptureBarcodePackage : ReactPackage {
         return mutableListOf(
             ScanditDataCaptureBarcodeModule(reactContext, serviceLocator),
             ScanditDataCaptureBarcodeCaptureModule(reactContext, serviceLocator),
-            ScanditDataCaptureBarcodeArModule(reactContext, serviceLocator, viewManagers),
+            ScanditDataCaptureBarcodeArModule(reactContext, serviceLocator),
             ScanditDataCaptureBarcodeBatchModule(reactContext, serviceLocator),
             ScanditDataCaptureBarcodeSelectionModule(reactContext, serviceLocator),
             ScanditDataCaptureSparkScanModule(reactContext, serviceLocator, viewManagers),
-            ScanditDataCaptureBarcodeCountModule(reactContext, serviceLocator, viewManagers),
-            ScanditDataCaptureBarcodeFindModule(reactContext, serviceLocator, viewManagers),
-            ScanditDataCaptureBarcodePickModule(reactContext, serviceLocator, viewManagers),
+            ScanditDataCaptureBarcodeCountModule(reactContext, serviceLocator),
+            ScanditDataCaptureBarcodeFindModule(reactContext, serviceLocator),
+            ScanditDataCaptureBarcodePickModule(reactContext, serviceLocator),
             ScanditDataCaptureBarcodeGeneratorModule(reactContext, serviceLocator)
         )
     }
@@ -92,56 +92,60 @@ class ScanditDataCaptureBarcodePackage : ReactPackage {
     private fun setupSharedModules(reactContext: ReactApplicationContext) {
         lock.lock()
         try {
+            // In React-Native if this function is called again we have to cleanup the existing
+            // instances and re-create them again.
+            serviceLocator.remove(BarcodeModule::class.java.name)
+            serviceLocator.remove(BarcodeCaptureModule::class.java.name)
+            serviceLocator.remove(BarcodeArModule::class.java.name)
+            serviceLocator.remove(BarcodeBatchModule::class.java.name)
+            serviceLocator.remove(BarcodeSelectionModule::class.java.name)
+            serviceLocator.remove(SparkScanModule::class.java.name)
+            serviceLocator.remove(BarcodeCountModule::class.java.name)
+            serviceLocator.remove(BarcodeFindModule::class.java.name)
+            serviceLocator.remove(BarcodePickModule::class.java.name)
+            serviceLocator.remove(BarcodeGeneratorModule::class.java.name)
+
             val emitter = ReactNativeEventEmitter(reactContext)
 
             val barcodeModule = BarcodeModule().also {
                 it.onCreate(reactContext)
             }
-            serviceLocator.register(barcodeModule)
-
             val captureModule = BarcodeCaptureModule.create(emitter).also {
                 it.onCreate(reactContext)
             }
-            serviceLocator.register(captureModule)
-
             val arModule = BarcodeArModule.create(emitter).also {
                 it.onCreate(reactContext)
             }
-            serviceLocator.register(arModule)
-
             val batchModule = BarcodeBatchModule.create(emitter).also {
                 it.onCreate(reactContext)
             }
-            serviceLocator.register(batchModule)
-
             val selectionModule = BarcodeSelectionModule.create(emitter).also {
                 it.onCreate(reactContext)
             }
-            serviceLocator.register(selectionModule)
-
             val sparkScanModule = SparkScanModule.create(emitter).also {
                 it.onCreate(reactContext)
             }
-            serviceLocator.register(sparkScanModule)
-
             val countModule = BarcodeCountModule.create(emitter).also {
                 it.onCreate(reactContext)
             }
-            serviceLocator.register(countModule)
-
             val findModule = BarcodeFindModule.create(emitter).also {
                 it.onCreate(reactContext)
             }
-            serviceLocator.register(findModule)
-
             val pickModule = BarcodePickModule(emitter).also {
                 it.onCreate(reactContext)
             }
-            serviceLocator.register(pickModule)
-
             val generatorModule = BarcodeGeneratorModule().also {
                 it.onCreate(reactContext)
             }
+            serviceLocator.register(barcodeModule)
+            serviceLocator.register(captureModule)
+            serviceLocator.register(arModule)
+            serviceLocator.register(batchModule)
+            serviceLocator.register(selectionModule)
+            serviceLocator.register(pickModule)
+            serviceLocator.register(findModule)
+            serviceLocator.register(sparkScanModule)
+            serviceLocator.register(countModule)
             serviceLocator.register(generatorModule)
         } finally {
             lock.unlock()
