@@ -119,7 +119,7 @@ class ScanditDataCaptureBarcodeBatchModule(
         val view = readableMap.getString("viewJson")
         val trackedBarcodeId = readableMap.getInt("trackedBarcodeIdentifier")
 
-        currentActivity?.let {
+        getCurrentActivity()?.let {
             it.runOnUiThread {
                 val reactView = nativeViewFromJson(it, view)
 
@@ -151,7 +151,7 @@ class ScanditDataCaptureBarcodeBatchModule(
             promise.reject(Error("View for tracked barcode $trackedBarcodeId not found."))
             return
         }
-        currentActivity?.let { context ->
+        getCurrentActivity()?.let { context ->
             context.runOnUiThread {
                 cachedView.animateSizeTo(width.pxFromDp(), height.pxFromDp())
                 promise.resolve(null)
