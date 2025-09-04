@@ -3,84 +3,78 @@
 
 @interface RCT_EXTERN_MODULE (ScanditDataCaptureBarcodeBatch, RCTEventEmitter)
 
-RCT_EXTERN_METHOD(finishDidUpdateSessionCallback : (BOOL)enabled)
+RCT_EXTERN_METHOD(registerBarcodeBatchListenerForEvents : (NSDictionary *)data)
+
+RCT_EXTERN_METHOD(unregisterBarcodeBatchListenerForEvents : (NSDictionary *)data)
+
+RCT_EXTERN_METHOD(registerListenerForBasicOverlayEvents : (NSDictionary *)data)
+
+RCT_EXTERN_METHOD(unregisterListenerForBasicOverlayEvents : (NSDictionary *)data)
+
+RCT_EXTERN_METHOD(registerListenerForAdvancedOverlayEvents : (NSDictionary *)data)
+
+RCT_EXTERN_METHOD(unregisterListenerForAdvancedOverlayEvents : (NSDictionary *)data)
 
 RCT_EXTERN_METHOD(setBrushForTrackedBarcode
-                  : (NSString *)brushJSON barcodeId
-                  : (NSInteger)barcodeId resolver
+                  : (NSDictionary *)data resolver
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
 RCT_EXTERN_METHOD(clearTrackedBarcodeBrushes
+                  : (NSDictionary *)data resolver
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(finishBrushForTrackedBarcodeCallback : (NSString *)brushJSON)
+RCT_EXTERN_METHOD(finishBarcodeBatchDidUpdateSessionCallback : (NSDictionary *)data)
 
 RCT_EXTERN_METHOD(setViewForTrackedBarcode
-                  : (NSString *)viewJSON trackedBarcodeId
-                  : (NSInteger)trackedBarcodeId resolver
+                  : (NSDictionary *)data resolver
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
 RCT_EXTERN_METHOD(updateSizeOfTrackedBarcodeView
-                  : (NSInteger *)trackedBarcodeId width
-                  : (NSInteger)width height
-                  : (NSInteger)height resolver
+                  : (NSDictionary *)data resolver
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
 RCT_EXTERN_METHOD(setAnchorForTrackedBarcode
-                  : (NSString *)anchorJSON trackedBarcodeId
-                  : (NSInteger)trackedBarcodeId resolver
+                  : (NSDictionary *)data resolver
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
 RCT_EXTERN_METHOD(setOffsetForTrackedBarcode
-                  : (NSString *)offsetJSON trackedBarcodeId
-                  : (NSInteger)trackedBarcodeId resolver
+                  : (NSDictionary *)data resolver
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
 RCT_EXTERN_METHOD(clearTrackedBarcodeViews
+                  : (NSDictionary *)data resolver
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(registerListenerForEvents)
-
-RCT_EXTERN_METHOD(unregisterListenerForEvents)
-
-RCT_EXTERN_METHOD(registerListenerForAdvancedOverlayEvents)
-
-RCT_EXTERN_METHOD(unregisterListenerForAdvancedOverlayEvents)
-
-RCT_EXTERN_METHOD(registerListenerForBasicOverlayEvents)
-
-RCT_EXTERN_METHOD(unregisterListenerForBasicOverlayEvents)
-
-RCT_EXTERN_METHOD(resetSession
+RCT_EXTERN_METHOD(resetBarcodeBatchSession
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(setModeEnabledState : (BOOL)enabled)
+RCT_EXTERN_METHOD(setBarcodeBatchModeEnabledState : (NSDictionary *)data)
 
 RCT_EXTERN_METHOD(updateBarcodeBatchBasicOverlay
-                  : (NSString *)overlayJson resolve
+                  : (NSDictionary *)data resolve
                   : (RCTPromiseResolveBlock)resolve reject
                   : (RCTPromiseRejectBlock)reject)
 
 RCT_EXTERN_METHOD(updateBarcodeBatchAdvancedOverlay
-                  : (NSString *)overlayJson resolve
+                  : (NSDictionary *)data resolve
                   : (RCTPromiseResolveBlock)resolve reject
                   : (RCTPromiseRejectBlock)reject)
 
 RCT_EXTERN_METHOD(updateBarcodeBatchMode
-                  : (NSString *)modeJson resolve
+                  : (NSDictionary *)data resolve
                   : (RCTPromiseResolveBlock)resolve reject
                   : (RCTPromiseRejectBlock)reject)
 
 RCT_EXTERN_METHOD(applyBarcodeBatchModeSettings
-                  : (NSString *)modeSettingsJson resolve
+                  : (NSDictionary *)data resolve
                   : (RCTPromiseResolveBlock)resolve reject
                   : (RCTPromiseRejectBlock)reject)
 @end
