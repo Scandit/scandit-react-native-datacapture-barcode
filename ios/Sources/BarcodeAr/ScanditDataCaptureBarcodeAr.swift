@@ -116,11 +116,22 @@ class ScanditDataCaptureBarcodeAr: RCTEventEmitter {
     func updateBarcodeArMode(data: [String: Any],
                                 resolve: @escaping RCTPromiseResolveBlock,
                                 reject: @escaping RCTPromiseRejectBlock) {
-        guard let barcodeArJson = data["barcodeArJson"] as? String else {
+        guard let modeJson = data["modeJson"] as? String else {
             ReactNativeResult(resolve, reject).reject(error: ScanditFrameworksCoreError.nilArgument)
             return
         }
-        barcodeArModule.applyBarcodeArModeSettings(viewId: data.viewId, modeSettingsJson: barcodeArJson, result: ReactNativeResult(resolve, reject))
+        barcodeArModule.updateMode(viewId: data.viewId, modeJson: modeJson, result: ReactNativeResult(resolve, reject))
+    }
+
+    @objc(applyBarcodeArModeSettings:resolver:rejecter:)
+    func applyBarcodeArModeSettings(data: [String: Any],
+                                    resolve: @escaping RCTPromiseResolveBlock,
+                                    reject: @escaping RCTPromiseRejectBlock) {
+        guard let settingsJson = data["settings"] as? String else {
+            ReactNativeResult(resolve, reject).reject(error: ScanditFrameworksCoreError.nilArgument)
+            return
+        }
+        barcodeArModule.applyBarcodeArModeSettings(viewId: data.viewId, modeSettingsJson: settingsJson, result: ReactNativeResult(resolve, reject))
     }
 
     @objc(updateBarcodeArView:resolver:rejecter:)

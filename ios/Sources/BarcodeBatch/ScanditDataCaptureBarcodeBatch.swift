@@ -130,8 +130,9 @@ class ScanditDataCaptureBarcodeBatch: AdvancedOverlayContainer {
                 let jsView = try JSView(with: configuration)
                 dispatchMain {
                     let rctRootView = self.rootViewWith(jsView: jsView)
-                    if let trackedBarcode = self.barcodeBatchModule.trackedBarcode(by: trackedBarcodeId) {
-                        self.trackedBarcodeViewCache[rctRootView] = trackedBarcode
+                    
+                    if let trackedBarcode = self.barcodeBatchModule.trackedBarcode(by: trackedBarcodeId), let rootView = rctRootView {
+                            self.trackedBarcodeViewCache[rootView] = trackedBarcode
                     }
                     
                     self.barcodeBatchModule.setViewForTrackedBarcode(

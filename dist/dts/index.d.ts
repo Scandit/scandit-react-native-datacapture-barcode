@@ -117,6 +117,7 @@ export { BarcodeFindSettings } from 'scandit-datacapture-frameworks-barcode';
 export { BarcodeFindViewSettings } from 'scandit-datacapture-frameworks-barcode';
 export { BarcodeFindViewUiListener } from 'scandit-datacapture-frameworks-barcode';
 export { BarcodeFindTransformer } from 'scandit-datacapture-frameworks-barcode';
+export { BarcodeFindViewProps } from 'scandit-datacapture-frameworks-barcode';
 export * from './BarcodeFindView';
 export { BarcodeGenerator, BarcodeGeneratorBuilder, Code39BarcodeGeneratorBuilder, Code128BarcodeGeneratorBuilder, Ean13BarcodeGeneratorBuilder } from 'scandit-datacapture-frameworks-barcode';
 export { UpcaBarcodeGeneratorBuilder, InterleavedTwoOfFiveBarcodeGeneratorBuilder, QrCodeBarcodeGeneratorBuilder, DataMatrixBarcodeGeneratorBuilder, QrCodeErrorCorrectionLevel, AztecBarcodeGeneratorBuilder } from 'scandit-datacapture-frameworks-barcode';

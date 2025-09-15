@@ -1,13 +1,6 @@
 import React from 'react';
-import { BarcodeFind, BarcodeFindViewSettings, BarcodeFindViewUiListener } from 'scandit-datacapture-frameworks-barcode';
-import { Anchor, CameraSettings, DataCaptureContext } from 'scandit-datacapture-frameworks-core';
-interface BarcodeFindViewProps {
-    context: DataCaptureContext;
-    barcodeFind: BarcodeFind;
-    viewSettings?: BarcodeFindViewSettings;
-    cameraSettings?: CameraSettings;
-    style: any;
-}
+import { BarcodeFindViewUiListener, BarcodeFindViewProps } from 'scandit-datacapture-frameworks-barcode';
+import { Anchor } from 'scandit-datacapture-frameworks-core';
 export declare class BarcodeFindView extends React.Component<BarcodeFindViewProps> {
     private baseBarcodeFindView;
     private _isMounted;
@@ -58,4 +51,3 @@ export declare class BarcodeFindView extends React.Component<BarcodeFindViewProp
     private createBarcodeFindView;
     private toJSON;
 }
-export {};

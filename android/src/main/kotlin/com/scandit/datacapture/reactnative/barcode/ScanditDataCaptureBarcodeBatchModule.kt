@@ -26,7 +26,7 @@ import com.scandit.datacapture.reactnative.core.utils.modeId
 import java.util.concurrent.ConcurrentHashMap
 
 class ScanditDataCaptureBarcodeBatchModule(
-    reactContext: ReactApplicationContext,
+    private val reactContext: ReactApplicationContext,
     private val serviceLocator: ServiceLocator<FrameworkModule>,
 ) : ReactContextBaseJavaModule(reactContext) {
     private val arViewsCache: MutableMap<Int, View> = ConcurrentHashMap()
@@ -119,7 +119,7 @@ class ScanditDataCaptureBarcodeBatchModule(
         val view = readableMap.getString("viewJson")
         val trackedBarcodeId = readableMap.getInt("trackedBarcodeIdentifier")
 
-        currentActivity?.let {
+        reactContext.currentActivity?.let {
             it.runOnUiThread {
                 val reactView = nativeViewFromJson(it, view)
 
@@ -151,7 +151,7 @@ class ScanditDataCaptureBarcodeBatchModule(
             promise.reject(Error("View for tracked barcode $trackedBarcodeId not found."))
             return
         }
-        currentActivity?.let { context ->
+        reactContext.currentActivity?.let { context ->
             context.runOnUiThread {
                 cachedView.animateSizeTo(width.pxFromDp(), height.pxFromDp())
                 promise.resolve(null)

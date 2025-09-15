@@ -90,12 +90,25 @@ class ScanditDataCaptureBarcodeArModule(
 
     @ReactMethod
     fun updateBarcodeArMode(readableMap: ReadableMap, promise: Promise) {
-        val barcodeArJson = readableMap.getString("barcodeArJson") ?: return (
-            promise.reject(ParameterNullError("barcodeArJson"))
+        val modeJson = readableMap.getString("modeJson") ?: return (
+            promise.reject(ParameterNullError("modeJson"))
             )
+        barcodeArModule.updateMode(
+            readableMap.viewId,
+            modeJson,
+            ReactNativeResult(promise)
+        )
+    }
+
+    @ReactMethod
+    fun applyBarcodeArModeSettings(readableMap: ReadableMap, promise: Promise) {
+        val settingsJson = readableMap.getString("settings") ?: return (
+            promise.reject(ParameterNullError("settings"))
+            )
+
         barcodeArModule.applyModeSettings(
             readableMap.viewId,
-            barcodeArJson,
+            settingsJson,
             ReactNativeResult(promise)
         )
     }

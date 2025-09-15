@@ -11,7 +11,7 @@ import ScanditFrameworksCore
 import ScanditFrameworksBarcode
 
 extension AdvancedOverlayContainer: RCTRootViewDelegate {
-    public func rootViewWith(jsView: JSView) -> ScanditRootView {
+    public func rootViewWith(jsView: JSView) -> ScanditRootView? {
         // To support self sizing js views we need to leverage the RCTRootViewDelegate
         // see https://reactnative.dev/docs/communication-ios
         let view = ScanditRootView(bridge: bridge,

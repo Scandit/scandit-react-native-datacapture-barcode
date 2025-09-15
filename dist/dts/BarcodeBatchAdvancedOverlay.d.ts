@@ -9,8 +9,16 @@ export declare class BarcodeBatchAdvancedOverlay implements DataCaptureOverlay {
     set shouldShowScanAreaGuides(shouldShow: boolean);
     private set view(value);
     private get view();
+    /**
+     * @deprecated Since 7.6. This factory will be removed in 8.0.
+     * Create the overlay and add it to the view manually instead:
+     * ```ts
+     * const overlay = new BarcodeBatchAdvancedOverlay();
+     * view.addOverlay(overlay);
+     * ```
+     */
     static withBarcodeBatchForView(barcodeBatch: BarcodeBatch, view: DataCaptureView | null): BarcodeBatchAdvancedOverlay;
-    protected constructor();
+    constructor(mode: BarcodeBatch);
     setViewForTrackedBarcode(view: BarcodeBatchAdvancedOverlayView, trackedBarcode: TrackedBarcode): Promise<void>;
     setAnchorForTrackedBarcode(anchor: Anchor, trackedBarcode: TrackedBarcode): Promise<void>;
     setOffsetForTrackedBarcode(offset: PointWithUnit, trackedBarcode: TrackedBarcode): Promise<void>;

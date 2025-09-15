@@ -29,7 +29,7 @@ Pod::Spec.new do |s|
 
   s.dependency "React"
   s.dependency "scandit-react-native-datacapture-core", "= #{version}"
-  s.dependency "scandit-datacapture-frameworks-barcode", '= 7.5.1'
+  s.dependency "scandit-datacapture-frameworks-barcode", '= 7.6.0'
   
   # New Architecture specific dependencies
   if is_new_arch_enabled

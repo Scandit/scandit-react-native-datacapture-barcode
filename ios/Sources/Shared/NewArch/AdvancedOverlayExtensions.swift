@@ -16,20 +16,24 @@ public extension AdvancedOverlayContainer {
     
     /// Creates a native view for the given JS view using the new architecture (Fabric)
     /// Falls back to old architecture if new architecture is not available
-    func rootViewWith(jsView: JSView) -> ScanditRootView {
+    func rootViewWith(jsView: JSView) -> ScanditRootView? {
         // Check if new architecture is available through the factory cache
         if RCTRootViewFactoryCache.shared.isNewArchitectureAvailable,
            let rootViewFactory = RCTRootViewFactoryCache.shared.factory {
             
             // Use RCTRootViewFactory which creates surface views in new architecture
-            let rootView = rootViewFactory.view(withModuleName: jsView.moduleName, initialProperties: jsView.initialProperties)
-            rootView.backgroundColor = .clear
+            guard let rootView = rootViewFactory.view(withModuleName: jsView.moduleName, initialProperties: jsView.initialProperties) as? RCTSurfaceHostingProxyRootView else {
+                Log.error("Unable to create ArView root view")
+                return nil
+            }
             
+            rootView.backgroundColor = .clear
+            rootView.sizeFlexibility = RCTRootViewSizeFlexibility.widthAndHeight
             // Create ScanditRootView with the React Native root view
             let scanditView = ScanditRootView(rootView: rootView)
             scanditView.backgroundColor = .clear
             scanditView.isUserInteractionEnabled = true
-            
+
             return scanditView
         }
         
@@ -89,7 +93,6 @@ public class ScanditRootView: UIView, TappableView {
         ])
         
         setupGestureRecognizer()
-        startLayoutObservation()
     }
     
     private func setupGestureRecognizer() {
@@ -108,32 +111,18 @@ public class ScanditRootView: UIView, TappableView {
     @objc private func handleTap() {
         didTap?()
     }
-    
-    private func startLayoutObservation() {
-        displayLink = CADisplayLink(target: self, selector: #selector(checkForSizeUpdates))
-        displayLink?.add(to: .main, forMode: .common)
+
+    public override func layoutSubviews() {
+        super.layoutSubviews()
+        reactRootView.setNeedsLayout()
+        reactRootView.layoutIfNeeded()
         
-        // Stop monitoring after reasonable time
-        DispatchQueue.main.asyncAfter(deadline: .now() + 5) { [weak self] in
-            self?.stopLayoutObservation()
-        }
-    }
-    
-    private func stopLayoutObservation() {
-        displayLink?.invalidate()
-        displayLink = nil
-    }
-    
-    @objc private func checkForSizeUpdates() {
-        guard !hasSetInitialSize else { return }
-        
-        if let actualSize = findRCTViewComponentViewSize() {
+        if !hasSetInitialSize, let actualSize = findRCTViewComponentViewSize() {
             if actualSize.width > 0 && actualSize.height > 0 && !bounds.size.equalTo(actualSize) {
-                bounds.size = actualSize
-                invalidateIntrinsicContentSize()
-                superview?.setNeedsLayout()
-                hasSetInitialSize = true
-                stopLayoutObservation()
+                self.bounds.size = actualSize
+                self.invalidateIntrinsicContentSize()
+                self.superview?.setNeedsLayout()
+                self.hasSetInitialSize = true
             }
         }
     }
@@ -186,13 +175,7 @@ public class ScanditRootView: UIView, TappableView {
     public override func sizeThatFits(_ size: CGSize) -> CGSize {
         return intrinsicContentSize
     }
-    
-    public override func layoutSubviews() {
-        super.layoutSubviews()
-        reactRootView.setNeedsLayout()
-        reactRootView.layoutIfNeeded()
-    }
-    
+
     public override func didMoveToSuperview() {
         super.didMoveToSuperview()
         setNeedsLayout()
