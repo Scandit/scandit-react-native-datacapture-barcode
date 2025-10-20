@@ -148,9 +148,18 @@ class ScanditDataCaptureSparkScanModule(
 
     @ReactMethod
     fun stopSparkScanViewScanning(
+        readableMap: ReadableMap,
+        promise: Promise
+    ) {
+        sparkScanModule.stopScanning(readableMap.viewId, ReactNativeResult(promise))
+    }
+
+    @ReactMethod
+    fun onHostPauseSparkScanView(
         @Suppress("UNUSED_PARAMETER") readableMap: ReadableMap,
         promise: Promise
     ) {
+        sparkScanModule.onHostPause()
         promise.resolve(null)
     }
 
@@ -166,10 +175,10 @@ class ScanditDataCaptureSparkScanModule(
 
     @ReactMethod
     fun prepareSparkScanViewScanning(
-        @Suppress("UNUSED_PARAMETER") readableMap: ReadableMap,
+        readableMap: ReadableMap,
         promise: Promise
     ) {
-        promise.resolve(null)
+        sparkScanModule.prepareScanning(readableMap.viewId, ReactNativeResult(promise))
     }
 
     @ReactMethod

@@ -58,10 +58,9 @@ class ScanditDataCaptureBarcodeCapture: RCTEventEmitter {
         barcodeCaptureModule.finishDidScan(modeId: data.modeId, enabled: enabled)
     }
 
-    @objc(resetBarcodeCaptureSession:resolver:rejecter:)
-    func resetBarcodeCaptureSession(data: [String: Any], resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
-        let frameSequenceId: Int? = data["frameSequenceId"] as? Int
-        barcodeCaptureModule.resetSession(frameSequenceId: frameSequenceId)
+    @objc(resetBarcodeCaptureSession:rejecter:)
+    func resetBarcodeCaptureSession(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
+        barcodeCaptureModule.resetSession()
         resolve(nil)
     }
 

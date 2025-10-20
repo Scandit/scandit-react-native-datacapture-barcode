@@ -51,6 +51,11 @@ RCT_EXTERN_METHOD(stopSparkScanViewScanning
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
+RCT_EXTERN_METHOD(onHostPauseSparkScanView
+                  : (NSDictionary *)data resolver
+                  : (RCTPromiseResolveBlock)resolve rejecter
+                  : (RCTPromiseRejectBlock)reject)
+
 RCT_EXTERN_METHOD(prepareSparkScanViewScanning
                   : (NSDictionary *)data resolver
                   : (RCTPromiseResolveBlock)resolve rejecter

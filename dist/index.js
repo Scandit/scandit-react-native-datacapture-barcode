@@ -1188,10 +1188,6 @@ class SparkScanView extends React.Component {
         super(props);
         this.baseSparkScanView = BaseSparkScanView.withProps(props);
     }
-    componentWillUnmount() {
-        this._isMounted = false;
-        this.baseSparkScanView.dispose();
-    }
     render() {
         return React.createElement(RNTSparkScanView, { ...this.props });
     }
@@ -1375,17 +1371,25 @@ class SparkScanView extends React.Component {
     set triggerButtonImage(newValue) {
         this.baseSparkScanView.triggerButtonImage = newValue;
     }
-    prepareScanning() {
-        this.baseSparkScanView.prepareScanning();
+    // prepare scanning on ios / onResume on android
+    async prepareScanning() {
+        await this.baseSparkScanView.prepareScanning();
     }
-    startScanning() {
-        this.baseSparkScanView.startScanning();
+    // ios/android: start scanning
+    async startScanning() {
+        await this.baseSparkScanView.startScanning();
     }
-    pauseScanning() {
-        this.baseSparkScanView.pauseScanning();
+    // ios/android: pause scanning
+    async pauseScanning() {
+        await this.baseSparkScanView.pauseScanning();
     }
-    stopScanning() {
-        this.baseSparkScanView.stopScanning();
+    // stop scanning on ios / stopScanning on android
+    async stopScanning() {
+        await this.baseSparkScanView.stopScanning();
+    }
+    // stop scanning on ios / onPause on android
+    async onHostPause() {
+        await this.baseSparkScanView.onHostPause();
     }
     get feedbackDelegate() {
         return this.baseSparkScanView.feedbackDelegate;
@@ -1393,8 +1397,8 @@ class SparkScanView extends React.Component {
     set feedbackDelegate(delegate) {
         this.baseSparkScanView.feedbackDelegate = delegate;
     }
-    showToast(text) {
-        return this.baseSparkScanView.showToast(text);
+    async showToast(text) {
+        await this.baseSparkScanView.showToast(text);
     }
     componentDidMount() {
         this._isMounted = true;
@@ -1407,6 +1411,10 @@ class SparkScanView extends React.Component {
     }
     componentDidUpdate(prevProps) {
         this.baseSparkScanView.updateWithProps(prevProps, this.props);
+    }
+    componentWillUnmount() {
+        this._isMounted = false;
+        this.baseSparkScanView.dispose();
     }
     createSparkScanView() {
         const viewId = findNodeHandle(this);

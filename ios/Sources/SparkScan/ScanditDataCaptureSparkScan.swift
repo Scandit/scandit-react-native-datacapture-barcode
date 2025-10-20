@@ -190,6 +190,14 @@ class ScanditDataCaptureSparkScan: RCTEventEmitter {
         sparkScanModule.stopScanning(viewId: data.viewId)
         resolve(nil)
     }
+    
+    @objc(onHostPauseSparkScanView:resolver:rejecter:)
+    func onHostPauseSparkScanView(_ data: [String: Any],
+                    resolve: @escaping RCTPromiseResolveBlock,
+                    reject: @escaping RCTPromiseRejectBlock) {
+        sparkScanModule.onHostPause()
+        resolve(nil)
+    }
 
     @objc(showSparkScanViewToast:resolver:rejecter:)
     func showSparkScanViewToast(

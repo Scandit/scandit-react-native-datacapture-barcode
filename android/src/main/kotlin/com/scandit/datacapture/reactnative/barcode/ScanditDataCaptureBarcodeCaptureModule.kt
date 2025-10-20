@@ -41,37 +41,42 @@ class ScanditDataCaptureBarcodeCaptureModule(
     )
 
     @ReactMethod
-    fun registerBarcodeCaptureListenerForEvents(readableMap: ReadableMap) {
+    fun registerBarcodeCaptureListenerForEvents(readableMap: ReadableMap, promise: Promise) {
         barcodeCaptureModule.addListener(readableMap.modeId)
+        promise.resolve(null)
     }
 
     @ReactMethod
-    fun unregisterBarcodeCaptureListenerForEvents(readableMap: ReadableMap) {
+    fun unregisterBarcodeCaptureListenerForEvents(readableMap: ReadableMap, promise: Promise) {
         barcodeCaptureModule.removeListener(readableMap.modeId)
+        promise.resolve(null)
     }
 
     @ReactMethod
-    fun finishBarcodeCaptureDidUpdateSession(readableMap: ReadableMap) {
+    fun finishBarcodeCaptureDidUpdateSession(readableMap: ReadableMap, promise: Promise) {
         val enabled = readableMap.getBoolean("enabled")
         barcodeCaptureModule.finishDidUpdateSession(readableMap.modeId, enabled)
+        promise.resolve(null)
     }
 
     @ReactMethod
-    fun finishBarcodeCaptureDidScan(readableMap: ReadableMap) {
+    fun finishBarcodeCaptureDidScan(readableMap: ReadableMap, promise: Promise) {
         val enabled = readableMap.getBoolean("enabled")
         barcodeCaptureModule.finishDidScan(readableMap.modeId, enabled)
+        promise.resolve(null)
     }
 
     @ReactMethod
-    fun resetBarcodeCaptureSession(readableMap: ReadableMap) {
-        val frameSequenceId = readableMap.getLong("frameSequenceId")
-        barcodeCaptureModule.resetSession(frameSequenceId)
+    fun resetBarcodeCaptureSession(promise: Promise) {
+        barcodeCaptureModule.resetSession()
+        promise.resolve(null)
     }
 
     @ReactMethod
-    fun setBarcodeCaptureModeEnabledState(readableMap: ReadableMap) {
+    fun setBarcodeCaptureModeEnabledState(readableMap: ReadableMap, promise: Promise) {
         val enabled = readableMap.getBoolean("enabled")
         barcodeCaptureModule.setModeEnabled(readableMap.modeId, enabled)
+        promise.resolve(null)
     }
 
     @ReactMethod

@@ -12,7 +12,6 @@ RCT_EXTERN_METHOD(registerBarcodeCaptureListenerForEvents : (NSDictionary *)data
 RCT_EXTERN_METHOD(unregisterBarcodeCaptureListenerForEvents : (NSDictionary *)data)
 
 RCT_EXTERN_METHOD(resetBarcodeCaptureSession
-                  : (NSDictionary *)data resolver
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 

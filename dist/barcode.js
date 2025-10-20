@@ -3420,7 +3420,7 @@ class BarcodeCaptureListenerController extends BaseNewController {
         });
     }
     reset() {
-        return this._proxy.$resetBarcodeCaptureSession({ modeId: this.modeId });
+        return this._proxy.$resetBarcodeCaptureSession();
     }
     setModeEnabledState(enabled) {
         this._proxy.$setBarcodeCaptureModeEnabledState({ modeId: this.modeId, enabled });
@@ -8205,10 +8205,12 @@ class SparkScanViewController extends BaseNewController {
         return this._proxy.$stopSparkScanViewScanning({ viewId: this.viewInstanceId });
     }
     pauseScanning() {
-        if (!this.isViewCreated) {
-            return Promise.resolve(); // No updates if view not created yet
-        }
-        return this._proxy.$pauseSparkScanViewScanning({ viewId: this.viewInstanceId });
+        return __awaiter(this, void 0, void 0, function* () {
+            if (!this.isViewCreated) {
+                return Promise.resolve(); // No updates if view not created yet
+            }
+            return this._proxy.$pauseSparkScanViewScanning({ viewId: this.viewInstanceId });
+        });
     }
     startScanning() {
         if (!this.isViewCreated) {
@@ -8221,6 +8223,12 @@ class SparkScanViewController extends BaseNewController {
             return Promise.resolve(); // No updates if view not created yet
         }
         return this._proxy.$prepareSparkScanViewScanning({ viewId: this.viewInstanceId });
+    }
+    onHostPause() {
+        if (!this.isViewCreated) {
+            return Promise.resolve(); // No updates if view not created yet
+        }
+        return this._proxy.$onHostPauseSparkScanView({ viewId: this.viewInstanceId });
     }
     showToast(text) {
         if (!this.isViewCreated) {
@@ -8376,6 +8384,9 @@ class BaseSparkScanView {
             sparkScan: props.sparkScan,
             settings: props.sparkScanViewSettings,
         });
+        if (props.shouldHandleAndroidLifecycleAutomatically !== undefined && props.shouldHandleAndroidLifecycleAutomatically !== null) {
+            view.shouldHandleAndroidLifecycleAutomatically = props.shouldHandleAndroidLifecycleAutomatically;
+        }
         if (props.uiListener) {
             view.uiListener = props.uiListener;
         }
@@ -8464,6 +8475,7 @@ class BaseSparkScanView {
         this._triggerButtonImage = BaseSparkScanView.sparkScanDefaults.SparkScanView.triggerButtonImage;
         this._torchControlVisible = BaseSparkScanView.sparkScanDefaults.SparkScanView.torchControlVisible;
         this._previewCloseControlVisible = BaseSparkScanView.sparkScanDefaults.SparkScanView.previewSizeControlVisible;
+        this.shouldHandleAndroidLifecycleAutomatically = true;
         this._sparkScan = sparkScan;
         this.context = context;
         this._viewSettings = settings !== null && settings !== void 0 ? settings : new SparkScanViewSettings();
@@ -8693,35 +8705,58 @@ class BaseSparkScanView {
         this.update();
     }
     showToast(text) {
-        this._controller.showToast(text);
+        return __awaiter(this, void 0, void 0, function* () {
+            yield this._controller.showToast(text);
+        });
     }
     prepareScanning() {
-        this._controller.prepareScanning();
+        return __awaiter(this, void 0, void 0, function* () {
+            yield this._controller.prepareScanning();
+        });
     }
     startScanning() {
-        this._controller.startScanning();
+        return __awaiter(this, void 0, void 0, function* () {
+            yield this._controller.startScanning();
+        });
     }
     pauseScanning() {
-        this._controller.pauseScanning();
+        return __awaiter(this, void 0, void 0, function* () {
+            yield this._controller.pauseScanning();
+        });
     }
     stopScanning() {
-        this._controller.stopScanning();
+        return __awaiter(this, void 0, void 0, function* () {
+            yield this._controller.stopScanning();
+        });
+    }
+    onHostPause() {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield this._controller.onHostPause();
+        });
     }
     update() {
-        return this._controller.updateView();
+        return __awaiter(this, void 0, void 0, function* () {
+            yield this._controller.updateView();
+        });
     }
     dispose() {
         this._controller.dispose();
     }
     show() {
-        return this._show();
+        return __awaiter(this, void 0, void 0, function* () {
+            yield this._show();
+        });
     }
     hide() {
-        return this._hide();
+        return __awaiter(this, void 0, void 0, function* () {
+            yield this._hide();
+        });
     }
     createNativeView(viewId) {
-        this._viewId = viewId;
-        return this._controller.createView();
+        return __awaiter(this, void 0, void 0, function* () {
+            this._viewId = viewId;
+            yield this._controller.createView();
+        });
     }
     get feedbackDelegate() {
         return this._feedbackDelegate;
@@ -8736,6 +8771,10 @@ class BaseSparkScanView {
         }
     }
     updateWithProps(prevProps, props) {
+        if (props.shouldHandleAndroidLifecycleAutomatically !== prevProps.shouldHandleAndroidLifecycleAutomatically &&
+            props.shouldHandleAndroidLifecycleAutomatically !== undefined) {
+            this.shouldHandleAndroidLifecycleAutomatically = props.shouldHandleAndroidLifecycleAutomatically;
+        }
         // Update UI Listener
         if (props.uiListener !== prevProps.uiListener) {
             this.uiListener = props.uiListener || null;
@@ -8860,6 +8899,7 @@ class BaseSparkScanView {
             previewCloseControlVisible: this.previewCloseControlVisible,
             hasUiListener: this.uiListener !== null,
             viewId: this.viewId,
+            shouldHandleAndroidLifecycleAutomatically: this.shouldHandleAndroidLifecycleAutomatically,
         };
         if (this._viewSettings != null) {
             json.viewSettings = (_a = this._viewSettings) === null || _a === void 0 ? void 0 : _a.toJSON();
