@@ -12,7 +12,6 @@ import android.view.MotionEvent;
 import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.uimanager.JSTouchDispatcher;
 import com.facebook.react.uimanager.UIManagerHelper;
-import com.facebook.react.uimanager.common.UIManagerType;
 import com.facebook.react.uimanager.events.EventDispatcher;
 import com.facebook.react.views.view.ReactViewGroup;
 
@@ -40,25 +39,37 @@ class CustomReactViewGroup extends ReactViewGroup {
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-        this.dispatchJSTouchEvent(ev);
-        return super.onInterceptTouchEvent(ev);
+        // Only dispatch DOWN, UP, and CANCEL - skip MOVE to avoid gesture cancellation
+        if ( ev.getActionMasked() != MotionEvent.ACTION_MOVE) {
+            this.dispatchJSTouchEvent(ev);
+        }
+
+        // Never intercept - always let children handle
+        return false;
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
-        this.dispatchJSTouchEvent(ev);
-        super.onTouchEvent(ev);
-        return true;
+        if (ev.getActionMasked() == MotionEvent.ACTION_MOVE) {
+            this.dispatchJSTouchEvent(ev);
+        }
+        return super.onTouchEvent(ev);
     }
 
     private void dispatchJSTouchEvent(MotionEvent event) {
         if (event == null) return;
-        EventDispatcher eventDispatcher = UIManagerHelper.getEventDispatcher(
-            this.reactContext,
-            UIManagerType.DEFAULT
+
+        // Use the parent's tag (SparkScanCoordinatorLayout) since that's the managed view
+        // CustomReactViewGroup is not in Fabric's shadow tree
+        int reactTag = getParent() != null ? ((android.view.View) getParent()).getId() : (Integer) this.getTag();
+
+        EventDispatcher eventDispatcher = UIManagerHelper.getEventDispatcherForReactTag(
+                this.reactContext,
+                reactTag
         );
 
         if (eventDispatcher != null && jsTouchDispatcher != null) {
+            // Use 3-parameter version for Fabric support
             jsTouchDispatcher.handleTouchEvent(event, eventDispatcher);
         }
     }
