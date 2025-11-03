@@ -9,100 +9,81 @@
 
 @interface RCT_EXTERN_MODULE (ScanditDataCaptureSparkScan, RCTEventEmitter)
 
-RCT_EXTERN_METHOD(finishSparkScanDidUpdateSession : (NSDictionary *)data)
+RCT_EXTERN_METHOD(finishDidUpdateSessionCallback : (BOOL)enabled)
 
-RCT_EXTERN_METHOD(finishSparkScanDidScan : (NSDictionary *)data)
+RCT_EXTERN_METHOD(finishDidScanCallback : (BOOL)enabled)
 
-RCT_EXTERN_METHOD(registerSparkScanListenerForEvents : (NSDictionary *)data)
+RCT_EXTERN_METHOD(registerListenerForEvents)
 
-RCT_EXTERN_METHOD(unregisterSparkScanListenerForEvents : (NSDictionary *)data)
+RCT_EXTERN_METHOD(unregisterListenerForEvents)
 
-RCT_EXTERN_METHOD(resetSparkScanSession
-                  : (NSDictionary *)data resolver
+RCT_EXTERN_METHOD(resetSession
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(registerSparkScanViewListenerEvents : (NSDictionary *)data)
+RCT_EXTERN_METHOD(registerListenerForViewEvents)
 
-RCT_EXTERN_METHOD(unregisterSparkScanViewListenerEvents : (NSDictionary *)data)
+RCT_EXTERN_METHOD(unregisterListenerForViewEvents)
 
-RCT_EXTERN_METHOD(createSparkScanView
-                  : (NSDictionary *)data resolver
+RCT_EXTERN_METHOD(create
+                  : (nonnull NSNumber *)reactTag JSONString
+                  : (nonnull NSString *)JSONString resolver
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(updateSparkScanView
-                  : (NSDictionary *)data resolver
+RCT_EXTERN_METHOD(update
+                  : (nonnull NSNumber *)reactTag JSONString
+                  : (nonnull NSString *)JSONString resolver
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(updateSparkScanMode
-                  : (NSDictionary *)data resolver
+RCT_EXTERN_METHOD(updateMode
+                  : (nonnull NSString *)JSONString resolver
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(startSparkScanViewScanning
-                  : (NSDictionary *)data resolver
+RCT_EXTERN_METHOD(startScanning
+                  : (nonnull NSNumber *)reactTag resolver
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(stopSparkScanViewScanning
-                  : (NSDictionary *)data resolver
+RCT_EXTERN_METHOD(stopScanning
+                  : (nonnull NSNumber *)reactTag resolver
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(onHostPauseSparkScanView
-                  : (NSDictionary *)data resolver
+RCT_EXTERN_METHOD(emitFeedback
+                  : (nonnull NSNumber *)reactTag arguments
+                  : (nonnull NSString *)arguments resolver
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(prepareSparkScanViewScanning
-                  : (NSDictionary *)data resolver
+RCT_EXTERN_METHOD(prepareScanning
+                  : (nonnull NSNumber *)reactTag resolver
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(pauseSparkScanViewScanning
-                  : (NSDictionary *)data resolver
+RCT_EXTERN_METHOD(stopScanning
+                  : (nonnull NSNumber *)reactTag resolver
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(disposeSparkScanView
-                  : (NSDictionary *)data resolver
+RCT_EXTERN_METHOD(showToast
+                  : (nonnull NSString *)text resolver
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(showSparkScanViewToast
-                  : (NSDictionary *)data resolver
+RCT_EXTERN_METHOD(addFeedbackDelegate
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(registerSparkScanFeedbackDelegateForEvents
-                  : (NSDictionary *)data resolver
-                  : (RCTPromiseResolveBlock)resolve rejecter
-                  : (RCTPromiseRejectBlock)reject)
-
-RCT_EXTERN_METHOD(unregisterSparkScanFeedbackDelegateForEvents
-                  : (NSDictionary *)data resolver
+RCT_EXTERN_METHOD(removeFeedbackDelegate
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
 RCT_EXTERN_METHOD(submitSparkScanFeedbackForBarcode
-                  : (NSDictionary *)data resolver
+                  : (nonnull NSString *)feedbackJson resolver
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(setSparkScanModeEnabledState
-                  : (NSDictionary *)data resolver
-                  : (RCTPromiseResolveBlock)resolve rejecter
-                  : (RCTPromiseRejectBlock)reject)
-
-RCT_EXTERN_METHOD(showSparkScanView
-                  : (NSDictionary *)data resolver
-                  : (RCTPromiseResolveBlock)resolve rejecter
-                  : (RCTPromiseRejectBlock)reject)
-
-RCT_EXTERN_METHOD(hideSparkScanView
-                  : (NSDictionary *)data resolver
-                  : (RCTPromiseResolveBlock)resolve rejecter
-                  : (RCTPromiseRejectBlock)reject)
 @end
