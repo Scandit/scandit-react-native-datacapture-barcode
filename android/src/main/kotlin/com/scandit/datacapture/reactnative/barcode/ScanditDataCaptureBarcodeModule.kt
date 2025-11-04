@@ -8,6 +8,7 @@ package com.scandit.datacapture.reactnative.barcode
 
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
+import com.facebook.react.bridge.ReactMethod
 import com.scandit.datacapture.frameworks.barcode.BarcodeModule
 import com.scandit.datacapture.frameworks.core.FrameworkModule
 import com.scandit.datacapture.frameworks.core.errors.ModuleNotStartedError
@@ -31,6 +32,16 @@ class ScanditDataCaptureBarcodeModule(
     override fun invalidate() {
         barcodeModule.onDestroy()
         super.invalidate()
+    }
+
+    @ReactMethod
+    fun addListener(@Suppress("UNUSED_PARAMETER") eventName: String?) {
+        // Keep: Required for RN built in Event Emitter Calls.
+    }
+
+    @ReactMethod
+    fun removeListeners(@Suppress("UNUSED_PARAMETER") count: Int?) {
+        // Keep: Required for RN built in Event Emitter Calls.
     }
 
     private val barcodeModule: BarcodeModule

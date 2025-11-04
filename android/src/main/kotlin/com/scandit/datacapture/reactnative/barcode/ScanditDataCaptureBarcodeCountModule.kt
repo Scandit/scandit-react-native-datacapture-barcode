@@ -6,44 +6,30 @@
 
 package com.scandit.datacapture.reactnative.barcode
 
-import com.facebook.react.bridge.LifecycleEventListener
 import com.facebook.react.bridge.Promise
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
+import com.facebook.react.bridge.ReadableMap
+import com.facebook.react.uimanager.ViewGroupManager
 import com.scandit.datacapture.core.ui.style.BrushDeserializer
 import com.scandit.datacapture.frameworks.barcode.count.BarcodeCountModule
 import com.scandit.datacapture.frameworks.core.FrameworkModule
 import com.scandit.datacapture.frameworks.core.errors.ModuleNotStartedError
+import com.scandit.datacapture.frameworks.core.errors.ParameterNullError
 import com.scandit.datacapture.frameworks.core.locator.ServiceLocator
+import com.scandit.datacapture.reactnative.barcode.ui.BarcodeCountViewManager
 import com.scandit.datacapture.reactnative.core.utils.ReactNativeResult
+import com.scandit.datacapture.reactnative.core.utils.viewId
 import org.json.JSONArray
 
 class ScanditDataCaptureBarcodeCountModule(
     private val reactContext: ReactApplicationContext,
     private val serviceLocator: ServiceLocator<FrameworkModule>,
+    private val viewManagers: Map<String, ViewGroupManager<*>>,
 ) : ReactContextBaseJavaModule(reactContext) {
 
-    private val lifecycleListener = object : LifecycleEventListener {
-        override fun onHostResume() {
-            // noop
-        }
-
-        override fun onHostPause() {
-            // noop
-        }
-
-        override fun onHostDestroy() {
-            barcodeCountModule.disposeBarcodeCountView()
-        }
-    }
-
-    override fun initialize() {
-        reactContext.addLifecycleEventListener(lifecycleListener)
-    }
-
     override fun invalidate() {
-        reactContext.removeLifecycleEventListener(lifecycleListener)
         barcodeCountModule.onDestroy()
         super.invalidate()
     }
@@ -57,166 +43,252 @@ class ScanditDataCaptureBarcodeCountModule(
     }
 
     @ReactMethod
-    fun createView(
-        @Suppress("UNUSED_PARAMETER") reactTag: Int,
-        @Suppress("UNUSED_PARAMETER") jsonString: String,
+    fun createBarcodeCountView(
+        readableMap: ReadableMap,
         promise: Promise
     ) {
-        // Noop in Android. Everything is handled in the BarcodeCountViewManager
+        val viewId = readableMap.viewId
+        val viewJson = readableMap.getString("viewJson") ?: run {
+            promise.reject(ParameterNullError("viewJson"))
+            return
+        }
+
+        val viewManager = viewManagers[BarcodeCountViewManager::class.java.name] as?
+            BarcodeCountViewManager
+        if (viewManager == null) {
+            promise.reject(VIEW_MANAGER_NULL_ERROR)
+            return
+        }
+
+        viewManager.createBarcodeCountView(viewId, viewJson, promise)
+    }
+
+    @ReactMethod
+    fun updateBarcodeCountView(readableMap: ReadableMap, promise: Promise) {
+        val viewJson = readableMap.getString("viewJson")!!
+        barcodeCountModule.updateBarcodeCountView(readableMap.viewId, viewJson)
         promise.resolve(null)
     }
 
     @ReactMethod
-    fun updateView(jsonString: String, promise: Promise) {
-        barcodeCountModule.updateBarcodeCountView(jsonString)
+    fun updateBarcodeCountMode(readableMap: ReadableMap, promise: Promise) {
+        val barcodeCountJson = readableMap.getString("barcodeCountJson")!!
+        barcodeCountModule.updateBarcodeCount(readableMap.viewId, barcodeCountJson)
         promise.resolve(null)
     }
 
     @ReactMethod
-    fun updateMode(jsonString: String, promise: Promise) {
-        barcodeCountModule.updateBarcodeCount(jsonString)
+    fun registerBarcodeCountListener(readableMap: ReadableMap, promise: Promise) {
+        barcodeCountModule.addBarcodeCountListener(readableMap.viewId)
         promise.resolve(null)
     }
 
     @ReactMethod
-    fun registerBarcodeCountListener(promise: Promise) {
-        barcodeCountModule.addBarcodeCountListener()
+    fun unregisterBarcodeCountListener(readableMap: ReadableMap, promise: Promise) {
+        barcodeCountModule.removeBarcodeCountListener(readableMap.viewId)
         promise.resolve(null)
     }
 
     @ReactMethod
-    fun unregisterBarcodeCountListener(promise: Promise) {
-        barcodeCountModule.removeBarcodeCountListener()
+    fun registerBarcodeCountViewListener(readableMap: ReadableMap, promise: Promise) {
+        barcodeCountModule.addBarcodeCountViewListener(readableMap.viewId)
         promise.resolve(null)
     }
 
     @ReactMethod
-    fun registerBarcodeCountViewListener(promise: Promise) {
-        barcodeCountModule.addBarcodeCountViewListener()
+    fun unregisterBarcodeCountViewListener(readableMap: ReadableMap, promise: Promise) {
+        barcodeCountModule.removeBarcodeCountViewListener(readableMap.viewId)
         promise.resolve(null)
     }
 
     @ReactMethod
-    fun unregisterBarcodeCountViewListener(promise: Promise) {
-        barcodeCountModule.removeBarcodeCountViewListener()
+    fun registerBarcodeCountViewUiListener(readableMap: ReadableMap, promise: Promise) {
+        barcodeCountModule.addBarcodeCountViewUiListener(readableMap.viewId)
         promise.resolve(null)
     }
 
     @ReactMethod
-    fun registerBarcodeCountViewUiListener(promise: Promise) {
-        barcodeCountModule.addBarcodeCountViewUiListener()
+    fun unregisterBarcodeCountViewUiListener(readableMap: ReadableMap, promise: Promise) {
+        barcodeCountModule.removeBarcodeCountViewUiListener(readableMap.viewId)
         promise.resolve(null)
     }
 
     @ReactMethod
-    fun unregisterBarcodeCountViewUiListener(promise: Promise) {
-        barcodeCountModule.removeBarcodeCountViewUiListener()
+    fun resetBarcodeCountSession(readableMap: ReadableMap, promise: Promise) {
+        barcodeCountModule.resetBarcodeCountSession(readableMap.viewId, null)
         promise.resolve(null)
     }
 
     @ReactMethod
-    fun resetSession(promise: Promise) {
-        barcodeCountModule.resetBarcodeCountSession(null)
+    fun finishBarcodeCountOnScan(readableMap: ReadableMap, promise: Promise) {
+        barcodeCountModule.finishOnScan(readableMap.viewId, true)
         promise.resolve(null)
     }
 
     @ReactMethod
-    fun finishOnScan(promise: Promise) {
-        barcodeCountModule.finishOnScan(true)
+    fun resetBarcodeCount(readableMap: ReadableMap, promise: Promise) {
+        barcodeCountModule.resetBarcodeCount(readableMap.viewId)
         promise.resolve(null)
     }
 
     @ReactMethod
-    fun resetBarcodeCount(promise: Promise) {
-        barcodeCountModule.resetBarcodeCount()
+    fun startBarcodeCountScanningPhase(readableMap: ReadableMap, promise: Promise) {
+        barcodeCountModule.startScanningPhase(readableMap.viewId)
         promise.resolve(null)
     }
 
     @ReactMethod
-    fun startScanningPhase(promise: Promise) {
-        barcodeCountModule.startScanningPhase()
+    fun endBarcodeCountScanningPhase(readableMap: ReadableMap, promise: Promise) {
+        barcodeCountModule.endScanningPhase(readableMap.viewId)
         promise.resolve(null)
     }
 
     @ReactMethod
-    fun endScanningPhase(promise: Promise) {
-        barcodeCountModule.endScanningPhase()
+    fun clearBarcodeCountHighlights(readableMap: ReadableMap, promise: Promise) {
+        barcodeCountModule.clearHighlights(readableMap.viewId)
         promise.resolve(null)
     }
 
     @ReactMethod
-    fun clearHighlights(promise: Promise) {
-        barcodeCountModule.clearHighlights()
-        promise.resolve(null)
-    }
-
-    @ReactMethod
-    fun finishBrushForRecognizedBarcodeCallback(
-        @Suppress("UNUSED_PARAMETER") reactTag: Int,
-        brushJson: String,
-        trackedBarcodeId: Int,
+    fun finishBarcodeCountBrushForRecognizedBarcode(
+        readableMap: ReadableMap,
         promise: Promise
     ) {
-        val brush = BrushDeserializer.fromJson(brushJson)
-        barcodeCountModule.finishBrushForRecognizedBarcodeEvent(brush, trackedBarcodeId)
+        val brush = readableMap.getString("brushJson")
+            ?.takeUnless { it.isBlank() }
+            ?.let { BrushDeserializer.fromJson(it) }
+        val trackedBarcodeId = readableMap.getInt("trackedBarcodeId")
+        barcodeCountModule.finishBrushForRecognizedBarcodeEvent(
+            readableMap.viewId,
+            brush,
+            trackedBarcodeId
+        )
         promise.resolve(null)
     }
 
     @ReactMethod
-    fun finishBrushForRecognizedBarcodeNotInListCallback(
-        @Suppress("UNUSED_PARAMETER") reactTag: Int,
-        brushJson: String,
-        trackedBarcodeId: Int,
+    fun finishBarcodeCountBrushForRecognizedBarcodeNotInList(
+        readableMap: ReadableMap,
         promise: Promise
     ) {
-        val brush = BrushDeserializer.fromJson(brushJson)
-        barcodeCountModule.finishBrushForRecognizedBarcodeNotInListEvent(brush, trackedBarcodeId)
+        val brush = readableMap.getString("brushJson")
+            ?.takeUnless { it.isBlank() }
+            ?.let { BrushDeserializer.fromJson(it) }
+        val trackedBarcodeId = readableMap.getInt("trackedBarcodeId")
+        barcodeCountModule.finishBrushForRecognizedBarcodeNotInListEvent(
+            readableMap.viewId,
+            brush,
+            trackedBarcodeId
+        )
         promise.resolve(null)
     }
 
     @ReactMethod
-    fun finishBrushForUnrecognizedBarcodeCallback(
-        @Suppress("UNUSED_PARAMETER") reactTag: Int,
-        brushJson: String,
-        trackedBarcodeId: Int,
+    fun finishBarcodeCountBrushForAcceptedBarcode(
+        readableMap: ReadableMap,
         promise: Promise
     ) {
-        val brush = BrushDeserializer.fromJson(brushJson)
-        barcodeCountModule.finishBrushForUnrecognizedBarcodeEvent(brush, trackedBarcodeId)
+        val brush = readableMap.getString("brushJson")
+            ?.takeUnless { it.isBlank() }
+            ?.let { BrushDeserializer.fromJson(it) }
+        val trackedBarcodeId = readableMap.getInt("trackedBarcodeId")
+        barcodeCountModule.finishBrushForAcceptedBarcodeEvent(
+            readableMap.viewId,
+            brush,
+            trackedBarcodeId
+        )
         promise.resolve(null)
     }
 
     @ReactMethod
-    fun setBarcodeCountCaptureList(targetBarcodesJson: String, promise: Promise) {
-        val barcodes = JSONArray(targetBarcodesJson)
-        barcodeCountModule.setBarcodeCountCaptureList(barcodes)
-        promise.resolve(null)
-    }
-
-    @ReactMethod
-    fun getSpatialMapWithHints(
-        expectedNumberOfRows: Int,
-        expectedNumberOfColumns: Int,
+    fun finishBarcodeCountBrushForRejectedBarcode(
+        readableMap: ReadableMap,
         promise: Promise
     ) {
-        val map = barcodeCountModule.getSpatialMap(expectedNumberOfRows, expectedNumberOfColumns)
-        promise.resolve(map?.toJson())
+        val brush = readableMap.getString("brushJson")
+            ?.takeUnless { it.isBlank() }
+            ?.let { BrushDeserializer.fromJson(it) }
+        val trackedBarcodeId = readableMap.getInt("trackedBarcodeId")
+        barcodeCountModule.finishBrushForRejectedBarcodeEvent(
+            readableMap.viewId,
+            brush,
+            trackedBarcodeId
+        )
+        promise.resolve(null)
     }
 
     @ReactMethod
-    fun getSpatialMap(promise: Promise) {
-        val map = barcodeCountModule.getSpatialMap()
-        promise.resolve(map?.toJson())
+    fun setBarcodeCountCaptureList(readableMap: ReadableMap, promise: Promise) {
+        val barcodes = JSONArray(readableMap.getString("captureListJson"))
+        barcodeCountModule.setBarcodeCountCaptureList(readableMap.viewId, barcodes)
+        promise.resolve(null)
     }
 
     @ReactMethod
-    fun setModeEnabledState(enabled: Boolean) {
-        barcodeCountModule.setModeEnabled(enabled)
+    fun getBarcodeCountSpatialMapWithHints(
+        readableMap: ReadableMap,
+        promise: Promise
+    ) {
+        val expectedNumberOfRows = readableMap.getInt("expectedNumberOfRows")
+        val expectedNumberOfColumns = readableMap.getInt("expectedNumberOfColumns")
+        barcodeCountModule.submitSpatialMap(
+            readableMap.viewId,
+            expectedNumberOfRows,
+            expectedNumberOfColumns,
+            ReactNativeResult(promise)
+        )
     }
 
     @ReactMethod
-    fun updateBarcodeCountFeedback(feedbackJson: String, promise: Promise) {
-        barcodeCountModule.updateFeedback(feedbackJson, ReactNativeResult(promise))
+    fun getBarcodeCountSpatialMap(readableMap: ReadableMap, promise: Promise) {
+        barcodeCountModule.submitSpatialMap(readableMap.viewId, ReactNativeResult(promise))
+    }
+
+    @ReactMethod
+    fun setBarcodeCountModeEnabledState(readableMap: ReadableMap, promise: Promise) {
+        val enabled = readableMap.getBoolean("isEnabled")
+        barcodeCountModule.setModeEnabled(readableMap.viewId, enabled)
+        promise.resolve(null)
+    }
+
+    @ReactMethod
+    fun updateBarcodeCountFeedback(readableMap: ReadableMap, promise: Promise) {
+        val feedbackJson = readableMap.getString("feedbackJson")!!
+        barcodeCountModule.updateFeedback(
+            readableMap.viewId,
+            feedbackJson,
+            ReactNativeResult(promise)
+        )
+    }
+
+    @ReactMethod
+    fun enableBarcodeCountHardwareTrigger(readableMap: ReadableMap, promise: Promise) {
+        val hardwareTriggerKeyCode = if (readableMap.hasKey("hardwareTriggerKeyCode")) {
+            readableMap.getInt("hardwareTriggerKeyCode")
+        } else {
+            null
+        }
+        barcodeCountModule.enableHardwareTrigger(
+            readableMap.viewId,
+            hardwareTriggerKeyCode,
+            ReactNativeResult(promise)
+        )
+    }
+
+    @ReactMethod
+    fun addListener(@Suppress("UNUSED_PARAMETER") eventName: String?) {
+        // Keep: Required for RN built in Event Emitter Calls.
+    }
+
+    @ReactMethod
+    fun removeListeners(@Suppress("UNUSED_PARAMETER") count: Int?) {
+        // Keep: Required for RN built in Event Emitter Calls.
+    }
+
+    @ReactMethod
+    fun disposeBarcodeCountView(readableMap: ReadableMap, promise: Promise) {
+        barcodeCountModule.viewDisposed(readableMap.viewId)
+        promise.resolve(null)
     }
 
     private val barcodeCountModule: BarcodeCountModule
@@ -225,4 +297,11 @@ class ScanditDataCaptureBarcodeCountModule(
                 BarcodeCountModule::class.java.name
             ) as? BarcodeCountModule? ?: throw ModuleNotStartedError(name)
         }
+
+    companion object {
+        private val VIEW_MANAGER_NULL_ERROR = Error(
+            "Unable to add the BarcodeCountView on Android. " +
+                "The BarcodeCountViewManager instance is null."
+        )
+    }
 }

@@ -36,10 +36,9 @@ class ScanditDataCaptureBarcodeSelection: RCTEventEmitter {
     override init() {
         super.init()
         let emitter = ReactNativeEmitter(emitter: self)
-        let barcodeSelectionListener = FrameworksBarcodeSelectionListener(emitter: emitter)
         let aimedBrushProvider = FrameworksBarcodeSelectionAimedBrushProvider(emitter: emitter, queue: cachedBrushesQueue)
         let trackedBrushProvider = FrameworksBarcodeSelectionTrackedBrushProvider(emitter: emitter, queue: cachedBrushesQueue)
-        barcodeSelectionModule = BarcodeSelectionModule(barcodeSelectionListener: barcodeSelectionListener,
+        barcodeSelectionModule = BarcodeSelectionModule(emitter: emitter,
                                                         aimedBrushProvider: aimedBrushProvider,
                                                         trackedBrushProvider: trackedBrushProvider)
         barcodeSelectionModule.didStart()
@@ -70,52 +69,65 @@ class ScanditDataCaptureBarcodeSelection: RCTEventEmitter {
         FrameworksBarcodeSelectionEvent.allCases.map{ $0.rawValue }
     }
 
-    @objc func registerListenerForEvents() {
-        barcodeSelectionModule.addListener()
+    @objc(registerBarcodeSelectionListenerForEvents:)
+    func registerBarcodeSelectionListenerForEvents(data: [String: Any]) {
+        barcodeSelectionModule.addListener(modeId: data.modeId)
     }
 
-    @objc func unregisterListenerForEvents() {
-        barcodeSelectionModule.removeListener()
+    @objc(unregisterBarcodeSelectionListenerForEvents:)
+    func unregisterBarcodeSelectionListenerForEvents(data: [String: Any]) {
+        barcodeSelectionModule.removeListener(modeId: data.modeId)
     }
 
-    @objc(finishDidUpdateSelectionCallback:)
-    func finishDidUpdateSelectionCallback(enabled: Bool) {
-        barcodeSelectionModule.finishDidSelect(enabled: enabled)
+    @objc(finishBarcodeSelectionDidSelect:)
+    func finishBarcodeSelectionDidSelect(_ data: [String: Any]) {
+        let enabled = data["enabled"] as! Bool
+        barcodeSelectionModule.finishDidSelect(modeId: data.modeId, enabled: enabled)
     }
 
-    @objc(finishDidUpdateSessionCallback:)
-    func finishDidUpdateSessionCallback(enabled: Bool) {
-        barcodeSelectionModule.finishDidUpdate(enabled: enabled)
+    @objc(finishBarcodeSelectionDidUpdateSession:)
+    func finishBarcodeSelectionDidUpdateSession(_ data: [String: Any]) {
+        let enabled = data["enabled"] as! Bool
+        barcodeSelectionModule.finishDidUpdate(modeId: data.modeId, enabled: enabled)
     }
 
-    @objc(getCount:resolver:rejecter:)
-    func getCount(selectionIdentifier: String,
-                  resolve: RCTPromiseResolveBlock,
-                  reject: RCTPromiseRejectBlock) {
-        let count = barcodeSelectionModule.getBarcodeCount(selectionIdentifier: selectionIdentifier)
-        resolve(count)
+    @objc(getCountForBarcodeInBarcodeSelectionSession:resolver:rejecter:)
+    func getCountForBarcodeInBarcodeSelectionSession(data: [String: Any],
+                  resolve: @escaping RCTPromiseResolveBlock,
+                  reject: @escaping RCTPromiseRejectBlock) {
+        let selectionIdentifier = data["selectionIdentifier"] as! String
+        barcodeSelectionModule.submitBarcodeCountForIdentifier(
+            modeId: data.modeId,
+            selectionIdentifier: selectionIdentifier,
+            result: ReactNativeResult(resolve, reject)
+        )
     }
 
     @objc(increaseCountForBarcodes:resolver:rejecter:)
-    func increaseCountForBarcodes(barcodesJson: String,
+    func increaseCountForBarcodes(data: [String: Any],
                                   resolve: @escaping RCTPromiseResolveBlock,
                                   reject: @escaping RCTPromiseRejectBlock) {
-        barcodeSelectionModule.increaseCountForBarcodes(barcodesJson: barcodesJson,
-                                                        result: ReactNativeResult(resolve, reject))
+        let barcodesJson = data["barcodesJson"] as! String
+        barcodeSelectionModule.increaseCountForBarcodes(
+            modeId: data.modeId,
+            barcodesJson: barcodesJson,
+            result: ReactNativeResult(resolve, reject)
+        )
     }
 
-    @objc(finishBrushForAimedBarcodeCallback:selectionIdentifier:resolver:rejecter:)
-    func finishBrushForAimedBarcodeCallback(brushJson: String?,
-                                            selectionIdentifier: String?,
+    @objc(finishBrushForAimedBarcodeCallback:resolver:rejecter:)
+    func finishBrushForAimedBarcodeCallback(data: [String: Any],
                                             resolve: RCTPromiseResolveBlock,
                                             reject: RCTPromiseRejectBlock) {
+        let brushJson = data["brushJson"] as? String
+        let selectionIdentifier = data["selectionIdentifier"] as? String
         barcodeSelectionModule.finishBrushForAimedBarcode(brushJson: brushJson, selectionIdentifier: selectionIdentifier)
         resolve(nil)
     }
 
     @objc(setAimedBarcodeBrushProvider:rejecter:)
     func setAimedBarcodeBrushProvider(resolve: @escaping RCTPromiseResolveBlock,
-                                        reject: @escaping RCTPromiseRejectBlock) {
+                                      reject: @escaping RCTPromiseRejectBlock) {
         barcodeSelectionModule.setAimedBrushProvider(result: ReactNativeResult(resolve, reject))
     }
 
@@ -125,19 +137,24 @@ class ScanditDataCaptureBarcodeSelection: RCTEventEmitter {
         resolve(nil)
     }
 
-    @objc(finishBrushForTrackedBarcodeCallback:selectionIdentifier:resolver:rejecter:)
-    func finishBrushForTrackedBarcodeCallback(brushJson: String?,
-                                              selectionIdentifier: String?,
+    @objc(finishBrushForTrackedBarcodeCallback:resolver:rejecter:)
+    func finishBrushForTrackedBarcodeCallback(data: [String: Any],
                                               resolve: RCTPromiseResolveBlock,
                                               reject: RCTPromiseRejectBlock) {
-        barcodeSelectionModule.finishBrushForTrackedBarcode(brushJson: brushJson, selectionIdentifier: selectionIdentifier)
+        let brushJson = data["brushJson"] as? String
+        let selectionIdentifier = data["selectionIdentifier"] as? String
+        barcodeSelectionModule.finishBrushForTrackedBarcode(
+            brushJson: brushJson,
+            selectionIdentifier: selectionIdentifier
+        )
         resolve(nil)
     }
 
     @objc(setTextForAimToSelectAutoHint:resolver:rejecter:)
-    func setTextForAimToSelectAutoHint(text: String,
+    func setTextForAimToSelectAutoHint(data: [String: Any],
                                        resolve: @escaping RCTPromiseResolveBlock,
                                        reject: @escaping RCTPromiseRejectBlock) {
+        let text = data["text"] as! String
         barcodeSelectionModule.setTextForAimToSelectAutoHint(text: text,
                                                              result: ReactNativeResult(resolve,reject))
     }
@@ -154,64 +171,93 @@ class ScanditDataCaptureBarcodeSelection: RCTEventEmitter {
         resolve(nil)
     }
 
-    @objc(unfreezeCamera:rejecter:)
-    func unfreezeCamera(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
-        barcodeSelectionModule.unfreezeCamera()
+    @objc(unfreezeCameraInBarcodeSelection:resolver:rejecter:)
+    func unfreezeCameraInBarcodeSelection(data: [String: Any], resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
+        barcodeSelectionModule.unfreezeCamera(modeId: data.modeId)
         resolve(nil)
     }
 
-    @objc(selectAimedBarcode:rejecter:)
-    func selectAimedBarcode(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
-        barcodeSelectionModule.selectAimedBarcode()
+    @objc(selectAimedBarcode:resolver:rejecter:)
+    func selectAimedBarcode(data: [String: Any], resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
+        barcodeSelectionModule.selectAimedBarcode(modeId: data.modeId)
         resolve(nil)
     }
 
-    @objc(resetMode:rejecter:)
-    func resetMode(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
-        barcodeSelectionModule.resetSelection()
+    @objc(resetBarcodeSelection:resolver:rejecter:)
+    func resetBarcodeSelection(data: [String: Any], resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
+        barcodeSelectionModule.resetSelection(modeId: data.modeId)
         resolve(nil)
     }
 
-    @objc(resetSession:rejecter:)
-    func resetSession(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
-        barcodeSelectionModule.resetLatestSession(frameSequenceId: nil)
+    @objc(resetBarcodeSelectionSession:resolver:rejecter:)
+    func resetBarcodeSelectionSession(data: [String: Any], resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
+        barcodeSelectionModule.resetLatestSession(modeId: data.modeId, frameSequenceId: nil)
         resolve(nil)
     }
 
     @objc(unselectBarcodes:resolver:rejecter:)
-    func unselectBarcodes(barcodesJson: String,
+    func unselectBarcodes(data: [String: Any],
                           resolve: @escaping RCTPromiseResolveBlock,
                           reject: @escaping RCTPromiseRejectBlock) {
-        barcodeSelectionModule.unselectBarcodes(barcodesJson: barcodesJson, result: ReactNativeResult(resolve, reject))
+        let barcodesJson = data["barcodesJson"] as! String
+        barcodeSelectionModule.unselectBarcodes(modeId: data.modeId, barcodesJson: barcodesJson, result: ReactNativeResult(resolve, reject))
     }
 
-    @objc(setSelectBarcodeEnabled:enabled:resolver:rejecter:)
-    func setSelectBarcodeEnabled(barcodesJson: String,
-                                 enabled: Bool,
+    @objc(setSelectBarcodeEnabled:resolver:rejecter:)
+    func setSelectBarcodeEnabled(data: [String: Any],
                                  resolve: @escaping RCTPromiseResolveBlock,
                                  reject: @escaping RCTPromiseRejectBlock) {
-        barcodeSelectionModule.setSelectBarcodeEnabled(barcodesJson: barcodesJson,
-                                                       enabled: enabled,
-                                                       result: ReactNativeResult(resolve, reject))
+        let barcodesJson = data["barcodesJson"] as! String
+        let enabled = data["enabled"] as! Bool
+        barcodeSelectionModule.setSelectBarcodeEnabled(
+            modeId: data.modeId,
+            barcodesJson: barcodesJson,
+            enabled: enabled,
+            result: ReactNativeResult(resolve, reject)
+        )
     }
 
-    @objc(setModeEnabledState:)
-    func setModeEnabledState(enabled: Bool) {
-        barcodeSelectionModule.setModeEnabled(enabled: enabled)
+    @objc(setBarcodeSelectionModeEnabledState:)
+    func setBarcodeSelectionModeEnabledState(data: [String: Any]) {
+        let enabled = data["enabled"] as! Bool
+        barcodeSelectionModule.setModeEnabled(modeId: data.modeId, enabled: enabled)
     }
 
     @objc(updateBarcodeSelectionBasicOverlay:resolve:reject:)
-    func updateBarcodeSelectionBasicOverlay(overlayJson: String, resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
+    func updateBarcodeSelectionBasicOverlay(data: [String: Any], resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
+        let overlayJson = data["overlayJson"] as! String
         barcodeSelectionModule.updateBasicOverlay(overlayJson: overlayJson, result: ReactNativeResult(resolve, reject))
     }
 
     @objc(updateBarcodeSelectionMode:resolve:reject:)
-    func updateBarcodeSelectionMode(modeJson: String, resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
-        barcodeSelectionModule.updateModeFromJson(modeJson: modeJson, result: ReactNativeResult(resolve, reject))
+    func updateBarcodeSelectionMode(data: [String: Any], resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
+        let modeJson = data["modeJson"] as! String
+        barcodeSelectionModule.updateModeFromJson(
+            modeId: data.modeId,
+            modeJson: modeJson,
+            result: ReactNativeResult(resolve, reject)
+        )
     }
 
     @objc(applyBarcodeSelectionModeSettings:resolve:reject:)
-    func applyBarcodeSelectionModeSettings(modeSettingsJson: String, resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
-        barcodeSelectionModule.applyModeSettings(modeSettingsJson: modeSettingsJson, result: ReactNativeResult(resolve, reject))
+    func applyBarcodeSelectionModeSettings(data: [String: Any], resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
+        let modeSettingsJson = data["modeSettingsJson"] as! String
+        barcodeSelectionModule.applyModeSettings(
+            modeId: data.modeId,
+            modeSettingsJson: modeSettingsJson,
+            result: ReactNativeResult(resolve, reject)
+        )
+    }
+
+    @objc(updateBarcodeSelectionFeedback:resolve:reject:)
+    func updateBarcodeSelectionFeedback(data: [String: Any],
+                                        resolve: @escaping RCTPromiseResolveBlock,
+                                        reject: @escaping RCTPromiseRejectBlock) {
+        let feedbackJson = data["feedbackJson"] as! String
+        barcodeSelectionModule.updateFeedback(
+            modeId: data.modeId,
+            feedbackJson: feedbackJson,
+            result: ReactNativeResult(resolve, reject)
+        )
     }
 }

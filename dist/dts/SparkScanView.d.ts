@@ -1,113 +1,78 @@
 import React from 'react';
-import { SparkScanViewFeedback, SparkScanFeedbackDelegate, SparkScanViewSettings, SparkScan } from 'scandit-datacapture-frameworks-barcode';
-import { Brush, Color, DataCaptureContext } from 'scandit-datacapture-frameworks-core';
+import { SparkScanFeedbackDelegate, SparkScanViewState, BaseSparkScanViewProps } from 'scandit-datacapture-frameworks-barcode';
+import { Brush, Color } from 'scandit-datacapture-frameworks-core';
 export interface SparkScanViewUiListener {
     onBarcodeCountButtonTappedIn?(view: SparkScanView): void;
-    /**
-     * @deprecated This method was renamed. Use onBarcodeFindButtonTappedIn instead.
-     */
-    onFastFindButtonTappedIn?(view: SparkScanView): void;
     onBarcodeFindButtonTappedIn?(view: SparkScanView): void;
+    onLabelCaptureButtonTappedIn?(view: SparkScanView): void;
+    didChangeViewState?(newState: SparkScanViewState): void;
 }
-interface SparkScanViewProps {
-    context: DataCaptureContext;
-    sparkScan: SparkScan;
-    sparkScanViewSettings: SparkScanViewSettings;
+interface SparkScanViewProps extends BaseSparkScanViewProps {
     style: any;
     children?: React.ReactNode;
+    navigation?: any;
 }
 export declare class SparkScanView extends React.Component<SparkScanViewProps> {
     private baseSparkScanView;
     private rnViewListener;
+    private _isMounted;
+    private navigationUnsubscribers;
+    private cameraOwner;
     get uiListener(): SparkScanViewUiListener | null;
     set uiListener(listener: SparkScanViewUiListener | null);
     static get defaultBrush(): Brush;
     constructor(props: SparkScanViewProps);
-    componentWillUnmount(): void;
     render(): React.JSX.Element;
-    /**
-     * @deprecated This property is deprecated as it's no longer needed.
-     */
-    get shouldShowScanAreaGuides(): boolean;
-    /**
-     * @deprecated This property is deprecated as it's no longer needed.
-     */
-    set shouldShowScanAreaGuides(newValue: boolean);
-    get brush(): Brush;
-    set brush(newValue: Brush);
     get previewSizeControlVisible(): boolean;
     set previewSizeControlVisible(newValue: boolean);
-    get torchButtonVisible(): boolean;
-    set torchButtonVisible(newValue: boolean);
     get scanningBehaviorButtonVisible(): boolean;
     set scanningBehaviorButtonVisible(newValue: boolean);
-    get handModeButtonVisible(): boolean;
-    set handModeButtonVisible(newValue: boolean);
     get barcodeCountButtonVisible(): boolean;
     set barcodeCountButtonVisible(newValue: boolean);
-    /**
-     * @deprecated This property was renamed. Use the property `barcodeFindButtonVisible` instead.
-     */
-    get fastFindButtonVisible(): boolean;
-    /**
-     * @deprecated This property was renamed. Use the property `barcodeFindButtonVisible` instead.
-     */
-    set fastFindButtonVisible(newValue: boolean);
     get barcodeFindButtonVisible(): boolean;
     set barcodeFindButtonVisible(newValue: boolean);
     get targetModeButtonVisible(): boolean;
     set targetModeButtonVisible(newValue: boolean);
-    /**
-     * @deprecated This property is deprecated as sound mode button will be removed in the future.
-     */
-    get soundModeButtonVisible(): boolean;
-    /**
-     * @deprecated This property is deprecated as sound mode button will be removed in the future.
-     */
-    set soundModeButtonVisible(newValue: boolean);
-    /**
-     * @deprecated This property is deprecated as haptic mode button will be removed in the future.
-     */
-    get hapticModeButtonVisible(): boolean;
-    /**
-     * @deprecated This property is deprecated as haptic mode button will be removed in the future.
-     */
-    set hapticModeButtonVisible(newValue: boolean);
-    get stopCapturingText(): string | null;
-    set stopCapturingText(newValue: string | null);
-    get startCapturingText(): string | null;
-    set startCapturingText(newValue: string | null);
-    get resumeCapturingText(): string | null;
-    set resumeCapturingText(newValue: string | null);
-    get scanningCapturingText(): string | null;
-    set scanningCapturingText(newValue: string | null);
-    get captureButtonActiveBackgroundColor(): Color | null;
-    set captureButtonActiveBackgroundColor(newValue: Color | null);
-    get captureButtonBackgroundColor(): Color | null;
-    set captureButtonBackgroundColor(newValue: Color | null);
-    get captureButtonTintColor(): Color | null;
-    set captureButtonTintColor(newValue: Color | null);
+    get labelCaptureButtonVisible(): boolean;
+    set labelCaptureButtonVisible(newValue: boolean);
     get toolbarBackgroundColor(): Color | null;
     set toolbarBackgroundColor(newValue: Color | null);
     get toolbarIconActiveTintColor(): Color | null;
     set toolbarIconActiveTintColor(newValue: Color | null);
     get toolbarIconInactiveTintColor(): Color | null;
     set toolbarIconInactiveTintColor(newValue: Color | null);
-    get targetModeHintText(): string | null;
-    set targetModeHintText(newValue: string | null);
-    get shouldShowTargetModeHint(): boolean;
-    set shouldShowTargetModeHint(newValue: boolean);
     get cameraSwitchButtonVisible(): boolean;
     set cameraSwitchButtonVisible(newValue: boolean);
-    emitFeedback(feedback: SparkScanViewFeedback): void;
-    prepareScanning(): void;
-    startScanning(): void;
-    pauseScanning(): void;
-    stopScanning(): void;
+    get torchControlVisible(): boolean;
+    set torchControlVisible(newValue: boolean);
+    get previewCloseControlVisible(): boolean;
+    set previewCloseControlVisible(newValue: boolean);
+    get triggerButtonAnimationColor(): Color | null;
+    set triggerButtonAnimationColor(newValue: Color | null);
+    get triggerButtonExpandedColor(): Color | null;
+    set triggerButtonExpandedColor(newValue: Color | null);
+    get triggerButtonCollapsedColor(): Color | null;
+    set triggerButtonCollapsedColor(newValue: Color | null);
+    get triggerButtonTintColor(): Color | null;
+    set triggerButtonTintColor(newValue: Color | null);
+    get triggerButtonVisible(): boolean;
+    set triggerButtonVisible(newValue: boolean);
+    get triggerButtonImage(): string | null;
+    set triggerButtonImage(newValue: string | null);
+    prepareScanning(): Promise<void>;
+    startScanning(): Promise<void>;
+    pauseScanning(): Promise<void>;
+    stopScanning(): Promise<void>;
+    onHostPause(): Promise<void>;
     get feedbackDelegate(): SparkScanFeedbackDelegate | null;
     set feedbackDelegate(delegate: SparkScanFeedbackDelegate | null);
     showToast(text: string): Promise<void>;
     componentDidMount(): void;
+    componentDidUpdate(prevProps: SparkScanViewProps): void;
+    componentWillUnmount(): void;
+    private setupNavigationListeners;
+    private onFocus;
+    private onBlur;
     private createSparkScanView;
     private toJSON;
 }
