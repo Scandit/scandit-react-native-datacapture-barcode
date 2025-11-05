@@ -12,8 +12,16 @@ import ScanditDataCaptureCore
 class BarcodePickViewWrapperView: UIView {
     weak var viewManager: BarcodePickViewManager?
 
+    var isFrameSet = false
+
+    var postFrameSetAction: (() -> Void)?
+
     var barcodePickView: BarcodePickView? {
-        return dispatchMainSync {
+        if Thread.isMainThread {
+            return subviews.first { $0 is BarcodePickView } as? BarcodePickView
+        }
+
+        return DispatchQueue.main.sync {
             subviews.first { $0 is BarcodePickView } as? BarcodePickView
         }
     }
@@ -31,6 +39,14 @@ class BarcodePickViewWrapperView: UIView {
         }
     }
 
+    override func didMoveToSuperview() {
+        // Was added to the super view, if no barcodePickView yet
+        if let viewManager = viewManager {
+            let postCreationAction = viewManager.getAndRemovePostContainerCreateAction(for: self.reactTag.intValue)
+            postCreationAction?(self)
+        }
+    }
+
     override func removeFromSuperview() {
         super.removeFromSuperview()
         guard let index = BarcodePickViewManager.containers.firstIndex(of: self) else {
@@ -39,11 +55,24 @@ class BarcodePickViewWrapperView: UIView {
 
         BarcodePickViewManager.containers.remove(at: index)
 
+        if let viewManager = viewManager {
+            _ = viewManager.getAndRemovePostContainerCreateAction(for: self.reactTag.intValue)
+        }
+
         if let view = barcodePickView,
            let _ = viewManager {
             if view.superview != nil {
                 view.removeFromSuperview()
             }
+        }
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        // This is needed only the first time to execute the action queued in the postFrameSetAction
+        if !frame.equalTo(.zero) && !isFrameSet {
+            isFrameSet = true
+            postFrameSetAction?()
         }
     }
 }
@@ -54,6 +83,18 @@ class BarcodePickViewManager: RCTViewManager {
 
     override class func requiresMainQueueSetup() -> Bool {
         true
+    }
+
+    private var postContainerCreateActions: [Int: ((BarcodePickViewWrapperView) -> Void)] = [:]
+
+    public func setPostContainerCreateAction(for viewId: Int, action: @escaping (BarcodePickViewWrapperView) -> Void) {
+        postContainerCreateActions[viewId] = action
+    }
+
+    func getAndRemovePostContainerCreateAction(for viewId: Int) -> ((BarcodePickViewWrapperView) -> Void)? {
+        let action = postContainerCreateActions[viewId]
+        postContainerCreateActions.removeValue(forKey: viewId)
+        return action
     }
 
     override func view() -> UIView! {

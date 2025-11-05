@@ -4,7 +4,7 @@ import { BarcodeBatch, BarcodeBatchAdvancedOverlayView, BarcodeBatchBasicOverlay
 import { BarcodeBatchAdvancedOverlay } from './BarcodeBatchAdvancedOverlay';
 interface BarcodeBatchViewProps {
     context: DataCaptureContext;
-    isEnabled: boolean;
+    isEnabled?: boolean;
     barcodeBatchSettings?: BarcodeBatchSettings | null;
     defaultBasicOverlayBrush?: Brush | null;
     basicOverlayStyle?: BarcodeBatchBasicOverlayStyle | null;
@@ -12,7 +12,7 @@ interface BarcodeBatchViewProps {
     defaultAnchorForTrackedBarcode?: Anchor;
     defaultsOffsetForTrackedBarcode?: PointWithUnit;
     cameraSettings?: CameraSettings | null;
-    desiredCameraState?: FrameSourceState | null;
+    desiredCameraState?: FrameSourceState;
     desiredCameraPosition?: CameraPosition | null;
     desiredTorchState?: TorchState | null;
     torchSwitchControl?: TorchSwitchControl | null;

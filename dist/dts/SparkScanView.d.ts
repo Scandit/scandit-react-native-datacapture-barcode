@@ -4,6 +4,7 @@ import { Brush, Color } from 'scandit-datacapture-frameworks-core';
 export interface SparkScanViewUiListener {
     onBarcodeCountButtonTappedIn?(view: SparkScanView): void;
     onBarcodeFindButtonTappedIn?(view: SparkScanView): void;
+    onLabelCaptureButtonTappedIn?(view: SparkScanView): void;
     didChangeViewState?(newState: SparkScanViewState): void;
 }
 interface SparkScanViewProps extends BaseSparkScanViewProps {
@@ -13,11 +14,11 @@ interface SparkScanViewProps extends BaseSparkScanViewProps {
 export declare class SparkScanView extends React.Component<SparkScanViewProps> {
     private baseSparkScanView;
     private rnViewListener;
+    private _isMounted;
     get uiListener(): SparkScanViewUiListener | null;
     set uiListener(listener: SparkScanViewUiListener | null);
     static get defaultBrush(): Brush;
     constructor(props: SparkScanViewProps);
-    componentWillUnmount(): void;
     render(): React.JSX.Element;
     get previewSizeControlVisible(): boolean;
     set previewSizeControlVisible(newValue: boolean);
@@ -37,6 +38,8 @@ export declare class SparkScanView extends React.Component<SparkScanViewProps> {
     set barcodeFindButtonVisible(newValue: boolean);
     get targetModeButtonVisible(): boolean;
     set targetModeButtonVisible(newValue: boolean);
+    get labelCaptureButtonVisible(): boolean;
+    set labelCaptureButtonVisible(newValue: boolean);
     get stopCapturingText(): string | null;
     set stopCapturingText(newValue: string | null);
     get startCapturingText(): string | null;
@@ -93,15 +96,17 @@ export declare class SparkScanView extends React.Component<SparkScanViewProps> {
     set triggerButtonVisible(newValue: boolean);
     get triggerButtonImage(): string | null;
     set triggerButtonImage(newValue: string | null);
-    prepareScanning(): void;
-    startScanning(): void;
-    pauseScanning(): void;
-    stopScanning(): void;
+    prepareScanning(): Promise<void>;
+    startScanning(): Promise<void>;
+    pauseScanning(): Promise<void>;
+    stopScanning(): Promise<void>;
+    onHostPause(): Promise<void>;
     get feedbackDelegate(): SparkScanFeedbackDelegate | null;
     set feedbackDelegate(delegate: SparkScanFeedbackDelegate | null);
     showToast(text: string): Promise<void>;
     componentDidMount(): void;
     componentDidUpdate(prevProps: SparkScanViewProps): void;
+    componentWillUnmount(): void;
     private createSparkScanView;
     private toJSON;
 }
