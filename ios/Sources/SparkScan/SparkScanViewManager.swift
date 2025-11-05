@@ -28,16 +28,11 @@ class RNTSparkScanViewWrapper: UIView {
 
         SparkScanViewManager.containers.remove(at: index)
 
-        if let viewManager = viewManager {
-            _ = viewManager.getAndRemovePostContainerCreateAction(for: self.reactTag.intValue)
-        }
-    }
-
-    override func didMoveToSuperview() {
-        // Was added to the super view, if no sparkScanView yet
-        if let viewManager = viewManager {
-            let postCreationAction = viewManager.getAndRemovePostContainerCreateAction(for: self.reactTag.intValue)
-            postCreationAction?(self)
+        if let sparkScanView = sparkScanView,
+           let _ = viewManager {
+            if sparkScanView.superview != nil {
+                sparkScanView.removeFromSuperview()
+            }
         }
     }
 
@@ -67,21 +62,15 @@ class SparkScanViewManager: RCTViewManager {
         true
     }
 
-    private var postContainerCreateActions: [Int: ((RNTSparkScanViewWrapper) -> Void)] = [:]
-
-    public func setPostContainerCreateAction(for viewId: Int, action: @escaping (RNTSparkScanViewWrapper) -> Void) {
-        postContainerCreateActions[viewId] = action
-    }
-
-    func getAndRemovePostContainerCreateAction(for viewId: Int) -> ((RNTSparkScanViewWrapper) -> Void)? {
-        let action = postContainerCreateActions[viewId]
-        postContainerCreateActions.removeValue(forKey: viewId)
-        return action
-    }
+    var postContainerCreateAction: ((RNTSparkScanViewWrapper) -> Void)?
 
     override func view() -> UIView! {
         let container = RNTSparkScanViewWrapper()
         container.viewManager = self
+        if SparkScanViewManager.containers.count == 0 {
+            postContainerCreateAction?(container)
+        }
+
         SparkScanViewManager.containers.append(container)
 
         return container
