@@ -16,14 +16,6 @@ static def supportsNamespace() {
     return major >= 8
 }
 
-def isNewArchitectureEnabled() {
-    // To opt-in for the New Architecture, you can either:
-    // - Set `newArchEnabled` to true inside the `gradle.properties` file
-    // - Invoke gradle with `-newArchEnabled=true`
-    // - Set an environment variable `ORG_GRADLE_PROJECT_newArchEnabled=true`
-    return project.hasProperty("newArchEnabled") && project.newArchEnabled == "true"
-}
-
 buildscript {
     // Simple helper that allows the root project to override versions declared by this library.
     ext.safeExtGet = { prop, fallback -> rootProject.ext.has(prop) ? rootProject.ext.get(prop) : fallback }
@@ -33,7 +25,7 @@ buildscript {
         if (ext.has("kotlinVersion")) {
             ext.kotlinVersion()
         } else {
-            ext.safeExtGet("kotlinVersion", "1.9.25")
+            ext.safeExtGet("kotlinVersion", "1.8.22")
         }
     }
 
@@ -49,6 +41,11 @@ buildscript {
 
 android {
     if (supportsNamespace()) {
+        sourceSets {
+            main {
+                manifest.srcFile "src/main/AndroidManifestNew.xml" // no package on it
+            }
+        }
         namespace "com.scandit.datacapture.reactnative.barcode"
     }
 
@@ -64,19 +61,6 @@ android {
     lintOptions {
         abortOnError false
     }
-
-    sourceSets {
-        main {
-            if (this.supportsNamespace()) {
-                manifest.srcFile "src/main/AndroidManifestNew.xml" // no package on it
-            }
-            if (this.isNewArchitectureEnabled()) {
-                kotlin.srcDirs += ['src/main/newArch/kotlin']
-            } else {
-                kotlin.srcDirs += ['src/main/oldArch/kotlin']
-            }
-        }
-    }
 }
 
 if (file( "${rootProject.projectDir}/build-test.gradle").exists()) {
@@ -84,7 +68,7 @@ if (file( "${rootProject.projectDir}/build-test.gradle").exists()) {
 }
 
 dependencies {
-    def sdk_version = "7.6.4"
+    def sdk_version = "7.2.6"
 
     println("Version of the native sdk used in this build: ${safeExtGet("global_sdk_version", sdk_version)}")
     api project(path: ":scandit-react-native-datacapture-core")

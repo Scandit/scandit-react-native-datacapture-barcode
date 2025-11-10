@@ -99,4 +99,5 @@ RCT_EXTERN_METHOD(updateBarcodeSelectionFeedback
                   : (NSDictionary *)data resolve
                   : (RCTPromiseResolveBlock)resolve reject
                   : (RCTPromiseRejectBlock)reject)
+
 @end
