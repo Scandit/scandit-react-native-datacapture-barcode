@@ -19,7 +19,6 @@ import com.scandit.datacapture.frameworks.core.errors.ParameterNullError
 import com.scandit.datacapture.frameworks.core.locator.ServiceLocator
 import com.scandit.datacapture.reactnative.barcode.ui.SparkScanViewManager
 import com.scandit.datacapture.reactnative.core.utils.ReactNativeResult
-import com.scandit.datacapture.reactnative.core.utils.viewId
 
 class ScanditDataCaptureSparkScanModule(
     reactContext: ReactApplicationContext,
@@ -30,7 +29,7 @@ class ScanditDataCaptureSparkScanModule(
     // SparkScanListenerProxy methods
     @ReactMethod
     fun resetSparkScanSession(readableMap: ReadableMap, promise: Promise) {
-        sparkScanModule.resetSession(readableMap.viewId)
+        sparkScanModule.resetSession(getViewId(readableMap))
         promise.resolve(null)
     }
 
@@ -41,7 +40,7 @@ class ScanditDataCaptureSparkScanModule(
             return
         }
         sparkScanModule.updateMode(
-            readableMap.viewId,
+            getViewId(readableMap),
             sparkScanJson,
             ReactNativeResult(promise)
         )
@@ -49,38 +48,38 @@ class ScanditDataCaptureSparkScanModule(
 
     @ReactMethod
     fun registerSparkScanListenerForEvents(readableMap: ReadableMap, promise: Promise) {
-        sparkScanModule.addSparkScanListener(readableMap.viewId)
+        sparkScanModule.addSparkScanListener(getViewId(readableMap))
         promise.resolve(null)
     }
 
     @ReactMethod
     fun unregisterSparkScanListenerForEvents(readableMap: ReadableMap, promise: Promise) {
-        sparkScanModule.removeSparkScanListener(readableMap.viewId)
+        sparkScanModule.removeSparkScanListener(getViewId(readableMap))
         promise.resolve(null)
     }
 
     @ReactMethod
     fun finishSparkScanDidUpdateSession(readableMap: ReadableMap) {
         val isEnabled = readableMap.getBoolean("isEnabled")
-        sparkScanModule.finishDidUpdateSessionCallback(readableMap.viewId, isEnabled)
+        sparkScanModule.finishDidUpdateSessionCallback(getViewId(readableMap), isEnabled)
     }
 
     @ReactMethod
     fun finishSparkScanDidScan(readableMap: ReadableMap) {
         val isEnabled = readableMap.getBoolean("isEnabled")
-        sparkScanModule.finishDidScanCallback(readableMap.viewId, isEnabled)
+        sparkScanModule.finishDidScanCallback(getViewId(readableMap), isEnabled)
     }
 
     @ReactMethod
     fun setSparkScanModeEnabledState(readableMap: ReadableMap) {
         val isEnabled = readableMap.getBoolean("isEnabled")
-        sparkScanModule.setModeEnabled(readableMap.viewId, isEnabled)
+        sparkScanModule.setModeEnabled(getViewId(readableMap), isEnabled)
     }
 
     // SparkScanViewProxy methods
     @ReactMethod
     fun updateSparkScanView(readableMap: ReadableMap, promise: Promise) {
-        val viewId = readableMap.viewId
+        val viewId = getViewId(readableMap)
         val viewJson = readableMap.getString("viewJson") ?: run {
             promise.reject(ParameterNullError("viewJson"))
             return
@@ -93,7 +92,7 @@ class ScanditDataCaptureSparkScanModule(
         readableMap: ReadableMap,
         promise: Promise
     ) {
-        val viewId = readableMap.viewId
+        val viewId = getViewId(readableMap)
         val viewJson = readableMap.getString("viewJson") ?: run {
             promise.reject(ParameterNullError("viewJson"))
             return
@@ -111,7 +110,7 @@ class ScanditDataCaptureSparkScanModule(
 
     @ReactMethod
     fun disposeSparkScanView(readableMap: ReadableMap, promise: Promise) {
-        sparkScanModule.disposeView(readableMap.viewId)
+        sparkScanModule.disposeView(getViewId(readableMap))
         promise.resolve(null)
     }
 
@@ -127,13 +126,13 @@ class ScanditDataCaptureSparkScanModule(
 
     @ReactMethod
     fun registerSparkScanViewListenerEvents(readableMap: ReadableMap, promise: Promise) {
-        sparkScanModule.addSparkScanViewUiListener(readableMap.viewId)
+        sparkScanModule.addSparkScanViewUiListener(getViewId(readableMap))
         promise.resolve(null)
     }
 
     @ReactMethod
     fun unregisterSparkScanViewListenerEvents(readableMap: ReadableMap, promise: Promise) {
-        sparkScanModule.removeSparkScanViewUiListener(readableMap.viewId)
+        sparkScanModule.removeSparkScanViewUiListener(getViewId(readableMap))
         promise.resolve(null)
     }
 
@@ -143,48 +142,39 @@ class ScanditDataCaptureSparkScanModule(
             promise.reject(ParameterNullError("text"))
             return
         }
-        sparkScanModule.showToast(readableMap.viewId, text, ReactNativeResult(promise))
+        sparkScanModule.showToast(getViewId(readableMap), text, ReactNativeResult(promise))
     }
 
     @ReactMethod
     fun stopSparkScanViewScanning(
-        readableMap: ReadableMap,
-        promise: Promise
-    ) {
-        sparkScanModule.stopScanning(readableMap.viewId, ReactNativeResult(promise))
-    }
-
-    @ReactMethod
-    fun onHostPauseSparkScanView(
         @Suppress("UNUSED_PARAMETER") readableMap: ReadableMap,
         promise: Promise
     ) {
-        sparkScanModule.onHostPause()
         promise.resolve(null)
     }
 
     @ReactMethod
     fun startSparkScanViewScanning(readableMap: ReadableMap, promise: Promise) {
-        sparkScanModule.startScanning(readableMap.viewId, ReactNativeResult(promise))
+        sparkScanModule.startScanning(getViewId(readableMap), ReactNativeResult(promise))
     }
 
     @ReactMethod
     fun pauseSparkScanViewScanning(readableMap: ReadableMap, promise: Promise) {
-        sparkScanModule.pauseScanning(readableMap.viewId, ReactNativeResult(promise))
+        sparkScanModule.pauseScanning(getViewId(readableMap), ReactNativeResult(promise))
     }
 
     @ReactMethod
     fun prepareSparkScanViewScanning(
-        readableMap: ReadableMap,
+        @Suppress("UNUSED_PARAMETER") readableMap: ReadableMap,
         promise: Promise
     ) {
-        sparkScanModule.prepareScanning(readableMap.viewId, ReactNativeResult(promise))
+        promise.resolve(null)
     }
 
     @ReactMethod
     fun registerSparkScanFeedbackDelegateForEvents(readableMap: ReadableMap, promise: Promise) {
         sparkScanModule.addFeedbackDelegate(
-            readableMap.viewId,
+            getViewId(readableMap),
             ReactNativeResult(promise)
         )
     }
@@ -192,7 +182,7 @@ class ScanditDataCaptureSparkScanModule(
     @ReactMethod
     fun unregisterSparkScanFeedbackDelegateForEvents(readableMap: ReadableMap, promise: Promise) {
         sparkScanModule.removeFeedbackDelegate(
-            readableMap.viewId,
+            getViewId(readableMap),
             ReactNativeResult(promise)
         )
     }
@@ -201,7 +191,7 @@ class ScanditDataCaptureSparkScanModule(
     fun submitSparkScanFeedbackForBarcode(readableMap: ReadableMap, promise: Promise) {
         val feedbackJson = readableMap.getString("feedbackJson")
         sparkScanModule.submitFeedbackForBarcode(
-            readableMap.viewId,
+            getViewId(readableMap),
             feedbackJson,
             ReactNativeResult(promise)
         )
@@ -229,6 +219,8 @@ class ScanditDataCaptureSparkScanModule(
     fun removeListeners(@Suppress("UNUSED_PARAMETER") count: Int?) {
         // Keep: Required for RN built in Event Emitter Calls.
     }
+
+    private fun getViewId(readableMap: ReadableMap) = readableMap.getInt("viewId")
 
     private val sparkScanModule: SparkScanModule
         get() {

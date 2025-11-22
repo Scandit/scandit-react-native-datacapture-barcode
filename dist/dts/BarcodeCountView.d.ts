@@ -1,17 +1,19 @@
-import { BarcodeCountNotInListActionSettings, BarcodeCountToolbarSettings, BarcodeCountViewListener, BarcodeCountViewUiListener, BarcodeFilterHighlightSettings, BaseBarcodeCountViewProps, TrackedBarcode } from 'scandit-datacapture-frameworks-barcode';
+import { BarcodeCount, BarcodeCountNotInListActionSettings, BarcodeCountToolbarSettings, BarcodeCountViewListener, BarcodeCountViewUiListener, BarcodeFilterHighlightSettings, TrackedBarcode } from 'scandit-datacapture-frameworks-barcode';
 import React from 'react';
-import { Anchor } from 'scandit-datacapture-frameworks-core';
+import { Anchor, DataCaptureContext } from 'scandit-datacapture-frameworks-core';
 import { Brush } from 'scandit-react-native-datacapture-core';
 export declare enum BarcodeCountViewStyle {
     Icon = "icon",
     Dot = "dot"
 }
-interface BarcodeCountViewProps extends BaseBarcodeCountViewProps {
+interface BarcodeCountViewProps {
+    context: DataCaptureContext;
+    barcodeCount: BarcodeCount;
+    viewStyle: BarcodeCountViewStyle;
     style: any;
 }
 export declare class BarcodeCountView extends React.Component<BarcodeCountViewProps> {
     private baseBarcodeCountView;
-    private _isMounted;
     static get defaultRecognizedBrush(): Brush;
     static get defaultNotInListBrush(): Brush;
     static get defaultAcceptedBrush(): Brush;
@@ -117,9 +119,8 @@ export declare class BarcodeCountView extends React.Component<BarcodeCountViewPr
     get hardwareTriggerEnabled(): boolean;
     set hardwareTriggerEnabled(newValue: boolean);
     constructor(props: BarcodeCountViewProps);
-    componentDidMount(): void;
+    componentDidMount(): Promise<void>;
     componentWillUnmount(): void;
-    componentDidUpdate(prevProps: BarcodeCountViewProps): void;
     clearHighlights(): void;
     setToolbarSettings(settings: BarcodeCountToolbarSettings): void;
     setBrushForRecognizedBarcode(trackedBarcode: TrackedBarcode, brush: Brush | null): Promise<void>;
@@ -128,7 +129,7 @@ export declare class BarcodeCountView extends React.Component<BarcodeCountViewPr
     setBrushForRejectedBarcode(trackedBarcode: TrackedBarcode, brush: Brush | null): Promise<void>;
     enableHardwareTrigger(hardwareTriggerKeyCode: number | null): Promise<void>;
     render(): React.JSX.Element;
-    private createBarcodeCountView;
+    private createFragment;
     private toJSON;
 }
 export {};
