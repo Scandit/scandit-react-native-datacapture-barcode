@@ -4,7 +4,7 @@ import { BarcodeBatch, BarcodeBatchAdvancedOverlayView, BarcodeBatchBasicOverlay
 import { BarcodeBatchAdvancedOverlay } from './BarcodeBatchAdvancedOverlay';
 interface BarcodeBatchViewProps {
     context: DataCaptureContext;
-    isEnabled: boolean;
+    isEnabled?: boolean;
     barcodeBatchSettings?: BarcodeBatchSettings | null;
     defaultBasicOverlayBrush?: Brush | null;
     basicOverlayStyle?: BarcodeBatchBasicOverlayStyle | null;

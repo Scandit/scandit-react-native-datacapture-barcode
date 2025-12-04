@@ -10,6 +10,7 @@ interface BarcodeFindViewProps {
 }
 export declare class BarcodeFindView extends React.Component<BarcodeFindViewProps> {
     private baseBarcodeFindView;
+    private _isMounted;
     constructor(props: BarcodeFindViewProps);
     static get hardwareTriggerSupported(): boolean;
     get barcodeFindViewUiListener(): BarcodeFindViewUiListener | null;
@@ -54,7 +55,7 @@ export declare class BarcodeFindView extends React.Component<BarcodeFindViewProp
     render(): React.JSX.Element;
     componentWillUnmount(): void;
     componentDidMount(): void;
-    private createFragment;
+    private createBarcodeFindView;
     private toJSON;
 }
 export {};

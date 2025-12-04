@@ -13,6 +13,7 @@ interface BarcodeArViewProps {
 }
 export declare class BarcodeArView extends React.Component<BarcodeArViewProps> {
     private baseBarcodeArView;
+    private handle;
     static forMode(dataCaptureContext: DataCaptureContext, barcodeAr: BarcodeAr): BarcodeArView;
     static forModeWithViewSettings(dataCaptureContext: DataCaptureContext, barcodeAr: BarcodeAr, viewSettings: BarcodeArViewSettings): BarcodeArView;
     static forModeWithViewSettingsAndCameraSettings(dataCaptureContext: DataCaptureContext, barcodeAr: BarcodeAr, viewSettings: BarcodeArViewSettings, cameraSettings: CameraSettings): BarcodeArView;
@@ -46,7 +47,7 @@ export declare class BarcodeArView extends React.Component<BarcodeArViewProps> {
     get macroModeControlPosition(): Anchor;
     set macroModeControlPosition(value: Anchor);
     render(): React.JSX.Element;
-    private createFragment;
+    private createBarcodeArView;
     private toJSON;
 }
 export {};

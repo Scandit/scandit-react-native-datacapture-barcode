@@ -11,22 +11,19 @@ import ScanditFrameworksCore
 import ScanditFrameworksBarcode
 
 @objc(ScanditDataCaptureBarcodeBatch)
-class ScanditDataCaptureBarcodeBatch: RCTEventEmitter {
+class ScanditDataCaptureBarcodeBatch: AdvancedOverlayContainer {
     var barcodeBatchModule: BarcodeBatchModule!
 
-    var trackedBarcodeViewCache = [RCTRootView: TrackedBarcode]()
+    var trackedBarcodeViewCache = [ScanditRootView: TrackedBarcode]()
 
     override init() {
         super.init()
         let emitter = ReactNativeEmitter(emitter: self)
-        let barcodeBatchListener = FrameworksBarcodeBatchListener(emitter: emitter)
-        let basicOverlayListener = FrameworksBarcodeBatchBasicOverlayListener(emitter: emitter)
-        let advancedOverlayListener = FrameworksBarcodeBatchAdvancedOverlayListener(emitter: emitter)
-        barcodeBatchModule = BarcodeBatchModule(barcodeBatchListener: barcodeBatchListener,
-                                                      barcodeBatchBasicOverlayListener: basicOverlayListener,
-                                                      barcodeBatchAdvancedOverlayListener: advancedOverlayListener,
-                                                      emitter: emitter)
+        barcodeBatchModule = BarcodeBatchModule(emitter: emitter)
         barcodeBatchModule.didStart()
+        
+        // Initialize the root view factory cache for new architecture support
+        RCTRootViewFactoryCache.shared.initialize()
     }
 
     override class func requiresMainQueueSetup() -> Bool {
@@ -55,99 +52,131 @@ class ScanditDataCaptureBarcodeBatch: RCTEventEmitter {
         FrameworksBarcodeBatchEvent.allCases.map{ $0.rawValue }
     }
 
-    @objc func registerListenerForEvents() {
-        barcodeBatchModule.addBarcodeBatchListener()
+    @objc(registerBarcodeBatchListenerForEvents:)
+    func registerBarcodeBatchListenerForEvents(data: [String: Any]) {
+        barcodeBatchModule.addBarcodeBatchListener(data.modeId)
     }
 
-    @objc func unregisterListenerForEvents() {
-        barcodeBatchModule.removeBarcodeBatchListener()
+    @objc(unregisterBarcodeBatchListenerForEvents:)
+    func unregisterBarcodeBatchListenerForEvents(data: [String: Any]) {
+        barcodeBatchModule.removeBarcodeBatchListener(data.modeId)
     }
-    @objc func registerListenerForAdvancedOverlayEvents() {
-        barcodeBatchModule.addAdvancedOverlayListener()
-    }
-
-    @objc func unregisterListenerForAdvancedOverlayEvents() {
-        barcodeBatchModule.removeAdvancedOverlayListener()
-    }
-
-    @objc func registerListenerForBasicOverlayEvents() {
-        barcodeBatchModule.addBasicOverlayListener()
+    
+    @objc(registerListenerForAdvancedOverlayEvents:)
+    func registerListenerForAdvancedOverlayEvents(data: [String: Any]) {
+        barcodeBatchModule.addAdvancedOverlayListener(data.dataCaptureViewId)
     }
 
-    @objc func unregisterListenerForBasicOverlayEvents() {
-        barcodeBatchModule.removeBasicOverlayListener()
+    @objc(unregisterListenerForAdvancedOverlayEvents:)
+    func unregisterListenerForAdvancedOverlayEvents(data: [String: Any]) {
+        barcodeBatchModule.removeAdvancedOverlayListener(data.dataCaptureViewId)
     }
 
-    @objc(setBrushForTrackedBarcode:barcodeId:resolver:rejecter:)
-    func setBrushForTrackedBarcode(brushJSON: String?,
-                                   barcodeId: Int,
-                                   resolve: RCTPromiseResolveBlock,
-                                   reject: RCTPromiseRejectBlock) {
-        let payload: [String: Any?] = [
-            "brush": brushJSON,
-            "trackedBarcodeID": barcodeId
-        ]
-        if let jsonString = String(data: try! JSONSerialization.data(withJSONObject: payload),
-                                   encoding: .utf8) {
-            barcodeBatchModule.setBasicOverlayBrush(with: jsonString)
+    @objc(registerListenerForBasicOverlayEvents:)
+    func registerListenerForBasicOverlayEvents(data: [String: Any]) {
+        barcodeBatchModule.addBasicOverlayListener(data.dataCaptureViewId)
+    }
+
+    @objc(unregisterListenerForBasicOverlayEvents:)
+    func unregisterListenerForBasicOverlayEvents(data: [String: Any]) {
+        barcodeBatchModule.removeBasicOverlayListener(data.dataCaptureViewId)
+    }
+
+    @objc(setBrushForTrackedBarcode:resolver:rejecter:)
+    func setBrushForTrackedBarcode(data: [String: Any],
+                                   resolve: @escaping RCTPromiseResolveBlock,
+                                   reject: @escaping RCTPromiseRejectBlock) {
+        guard let brushJSON = data["brushJson"] as? String else {
+            ReactNativeResult(resolve, reject).reject(error: ScanditFrameworksCoreError.nilArgument)
+            return
         }
+        guard let barcodeId = data["trackedBarcodeIdentifier"] as? Int else {
+            ReactNativeResult(resolve, reject).reject(error: ScanditFrameworksCoreError.nilArgument)
+            return
+        }
+        barcodeBatchModule.setBasicOverlayBrush(data.dataCaptureViewId, brushJson: brushJSON, trackedBarcodeId: barcodeId)
         resolve(nil)
     }
 
-    @objc(clearTrackedBarcodeBrushes:rejecter:)
-    func clearTrackedBarcodeBrushes(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
-        barcodeBatchModule.clearBasicOverlayTrackedBarcodeBrushes()
+    @objc(clearTrackedBarcodeBrushes:resolver:rejecter:)
+    func clearTrackedBarcodeBrushes(data: [String: Any], resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
+        barcodeBatchModule.clearBasicOverlayTrackedBarcodeBrushes(data.dataCaptureViewId)
         resolve(nil)
     }
 
-    @objc(finishBrushForTrackedBarcodeCallback:)
-    func finishBrushForTrackedBarcodeCallback(jsonString: String?) {
-        barcodeBatchModule.setBasicOverlayBrush(with: jsonString!)
+    @objc(finishBarcodeBatchDidUpdateSessionCallback:)
+    func finishBarcodeBatchDidUpdateSessionCallback(data: [String: Any]) {
+        guard let enabled = data["enabled"] as? Bool else {
+            return
+        }
+        barcodeBatchModule.finishDidUpdateSession(modeId: data.modeId, enabled: enabled)
     }
 
-    @objc(finishDidUpdateSessionCallback:)
-    func finishDidUpdateSessionCallback(enabled: Bool) {
-        barcodeBatchModule.finishDidUpdateSession(enabled: enabled)
-    }
+    @objc(setViewForTrackedBarcode:resolver:rejecter:)
+    func setViewForTrackedBarcode(data: [String: Any],
+                                  resolve: @escaping RCTPromiseResolveBlock,
+                                  reject: @escaping RCTPromiseRejectBlock) {
+        guard let trackedBarcodeId = data["trackedBarcodeIdentifier"] as? Int else {
+            ReactNativeResult(resolve, reject).reject(error: ScanditFrameworksCoreError.nilArgument)
+            return
+        }
 
-    @objc(setViewForTrackedBarcode:trackedBarcodeId:resolver:rejecter:)
-    func setViewForTrackedBarcode(viewJSON: String?,
-                                  trackedBarcodeId: Int,
-                                  resolve: RCTPromiseResolveBlock,
-                                  reject: RCTPromiseRejectBlock) {
+        let viewJSON = data["viewJson"] as? String
+
         if let viewJSON = viewJSON {
-            let configuration = try! JSONSerialization.jsonObject(with: viewJSON.data(using: .utf8)!,
-                                                                  options: []) as! [String: Any]
-            let jsView = try! JSView(with: configuration)
-            dispatchMain {
-                let rctRootView = self.rootViewWith(jsView: jsView)
-                if let trackedBarcode = self.barcodeBatchModule.trackedBarcode(by: trackedBarcodeId) {
-                    self.trackedBarcodeViewCache[rctRootView] = trackedBarcode
+            do {
+                let configuration = try JSONSerialization.jsonObject(with: viewJSON.data(using: .utf8)!,
+                                                                     options: []) as! [String: Any]
+                let jsView = try JSView(with: configuration)
+                dispatchMain {
+                    let rctRootView = self.rootViewWith(jsView: jsView)
+                    if let trackedBarcode = self.barcodeBatchModule.trackedBarcode(by: trackedBarcodeId) {
+                        self.trackedBarcodeViewCache[rctRootView] = trackedBarcode
+                    }
+                    
+                    self.barcodeBatchModule.setViewForTrackedBarcode(
+                        view: rctRootView,
+                        trackedBarcodeId: trackedBarcodeId,
+                        sessionFrameSequenceId: nil,
+                        dataCaptureViewId: data.dataCaptureViewId
+                    )
                 }
-                self.barcodeBatchModule.setViewForTrackedBarcode(
-                    view: rctRootView,
-                    trackedBarcodeId: trackedBarcodeId,
-                    sessionFrameSequenceId: nil
-                )
+            } catch {
+                ReactNativeResult(resolve, reject).reject(error: error)
+                return
             }
         } else {
             dispatchMain {
                 self.barcodeBatchModule.setViewForTrackedBarcode(
                     view: nil,
                     trackedBarcodeId: trackedBarcodeId,
-                    sessionFrameSequenceId: nil
+                    sessionFrameSequenceId: nil,
+                    dataCaptureViewId: data.dataCaptureViewId
                 )
             }
         }
         resolve(nil)
     }
 
-    @objc(updateSizeOfTrackedBarcodeView:width:height:resolver:rejecter:)
-    func updateSizeOfTrackedBarcodeView(trackedBarcodeId: Int,
-                                        width: Int,
-                                        height: Int,
-                                        resolve: RCTPromiseResolveBlock,
-                                        reject: RCTPromiseRejectBlock) {
+    @objc(updateSizeOfTrackedBarcodeView:resolver:rejecter:)
+    func updateSizeOfTrackedBarcodeView(data: [String: Any],
+                                        resolve: @escaping RCTPromiseResolveBlock,
+                                        reject: @escaping RCTPromiseRejectBlock) {
+        guard let trackedBarcodeId = data["trackedBarcodeIdentifier"] as? Int else {
+            ReactNativeResult(resolve, reject).reject(error: ScanditFrameworksCoreError.nilArgument)
+            return
+        }
+
+        guard let widthValue = data["width"], let width = convertToInt(widthValue) else {
+            ReactNativeResult(resolve, reject).reject(error: ScanditFrameworksCoreError.nilArgument)
+            return
+        }
+
+        guard let heightValue = data["height"], let height = convertToInt(heightValue) else {
+            ReactNativeResult(resolve, reject).reject(error: ScanditFrameworksCoreError.nilArgument)
+            return
+        }
+
         guard let trackedBarcode = barcodeBatchModule.trackedBarcode(by: trackedBarcodeId) else {
             reject("error", "View for tracked barcode \(trackedBarcodeId) not found.", nil)
             return
@@ -172,7 +201,7 @@ class ScanditDataCaptureBarcodeBatch: RCTEventEmitter {
             let originalFrame = view.frame
             let originalCenter = view.center
 
-            view.sizeFlexibility = .none
+            // view.sizeFlexibility = .none
 
             UIView.animate(
                 withDuration: 0.5,
@@ -200,98 +229,115 @@ class ScanditDataCaptureBarcodeBatch: RCTEventEmitter {
         resolve(nil)
     }
 
-    @objc(setAnchorForTrackedBarcode:trackedBarcodeId:resolver:rejecter:)
-    func setAchorForTrackedBarcode(anchorJSON: String,
-                                   trackedBarcodeId: Int,
-                                   resolve: RCTPromiseResolveBlock,
-                                   reject: RCTPromiseRejectBlock) {
-        let json: [String: Any?] = [
-            "anchor": anchorJSON,
-            "identifier": trackedBarcodeId,
-            "sessionFrameSequenceID": nil
-        ]
-        barcodeBatchModule.setAnchorForTrackedBarcode(anchorParams: json)
+    @objc(setAnchorForTrackedBarcode:resolver:rejecter:)
+    func setAchorForTrackedBarcode(data: [String: Any],
+                                   resolve: @escaping RCTPromiseResolveBlock,
+                                   reject: @escaping RCTPromiseRejectBlock) {
+        guard let anchorJSON = data["anchor"] as? String else {
+            ReactNativeResult(resolve, reject).reject(error: ScanditFrameworksCoreError.nilArgument)
+            return
+        }
+        guard let trackedBarcodeId = data["trackedBarcodeIdentifier"] as? Int else {
+            ReactNativeResult(resolve, reject).reject(error: ScanditFrameworksCoreError.nilArgument)
+            return
+        }
+ 
+        barcodeBatchModule.setAnchorForTrackedBarcode(anchorJson: anchorJSON, trackedBarcodeId: trackedBarcodeId, dataCaptureViewId: data.dataCaptureViewId)
         resolve(nil)
     }
 
-    @objc(setOffsetForTrackedBarcode:trackedBarcodeId:resolver:rejecter:)
-    func setOffsetForTrackedBarcode(offsetJSON: String,
-                                    trackedBarcodeId: Int,
-                                    resolve: RCTPromiseResolveBlock,
-                                    reject: RCTPromiseRejectBlock) {
-        let json: [String: Any?] = [
-            "offset": offsetJSON,
-            "identifier": trackedBarcodeId,
-            "sessionFrameSequenceID": nil
-        ]
-        barcodeBatchModule.setOffsetForTrackedBarcode(offsetParams: json)
+    @objc(setOffsetForTrackedBarcode:resolver:rejecter:)
+    func setOffsetForTrackedBarcode(data: [String: Any],
+                                    resolve: @escaping RCTPromiseResolveBlock,
+                                    reject: @escaping RCTPromiseRejectBlock) {
+        guard let offsetJSON = data["offsetJson"] as? String else {
+            ReactNativeResult(resolve, reject).reject(error: ScanditFrameworksCoreError.nilArgument)
+            return
+        }
+        guard let trackedBarcodeId = data["trackedBarcodeIdentifier"] as? Int else {
+            ReactNativeResult(resolve, reject).reject(error: ScanditFrameworksCoreError.nilArgument)
+            return
+        }
+        barcodeBatchModule.setOffsetForTrackedBarcode(offsetJson: offsetJSON, trackedBarcodeId: trackedBarcodeId, dataCaptureViewId: data.dataCaptureViewId)
         resolve(nil)
     }
 
-    @objc(clearTrackedBarcodeViews:rejecter:)
-    func clearTrackedBarcodeViews(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
-        barcodeBatchModule.clearAdvancedOverlayTrackedBarcodeViews()
+    @objc(clearTrackedBarcodeViews:resolver:rejecter:)
+    func clearTrackedBarcodeViews(data: [String: Any], resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
+        barcodeBatchModule.clearAdvancedOverlayTrackedBarcodeViews(data.dataCaptureViewId)
         resolve(nil)
     }
 
-    @objc(resetSession:rejecter:)
-    func resetSession(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
+    @objc(resetBarcodeBatchSession:rejecter:)
+    func resetBarcodeBatchSession(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
         barcodeBatchModule.resetSession(frameSequenceId: nil)
         resolve(nil)
     }
 
-    @objc(setModeEnabledState:)
-    func setModeEnabledState(enabled: Bool) {
-        barcodeBatchModule.setModeEnabled(enabled: enabled)
+    @objc(setBarcodeBatchModeEnabledState:)
+    func setBarcodeBatchModeEnabledState(data: [String: Any]) {
+        guard let enabled = data["enabled"] as? Bool else {
+            return
+        }
+        barcodeBatchModule.setModeEnabled(data.modeId, enabled: enabled)
     }
 
     @objc(updateBarcodeBatchBasicOverlay:resolve:reject:)
-    func updateBarcodeBatchBasicOverlay(overlayJson: String, resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
-        barcodeBatchModule.updateBasicOverlay(overlayJson: overlayJson, result: ReactNativeResult(resolve, reject))
+    func updateBarcodeBatchBasicOverlay(data: [String: Any], resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
+        guard let overlayJson = data["overlayJson"] as? String else {
+            ReactNativeResult(resolve, reject).reject(error: ScanditFrameworksCoreError.nilArgument)
+            return
+        }
+        barcodeBatchModule.updateBasicOverlay(data.dataCaptureViewId, overlayJson: overlayJson, result: ReactNativeResult(resolve, reject))
     }
 
     @objc(updateBarcodeBatchAdvancedOverlay:resolve:reject:)
-    func updateBarcodeBatchAdvancedOverlay(overlayJson: String, resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
-        barcodeBatchModule.updateAdvancedOverlay(overlayJson: overlayJson, result: ReactNativeResult(resolve, reject))
+    func updateBarcodeBatchAdvancedOverlay(data: [String: Any], resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
+        guard let overlayJson = data["overlayJson"] as? String else {
+            ReactNativeResult(resolve, reject).reject(error: ScanditFrameworksCoreError.nilArgument)
+            return
+        }
+        barcodeBatchModule.updateAdvancedOverlay(data.dataCaptureViewId, overlayJson: overlayJson, result: ReactNativeResult(resolve, reject))
     }
 
     @objc(updateBarcodeBatchMode:resolve:reject:)
-    func updateBarcodeBatchMode(modeJson: String, resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
+    func updateBarcodeBatchMode(data: [String: Any], resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
+        guard let modeJson = data["modeJson"] as? String else {
+            ReactNativeResult(resolve, reject).reject(error: ScanditFrameworksCoreError.nilArgument)
+            return
+        }
         barcodeBatchModule.updateModeFromJson(modeJson: modeJson, result: ReactNativeResult(resolve, reject))
     }
 
     @objc(applyBarcodeBatchModeSettings:resolve:reject:)
-    func applyBarcodeBatchModeSettings(modeSettingsJson: String, resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
-        barcodeBatchModule.applyModeSettings(modeSettingsJson: modeSettingsJson, result: ReactNativeResult(resolve, reject))
+    func applyBarcodeBatchModeSettings(data: [String: Any], resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
+        guard let modeSettingsJson = data["modeSettingsJson"] as? String else {
+            ReactNativeResult(resolve, reject).reject(error: ScanditFrameworksCoreError.nilArgument)
+            return
+        }
+        barcodeBatchModule.applyModeSettings(data.modeId, modeSettingsJson: modeSettingsJson, result: ReactNativeResult(resolve, reject))
     }
 
-    func rootViewWith(jsView: JSView) -> ScanditRootView {
-        // To support self sizing js views we need to leverage the RCTRootViewDelegate
-        // see https://reactnative.dev/docs/communication-ios
-        let view = ScanditRootView(bridge: bridge,
-                                   moduleName: jsView.moduleName,
-                                   initialProperties: jsView.initialProperties)
-        view.sizeFlexibility = .widthAndHeight
-        view.delegate = self
-        view.backgroundColor = .clear
-        view.isUserInteractionEnabled = true
-        view.addGestureRecognizer(TapGestureRecognizerWithClosure { [weak view] in
-            guard let view = view else { return }
-            view.didTap?()
-        })
-        return view
+    // rootViewWith method is now implemented in architecture-specific files
+    
+    private func convertToInt(_ value: Any) -> Int? {
+        switch value {
+        case let intValue as Int:
+            return intValue
+        case let doubleValue as Double:
+            return Int(doubleValue.rounded())
+        case let floatValue as Float:
+            return Int(floatValue.rounded())
+        case let cgFloatValue as CGFloat:
+            return Int(cgFloatValue.rounded())
+        case let nsNumberValue as NSNumber:
+            return nsNumberValue.intValue
+        case let stringValue as String:
+            return Int(stringValue)
+        default:
+            return nil
+        }
     }
 }
 
-extension ScanditDataCaptureBarcodeBatch: RCTRootViewDelegate {
-    func rootViewDidChangeIntrinsicSize(_ rootView: RCTRootView!) {
-        guard let view = rootView as? ScanditRootView else { return }
-        rootView.bounds.size = rootView.intrinsicContentSize
-    }
-}
-
-public class ScanditRootView: RCTRootView, TappableView {
-    public var didTap: (() -> Void)?
-    // Flag to track if animation is in progress
-    internal var isAnimating = false
-}
+// RCTRootViewDelegate extension and ScanditRootView class are now implemented in architecture-specific files

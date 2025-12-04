@@ -11,23 +11,35 @@ import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
 import com.facebook.react.bridge.ReadableMap
+import com.facebook.react.uimanager.ViewGroupManager
 import com.scandit.datacapture.frameworks.barcode.pick.BarcodePickModule
 import com.scandit.datacapture.frameworks.core.FrameworkModule
 import com.scandit.datacapture.frameworks.core.errors.ModuleNotStartedError
 import com.scandit.datacapture.frameworks.core.errors.ParameterNullError
 import com.scandit.datacapture.frameworks.core.locator.ServiceLocator
+import com.scandit.datacapture.reactnative.barcode.ui.BarcodePickViewManager
 import com.scandit.datacapture.reactnative.core.utils.ReactNativeResult
+import com.scandit.datacapture.reactnative.core.utils.viewId
 
 class ScanditDataCaptureBarcodePickModule(
     private val reactContext: ReactApplicationContext,
     private val serviceLocator: ServiceLocator<FrameworkModule>,
+    private val viewManagers: Map<String, ViewGroupManager<*>>,
 ) : ReactContextBaseJavaModule(reactContext) {
 
     override fun getName(): String = "ScanditDataCaptureBarcodePick"
 
+    companion object {
+        private const val DEFAULTS_KEY = "Defaults"
+        private val VIEW_MANAGER_NULL_ERROR = Error(
+            "Unable to add the BarcodePickView on Android. " +
+                "The BarcodePickViewManager instance is null."
+        )
+    }
+
     override fun getConstants(): MutableMap<String, Any> {
         return mutableMapOf(
-            "Defaults" to barcodePickModule.getDefaults()
+            DEFAULTS_KEY to barcodePickModule.getDefaults()
         )
     }
 
@@ -38,11 +50,23 @@ class ScanditDataCaptureBarcodePickModule(
 
     @ReactMethod
     fun createPickView(
-        @Suppress("UNUSED_PARAMETER") readableMap: ReadableMap,
+        readableMap: ReadableMap,
         promise: Promise
     ) {
-        // Noop. The view is created inside the BarcodePickViewFragment.
-        promise.resolve(null)
+        val viewId = readableMap.viewId
+        val viewJson = readableMap.getString("json") ?: run {
+            promise.reject(ParameterNullError("json"))
+            return
+        }
+
+        val viewManager = viewManagers[BarcodePickViewManager::class.java.name] as?
+            BarcodePickViewManager
+        if (viewManager == null) {
+            promise.reject(VIEW_MANAGER_NULL_ERROR)
+            return
+        }
+
+        viewManager.createBarcodePickView(viewId, viewJson, promise)
     }
 
     @ReactMethod
@@ -52,60 +76,64 @@ class ScanditDataCaptureBarcodePickModule(
     ) {
         val jsonString = readableMap.getString("json")
             ?: return promise.reject(ParameterNullError("json"))
-        barcodePickModule.updateView(jsonString, ReactNativeResult(promise))
+        barcodePickModule.updateView(readableMap.viewId, jsonString, ReactNativeResult(promise))
     }
 
     @ReactMethod
-    fun addPickActionListener(promise: Promise) {
-        barcodePickModule.addActionListener()
+    fun addPickActionListener(readableMap: ReadableMap, promise: Promise) {
+        barcodePickModule.addActionListener(readableMap.viewId, ReactNativeResult(promise))
+    }
+
+    @ReactMethod
+    fun removePickActionListener(readableMap: ReadableMap, promise: Promise) {
+        barcodePickModule.removeActionListener(readableMap.viewId, ReactNativeResult(promise))
+    }
+
+    @ReactMethod
+    fun addBarcodePickScanningListener(readableMap: ReadableMap, promise: Promise) {
+        barcodePickModule.addScanningListener(readableMap.viewId, ReactNativeResult(promise))
+    }
+
+    @ReactMethod
+    fun removeBarcodePickScanningListener(readableMap: ReadableMap, promise: Promise) {
+        barcodePickModule.removeScanningListener(readableMap.viewId, ReactNativeResult(promise))
+    }
+
+    @ReactMethod
+    fun addPickViewListener(readableMap: ReadableMap, promise: Promise) {
+        barcodePickModule.addViewListener(readableMap.viewId, ReactNativeResult(promise))
+    }
+
+    @ReactMethod
+    fun removePickViewListener(readableMap: ReadableMap, promise: Promise) {
+        barcodePickModule.removeViewListener(readableMap.viewId, ReactNativeResult(promise))
+    }
+
+    @ReactMethod
+    fun registerBarcodePickViewUiListener(readableMap: ReadableMap, promise: Promise) {
+        barcodePickModule.addViewUiListener(readableMap.viewId, ReactNativeResult(promise))
+    }
+
+    @ReactMethod
+    fun unregisterBarcodePickViewUiListener(readableMap: ReadableMap, promise: Promise) {
+        barcodePickModule.removeViewUiListener(readableMap.viewId, ReactNativeResult(promise))
+    }
+
+    @ReactMethod
+    fun registerOnProductIdentifierForItemsListener(
+        @Suppress("UNUSED_PARAMETER") readableMap: ReadableMap,
+        promise: Promise
+    ) {
+        // Noop - handled automatically by FrameworksBarcodePickView
         promise.resolve(null)
     }
 
     @ReactMethod
-    fun removePickActionListener(promise: Promise) {
-        barcodePickModule.removeActionListener()
-        promise.resolve(null)
-    }
-
-    @ReactMethod
-    fun addBarcodePickScanningListener(promise: Promise) {
-        barcodePickModule.addScanningListener(ReactNativeResult(promise))
-    }
-
-    @ReactMethod
-    fun removeBarcodePickScanningListener(promise: Promise) {
-        barcodePickModule.removeScanningListener(ReactNativeResult(promise))
-    }
-
-    @ReactMethod
-    fun addPickViewListener(promise: Promise) {
-        barcodePickModule.addViewListener(ReactNativeResult(promise))
-    }
-
-    @ReactMethod
-    fun removePickViewListener(promise: Promise) {
-        barcodePickModule.removeViewListener(ReactNativeResult(promise))
-    }
-
-    @ReactMethod
-    fun registerBarcodePickViewUiListener(promise: Promise) {
-        barcodePickModule.addViewUiListener(ReactNativeResult(promise))
-    }
-
-    @ReactMethod
-    fun unregisterBarcodePickViewUiListener(promise: Promise) {
-        barcodePickModule.removeViewUiListener(ReactNativeResult(promise))
-    }
-
-    @ReactMethod
-    fun registerOnProductIdentifierForItemsListener(promise: Promise) {
-        // Noop
-        promise.resolve(null)
-    }
-
-    @ReactMethod
-    fun unregisterOnProductIdentifierForItemsListener(promise: Promise) {
-        // Noop
+    fun unregisterOnProductIdentifierForItemsListener(
+        @Suppress("UNUSED_PARAMETER") readableMap: ReadableMap,
+        promise: Promise
+    ) {
+        // Noop - handled automatically by FrameworksBarcodePickView
         promise.resolve(null)
     }
 
@@ -116,31 +144,56 @@ class ScanditDataCaptureBarcodePickModule(
     ) {
         val itemsJson = readableMap.getString("itemsJson")
             ?: return promise.reject(ParameterNullError("itemsJson"))
-        barcodePickModule.finishOnProductIdentifierForItems(itemsJson)
-        promise.resolve(null)
+        val response = hashMapOf<String, Any?>(
+            "viewId" to readableMap.viewId,
+            "data" to itemsJson
+        )
+        barcodePickModule.finishOnProductIdentifierForItems(response, ReactNativeResult(promise))
     }
 
     @ReactMethod
-    fun pickViewStart(promise: Promise) {
-        barcodePickModule.viewStart()
-        promise.resolve(null)
+    fun pickViewStart(readableMap: ReadableMap, promise: Promise) {
+        barcodePickModule.startPickView(readableMap.viewId, ReactNativeResult(promise))
     }
 
     @ReactMethod
-    fun pickViewFreeze(promise: Promise) {
-        barcodePickModule.viewFreeze(ReactNativeResult(promise))
+    fun pickViewFreeze(readableMap: ReadableMap, promise: Promise) {
+        barcodePickModule.freezePickView(readableMap.viewId, ReactNativeResult(promise))
     }
 
     @ReactMethod
-    fun pickViewStop(promise: Promise) {
-        barcodePickModule.viewStop()
-        promise.resolve(null)
+    fun pickViewReset(readableMap: ReadableMap, promise: Promise) {
+        barcodePickModule.viewReset(readableMap.viewId, ReactNativeResult(promise))
     }
 
     @ReactMethod
-    fun removePickView(promise: Promise) {
-        barcodePickModule.viewDisposed()
-        promise.resolve(null)
+    fun pickViewStop(readableMap: ReadableMap, promise: Promise) {
+        barcodePickModule.stopPickView(readableMap.viewId, ReactNativeResult(promise))
+    }
+
+    @ReactMethod
+    fun pickViewPause(readableMap: ReadableMap, promise: Promise) {
+        barcodePickModule.pausePickView(readableMap.viewId, ReactNativeResult(promise))
+    }
+
+    @ReactMethod
+    fun pickViewResume(readableMap: ReadableMap, promise: Promise) {
+        barcodePickModule.resumePickView(readableMap.viewId, ReactNativeResult(promise))
+    }
+
+    @ReactMethod
+    fun removePickView(readableMap: ReadableMap, promise: Promise) {
+        barcodePickModule.releasePickView(readableMap.viewId, ReactNativeResult(promise))
+    }
+
+    @ReactMethod
+    fun addBarcodePickListener(readableMap: ReadableMap, promise: Promise) {
+        barcodePickModule.addBarcodePickListener(readableMap.viewId, ReactNativeResult(promise))
+    }
+
+    @ReactMethod
+    fun removeBarcodePickListener(readableMap: ReadableMap, promise: Promise) {
+        barcodePickModule.removeBarcodePickListener(readableMap.viewId, ReactNativeResult(promise))
     }
 
     @ReactMethod
@@ -151,8 +204,40 @@ class ScanditDataCaptureBarcodePickModule(
         val itemData = readableMap.getString("code")
             ?: return promise.reject(ParameterNullError("code"))
         val result = readableMap.getBoolean("result")
-        barcodePickModule.finishPickAction(itemData = itemData, result = result)
-        promise.resolve(null)
+        val response = hashMapOf<String, Any?>(
+            "viewId" to readableMap.viewId,
+            "itemData" to itemData,
+            "result" to result
+        )
+        barcodePickModule.finishPickAction(response, ReactNativeResult(promise))
+    }
+
+    @ReactMethod
+    fun finishBarcodePickViewHighlightStyleCustomViewProviderViewForRequest(
+        readableMap: ReadableMap,
+        promise: Promise
+    ) {
+        val response = HashMap<String, Any?>(readableMap.toHashMap()).apply {
+            put("viewId", readableMap.viewId)
+        }
+        barcodePickModule.finishBarcodePickViewHighlightStyleCustomViewProviderViewForRequest(
+            response,
+            ReactNativeResult(promise)
+        )
+    }
+
+    @ReactMethod
+    fun finishBarcodePickViewHighlightStyleAsyncProviderStyleForRequest(
+        readableMap: ReadableMap,
+        promise: Promise
+    ) {
+        val response = HashMap<String, Any?>(readableMap.toHashMap()).apply {
+            put("viewId", readableMap.viewId)
+        }
+        barcodePickModule.finishBarcodePickViewHighlightStyleAsyncProviderStyleForRequest(
+            response,
+            ReactNativeResult(promise)
+        )
     }
 
     @ReactMethod
