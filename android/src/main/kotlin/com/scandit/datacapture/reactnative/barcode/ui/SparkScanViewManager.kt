@@ -35,6 +35,7 @@ class SparkScanViewManager(
         view.findViewOfType(CustomReactViewGroup::class.java)?.let {
             // Cache view containers
             rnViewsContainers[view.id] = it
+            it.tag = view.id
         }
 
         val item = cachedCreationRequests.remove(view.id)

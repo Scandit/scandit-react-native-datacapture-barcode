@@ -18,6 +18,11 @@ RCT_EXTERN_METHOD(updateBarcodeArMode
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
+RCT_EXTERN_METHOD(applyBarcodeArModeSettings
+                  : (nonnull NSDictionary *)data resolver
+                  : (RCTPromiseResolveBlock)resolve rejecter
+                  : (RCTPromiseRejectBlock)reject)
+
 RCT_EXTERN_METHOD(updateBarcodeArView
                   : (nonnull NSDictionary *)data resolver
                   : (RCTPromiseResolveBlock)resolve rejecter
@@ -127,4 +132,10 @@ RCT_EXTERN_METHOD(barcodeArViewReset
                   : (nonnull NSDictionary *)data resolver
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
+
+RCT_EXTERN_METHOD(onCustomHighlightClicked
+                  : (nonnull NSDictionary *)data resolver
+                  : (RCTPromiseResolveBlock)resolve rejecter
+                  : (RCTPromiseRejectBlock)reject)
+
 @end

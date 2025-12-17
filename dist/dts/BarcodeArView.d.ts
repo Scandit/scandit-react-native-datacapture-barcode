@@ -1,7 +1,9 @@
 import React from 'react';
+import { StyleProp, ViewStyle, ViewProps } from 'react-native';
 import { Anchor, CameraSettings, DataCaptureContext } from 'scandit-datacapture-frameworks-core';
-import { BarcodeAr, BarcodeArAnnotationProvider, BarcodeArHighlightProvider, BarcodeArViewSettings, BarcodeArViewUiListener } from 'scandit-datacapture-frameworks-barcode';
-interface BarcodeArViewProps {
+import { Barcode, BarcodeAr, BarcodeArAnnotationProvider, BarcodeArHighlightProvider, BarcodeArViewSettings, BarcodeArViewUiListener } from 'scandit-datacapture-frameworks-barcode';
+import { NavigationProp, ParamListBase } from '@react-navigation/native';
+interface BarcodeArViewProps extends ViewProps {
     context: DataCaptureContext;
     barcodeAr: BarcodeAr;
     settings?: BarcodeArViewSettings;
@@ -9,16 +11,30 @@ interface BarcodeArViewProps {
     annotationProvider?: BarcodeArAnnotationProvider;
     highlightProvider?: BarcodeArHighlightProvider;
     uiListener?: BarcodeArViewUiListener;
-    style?: any;
+    style?: StyleProp<ViewStyle>;
+    navigation?: NavigationProp<ParamListBase>;
 }
 export declare class BarcodeArView extends React.Component<BarcodeArViewProps> {
+    state: {
+        shownHighlights: Record<string, Barcode>;
+        shownAnnotations: Record<string, Barcode>;
+    };
     private baseBarcodeArView;
     private handle;
+    private unregisterFromCustomHighlightCreateEvent;
+    private unregisterFromCustomHighlightDisposeEvent;
+    private unregisterFromCustomAnnotationCreateEvent;
+    private unregisterFromCustomAnnotationDisposeEvent;
+    private navigationUnsubscribers;
+    private cameraOwner;
+    private customHighlightComponentCache;
+    private customAnnotationComponentCache;
+    private augementationContainerRef;
     static forMode(dataCaptureContext: DataCaptureContext, barcodeAr: BarcodeAr): BarcodeArView;
     static forModeWithViewSettings(dataCaptureContext: DataCaptureContext, barcodeAr: BarcodeAr, viewSettings: BarcodeArViewSettings): BarcodeArView;
     static forModeWithViewSettingsAndCameraSettings(dataCaptureContext: DataCaptureContext, barcodeAr: BarcodeAr, viewSettings: BarcodeArViewSettings, cameraSettings: CameraSettings): BarcodeArView;
     constructor(props: BarcodeArViewProps);
-    componentDidMount(): Promise<void>;
+    componentDidMount(): void;
     componentWillUnmount(): void;
     get uiListener(): BarcodeArViewUiListener | null;
     set uiListener(value: BarcodeArViewUiListener | null);
@@ -26,10 +42,10 @@ export declare class BarcodeArView extends React.Component<BarcodeArViewProps> {
     set annotationProvider(value: BarcodeArAnnotationProvider | null);
     get highlightProvider(): BarcodeArHighlightProvider | null;
     set highlightProvider(value: BarcodeArHighlightProvider | null);
-    start(): void;
-    stop(): void;
-    pause(): void;
-    reset(): void;
+    start(): Promise<void>;
+    stop(): Promise<void>;
+    pause(): Promise<void>;
+    reset(): Promise<void>;
     get shouldShowTorchControl(): boolean;
     set shouldShowTorchControl(value: boolean);
     get torchControlPosition(): Anchor;
@@ -47,6 +63,15 @@ export declare class BarcodeArView extends React.Component<BarcodeArViewProps> {
     get macroModeControlPosition(): Anchor;
     set macroModeControlPosition(value: Anchor);
     render(): React.JSX.Element;
+    private wrapHighlightProvider;
+    private wrapAnnotationProvider;
+    private onCustomHighlightCreated;
+    private onCustomHighlightDisposed;
+    private onCustomAnnotationCreated;
+    private onCustomAnnotationDisposed;
+    private setupNavigationListeners;
+    private onFocus;
+    private onBlur;
     private createBarcodeArView;
     private toJSON;
 }

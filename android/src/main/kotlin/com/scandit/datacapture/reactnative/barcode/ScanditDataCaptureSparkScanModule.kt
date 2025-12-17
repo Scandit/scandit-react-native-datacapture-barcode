@@ -60,21 +60,24 @@ class ScanditDataCaptureSparkScanModule(
     }
 
     @ReactMethod
-    fun finishSparkScanDidUpdateSession(readableMap: ReadableMap) {
+    fun finishSparkScanDidUpdateSession(readableMap: ReadableMap, promise: Promise) {
         val isEnabled = readableMap.getBoolean("isEnabled")
         sparkScanModule.finishDidUpdateSessionCallback(readableMap.viewId, isEnabled)
+        promise.resolve(null)
     }
 
     @ReactMethod
-    fun finishSparkScanDidScan(readableMap: ReadableMap) {
+    fun finishSparkScanDidScan(readableMap: ReadableMap, promise: Promise) {
         val isEnabled = readableMap.getBoolean("isEnabled")
         sparkScanModule.finishDidScanCallback(readableMap.viewId, isEnabled)
+        promise.resolve(null)
     }
 
     @ReactMethod
-    fun setSparkScanModeEnabledState(readableMap: ReadableMap) {
+    fun setSparkScanModeEnabledState(readableMap: ReadableMap, promise: Promise) {
         val isEnabled = readableMap.getBoolean("isEnabled")
         sparkScanModule.setModeEnabled(readableMap.viewId, isEnabled)
+        promise.resolve(null)
     }
 
     // SparkScanViewProxy methods
@@ -148,9 +151,18 @@ class ScanditDataCaptureSparkScanModule(
 
     @ReactMethod
     fun stopSparkScanViewScanning(
+        readableMap: ReadableMap,
+        promise: Promise
+    ) {
+        sparkScanModule.stopScanning(readableMap.viewId, ReactNativeResult(promise))
+    }
+
+    @ReactMethod
+    fun onHostPauseSparkScanView(
         @Suppress("UNUSED_PARAMETER") readableMap: ReadableMap,
         promise: Promise
     ) {
+        sparkScanModule.onHostPause()
         promise.resolve(null)
     }
 
@@ -166,10 +178,10 @@ class ScanditDataCaptureSparkScanModule(
 
     @ReactMethod
     fun prepareSparkScanViewScanning(
-        @Suppress("UNUSED_PARAMETER") readableMap: ReadableMap,
+        readableMap: ReadableMap,
         promise: Promise
     ) {
-        promise.resolve(null)
+        sparkScanModule.prepareScanning(readableMap.viewId, ReactNativeResult(promise))
     }
 
     @ReactMethod
