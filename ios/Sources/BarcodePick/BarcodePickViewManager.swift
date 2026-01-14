@@ -6,8 +6,8 @@
 
 import React
 import ScanditBarcodeCapture
-import ScanditDataCaptureCore
 import ScanditFrameworksCore
+import ScanditDataCaptureCore
 
 class BarcodePickViewWrapperView: UIView {
     weak var viewManager: BarcodePickViewManager?
@@ -34,7 +34,7 @@ class BarcodePickViewWrapperView: UIView {
                 view.leadingAnchor.constraint(equalTo: leadingAnchor),
                 view.trailingAnchor.constraint(equalTo: trailingAnchor),
                 view.topAnchor.constraint(equalTo: topAnchor),
-                view.bottomAnchor.constraint(equalTo: bottomAnchor),
+                view.bottomAnchor.constraint(equalTo: bottomAnchor)
             ])
         }
     }
@@ -60,8 +60,7 @@ class BarcodePickViewWrapperView: UIView {
         }
 
         if let view = barcodePickView,
-            viewManager != nil
-        {
+           let _ = viewManager {
             if view.superview != nil {
                 view.removeFromSuperview()
             }

@@ -1,16 +1,14 @@
 import { BarcodeCountNotInListActionSettings, BarcodeCountToolbarSettings, BarcodeCountViewListener, BarcodeCountViewUiListener, BarcodeFilterHighlightSettings, BaseBarcodeCountViewProps, TrackedBarcode } from 'scandit-datacapture-frameworks-barcode';
-import { StyleProp, ViewStyle } from 'react-native';
 import React from 'react';
 import { Anchor } from 'scandit-datacapture-frameworks-core';
 import { Brush } from 'scandit-react-native-datacapture-core';
-import { NavigationProp, ParamListBase } from '@react-navigation/native';
 export declare enum BarcodeCountViewStyle {
     Icon = "icon",
     Dot = "dot"
 }
 interface BarcodeCountViewProps extends BaseBarcodeCountViewProps {
-    style: StyleProp<ViewStyle>;
-    navigation?: NavigationProp<ParamListBase>;
+    style: any;
+    navigation?: any;
 }
 export declare class BarcodeCountView extends React.Component<BarcodeCountViewProps> {
     private baseBarcodeCountView;
@@ -125,7 +123,7 @@ export declare class BarcodeCountView extends React.Component<BarcodeCountViewPr
     componentDidMount(): void;
     componentWillUnmount(): void;
     componentDidUpdate(prevProps: BarcodeCountViewProps): void;
-    clearHighlights(): Promise<void>;
+    clearHighlights(): void;
     setToolbarSettings(settings: BarcodeCountToolbarSettings): void;
     setBrushForRecognizedBarcode(trackedBarcode: TrackedBarcode, brush: Brush | null): Promise<void>;
     setBrushForRecognizedBarcodeNotInList(trackedBarcode: TrackedBarcode, brush: Brush | null): Promise<void>;

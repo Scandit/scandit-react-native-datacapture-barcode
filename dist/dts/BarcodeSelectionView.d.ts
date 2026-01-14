@@ -1,9 +1,7 @@
 import React from 'react';
-import { ViewProps } from 'react-native';
 import { Brush, CameraPosition, CameraSettings, DataCaptureContext, FrameData, FrameSourceState, PointWithUnit, TorchState, TorchSwitchControl, ZoomSwitchControl } from 'scandit-react-native-datacapture-core';
 import { BarcodeSelection, BarcodeSelectionBasicOverlayStyle, BarcodeSelectionBrushProvider, BarcodeSelectionFeedback, BarcodeSelectionSession, BarcodeSelectionSettings } from 'scandit-datacapture-frameworks-barcode';
-import { NavigationProp, ParamListBase } from '@react-navigation/native';
-interface BarcodeSelectionViewProps extends ViewProps {
+interface BarcodeSelectionViewProps {
     context: DataCaptureContext;
     isEnabled: boolean;
     barcodeSelectionSettings?: BarcodeSelectionSettings | null;
@@ -22,7 +20,7 @@ interface BarcodeSelectionViewProps extends ViewProps {
     zoomSwitchControl?: ZoomSwitchControl | null;
     pointOfInterest?: PointWithUnit | null;
     feedback?: BarcodeSelectionFeedback;
-    navigation?: NavigationProp<ParamListBase>;
+    navigation?: any;
     shouldUnfreezeCamera?: boolean | null;
     didUpdateSelection?(barcodeSelection: BarcodeSelection, session: BarcodeSelectionSession, getFrameData: () => Promise<FrameData>): Promise<void>;
 }

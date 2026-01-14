@@ -25,11 +25,11 @@ class BarcodeFindViewWrapperView: UIView {
                 view.leadingAnchor.constraint(equalTo: leadingAnchor),
                 view.trailingAnchor.constraint(equalTo: trailingAnchor),
                 view.topAnchor.constraint(equalTo: topAnchor),
-                view.bottomAnchor.constraint(equalTo: bottomAnchor),
+                view.bottomAnchor.constraint(equalTo: bottomAnchor)
             ])
         }
     }
-
+    
     override func didMoveToSuperview() {
         // Was added to the super view, if no sparkScanView yet
         if let viewManager = viewManager {
@@ -41,7 +41,7 @@ class BarcodeFindViewWrapperView: UIView {
     override func removeFromSuperview() {
         viewManager?.wrapperViewWillBeRemoved(self)
         super.removeFromSuperview()
-
+        
         if let viewManager = viewManager {
             _ = viewManager.getAndRemovePostContainerCreateAction(for: self.reactTag.intValue)
         }
@@ -57,7 +57,7 @@ class BarcodeFindViewManager: RCTViewManager, BarcodeFindViewWrapperDelegate {
     override class func requiresMainQueueSetup() -> Bool {
         true
     }
-
+    
     private var postContainerCreateActions: [Int: ((BarcodeFindViewWrapperView) -> Void)] = [:]
 
     public func setPostContainerCreateAction(for viewId: Int, action: @escaping (BarcodeFindViewWrapperView) -> Void) {
@@ -70,7 +70,7 @@ class BarcodeFindViewManager: RCTViewManager, BarcodeFindViewWrapperDelegate {
         BarcodeFindViewManager.containers.append(container)
         return container
     }
-
+    
     func getAndRemovePostContainerCreateAction(for viewId: Int) -> ((BarcodeFindViewWrapperView) -> Void)? {
         let action = postContainerCreateActions[viewId]
         postContainerCreateActions.removeValue(forKey: viewId)
@@ -81,6 +81,6 @@ class BarcodeFindViewManager: RCTViewManager, BarcodeFindViewWrapperDelegate {
         if let index = BarcodeFindViewManager.containers.firstIndex(of: view) {
             BarcodeFindViewManager.containers.remove(at: index)
         }
-        barcodeFindModule?.onViewRemovedFromSuperview(viewId: view.reactTag.intValue)
+        barcodeFindModule?.onViewRemovedFromSuperview(viewId:  view.reactTag.intValue)
     }
 }

@@ -1,8 +1,6 @@
 import React from 'react';
-import { StyleProp, ViewStyle } from 'react-native';
 import { SparkScanFeedbackDelegate, SparkScanViewState, BaseSparkScanViewProps } from 'scandit-datacapture-frameworks-barcode';
 import { Brush, Color } from 'scandit-datacapture-frameworks-core';
-import { NavigationProp, ParamListBase } from '@react-navigation/native';
 export interface SparkScanViewUiListener {
     onBarcodeCountButtonTappedIn?(view: SparkScanView): void;
     onBarcodeFindButtonTappedIn?(view: SparkScanView): void;
@@ -10,9 +8,9 @@ export interface SparkScanViewUiListener {
     didChangeViewState?(newState: SparkScanViewState): void;
 }
 interface SparkScanViewProps extends BaseSparkScanViewProps {
-    style: StyleProp<ViewStyle>;
+    style: any;
     children?: React.ReactNode;
-    navigation?: NavigationProp<ParamListBase>;
+    navigation?: any;
 }
 export declare class SparkScanView extends React.Component<SparkScanViewProps> {
     private baseSparkScanView;
