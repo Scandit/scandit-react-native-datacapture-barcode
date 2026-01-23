@@ -1,6 +1,6 @@
 import React from 'react';
 import { Anchor, CameraSettings, DataCaptureContext } from 'scandit-datacapture-frameworks-core';
-import { Barcode, BarcodeAr, BarcodeArAnnotationProvider, BarcodeArHighlightProvider, BarcodeArViewSettings, BarcodeArViewUiListener } from 'scandit-datacapture-frameworks-barcode';
+import { BarcodeAr, BarcodeArAnnotationProvider, BarcodeArHighlightProvider, BarcodeArViewSettings, BarcodeArViewUiListener } from 'scandit-datacapture-frameworks-barcode';
 interface BarcodeArViewProps {
     context: DataCaptureContext;
     barcodeAr: BarcodeAr;
@@ -10,27 +10,15 @@ interface BarcodeArViewProps {
     highlightProvider?: BarcodeArHighlightProvider;
     uiListener?: BarcodeArViewUiListener;
     style?: any;
-    navigation?: any;
 }
 export declare class BarcodeArView extends React.Component<BarcodeArViewProps> {
     private baseBarcodeArView;
     private handle;
-    private unregisterFromCustomHighlightCreateEvent;
-    private unregisterFromCustomHighlightDisposeEvent;
-    private navigationUnsubscribers;
-    private cameraOwner;
-    private customComponentCache;
-    state: {
-        shownBarcodes: Record<string, Barcode>;
-    };
     static forMode(dataCaptureContext: DataCaptureContext, barcodeAr: BarcodeAr): BarcodeArView;
     static forModeWithViewSettings(dataCaptureContext: DataCaptureContext, barcodeAr: BarcodeAr, viewSettings: BarcodeArViewSettings): BarcodeArView;
     static forModeWithViewSettingsAndCameraSettings(dataCaptureContext: DataCaptureContext, barcodeAr: BarcodeAr, viewSettings: BarcodeArViewSettings, cameraSettings: CameraSettings): BarcodeArView;
     constructor(props: BarcodeArViewProps);
     componentDidMount(): Promise<void>;
-    private wrapHighlightProvider;
-    private onCustomHighlightCreated;
-    private onCustomHighlightDisposed;
     componentWillUnmount(): void;
     get uiListener(): BarcodeArViewUiListener | null;
     set uiListener(value: BarcodeArViewUiListener | null);
@@ -59,9 +47,6 @@ export declare class BarcodeArView extends React.Component<BarcodeArViewProps> {
     get macroModeControlPosition(): Anchor;
     set macroModeControlPosition(value: Anchor);
     render(): React.JSX.Element;
-    private setupNavigationListeners;
-    private onFocus;
-    private onBlur;
     private createBarcodeArView;
     private toJSON;
 }

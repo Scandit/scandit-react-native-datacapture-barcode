@@ -86,7 +86,10 @@ class ScanditDataCaptureBarcodeBatch: AdvancedOverlayContainer {
     func setBrushForTrackedBarcode(data: [String: Any],
                                    resolve: @escaping RCTPromiseResolveBlock,
                                    reject: @escaping RCTPromiseRejectBlock) {
-        let brushJSON = data["brushJson"] as? String
+        guard let brushJSON = data["brushJson"] as? String else {
+            ReactNativeResult(resolve, reject).reject(error: ScanditFrameworksCoreError.nilArgument)
+            return
+        }
         guard let barcodeId = data["trackedBarcodeIdentifier"] as? Int else {
             ReactNativeResult(resolve, reject).reject(error: ScanditFrameworksCoreError.nilArgument)
             return

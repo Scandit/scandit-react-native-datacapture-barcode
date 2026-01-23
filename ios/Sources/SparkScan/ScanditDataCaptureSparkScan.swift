@@ -13,8 +13,8 @@ import ScanditFrameworksCore
 class ScanditDataCaptureSparkScan: RCTEventEmitter {
     var sparkScanModule: SparkScanModule!
 
-    lazy var sparkScanViewManager: SparkScanViewManager = {
-        bridge.module(for: SparkScanViewManager.self) as! SparkScanViewManager
+    lazy var viewManager: SparkScanViewManager? = {
+        bridge.module(for: SparkScanViewManager.self) as? SparkScanViewManager
     }()
 
     override init() {
@@ -98,6 +98,12 @@ class ScanditDataCaptureSparkScan: RCTEventEmitter {
             ReactNativeResult(resolve, reject).reject(error: ScanditFrameworksCoreError.nilArgument)
             return
         }
+        
+        guard let viewManager = self.viewManager else {
+            ReactNativeResult(resolve, reject).reject(error: ScanditFrameworksCoreError.nilArgument)
+            return
+        }
+
         let result = ReactNativeResult(resolve, reject)
         let viewId = data.viewId
 
@@ -106,7 +112,7 @@ class ScanditDataCaptureSparkScan: RCTEventEmitter {
             if let container = SparkScanViewManager.containers.first(where: { $0.reactTag == NSNumber(value: viewId) }) {
                 self.addViewIfFrameSet(container, jsonString: jsonString, result: result)
             } else {
-                self.sparkScanViewManager.setPostContainerCreateAction(for: viewId) { [weak self] container in
+                viewManager.setPostContainerCreateAction(for: viewId) { [weak self] container in
                     guard let self = self else {
                         result.reject(error: ScanditFrameworksCoreError.nilSelf)
                         return
@@ -120,7 +126,7 @@ class ScanditDataCaptureSparkScan: RCTEventEmitter {
     private func addViewIfFrameSet(_ container: RNTSparkScanViewWrapper, jsonString: String, result: ReactNativeResult) {
         // RN updates the frame for the wrapper view at a later point, which causes the native SparkScanView to misbehave.
         if container.isFrameSet {
-            sparkScanModule.addViewToContainer(
+            _ = sparkScanModule.addViewToContainer(
                 container,
                 jsonString: jsonString,
                 result: result
@@ -131,7 +137,7 @@ class ScanditDataCaptureSparkScan: RCTEventEmitter {
                     result.reject(error: ScanditFrameworksCoreError.nilSelf)
                     return
                 }
-                self.sparkScanModule.addViewToContainer(
+                _ = self.sparkScanModule.addViewToContainer(
                     container,
                     jsonString: jsonString,
                     result: result

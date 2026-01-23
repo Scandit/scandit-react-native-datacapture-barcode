@@ -1,6 +1,6 @@
 {
   "name": "scandit-react-native-datacapture-barcode",
-  "version": "8.0.1",
+  "version": "7.6.6",
   "description": "Scandit Data Capture SDK for React Native",
   "homepage": "https://github.com/Scandit/scandit-react-native-datacapture-barcode",
   "main": "dist/index.js",
@@ -8,11 +8,12 @@
   "scripts": {
     "jest": "jest",
     "coverage": "jest --coverage",
-    "test": "pnpm run lint",
+    "test": "yarn lint",
     "lint": "tslint --project .",
-    "build": "pnpm run rollup",
+    "build": "npm run rollup",
     "rollup": "rollup -c rollup.config.js --bundleConfigAsCjs",
-    "start": "pnpm run build -- --watch"
+    "start": "yarn build -- --watch",
+    "clean": "../scripts/clean_package.py barcode"
   },
   "keywords": [
     "scandit",
@@ -25,7 +26,7 @@
   "license": "Apache-2.0",
   "peerDependencies": {
     "react": ">=16.8.1",
-    "react-native": ">=0.70.0 <1.0.x"
+    "react-native": ">=0.60.0-rc.0 <1.0.x"
   },
   "devDependencies": {
     "@babel/core": "^7.27.1",
@@ -50,9 +51,8 @@
     "typescript": "4.9.5"
   },
   "dependencies": {
-    "scandit-react-native-datacapture-core": "8.0.1",
-    "scandit-datacapture-frameworks-barcode": "8.0.1",
-    "scandit-datacapture-frameworks-core": "8.0.1"
-  },
-  "packageManager": "pnpm@10.15.0"
+    "scandit-react-native-datacapture-core": "7.6.6",
+    "scandit-datacapture-frameworks-barcode": "7.6.6",
+    "scandit-datacapture-frameworks-core": "7.6.6"
+  }
 }

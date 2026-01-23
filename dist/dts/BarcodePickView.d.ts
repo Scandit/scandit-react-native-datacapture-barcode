@@ -11,13 +11,10 @@ interface BarcodePickViewProps {
     settings: BarcodePickViewSettings;
     cameraSettings: CameraSettings;
     style: any;
-    navigation?: any;
 }
 export declare class BarcodePickView extends React.Component<BarcodePickViewProps> {
     private baseBarcodePickView;
     private _isMounted;
-    private navigationUnsubscribers;
-    private cameraOwner;
     constructor(props: BarcodePickViewProps);
     get uiListener(): BarcodePickViewUiListener | null;
     set uiListener(value: BarcodePickViewUiListener | null);
@@ -35,9 +32,6 @@ export declare class BarcodePickView extends React.Component<BarcodePickViewProp
     removeActionListener(listener: BarcodePickActionListener): void;
     render(): React.JSX.Element;
     release(): void;
-    private setupNavigationListeners;
-    private onFocus;
-    private onBlur;
     private createBarcodePickView;
     private toJSON;
 }

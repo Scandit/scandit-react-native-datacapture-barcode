@@ -13,8 +13,8 @@ import ScanditFrameworksCore
 class ScanditDataCaptureBarcodeAr: RCTEventEmitter {
     var barcodeArModule: BarcodeArModule!
 
-    lazy var viewManager: BarcodeArViewManager = {
-        bridge.module(for: BarcodeArViewManager.self) as! BarcodeArViewManager
+    lazy var viewManager: BarcodeArViewManager? = {
+        bridge.module(for: BarcodeArViewManager.self) as? BarcodeArViewManager
     }()
 
     override init() {
@@ -31,14 +31,12 @@ class ScanditDataCaptureBarcodeAr: RCTEventEmitter {
     }
 
     override func supportedEvents() -> [String]! {
-        let listenerEvents = BarcodeArListenerEvents.allCases.map { $0.rawValue }
-        let customHighlightEvents = BarcodeArCustomHighlightEvents.allCases.map { $0.rawValue }
-        let uiDelegateEvents = BarcodeArViewUiDelegateEvents.allCases.map { $0.rawValue }
-        let annotationProviderEvents = BarcodeArAnnotationProviderEvents.allCases.map { $0.rawValue }
-        let highlightProviderEvents = BarcodeArHighlightProviderEvents.allCases.map { $0.rawValue }
-        let frameworksAnnotationEvents = FrameworksBarcodeArAnnotationEvents.allCases.map { $0.rawValue }
-        return listenerEvents + customHighlightEvents + uiDelegateEvents + annotationProviderEvents
-            + highlightProviderEvents + frameworksAnnotationEvents
+        BarcodeArListenerEvents.allCases.map { $0.rawValue } +
+        BarcodeArViewUiDelegateEvents.allCases.map { $0.rawValue } +
+        BarcodeArAnnotationProviderEvents.allCases.map { $0.rawValue } +
+        BarcodeArHighlightProviderEvents.allCases.map { $0.rawValue } +
+        FrameworksBarcodeArAnnotationEvents.allCases.map { $0.rawValue } +
+        FrameworksBarcodeArAnnotationEvents.allCases.map { $0.rawValue }
     }
 
     @objc override func invalidate() {
@@ -69,6 +67,11 @@ class ScanditDataCaptureBarcodeAr: RCTEventEmitter {
             ReactNativeResult(resolve, reject).reject(error: ScanditFrameworksCoreError.nilArgument)
             return
         }
+        
+        guard let viewManager = self.viewManager else {
+            ReactNativeResult(resolve, reject).reject(error: ScanditFrameworksCoreError.nilArgument)
+            return
+        }
 
         let result = ReactNativeResult(resolve, reject)
         let viewId = data.viewId
@@ -77,7 +80,7 @@ class ScanditDataCaptureBarcodeAr: RCTEventEmitter {
             if let container = BarcodeArViewManager.containers.first(where: { $0.reactTag == NSNumber(value: viewId) }) {
                 self.addViewIfFrameSet(container, jsonString: viewJson, result: result)
             } else {
-                self.viewManager.setPostContainerCreateAction(for: viewId) { [weak self] container in
+                viewManager.setPostContainerCreateAction(for: viewId) { [weak self] container in
                     guard let self = self else {
                         result.reject(error: ScanditFrameworksCoreError.nilSelf)
                         return

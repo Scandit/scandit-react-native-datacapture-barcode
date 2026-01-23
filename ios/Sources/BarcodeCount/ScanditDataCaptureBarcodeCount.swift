@@ -31,8 +31,8 @@ enum ScanditDataCaptureBarcodeCountEvent: String, CaseIterable {
 class ScanditDataCaptureBarcodeCount: RCTEventEmitter {
     var barcodeCountModule: BarcodeCountModule!
 
-    lazy var barcodeCountViewManager: BarcodeCountViewManager = {
-        bridge.module(for: BarcodeCountViewManager.self) as! BarcodeCountViewManager
+    lazy var viewManager: BarcodeCountViewManager? = {
+        bridge.module(for: BarcodeCountViewManager.self) as? BarcodeCountViewManager
     }()
 
     override init() {
@@ -81,6 +81,11 @@ class ScanditDataCaptureBarcodeCount: RCTEventEmitter {
             return
         }
         
+        guard let viewManager = self.viewManager else {
+            ReactNativeResult(resolve, reject).reject(error: ScanditFrameworksCoreError.nilArgument)
+            return
+        }
+        
         let result = ReactNativeResult(resolve, reject)
         let viewId = data.viewId
         
@@ -88,7 +93,7 @@ class ScanditDataCaptureBarcodeCount: RCTEventEmitter {
             if let container = BarcodeCountViewManager.containers.first(where: { $0.reactTag == NSNumber(value: viewId) }) {
                 self.addViewIfFrameSet(container, jsonString: jsonString, result: result)
             } else {
-                self.barcodeCountViewManager.setPostContainerCreateAction(for: viewId) { [weak self] container in
+                viewManager.setPostContainerCreateAction(for: viewId) { [weak self] container in
                     guard let self = self else {
                         result.reject(error: ScanditFrameworksCoreError.nilSelf)
                         return
@@ -174,12 +179,12 @@ class ScanditDataCaptureBarcodeCount: RCTEventEmitter {
         resolve(nil)
     }
 
-    @objc(registerBarcodeCountListener:)
+    @objc
     func registerBarcodeCountListener(data: [String: Any]) {
         barcodeCountModule.addBarcodeCountListener(viewId: data.viewId)
     }
 
-    @objc(unregisterBarcodeCountListener:)
+    @objc
     func unregisterBarcodeCountListener(data: [String: Any]) {
         barcodeCountModule.removeBarcodeCountListener(viewId: data.viewId)
     }

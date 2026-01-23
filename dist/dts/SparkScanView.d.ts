@@ -10,14 +10,11 @@ export interface SparkScanViewUiListener {
 interface SparkScanViewProps extends BaseSparkScanViewProps {
     style: any;
     children?: React.ReactNode;
-    navigation?: any;
 }
 export declare class SparkScanView extends React.Component<SparkScanViewProps> {
     private baseSparkScanView;
     private rnViewListener;
     private _isMounted;
-    private navigationUnsubscribers;
-    private cameraOwner;
     get uiListener(): SparkScanViewUiListener | null;
     set uiListener(listener: SparkScanViewUiListener | null);
     static get defaultBrush(): Brush;
@@ -25,6 +22,14 @@ export declare class SparkScanView extends React.Component<SparkScanViewProps> {
     render(): React.JSX.Element;
     get previewSizeControlVisible(): boolean;
     set previewSizeControlVisible(newValue: boolean);
+    /**
+     * @deprecated The torch button has been moved to the mini preview. Use property `torchControlVisible` instead.
+     */
+    get torchButtonVisible(): boolean;
+    /**
+     * @deprecated The torch button has been moved to the mini preview. Use property `torchControlVisible` instead.
+     */
+    set torchButtonVisible(newValue: boolean);
     get scanningBehaviorButtonVisible(): boolean;
     set scanningBehaviorButtonVisible(newValue: boolean);
     get barcodeCountButtonVisible(): boolean;
@@ -35,6 +40,38 @@ export declare class SparkScanView extends React.Component<SparkScanViewProps> {
     set targetModeButtonVisible(newValue: boolean);
     get labelCaptureButtonVisible(): boolean;
     set labelCaptureButtonVisible(newValue: boolean);
+    get stopCapturingText(): string | null;
+    set stopCapturingText(newValue: string | null);
+    get startCapturingText(): string | null;
+    set startCapturingText(newValue: string | null);
+    get resumeCapturingText(): string | null;
+    set resumeCapturingText(newValue: string | null);
+    get scanningCapturingText(): string | null;
+    set scanningCapturingText(newValue: string | null);
+    /**
+     * @deprecated This property is not relevant anymore.
+     */
+    get captureButtonActiveBackgroundColor(): Color | null;
+    /**
+     * @deprecated This property is not relevant anymore.
+     */
+    set captureButtonActiveBackgroundColor(newValue: Color | null);
+    /**
+     * @deprecated use triggerButtonCollapsedColor and triggerButtonExpandedColor instead.
+     */
+    get captureButtonBackgroundColor(): Color | null;
+    /**
+     * @deprecated use triggerButtonCollapsedColor and triggerButtonExpandedColor instead.
+     */
+    set captureButtonBackgroundColor(newValue: Color | null);
+    /**
+     * @deprecated use triggerButtonTintColor instead.
+     */
+    get captureButtonTintColor(): Color | null;
+    /**
+     * @deprecated use triggerButtonTintColor instead.
+     */
+    set captureButtonTintColor(newValue: Color | null);
     get toolbarBackgroundColor(): Color | null;
     set toolbarBackgroundColor(newValue: Color | null);
     get toolbarIconActiveTintColor(): Color | null;
@@ -70,9 +107,6 @@ export declare class SparkScanView extends React.Component<SparkScanViewProps> {
     componentDidMount(): void;
     componentDidUpdate(prevProps: SparkScanViewProps): void;
     componentWillUnmount(): void;
-    private setupNavigationListeners;
-    private onFocus;
-    private onBlur;
     private createSparkScanView;
     private toJSON;
 }

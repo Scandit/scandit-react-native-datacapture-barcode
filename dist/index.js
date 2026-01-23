@@ -1,9 +1,9 @@
-import { NativeModules, AppState, View, Platform, PixelRatio, StyleSheet, InteractionManager, findNodeHandle, requireNativeComponent, Animated } from 'react-native';
-import { CameraOwnershipHelper, nameForSerialization, CameraPosition as CameraPosition$1, FactoryMaker, createNativeProxy, createAdvancedInstanceAwareNativeProxy, Observable, ignoreFromSerialization } from 'scandit-react-native-datacapture-core/dist/core';
-import { CameraPosition, FrameSourceState, Anchor, PointWithUnit, NumberWithUnit, MeasureUnit, DataCaptureView, initCoreProxy, createRNNativeCaller, initCoreDefaults } from 'scandit-react-native-datacapture-core';
-import { BarcodeBatch as BarcodeBatch$1, BarcodeBatchSettings, BarcodeBatchBasicOverlay, BarcodeBatchBasicOverlayStyle, BarcodeCapture as BarcodeCapture$1, BarcodeCaptureSettings, BarcodeCaptureOverlay, BaseBarcodeArView, BarcodeSelection as BarcodeSelection$1, BarcodeSelectionSettings, BarcodeSelectionBasicOverlay, BarcodeSelectionBasicOverlayStyle, BaseSparkScanView, BaseBarcodeCountView, BaseBarcodePickView, BaseBarcodeFindView, BarcodeCountViewEvents, SparkScanViewEvents, loadBarcodeDefaults, loadBarcodeCaptureDefaults, loadBarcodeArDefaults, loadBarcodeBatchDefaults, loadBarcodeSelectionDefaults, loadBarcodeCountDefaults, loadBarcodePickDefaults, loadBarcodeFindDefaults, loadSparkScanDefaults, BaseBarcodeBatchAdvancedOverlay } from './barcode.js';
-export { ArucoDictionary, ArucoDictionaryPreset, ArucoMarker, AztecBarcodeGeneratorBuilder, Barcode, BarcodeAr, BarcodeArAnnotationTrigger, BarcodeArCircleHighlight, BarcodeArCircleHighlightPreset, BarcodeArFeedback, BarcodeArInfoAnnotation, BarcodeArInfoAnnotationAnchor, BarcodeArInfoAnnotationBodyComponent, BarcodeArInfoAnnotationFooter, BarcodeArInfoAnnotationHeader, BarcodeArInfoAnnotationWidthPreset, BarcodeArPopoverAnnotation, BarcodeArPopoverAnnotationButton, BarcodeArRectangleHighlight, BarcodeArSession, BarcodeArSettings, BarcodeArStatusIconAnnotation, BarcodeArViewSettings, BarcodeBatch, BarcodeBatchBasicOverlay, BarcodeBatchBasicOverlayStyle, BarcodeBatchSession, BarcodeBatchSettings, BarcodeCapture, BarcodeCaptureFeedback, BarcodeCaptureOverlay, BarcodeCaptureSession, BarcodeCaptureSettings, BarcodeCount, BarcodeCountCaptureList, BarcodeCountCaptureListSession, BarcodeCountFeedback, BarcodeCountNotInListActionSettings, BarcodeCountSession, BarcodeCountSettings, BarcodeCountToolbarSettings, BarcodeFilterHighlightSettingsBrush, BarcodeFilterHighlightType, BarcodeFilterSettings, BarcodeFind, BarcodeFindFeedback, BarcodeFindItem, BarcodeFindItemContent, BarcodeFindItemSearchOptions, BarcodeFindSession, BarcodeFindSettings, BarcodeFindViewSettings, BarcodeGenerator, BarcodeGeneratorBuilder, BarcodePick, BarcodePickActionCallback, BarcodePickAsyncMapperProductProvider, BarcodePickProduct, BarcodePickProductProviderCallback, BarcodePickProductProviderCallbackItem, BarcodePickScanningSession, BarcodePickSession, BarcodePickSettings, BarcodePickState, BarcodePickStatusIconSettings, BarcodePickViewEvents, BarcodePickViewSettings, BarcodeSelection, BarcodeSelectionAimerSelection, BarcodeSelectionAutoSelectionStrategy, BarcodeSelectionBasicOverlay, BarcodeSelectionBasicOverlayStyle, BarcodeSelectionFeedback, BarcodeSelectionFreezeBehavior, BarcodeSelectionManualSelectionStrategy, BarcodeSelectionSession, BarcodeSelectionSettings, BarcodeSelectionTapBehavior, BarcodeSelectionTapSelection, BarcodeSpatialGrid, BatterySavingMode, Checksum, Code128BarcodeGeneratorBuilder, Code39BarcodeGeneratorBuilder, CompositeFlag, CompositeType, DataMatrixBarcodeGeneratorBuilder, Dot, DotWithIcons, Ean13BarcodeGeneratorBuilder, Ean13UpcaClassification, EncodingRange, InterleavedTwoOfFiveBarcodeGeneratorBuilder, LocalizedOnlyBarcode, QrCodeBarcodeGeneratorBuilder, QrCodeErrorCorrectionLevel, Range, Rectangular, RectangularWithIcons, SparkScan, SparkScanBarcodeErrorFeedback, SparkScanBarcodeFeedback, SparkScanBarcodeSuccessFeedback, SparkScanMiniPreviewSize, SparkScanPreviewBehavior, SparkScanScanningBehavior, SparkScanScanningModeDefault, SparkScanScanningModeTarget, SparkScanSession, SparkScanSettings, SparkScanToastSettings, SparkScanViewSettings, SparkScanViewState, StructuredAppendData, Symbology, SymbologyDescription, SymbologySettings, TargetBarcode, TrackedBarcode, UpcaBarcodeGeneratorBuilder } from './barcode.js';
-import React, { forwardRef, useRef, useState, useMemo, useCallback, useEffect, useImperativeHandle } from 'react';
+import { NativeModules, AppState, View, InteractionManager, findNodeHandle, requireNativeComponent } from 'react-native';
+import { ScreenStateManager, FactoryMaker, createNativeProxy, createAdvancedNativeProxy, createAdvancedInstanceAwareNativeProxy, ignoreFromSerialization } from 'scandit-react-native-datacapture-core/dist/core';
+import { FrameSourceState, Anchor, PointWithUnit, NumberWithUnit, MeasureUnit, Camera, CameraPosition, DataCaptureView, initCoreProxy, createRNNativeCaller, initCoreDefaults } from 'scandit-react-native-datacapture-core';
+import { BarcodeBatch as BarcodeBatch$1, BarcodeCapture as BarcodeCapture$1, BaseBarcodeArView, BarcodeSelection as BarcodeSelection$1, BarcodeSelectionSettings, BaseSparkScanView, BaseBarcodeCountView, BaseBarcodePickView, BaseBarcodeFindView, BarcodeSelectionListenerEvents, BarcodeSelectionBrushProviderEvents, BarcodeCountViewEvents, SparkScanViewEvents, loadBarcodeDefaults, loadBarcodeCaptureDefaults, loadBarcodeArDefaults, loadBarcodeBatchDefaults, loadBarcodeSelectionDefaults, loadBarcodeCountDefaults, loadBarcodePickDefaults, loadBarcodeFindDefaults, loadSparkScanDefaults, BaseBarcodeBatchAdvancedOverlay, BarcodeBatchSettings, BarcodeBatchBasicOverlay, BarcodeBatchBasicOverlayStyle, BarcodeCaptureSettings, BarcodeCaptureOverlay, BarcodeSelectionBasicOverlay, BarcodeSelectionBasicOverlayStyle } from './barcode.js';
+export { ArucoDictionary, ArucoDictionaryPreset, ArucoMarker, AztecBarcodeGeneratorBuilder, Barcode, BarcodeAr, BarcodeArAnnotationTrigger, BarcodeArCircleHighlight, BarcodeArCircleHighlightPreset, BarcodeArFeedback, BarcodeArInfoAnnotation, BarcodeArInfoAnnotationAnchor, BarcodeArInfoAnnotationBodyComponent, BarcodeArInfoAnnotationFooter, BarcodeArInfoAnnotationHeader, BarcodeArInfoAnnotationWidthPreset, BarcodeArPopoverAnnotation, BarcodeArPopoverAnnotationButton, BarcodeArRectangleHighlight, BarcodeArSession, BarcodeArSettings, BarcodeArStatusIconAnnotation, BarcodeArViewSettings, BarcodeBatch, BarcodeBatchBasicOverlay, BarcodeBatchBasicOverlayStyle, BarcodeBatchScenario, BarcodeBatchSession, BarcodeBatchSettings, BarcodeCapture, BarcodeCaptureFeedback, BarcodeCaptureOverlay, BarcodeCaptureOverlayStyle, BarcodeCaptureSession, BarcodeCaptureSettings, BarcodeCount, BarcodeCountCaptureList, BarcodeCountCaptureListSession, BarcodeCountFeedback, BarcodeCountNotInListActionSettings, BarcodeCountSession, BarcodeCountSettings, BarcodeCountToolbarSettings, BarcodeFilterHighlightSettingsBrush, BarcodeFilterHighlightType, BarcodeFilterSettings, BarcodeFind, BarcodeFindFeedback, BarcodeFindItem, BarcodeFindItemContent, BarcodeFindItemSearchOptions, BarcodeFindSession, BarcodeFindSettings, BarcodeFindViewSettings, BarcodeGenerator, BarcodeGeneratorBuilder, BarcodePick, BarcodePickActionCallback, BarcodePickAsyncMapperProductProvider, BarcodePickProduct, BarcodePickProductProviderCallback, BarcodePickProductProviderCallbackItem, BarcodePickScanningSession, BarcodePickSession, BarcodePickSettings, BarcodePickState, BarcodePickStatusIconSettings, BarcodePickViewEvents, BarcodePickViewSettings, BarcodeSelection, BarcodeSelectionAimerSelection, BarcodeSelectionAutoSelectionStrategy, BarcodeSelectionBasicOverlay, BarcodeSelectionBasicOverlayStyle, BarcodeSelectionFeedback, BarcodeSelectionFreezeBehavior, BarcodeSelectionManualSelectionStrategy, BarcodeSelectionSession, BarcodeSelectionSettings, BarcodeSelectionTapBehavior, BarcodeSelectionTapSelection, BarcodeSpatialGrid, BatterySavingMode, Checksum, Code128BarcodeGeneratorBuilder, Code39BarcodeGeneratorBuilder, CompositeFlag, CompositeType, DataMatrixBarcodeGeneratorBuilder, Dot, DotWithIcons, Ean13BarcodeGeneratorBuilder, Ean13UpcaClassification, EncodingRange, InterleavedTwoOfFiveBarcodeGeneratorBuilder, LocalizedOnlyBarcode, QrCodeBarcodeGeneratorBuilder, QrCodeErrorCorrectionLevel, Range, Rectangular, RectangularWithIcons, SparkScan, SparkScanBarcodeErrorFeedback, SparkScanBarcodeFeedback, SparkScanBarcodeSuccessFeedback, SparkScanMiniPreviewSize, SparkScanPreviewBehavior, SparkScanScanningBehavior, SparkScanScanningModeDefault, SparkScanScanningModeTarget, SparkScanSession, SparkScanSettings, SparkScanToastSettings, SparkScanViewSettings, SparkScanViewState, StructuredAppendData, Symbology, SymbologyDescription, SymbologySettings, TargetBarcode, TrackedBarcode, UpcaBarcodeGeneratorBuilder } from './barcode.js';
+import React, { forwardRef, useRef, useMemo, useState, useEffect, useImperativeHandle } from 'react';
 
 // tslint:disable:variable-name
 const NativeModule = NativeModules.ScanditDataCaptureBarcodeGenerator;
@@ -47,15 +47,15 @@ function initBarcodeProxy() {
     });
     FactoryMaker.bindLazyInstance('BarcodeSelectionListenerProxy', () => {
         const caller = createRNNativeCaller(NativeModules.ScanditDataCaptureBarcodeSelection);
-        return createNativeProxy(caller);
+        return createAdvancedNativeProxy(caller, BarcodeSelectionListenerEvents);
     });
     FactoryMaker.bindLazyInstance('BarcodeSelectionOverlayProxy', () => {
         const caller = createRNNativeCaller(NativeModules.ScanditDataCaptureBarcodeSelection);
-        return createNativeProxy(caller);
+        return createAdvancedNativeProxy(caller, BarcodeSelectionBrushProviderEvents);
     });
     FactoryMaker.bindLazyInstance('BarcodeSelectionProxy', () => {
         const caller = createRNNativeCaller(NativeModules.ScanditDataCaptureBarcodeSelection);
-        return createNativeProxy(caller);
+        return createAdvancedNativeProxy(caller);
     });
     FactoryMaker.bindLazyInstance('BarcodeArSessionProxy', () => {
         const caller = createRNNativeCaller(NativeModules.ScanditDataCaptureBarcodeAr);
@@ -143,6 +143,19 @@ class BarcodeBatchAdvancedOverlay {
     get view() {
         return this.baseBarcodeBatch.view;
     }
+    /**
+     * @deprecated Since 7.6. This factory will be removed in 8.0.
+     * Create the overlay and add it to the view manually instead:
+     * ```ts
+     * const overlay = new BarcodeBatchAdvancedOverlay();
+     * view.addOverlay(overlay);
+     * ```
+     */
+    static withBarcodeBatchForView(barcodeBatch, view) {
+        const overlay = new BarcodeBatchAdvancedOverlay(barcodeBatch);
+        view?.addOverlay(overlay.baseBarcodeBatch);
+        return overlay;
+    }
     constructor(mode) {
         this.baseBarcodeBatch = new BaseBarcodeBatchAdvancedOverlay(mode);
     }
@@ -172,22 +185,20 @@ const BarcodeBatchView = forwardRef(function BarcodeBatchView(props, ref) {
     const componentIsSetUp = useRef(false);
     const advancedOverlayRef = useRef(null);
     const barcodeBatchModeRef = useRef(null);
-    const [viewId] = useState(() => Math.floor(Math.random() * 1000000));
-    const [isCameraSetup, setIsCameraSetup] = useState(false);
-    // Create camera owner using viewId
-    const cameraOwner = useMemo(() => ({
-        id: `barcode-batch-view-${viewId}`,
-    }), [viewId]);
-    const getMode = useCallback(() => {
+    const viewId = useRef(Math.floor(Math.random() * 1000000));
+    const screenStateManager = useMemo(() => {
+        return ScreenStateManager.getInstance();
+    }, []);
+    function getMode() {
         if (barcodeBatchModeRef.current !== null) {
             return barcodeBatchModeRef.current;
         }
         barcodeBatchModeRef.current = new BarcodeBatch$1(props.barcodeBatchSettings || new BarcodeBatchSettings());
-        barcodeBatchModeRef.current.parentId = viewId;
+        barcodeBatchModeRef.current.parentId = viewId.current;
         return barcodeBatchModeRef.current;
-    }, [props.barcodeBatchSettings, viewId]);
+    }
     const basicOverlayRef = useRef(null);
-    const getBasicOverlay = useCallback(() => {
+    function getBasicOverlay() {
         if (basicOverlayRef.current !== null) {
             return basicOverlayRef.current;
         }
@@ -196,7 +207,15 @@ const BarcodeBatchView = forwardRef(function BarcodeBatchView(props, ref) {
             basicOverlayRef.current.brush = props.defaultBasicOverlayBrush;
         }
         return basicOverlayRef.current;
-    }, [getMode, props.basicOverlayStyle, props.defaultBasicOverlayBrush]);
+    }
+    const cameraRef = useRef(null);
+    function getCamera() {
+        if (cameraRef.current !== null) {
+            return cameraRef.current;
+        }
+        cameraRef.current = Camera.asPositionWithSettings(props.desiredCameraPosition || CameraPosition.WorldFacing, props.cameraSettings || BarcodeBatch$1.recommendedCameraSettings);
+        return cameraRef.current;
+    }
     const [basicOverlayListener, setBasicOverlayListener] = useState(null);
     const [advancedOverlayListener, setAdvancedOverlayListener] = useState(null);
     const torchSwitchControl = useRef(null);
@@ -217,40 +236,28 @@ const BarcodeBatchView = forwardRef(function BarcodeBatchView(props, ref) {
         getMode().isEnabled = currentProps.current.isEnabled;
         // Clean cache
         setViewForTrackedBarcodeCache(new Map());
-    }, [props.isEnabled, getMode]);
+    }, [props.isEnabled]);
     useEffect(() => {
-        if (!isCameraSetup || !props.desiredCameraState)
-            return; // Don't run until camera is ready
         currentProps.current = {
             isEnabled: currentProps.current.isEnabled,
             desiredCameraState: props.desiredCameraState,
         };
-        if (props.desiredCameraState) {
-            const position = props.desiredCameraPosition || CameraPosition.WorldFacing;
-            CameraOwnershipHelper.withCamera(position, cameraOwner, async (camera) => {
-                await camera.switchToDesiredState(props.desiredCameraState);
-            });
+        if (props.desiredCameraState && screenStateManager.isScreenActive(viewId.current)) {
+            getCamera()?.switchToDesiredState(props.desiredCameraState);
         }
-    }, [props.desiredCameraState, props.desiredCameraPosition, cameraOwner, isCameraSetup]);
+    }, [props.desiredCameraState]);
     const handleAppStateChange = (nextAppState) => {
-        const position = props.desiredCameraPosition || CameraPosition.WorldFacing;
         if (appState.current.match(/inactive|background/) && nextAppState === 'active') {
             // Use the latest props values from the ref
             getMode().isEnabled = currentProps.current.isEnabled;
             if (currentProps.current.desiredCameraState) {
-                if (isCameraSetup) {
-                    CameraOwnershipHelper.withCamera(position, cameraOwner, async (camera) => {
-                        await camera.switchToDesiredState(currentProps.current.desiredCameraState);
-                    });
-                }
+                getCamera()?.switchToDesiredState(currentProps.current.desiredCameraState);
             }
         }
         else if (nextAppState.match(/inactive|background/) && appState.current === 'active') {
             getMode().isEnabled = false;
-            if (isCameraSetup) {
-                CameraOwnershipHelper.withCamera(position, cameraOwner, async (camera) => {
-                    await camera.switchToDesiredState(FrameSourceState.Off);
-                });
+            if (screenStateManager.isScreenActive(viewId.current)) {
+                getCamera()?.switchToDesiredState(FrameSourceState.Off);
             }
         }
         appState.current = nextAppState;
@@ -262,28 +269,14 @@ const BarcodeBatchView = forwardRef(function BarcodeBatchView(props, ref) {
             subscription.remove();
             doCleanup();
         };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-    const setupCamera = useCallback(async () => {
-        const position = props.desiredCameraPosition || CameraPosition.WorldFacing;
-        // Request ownership and set up camera
-        await CameraOwnershipHelper.withCameraWhenAvailable(position, cameraOwner, async (camera) => {
-            const settings = props.cameraSettings || BarcodeBatch$1.createRecommendedCameraSettings();
-            await camera.applySettings(settings);
-            const newCameraState = props.desiredCameraState || FrameSourceState.On;
-            await camera.switchToDesiredState(newCameraState);
-            await props.context.setFrameSource(camera);
-            // Mark camera as set up
-            setIsCameraSetup(true);
-        });
-    }, [props.desiredCameraPosition, cameraOwner, props.cameraSettings, props.context, props.desiredCameraState]);
-    const doSetup = useCallback(async () => {
+    const doSetup = () => {
+        screenStateManager.setActiveScreen(viewId.current);
         if (componentIsSetUp.current)
             return;
         componentIsSetUp.current = true;
-        /* Setup camera with ownership - WAIT for completion */
-        await setupCamera();
-        /* Only proceed after camera is ready */
+        /* Handling Data Capture Context */
+        props.context.setFrameSource(getCamera());
         props.context.addMode(getMode());
         /* Adding Basic Overlay */
         if (viewRef.current) {
@@ -292,13 +285,11 @@ const BarcodeBatchView = forwardRef(function BarcodeBatchView(props, ref) {
                 viewRef.current.addOverlay(advancedOverlayRef.current);
             }
         }
-    }, [setupCamera, props.context, getMode, getBasicOverlay]);
-    const doCleanup = useCallback(() => {
+    };
+    const doCleanup = () => {
         if (!componentIsSetUp.current)
             return;
         componentIsSetUp.current = false;
-        // Reset camera setup state
-        setIsCameraSetup(false);
         /* Remove the torch control */
         if (torchSwitchControl.current) {
             viewRef.current?.removeControl(torchSwitchControl.current);
@@ -317,22 +308,21 @@ const BarcodeBatchView = forwardRef(function BarcodeBatchView(props, ref) {
             props.context.removeMode(barcodeBatchModeRef.current);
         }
         barcodeBatchModeRef.current = null;
-        /* Turn off camera and release ownership */
-        const position = props.desiredCameraPosition || CameraPosition.WorldFacing;
-        CameraOwnershipHelper.withCamera(position, cameraOwner, async (camera) => {
-            await camera.switchToDesiredState(FrameSourceState.Off);
-            await props.context.setFrameSource(null);
-        }).finally(() => {
-            // Release camera ownership
-            CameraOwnershipHelper.releaseOwnership(position, cameraOwner);
-        });
-    }, [props.desiredCameraPosition, cameraOwner, props.context]);
+        // Execute this after 1 second to avoid turning off the camera and on again
+        // when navigating back to another screen that handles camera
+        setTimeout(() => {
+            /* Closing the camera if camera is active */
+            if (screenStateManager.isScreenActive(viewId.current)) {
+                getCamera()?.switchToDesiredState(FrameSourceState.Off);
+            }
+        }, 1000);
+    };
     /* BARCODE TRACKING MODE */
     useEffect(() => {
         if (props.barcodeBatchSettings) {
             getMode().applySettings(props.barcodeBatchSettings);
         }
-    }, [props.barcodeBatchSettings, getMode]);
+    }, [props.barcodeBatchSettings]);
     useEffect(() => {
         getMode().listeners.forEach((listener) => {
             getMode().removeListener(listener);
@@ -342,22 +332,22 @@ const BarcodeBatchView = forwardRef(function BarcodeBatchView(props, ref) {
                 didUpdateSession: props.didUpdateSession,
             });
         }
-    }, [props.didUpdateSession, getMode]);
+    }, [props.didUpdateSession]);
     /* OVERLAYS */
     useEffect(() => {
         // set default brush only if there is no brush provided via the listener
         if (props.defaultBasicOverlayBrush && !props.brushForTrackedBarcode) {
             getBasicOverlay().brush = props.defaultBasicOverlayBrush;
         }
-    }, [props.defaultBasicOverlayBrush, props.brushForTrackedBarcode, getBasicOverlay]);
+    }, [props.defaultBasicOverlayBrush, props.brushForTrackedBarcode]);
     useEffect(() => {
         if (props.shouldShowScanAreaGuides) {
             getBasicOverlay().shouldShowScanAreaGuides = props.shouldShowScanAreaGuides;
         }
-    }, [props.shouldShowScanAreaGuides, getBasicOverlay]);
+    }, [props.shouldShowScanAreaGuides]);
     useEffect(() => {
         getBasicOverlay().listener = basicOverlayListener;
-    }, [basicOverlayListener, getBasicOverlay]);
+    }, [basicOverlayListener]);
     useEffect(() => {
         if (props.brushForTrackedBarcode || props.didTapTrackedBarcode) {
             const basicListener = {
@@ -481,7 +471,6 @@ const BarcodeBatchView = forwardRef(function BarcodeBatchView(props, ref) {
                 return new PointWithUnit(new NumberWithUnit(0, MeasureUnit.Fraction), new NumberWithUnit(0, MeasureUnit.Fraction));
             },
         });
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [
         props.viewForTrackedBarcode,
         props.didTapViewForTrackedBarcode,
@@ -491,48 +480,30 @@ const BarcodeBatchView = forwardRef(function BarcodeBatchView(props, ref) {
     ]);
     /* CAMERA */
     useEffect(() => {
-        if (!isCameraSetup)
-            return; // Don't run until camera is ready
         // default to SDK recommended camera settings if the prop is unset
-        const position = props.desiredCameraPosition || CameraPosition.WorldFacing;
-        const settings = props.cameraSettings || BarcodeBatch$1.createRecommendedCameraSettings();
-        CameraOwnershipHelper.withCamera(position, cameraOwner, async (camera) => {
-            await camera.applySettings(settings);
-        });
-    }, [props.cameraSettings, props.desiredCameraPosition, cameraOwner, isCameraSetup]);
+        getCamera()?.applySettings(props.cameraSettings || BarcodeBatch$1.recommendedCameraSettings);
+    }, [props.cameraSettings]);
     useEffect(() => {
-        if (!isCameraSetup || !props.desiredCameraState)
-            return; // Don't run until camera is ready
-        const position = props.desiredCameraPosition || CameraPosition.WorldFacing;
-        CameraOwnershipHelper.withCamera(position, cameraOwner, async (camera) => {
-            await camera.switchToDesiredState(props.desiredCameraState);
-        });
-    }, [props.desiredCameraState, props.desiredCameraPosition, cameraOwner, isCameraSetup]);
-    useEffect(() => {
-        if (!isCameraSetup || !props.desiredCameraPosition)
-            return; // Don't run until camera is ready
-        // Handle camera position change with ownership
-        const currentOwnedPosition = CameraOwnershipHelper.getOwnedPosition(cameraOwner);
-        const newPosition = props.desiredCameraPosition;
-        if (currentOwnedPosition && currentOwnedPosition !== newPosition) {
-            // Release old camera ownership
-            CameraOwnershipHelper.releaseOwnership(currentOwnedPosition, cameraOwner);
-            // Set up new camera
-            setupCamera();
+        if (props.desiredCameraState && screenStateManager.isScreenActive(viewId.current)) {
+            getCamera()?.switchToDesiredState(props.desiredCameraState);
         }
-        else if (!currentOwnedPosition) {
-            // No camera owned yet, set up new camera
-            setupCamera();
-        }
-    }, [props.desiredCameraPosition, cameraOwner, setupCamera, isCameraSetup]);
+    }, [props.desiredCameraState]);
     useEffect(() => {
-        if (!isCameraSetup || !props.desiredTorchState)
-            return; // Don't run until camera is ready
-        const position = props.desiredCameraPosition || CameraPosition.WorldFacing;
-        CameraOwnershipHelper.withCameraWhenAvailable(position, cameraOwner, async (camera) => {
-            camera.desiredTorchState = props.desiredTorchState;
-        });
-    }, [props.desiredTorchState, props.desiredCameraPosition, cameraOwner, isCameraSetup]);
+        if (props.desiredCameraPosition) {
+            getCamera()?.switchToDesiredState(FrameSourceState.Off);
+            props.context.setFrameSource(null).then(() => {
+                cameraRef.current = Camera.asPositionWithSettings(props.desiredCameraPosition || CameraPosition.WorldFacing, props.cameraSettings || BarcodeBatch$1.recommendedCameraSettings);
+                props.context.setFrameSource(getCamera()).then(() => {
+                    getCamera()?.switchToDesiredState(props.desiredCameraState || FrameSourceState.On);
+                });
+            });
+        }
+    }, [props.desiredCameraPosition]);
+    useEffect(() => {
+        if (props.desiredTorchState) {
+            getCamera().desiredTorchState = props.desiredTorchState;
+        }
+    }, [props.desiredTorchState]);
     useEffect(() => {
         if (!viewRef.current)
             return;
@@ -577,10 +548,10 @@ const BarcodeBatchView = forwardRef(function BarcodeBatchView(props, ref) {
             // tslint:disable-next-line:no-console
             console.error(e);
         }
-    }, [props.navigation, doSetup, doCleanup]);
+    }, [props.navigation]);
     // TODO: reset()
     return (React.createElement(View, { ref: ref, style: props.style },
-        React.createElement(DataCaptureView, { context: props.context, parentId: viewId, style: { flex: 1 }, ref: viewRef })));
+        React.createElement(DataCaptureView, { context: props.context, parentId: viewId.current, style: { flex: 1 }, ref: viewRef })));
 });
 
 class BarcodeBatchAdvancedOverlayView extends React.Component {
@@ -591,50 +562,51 @@ class BarcodeBatchAdvancedOverlayView extends React.Component {
 }
 
 // tslint:disable-next-line
-const BarcodeCaptureView = forwardRef(function BarcodeCaptureView(props, _ref) {
+const BarcodeCaptureView = forwardRef(function BarcodeCaptureView(props, ref) {
     const viewRef = useRef(null);
     const componentIsSetUp = useRef(false);
-    const [viewId] = useState(() => Math.floor(Math.random() * 1000000));
-    const [isCameraSetup, setIsCameraSetup] = useState(false);
-    // Create camera owner using viewId
-    const cameraOwner = useMemo(() => ({
-        id: `barcode-capture-view-${viewId}`,
-    }), [viewId]);
+    const viewId = useRef(Math.floor(Math.random() * 1000000));
+    const screenStateManager = useMemo(() => {
+        return ScreenStateManager.getInstance();
+    }, []);
     const barcodeCaptureModeRef = useRef(null);
-    const getMode = useCallback(() => {
+    function getMode() {
         if (barcodeCaptureModeRef.current !== null) {
             return barcodeCaptureModeRef.current;
         }
         barcodeCaptureModeRef.current = new BarcodeCapture$1(props.barcodeCaptureSettings || new BarcodeCaptureSettings());
-        barcodeCaptureModeRef.current.parentId = viewId;
+        barcodeCaptureModeRef.current.parentId = viewId.current;
         return barcodeCaptureModeRef.current;
-    }, [props.barcodeCaptureSettings, viewId]);
+    }
     const basicOverlayRef = useRef(null);
-    const getBasicOverlay = useCallback(() => {
+    function getBasicOverlay() {
         if (basicOverlayRef.current !== null) {
             return basicOverlayRef.current;
         }
         basicOverlayRef.current = new BarcodeCaptureOverlay(getMode());
         return basicOverlayRef.current;
-    }, [getMode]);
+    }
+    const cameraRef = useRef(null);
+    function getCamera() {
+        if (cameraRef.current !== null) {
+            return cameraRef.current;
+        }
+        cameraRef.current = Camera.asPositionWithSettings(props.desiredCameraPosition || CameraPosition.WorldFacing, props.cameraSettings || BarcodeCapture$1.createRecommendedCameraSettings());
+        return cameraRef.current;
+    }
     const torchSwitchControl = useRef(null);
     const zoomSwitchControl = useRef(null);
     const appState = useRef(AppState.currentState);
     useEffect(() => {
         doSetup();
         const subscription = AppState.addEventListener('change', nextAppState => {
-            const position = props.desiredCameraPosition || CameraPosition.WorldFacing;
             if (appState.current.match(/inactive|background/) && nextAppState === 'active') {
                 getMode().isEnabled = props.isEnabled;
-                CameraOwnershipHelper.withCamera(position, cameraOwner, async (camera) => {
-                    await camera.switchToDesiredState(props.desiredCameraState || FrameSourceState.On);
-                });
+                getCamera()?.switchToDesiredState(props.desiredCameraState || FrameSourceState.On);
             }
             else {
                 getMode().isEnabled = false;
-                CameraOwnershipHelper.withCamera(position, cameraOwner, async (camera) => {
-                    await camera.switchToDesiredState(FrameSourceState.Off);
-                });
+                getCamera()?.switchToDesiredState(FrameSourceState.Off);
             }
             appState.current = nextAppState;
         });
@@ -642,39 +614,25 @@ const BarcodeCaptureView = forwardRef(function BarcodeCaptureView(props, _ref) {
             subscription.remove();
             doCleanup();
         };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-    const setupCamera = useCallback(async () => {
-        const position = props.desiredCameraPosition || CameraPosition.WorldFacing;
-        // Request ownership and set up camera
-        await CameraOwnershipHelper.withCameraWhenAvailable(position, cameraOwner, async (camera) => {
-            const settings = props.cameraSettings || BarcodeCapture$1.createRecommendedCameraSettings();
-            await camera.applySettings(settings);
-            await camera.switchToDesiredState(props.desiredCameraState || FrameSourceState.On);
-            await props.context.setFrameSource(camera);
-            // Mark camera as set up
-            setIsCameraSetup(true);
-        });
-    }, [props.desiredCameraPosition, cameraOwner, props.cameraSettings, props.context, props.desiredCameraState]);
-    const doSetup = useCallback(async () => {
+    const doSetup = () => {
+        screenStateManager.setActiveScreen(viewId.current);
         if (componentIsSetUp.current)
             return;
         componentIsSetUp.current = true;
-        /* Setup camera with ownership - WAIT for completion */
-        await setupCamera();
-        /* Only proceed after camera is ready */
+        /* Handling Data Capture Context */
+        props.context.setFrameSource(getCamera());
+        props.context.removeAllModes();
         props.context.addMode(getMode());
         /* Adding Basic Overlay */
         if (viewRef.current) {
             viewRef.current.addOverlay(getBasicOverlay());
         }
-    }, [setupCamera, getMode, getBasicOverlay, props.context]);
-    const doCleanup = useCallback(() => {
+    };
+    const doCleanup = () => {
         if (!componentIsSetUp.current)
             return;
         componentIsSetUp.current = false;
-        // Reset camera setup state
-        setIsCameraSetup(false);
         /* Remove the torch control */
         if (torchSwitchControl.current) {
             viewRef.current?.removeControl(torchSwitchControl.current);
@@ -692,33 +650,26 @@ const BarcodeCaptureView = forwardRef(function BarcodeCaptureView(props, _ref) {
         if (viewRef.current) {
             viewRef.current.view?.overlays?.forEach((overlay) => viewRef.current?.view?.removeOverlay(overlay));
         }
-        /* Turn off camera and release ownership */
-        const position = props.desiredCameraPosition || CameraPosition.WorldFacing;
-        CameraOwnershipHelper.withCamera(position, cameraOwner, async (camera) => {
-            await camera.switchToDesiredState(FrameSourceState.Off);
-            await props.context.setFrameSource(null);
-        }).finally(() => {
-            // Release camera ownership
-            CameraOwnershipHelper.releaseOwnership(position, cameraOwner);
-        });
-    }, [props.desiredCameraPosition, cameraOwner, props.context]);
+        // Execute this after 1 second to avoid turning off the camera and on again
+        // when navigating back to another screen that handles camera
+        setTimeout(() => {
+            /* Closing the camera if camera is active */
+            if (screenStateManager.isScreenActive(viewId.current)) {
+                getCamera()?.switchToDesiredState(FrameSourceState.Off);
+            }
+        }, 1000);
+    };
     /* BARCODE CAPTURE MODE */
     useEffect(() => {
         if (props.barcodeCaptureSettings) {
             getMode().applySettings(props.barcodeCaptureSettings);
         }
-    }, [props.barcodeCaptureSettings, getMode]);
+    }, [props.barcodeCaptureSettings]);
     useEffect(() => {
-        if (!isCameraSetup)
-            return; // Don't run until camera is ready
         // Enabling/disabling the scanning turns both camera and mode to the same state. We ignore standby mode for now.
         getMode().isEnabled = props.isEnabled;
-        // Use ownership-aware camera control
-        const position = props.desiredCameraPosition || CameraPosition.WorldFacing;
-        CameraOwnershipHelper.withCamera(position, cameraOwner, async (camera) => {
-            await camera.switchToDesiredState(props.desiredCameraState || FrameSourceState.On);
-        });
-    }, [props.isEnabled, props.desiredCameraPosition, cameraOwner, props.desiredCameraState, getMode, isCameraSetup]);
+        getCamera()?.switchToDesiredState(props.desiredCameraState || FrameSourceState.On);
+    }, [props.isEnabled]);
     useEffect(() => {
         const listeners = [...getMode().listeners];
         listeners.forEach((listener) => {
@@ -729,58 +680,40 @@ const BarcodeCaptureView = forwardRef(function BarcodeCaptureView(props, _ref) {
                 didScan: props.didScan,
             });
         }
-    }, [props.didScan, getMode]);
+    }, [props.didScan]);
     /* OVERLAYS */
     useEffect(() => {
         // set default brush only if there is no brush provided via the listener
         if (props.defaultBasicOverlayBrush) {
             getBasicOverlay().brush = props.defaultBasicOverlayBrush;
         }
-    }, [props.defaultBasicOverlayBrush, getBasicOverlay]);
+    }, [props.defaultBasicOverlayBrush]);
     /* CAMERA */
     useEffect(() => {
-        if (!isCameraSetup)
-            return; // Don't run until camera is ready
         // default to SDK recommended camera settings if the prop is unset
-        const position = props.desiredCameraPosition || CameraPosition.WorldFacing;
-        const settings = props.cameraSettings || BarcodeCapture$1.createRecommendedCameraSettings();
-        CameraOwnershipHelper.withCamera(position, cameraOwner, async (camera) => {
-            await camera.applySettings(settings);
-        });
-    }, [props.cameraSettings, cameraOwner, props.desiredCameraPosition, isCameraSetup]);
+        getCamera()?.applySettings(props.cameraSettings || BarcodeCapture$1.createRecommendedCameraSettings());
+    }, [props.cameraSettings]);
     useEffect(() => {
-        if (!isCameraSetup || !props.desiredCameraState)
-            return; // Don't run until camera is ready
-        const position = props.desiredCameraPosition || CameraPosition.WorldFacing;
-        CameraOwnershipHelper.withCamera(position, cameraOwner, async (camera) => {
-            await camera.switchToDesiredState(props.desiredCameraState);
-        });
-    }, [props.desiredCameraState, cameraOwner, props.desiredCameraPosition, isCameraSetup]);
+        if (props.desiredCameraState && screenStateManager.isScreenActive(viewId.current)) {
+            getCamera()?.switchToDesiredState(props.desiredCameraState);
+        }
+    }, [props.desiredCameraState]);
     useEffect(() => {
         if (props.desiredCameraPosition) {
-            // Handle camera position change with ownership
-            const currentOwnedPosition = CameraOwnershipHelper.getOwnedPosition(cameraOwner);
-            const newPosition = props.desiredCameraPosition;
-            if (currentOwnedPosition && currentOwnedPosition !== newPosition) {
-                // Release old camera ownership
-                CameraOwnershipHelper.releaseOwnership(currentOwnedPosition, cameraOwner);
-                // Set up new camera
-                setupCamera();
-            }
-            else if (!currentOwnedPosition) {
-                // No camera owned yet, set up new camera
-                setupCamera();
-            }
+            getCamera()?.switchToDesiredState(FrameSourceState.Off);
+            props.context.setFrameSource(null).then(() => {
+                cameraRef.current = Camera.asPositionWithSettings(props.desiredCameraPosition || CameraPosition.WorldFacing, props.cameraSettings || BarcodeCapture$1.recommendedCameraSettings);
+                props.context.setFrameSource(getCamera()).then(() => {
+                    getCamera()?.switchToDesiredState(props.desiredCameraState || FrameSourceState.On);
+                });
+            });
         }
-    }, [props.desiredCameraPosition, cameraOwner, props.desiredCameraState, setupCamera]);
+    }, [props.desiredCameraPosition]);
     useEffect(() => {
-        if (!isCameraSetup || !props.desiredTorchState)
-            return; // Don't run until camera is ready
-        const position = props.desiredCameraPosition || CameraPosition.WorldFacing;
-        CameraOwnershipHelper.withCameraWhenAvailable(position, cameraOwner, async (camera) => {
-            camera.desiredTorchState = props.desiredTorchState;
-        });
-    }, [props.desiredTorchState, cameraOwner, props.desiredCameraPosition, isCameraSetup]);
+        if (props.desiredTorchState) {
+            getCamera().desiredTorchState = props.desiredTorchState;
+        }
+    }, [props.desiredTorchState]);
     useEffect(() => {
         if (!viewRef.current)
             return;
@@ -825,131 +758,14 @@ const BarcodeCaptureView = forwardRef(function BarcodeCaptureView(props, _ref) {
             // tslint:disable-next-line:no-console
             console.error(e);
         }
-    }, [props.navigation, doSetup, doCleanup]);
+    }, [props.navigation]);
     // TODO: reset()
-    return React.createElement(DataCaptureView, { context: props.context, parentId: viewId, style: { flex: 1 }, ref: viewRef });
-});
-
-/******************************************************************************
-Copyright (c) Microsoft Corporation.
-
-Permission to use, copy, modify, and/or distribute this software for any
-purpose with or without fee is hereby granted.
-
-THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
-REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
-AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
-INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
-LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
-OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
-PERFORMANCE OF THIS SOFTWARE.
-***************************************************************************** */
-/* global Reflect, Promise, SuppressedError, Symbol, Iterator */
-
-
-function __decorate(decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-}
-
-typeof SuppressedError === "function" ? SuppressedError : function (error, suppressed, message) {
-    var e = new Error(message);
-    return e.name = "SuppressedError", e.error = error, e.suppressed = suppressed, e;
-};
-
-class BarcodeArCustomHighlight extends Observable {
-    renderHighlight;
-    _type = 'barcodeArCustomHighlight';
-    constructor(config) {
-        super();
-        this.renderHighlight = config.renderHighlight;
-    }
-}
-__decorate([
-    nameForSerialization('type')
-], BarcodeArCustomHighlight.prototype, "_type", void 0);
-
-// On android the position provided is in dp, on iOS it's in pixels
-const PIXEL_RATIO = Platform.OS === 'android' ? PixelRatio.get() : 1;
-function BarcodeArCustomHighlightContainer({ barcodeId, barcode, renderHighlight, registerCustomHighlightUpdateEvent, registerCustomHighlightHideEvent, registerCustomHighlightShowEvent, }) {
-    // We use animated positioning with useNativeDriver false to move the highlight around, this avoids hopping over the JS bridge that would happen with setNativeProps
-    const pos = useRef(new Animated.ValueXY({ x: 0, y: 0 }, { useNativeDriver: false })).current;
-    const viewRef = useRef(null);
-    const timeoutRef = useRef(null);
-    const widthAndHeight = useRef({ width: 0, height: 0 });
-    // Start hidden and only show when we get a position update
-    const [hidden, setHidden] = useState(true);
-    const onUpdate = useCallback((centerPosition) => {
-        // set a timeout to hide the highlight if we don't get updates for a second
-        if (timeoutRef.current) {
-            clearTimeout(timeoutRef.current);
-        }
-        timeoutRef.current = setTimeout(() => {
-            setHidden(true);
-        }, 1000);
-        // After an update, we know the position.
-        if (hidden) {
-            setHidden(false);
-        }
-        if (!viewRef.current) {
-            return;
-        }
-        const xPos = centerPosition.x / PIXEL_RATIO - widthAndHeight.current.width / 2;
-        const yPos = centerPosition.y / PIXEL_RATIO - widthAndHeight.current.height / 2;
-        pos.setValue({ x: xPos, y: yPos });
-    }, [hidden, setHidden, pos]);
-    const highlightComponent = useMemo(() => renderHighlight(), [renderHighlight]);
-    useEffect(() => {
-        const disposeUpdate = registerCustomHighlightUpdateEvent(onUpdate, barcodeId);
-        const disposeShow = registerCustomHighlightShowEvent(() => {
-            setHidden(false);
-        }, barcodeId);
-        const disposeHide = registerCustomHighlightHideEvent(() => {
-            setHidden(true);
-        }, barcodeId);
-        return () => {
-            disposeUpdate();
-            disposeShow();
-            disposeHide();
-        };
-    }, [
-        barcode,
-        barcodeId,
-        onUpdate,
-        setHidden,
-        registerCustomHighlightUpdateEvent,
-        registerCustomHighlightHideEvent,
-        registerCustomHighlightShowEvent,
-    ]);
-    return (React.createElement(View, { ref: viewRef, style: [styles.customHightlightContainer, { display: hidden ? 'none' : 'flex' }] },
-        React.createElement(Animated.View, { style: { transform: pos.getTranslateTransform() }, onLayout: event => {
-                const { width, height } = event.nativeEvent.layout;
-                widthAndHeight.current = { width, height };
-            } }, highlightComponent)));
-}
-const styles = StyleSheet.create({
-    customHightlightContainer: {
-        position: 'absolute',
-        // Needed on android to show on top of the camera preview
-        elevation: 2,
-    },
+    return (React.createElement(DataCaptureView, { context: props.context, parentId: viewId.current, style: { flex: 1 }, ref: viewRef }));
 });
 
 class BarcodeArView extends React.Component {
     baseBarcodeArView;
     handle = null;
-    unregisterFromCustomHighlightCreateEvent = null;
-    unregisterFromCustomHighlightDisposeEvent = null;
-    navigationUnsubscribers = [];
-    cameraOwner;
-    // Map barcodeid to custom highlight component
-    customComponentCache = {};
-    state = {
-        // Map barcodeid to component
-        shownBarcodes: {},
-    };
     static forMode(dataCaptureContext, barcodeAr) {
         return new BarcodeArView({ context: dataCaptureContext, barcodeAr });
     }
@@ -965,71 +781,19 @@ class BarcodeArView extends React.Component {
     }
     constructor(props) {
         super(props);
-        // Create camera owner with unique ID
-        this.cameraOwner = {
-            id: `barcode-ar-view-${Math.floor(Math.random() * 1000000)}`,
-        };
         this.baseBarcodeArView = new BaseBarcodeArView(props.context, props.barcodeAr, this, // Passing the native view to the base
-        props.settings, props.cameraSettings, props.annotationProvider, props.highlightProvider ? this.wrapHighlightProvider(props.highlightProvider) : undefined, props.uiListener);
+        props.settings, props.cameraSettings, props.annotationProvider, props.highlightProvider, props.uiListener);
     }
     async componentDidMount() {
-        // Set up navigation listeners if navigation prop is provided
-        this.setupNavigationListeners();
         // This is required to ensure that findNodeHandle returns a valid handle
         this.handle = InteractionManager.runAfterInteractions(() => {
             this.createBarcodeArView();
             this.handle = null;
         });
-        // Subscribe to custom highlight events
-        this.baseBarcodeArView.subscribeForCustomHighlightEvents();
-        this.unregisterFromCustomHighlightCreateEvent = this.baseBarcodeArView.registerCustomHighlightCreateEvent(this.onCustomHighlightCreated.bind(this));
-        this.unregisterFromCustomHighlightDisposeEvent = this.baseBarcodeArView.registerCustomHighlightDisposeEvent(this.onCustomHighlightDisposed.bind(this));
-    }
-    // Wrap the user-provided highlight provider to intercept custom highlights
-    wrapHighlightProvider(highlightProvider) {
-        return {
-            highlightForBarcode: async (barcode) => {
-                const highlight = await highlightProvider.highlightForBarcode(barcode);
-                if (highlight instanceof BarcodeArCustomHighlight) {
-                    // We have a custom highlight, store it in the cache
-                    // We can't setState here since this call is cached
-                    this.customComponentCache[barcode.barcodeId] = highlight;
-                }
-                return highlight;
-            },
-        };
-    }
-    onCustomHighlightCreated(barcode, barcodeId) {
-        if (this.state.shownBarcodes[barcodeId]) {
-            // Already shown
-            return;
-        }
-        this.setState((prevState) => {
-            return {
-                shownBarcodes: {
-                    ...prevState.shownBarcodes,
-                    [barcodeId]: barcode,
-                },
-            };
-        });
-    }
-    onCustomHighlightDisposed(barcodeId) {
-        this.setState((prevState) => {
-            const { [barcodeId]: _, ...rest } = prevState.shownBarcodes;
-            return { ...prevState, shownBarcodes: rest };
-        });
     }
     componentWillUnmount() {
         this.handle?.cancel();
-        this.unregisterFromCustomHighlightCreateEvent?.();
-        this.unregisterFromCustomHighlightDisposeEvent?.();
-        // Clean up navigation listeners
-        this.navigationUnsubscribers.forEach(unsubscribe => unsubscribe());
-        this.navigationUnsubscribers = [];
-        // Release camera ownership
-        CameraOwnershipHelper.releaseOwnership(CameraPosition$1.WorldFacing, this.cameraOwner);
         this.baseBarcodeArView.dispose();
-        this.baseBarcodeArView.unsubscribeFromCustomHighlightEvents();
     }
     get uiListener() {
         return this.baseBarcodeArView.barcodeArViewUiListener;
@@ -1047,10 +811,7 @@ class BarcodeArView extends React.Component {
         return this.baseBarcodeArView.highlightProvider;
     }
     set highlightProvider(value) {
-        if (!value) {
-            this.baseBarcodeArView.highlightProvider = null;
-        }
-        this.baseBarcodeArView.highlightProvider = this.wrapHighlightProvider(value);
+        this.baseBarcodeArView.highlightProvider = value;
     }
     start() {
         this.baseBarcodeArView.start();
@@ -1113,39 +874,7 @@ class BarcodeArView extends React.Component {
         this.baseBarcodeArView.macroModeControlPosition = value;
     }
     render() {
-        return (React.createElement(React.Fragment, null,
-            React.createElement(RNTBarcodeArView, { ...this.props }, Object.entries(this.state.shownBarcodes).map(([barcodeId, barcode]) => {
-                const component = this.customComponentCache[barcodeId];
-                if (!component) {
-                    return null;
-                }
-                return (React.createElement(BarcodeArCustomHighlightContainer, { key: barcodeId, barcodeId: barcodeId, barcode: barcode, renderHighlight: component.renderHighlight, registerCustomHighlightUpdateEvent: this.baseBarcodeArView.registerCustomHighlightUpdateEvent, registerCustomHighlightShowEvent: this.baseBarcodeArView.registerCustomHighlightShowEvent, registerCustomHighlightHideEvent: this.baseBarcodeArView.registerCustomHighlightHideEvent }));
-            }))));
-    }
-    setupNavigationListeners() {
-        if (!this.props.navigation)
-            return;
-        try {
-            const unsubscribeFromFocus = this.props.navigation.addListener('focus', () => {
-                // The screen is focused - component gained focus
-                this.onFocus();
-            });
-            const unsubscribeFromBlur = this.props.navigation.addListener('blur', () => {
-                // The screen is no longer focused (navigated away but still mounted) - component lost focus
-                this.onBlur();
-            });
-            this.navigationUnsubscribers.push(unsubscribeFromFocus, unsubscribeFromBlur);
-        }
-        catch (e) {
-            // tslint:disable-next-line:no-console
-            console.error('Failed to set up navigation listeners:', e);
-        }
-    }
-    onFocus() {
-        CameraOwnershipHelper.requestOwnership(CameraPosition$1.WorldFacing, this.cameraOwner);
-    }
-    onBlur() {
-        CameraOwnershipHelper.releaseOwnership(CameraPosition$1.WorldFacing, this.cameraOwner);
+        return React.createElement(RNTBarcodeArView, { ...this.props });
     }
     createBarcodeArView() {
         const viewId = findNodeHandle(this);
@@ -1175,52 +904,50 @@ const BarcodeSelectionView = forwardRef(function BarcodeSelectionView(props, ref
                 getMode().increaseCountForBarcodes(barcodes);
             },
         };
-    }, 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    []);
+    }, []);
     /* STATE VARIABLES */
     const [isEnabledState, setIsEnabledState] = useState(false);
-    const [viewId] = useState(() => Math.floor(Math.random() * 1000000));
-    const [isCameraSetup, setIsCameraSetup] = useState(false);
-    // Create camera owner using viewId
-    const cameraOwner = useMemo(() => ({
-        id: `barcode-selection-view-${viewId}`,
-    }), [viewId]);
-    // Create a ref to store current props
-    const currentProps = useRef({
-        isEnabled: props.isEnabled ?? true,
-        desiredCameraState: props.desiredCameraState,
-    });
+    const [frameSourceState, setFrameSourceState] = useState(FrameSourceState.Off);
+    const viewId = useRef(Math.floor(Math.random() * 1000000));
+    const screenStateManager = useMemo(() => {
+        return ScreenStateManager.getInstance();
+    }, []);
     /* STATE HANDLERS */
-    const getMode = useCallback(() => {
-        if (barcodeSelectionModeRef.current !== null) {
-            return barcodeSelectionModeRef.current;
-        }
-        barcodeSelectionModeRef.current = new BarcodeSelection$1(props.barcodeSelectionSettings || new BarcodeSelectionSettings());
-        barcodeSelectionModeRef.current.isEnabled = isEnabledState;
-        barcodeSelectionModeRef.current.parentId = viewId;
-        return barcodeSelectionModeRef.current;
-    }, [props.barcodeSelectionSettings, isEnabledState, viewId]);
     useEffect(() => {
         getMode().isEnabled = isEnabledState;
-    }, [isEnabledState, getMode]);
+    }, [isEnabledState]);
     useEffect(() => {
-        const position = props.desiredCameraPosition || CameraPosition.WorldFacing;
-        CameraOwnershipHelper.withCamera(position, cameraOwner, async (camera) => {
-            await camera.switchToDesiredState(props.desiredCameraState || FrameSourceState.On);
-        });
-    }, [props.desiredCameraPosition, cameraOwner, props.desiredCameraState]);
+        if (screenStateManager.isScreenActive(viewId.current)) {
+            getCamera()?.switchToDesiredState(frameSourceState);
+        }
+    }, [frameSourceState]);
     const viewRef = useRef(null);
     const componentIsSetUp = useRef(false);
     const barcodeSelectionModeRef = useRef(null);
+    function getMode() {
+        if (barcodeSelectionModeRef.current !== null) {
+            return barcodeSelectionModeRef.current;
+        }
+        barcodeSelectionModeRef.current = BarcodeSelection$1.forContext(null, props.barcodeSelectionSettings || new BarcodeSelectionSettings());
+        return barcodeSelectionModeRef.current;
+    }
     const basicOverlayRef = useRef(null);
-    const getBasicOverlay = useCallback(() => {
+    function getBasicOverlay() {
         if (basicOverlayRef.current !== null) {
             return basicOverlayRef.current;
         }
-        basicOverlayRef.current = new BarcodeSelectionBasicOverlay(getMode(), props.basicOverlayStyle || BarcodeSelectionBasicOverlayStyle.Frame);
+        basicOverlayRef.current =
+            BarcodeSelectionBasicOverlay.withBarcodeSelectionForViewWithStyle(getMode(), null, props.basicOverlayStyle || BarcodeSelectionBasicOverlayStyle.Frame);
         return basicOverlayRef.current;
-    }, [getMode, props.basicOverlayStyle]);
+    }
+    const cameraRef = useRef(null);
+    function getCamera() {
+        if (cameraRef.current !== null) {
+            return cameraRef.current;
+        }
+        cameraRef.current = Camera.asPositionWithSettings(props.desiredCameraPosition || CameraPosition.WorldFacing, props.cameraSettings || BarcodeSelection$1.recommendedCameraSettings);
+        return cameraRef.current;
+    }
     const torchSwitchControl = useRef(null);
     const zoomSwitchControl = useRef(null);
     const appState = useRef(AppState.currentState);
@@ -1228,61 +955,40 @@ const BarcodeSelectionView = forwardRef(function BarcodeSelectionView(props, ref
     useEffect(() => {
         doSetup();
         const subscription = AppState.addEventListener('change', nextAppState => {
-            const position = props.desiredCameraPosition || CameraPosition.WorldFacing;
-            if (appState.current.match(/inactive|background/) && nextAppState === 'active') {
-                // Use the latest props values from the ref
-                getMode().isEnabled = currentProps.current.isEnabled;
-                if (currentProps.current.desiredCameraState) {
-                    CameraOwnershipHelper.withCamera(position, cameraOwner, async (camera) => {
-                        await camera.switchToDesiredState(currentProps.current.desiredCameraState);
-                    });
-                }
+            if (appState.current.match(/inactive|background/) &&
+                nextAppState === 'active') {
+                setIsEnabledState(props.isEnabled);
+                setFrameSourceState(props.desiredCameraState || FrameSourceState.On);
             }
-            else if (nextAppState.match(/inactive|background/) && appState.current === 'active') {
-                getMode().isEnabled = false;
-                CameraOwnershipHelper.withCamera(position, cameraOwner, async (camera) => {
-                    await camera.switchToDesiredState(FrameSourceState.Off);
-                });
+            else {
+                setIsEnabledState(false);
+                setFrameSourceState(FrameSourceState.Off);
             }
             appState.current = nextAppState;
         });
         return () => {
             subscription.remove();
-            doDestroy();
+            doCleanup();
         };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-    const setupCamera = useCallback(async () => {
-        const position = props.desiredCameraPosition || CameraPosition.WorldFacing;
-        // Request ownership and set up camera
-        await CameraOwnershipHelper.withCameraWhenAvailable(position, cameraOwner, async (camera) => {
-            const settings = props.cameraSettings || BarcodeSelection$1.createRecommendedCameraSettings();
-            await camera.applySettings(settings);
-            await camera.switchToDesiredState(props.desiredCameraState || FrameSourceState.On);
-            await props.context.setFrameSource(camera);
-            // Mark camera as set up
-            setIsCameraSetup(true);
-        });
-    }, [props.desiredCameraPosition, cameraOwner, props.cameraSettings, props.context, props.desiredCameraState]);
-    const doSetup = useCallback(async () => {
+    const doSetup = () => {
+        screenStateManager.setActiveScreen(viewId.current);
         if (componentIsSetUp.current)
             return;
         componentIsSetUp.current = true;
-        /* Setup camera with ownership - WAIT for completion */
-        setupCamera();
-        /* Only proceed after camera is ready */
+        /* Handling Data Capture Context */
+        props.context.setFrameSource(getCamera());
+        props.context.removeAllModes();
         props.context.addMode(getMode());
         /* Adding Basic Overlay */
         if (viewRef.current) {
             viewRef.current.addOverlay(getBasicOverlay());
         }
-    }, [setupCamera, props.context, getMode, getBasicOverlay]);
-    const doCleanup = useCallback(() => {
+    };
+    const doCleanup = () => {
         if (!componentIsSetUp.current)
             return;
         componentIsSetUp.current = false;
-        // Reset camera setup state
-        setIsCameraSetup(false);
         /* Remove the torch control */
         if (torchSwitchControl.current) {
             viewRef.current?.removeControl(torchSwitchControl.current);
@@ -1291,43 +997,36 @@ const BarcodeSelectionView = forwardRef(function BarcodeSelectionView(props, ref
         if (zoomSwitchControl.current) {
             viewRef.current?.removeControl(zoomSwitchControl.current);
         }
+        /* Closing the camera if camera is active */
+        if (screenStateManager.isScreenActive(viewId.current)) {
+            setFrameSourceState(FrameSourceState.Off);
+            props.context.setFrameSource(null);
+        }
         /* Cleaning Data Capture Context */
         if (barcodeSelectionModeRef.current) {
             props.context.removeMode(barcodeSelectionModeRef.current);
         }
+        barcodeSelectionModeRef.current = null;
         /* Cleaning Overlays */
         if (viewRef.current) {
             viewRef.current.view?.overlays?.forEach((overlay) => viewRef.current?.view?.removeOverlay(overlay));
         }
-        /* Turn off camera and release ownership */
-        const position = props.desiredCameraPosition || CameraPosition.WorldFacing;
-        CameraOwnershipHelper.withCamera(position, cameraOwner, async (camera) => {
-            await camera.switchToDesiredState(FrameSourceState.Off);
-            await props.context.setFrameSource(null);
-        }).finally(() => {
-            // Release camera ownership
-            CameraOwnershipHelper.releaseOwnership(position, cameraOwner);
-        });
-    }, [props.desiredCameraPosition, cameraOwner, props.context]);
-    const doDestroy = () => {
-        doCleanup();
-        barcodeSelectionModeRef.current = null;
-        torchSwitchControl.current = null;
-        zoomSwitchControl.current = null;
-        basicOverlayRef.current = null;
     };
     /* BARCODE SELECTION MODE */
     useEffect(() => {
         if (props.barcodeSelectionSettings) {
             getMode().applySettings(props.barcodeSelectionSettings);
         }
-    }, [props.barcodeSelectionSettings, getMode]);
+    }, [props.barcodeSelectionSettings]);
     useEffect(() => {
         // Enabling/disabling the scanning turns both camera and mode to the same state. We ignore standby mode for now.
         setIsEnabledState(props.isEnabled);
-    }, [props.isEnabled, getMode, props.desiredCameraState]);
+        setFrameSourceState(props.desiredCameraState || FrameSourceState.On);
+    }, [props.isEnabled]);
     useEffect(() => {
-        const listeners = [...getMode().listeners];
+        const listeners = [
+            ...getMode().listeners,
+        ];
         listeners.forEach((listener) => {
             getMode().removeListener(listener);
         });
@@ -1336,7 +1035,7 @@ const BarcodeSelectionView = forwardRef(function BarcodeSelectionView(props, ref
                 didUpdateSelection: props.didUpdateSelection,
             });
         }
-    }, [props.didUpdateSelection, getMode]);
+    }, [props.didUpdateSelection]);
     /* OVERLAYS */
     useEffect(() => {
         // set default brush only if there is no brush provided via the listener
@@ -1352,63 +1051,39 @@ const BarcodeSelectionView = forwardRef(function BarcodeSelectionView(props, ref
         if (props.trackedBrush) {
             getBasicOverlay().trackedBrush = props.trackedBrush;
         }
-    }, [props.aimedBrush, props.selectedBrush, props.selectingBrush, props.trackedBrush, getBasicOverlay]);
-    useEffect(() => {
-        if (props.aimedBarcodeBrushProvider !== undefined) {
-            getBasicOverlay().setAimedBarcodeBrushProvider(props.aimedBarcodeBrushProvider);
-        }
-    }, [props.aimedBarcodeBrushProvider, getBasicOverlay]);
-    useEffect(() => {
-        if (props.trackedBarcodeBrushProvider !== undefined) {
-            getBasicOverlay().setTrackedBarcodeBrushProvider(props.trackedBarcodeBrushProvider);
-        }
-    }, [props.trackedBarcodeBrushProvider, getBasicOverlay]);
+    }, [
+        props.aimedBrush,
+        props.selectedBrush,
+        props.selectingBrush,
+        props.trackedBrush,
+    ]);
     /* CAMERA */
     useEffect(() => {
-        if (!isCameraSetup)
-            return; // Don't run until camera is ready
         // default to SDK recommended camera settings if the prop is unset
-        const position = props.desiredCameraPosition || CameraPosition.WorldFacing;
-        const settings = props.cameraSettings || BarcodeSelection$1.createRecommendedCameraSettings();
-        CameraOwnershipHelper.withCamera(position, cameraOwner, async (camera) => {
-            await camera.applySettings(settings);
-        });
-    }, [props.cameraSettings, props.desiredCameraPosition, cameraOwner, isCameraSetup]);
+        getCamera()?.applySettings(props.cameraSettings || BarcodeSelection$1.recommendedCameraSettings);
+    }, [props.cameraSettings]);
     useEffect(() => {
-        if (!isCameraSetup || !props.desiredCameraState)
-            return; // Don't run until camera is ready
         if (props.desiredCameraState) {
-            CameraOwnershipHelper.withCamera(props.desiredCameraPosition || CameraPosition.WorldFacing, cameraOwner, async (camera) => {
-                await camera.switchToDesiredState(props.desiredCameraState);
+            setFrameSourceState(props.desiredCameraState);
+        }
+    }, [props.desiredCameraState]);
+    useEffect(() => {
+        if (props.desiredCameraPosition) {
+            setFrameSourceState(FrameSourceState.Off);
+            props.context.setFrameSource(null).then(() => {
+                cameraRef.current = Camera.asPositionWithSettings(props.desiredCameraPosition || CameraPosition.WorldFacing, props.cameraSettings || BarcodeSelection$1.recommendedCameraSettings);
+                props.context.setFrameSource(getCamera()).then(() => {
+                    setFrameSourceState(props.desiredCameraState || FrameSourceState.On);
+                });
             });
         }
-    }, [props.desiredCameraState, props.desiredCameraPosition, cameraOwner, isCameraSetup]);
-    useEffect(() => {
-        if (!isCameraSetup || !props.desiredCameraPosition)
-            return; // Don't run until camera is ready
-        // Handle camera position change with ownership
-        const currentOwnedPosition = CameraOwnershipHelper.getOwnedPosition(cameraOwner);
-        const newPosition = props.desiredCameraPosition;
-        if (currentOwnedPosition && currentOwnedPosition !== newPosition) {
-            // Release old camera ownership
-            CameraOwnershipHelper.releaseOwnership(currentOwnedPosition, cameraOwner);
-            // Set up new camera
-            setupCamera();
-        }
-        else if (!currentOwnedPosition) {
-            // No camera owned yet, set up new camera
-            setupCamera();
-        }
-    }, [props.desiredCameraPosition, cameraOwner, setupCamera, isCameraSetup]);
+    }, [props.desiredCameraPosition]);
     /* CONTROLS */
     useEffect(() => {
-        if (!isCameraSetup || !props.desiredTorchState)
-            return; // Don't run until camera is ready
-        const position = props.desiredCameraPosition || CameraPosition.WorldFacing;
-        CameraOwnershipHelper.withCameraWhenAvailable(position, cameraOwner, async (camera) => {
-            camera.desiredTorchState = props.desiredTorchState;
-        });
-    }, [props.desiredTorchState, props.desiredCameraPosition, cameraOwner, isCameraSetup]);
+        if (props.desiredTorchState) {
+            getCamera().desiredTorchState = props.desiredTorchState;
+        }
+    }, [props.desiredTorchState]);
     useEffect(() => {
         if (!viewRef.current)
             return;
@@ -1436,12 +1111,12 @@ const BarcodeSelectionView = forwardRef(function BarcodeSelectionView(props, ref
         if (props.pointOfInterest) {
             getMode().pointOfInterest = props.pointOfInterest;
         }
-    }, [props.pointOfInterest, getMode]);
+    }, [props.pointOfInterest]);
     useEffect(() => {
         if (props.feedback) {
             getMode().feedback = props.feedback;
         }
-    }, [props.feedback, getMode]);
+    }, [props.feedback]);
     useEffect(() => {
         if (!props.navigation)
             return;
@@ -1464,7 +1139,7 @@ const BarcodeSelectionView = forwardRef(function BarcodeSelectionView(props, ref
             // tslint:disable-next-line:no-console
             console.error(e);
         }
-    }, [props.navigation, doSetup, doCleanup]);
+    }, [props.navigation]);
     // TODO: reset()
     /* METHODS */
     // could be handled with a prop
@@ -1472,16 +1147,14 @@ const BarcodeSelectionView = forwardRef(function BarcodeSelectionView(props, ref
         if (props.shouldUnfreezeCamera === true) {
             getMode().unfreezeCamera();
         }
-    }, [props.shouldUnfreezeCamera, getMode]);
-    return React.createElement(DataCaptureView, { context: props.context, parentId: viewId, style: { flex: 1 }, ref: viewRef });
+    }, [props.shouldUnfreezeCamera]);
+    return (React.createElement(DataCaptureView, { context: props.context, style: { flex: 1 }, ref: viewRef }));
 });
 
 class SparkScanView extends React.Component {
     baseSparkScanView;
     rnViewListener = null;
     _isMounted = false;
-    navigationUnsubscribers = [];
-    cameraOwner;
     get uiListener() {
         return this.rnViewListener;
     }
@@ -1491,18 +1164,19 @@ class SparkScanView extends React.Component {
             this.rnViewListener = null;
             return;
         }
+        const rnView = this;
         this.baseSparkScanView.uiListener = {
-            didChangeViewState: (newState) => {
+            didChangeViewState(newState) {
                 listener?.didChangeViewState?.(newState);
             },
-            didTapBarcodeCountButton: (_view) => {
-                listener?.onBarcodeCountButtonTappedIn?.(this);
+            didTapBarcodeCountButton(view) {
+                listener?.onBarcodeCountButtonTappedIn?.(rnView);
             },
-            didTapBarcodeFindButton: (_view) => {
-                listener?.onBarcodeFindButtonTappedIn?.(this);
+            didTapBarcodeFindButton(view) {
+                listener?.onBarcodeFindButtonTappedIn?.(rnView);
             },
-            didTapLabelCaptureButton: (_view) => {
-                listener?.onLabelCaptureButtonTappedIn?.(this);
+            didTapLabelCaptureButton(view) {
+                listener?.onLabelCaptureButtonTappedIn?.(rnView);
             },
         };
         this.rnViewListener = listener;
@@ -1512,10 +1186,6 @@ class SparkScanView extends React.Component {
     }
     constructor(props) {
         super(props);
-        // Create camera owner with unique ID
-        this.cameraOwner = {
-            id: `spark-scan-view-${Math.floor(Math.random() * 1000000)}`,
-        };
         this.baseSparkScanView = BaseSparkScanView.withProps(props);
     }
     render() {
@@ -1526,6 +1196,18 @@ class SparkScanView extends React.Component {
     }
     set previewSizeControlVisible(newValue) {
         this.baseSparkScanView.previewSizeControlVisible = newValue;
+    }
+    /**
+     * @deprecated The torch button has been moved to the mini preview. Use property `torchControlVisible` instead.
+     */
+    get torchButtonVisible() {
+        return this.baseSparkScanView.torchButtonVisible;
+    }
+    /**
+     * @deprecated The torch button has been moved to the mini preview. Use property `torchControlVisible` instead.
+     */
+    set torchButtonVisible(newValue) {
+        this.baseSparkScanView.torchButtonVisible = newValue;
     }
     get scanningBehaviorButtonVisible() {
         return this.baseSparkScanView.scanningBehaviorButtonVisible;
@@ -1556,6 +1238,66 @@ class SparkScanView extends React.Component {
     }
     set labelCaptureButtonVisible(newValue) {
         this.baseSparkScanView.labelCaptureButtonVisible = newValue;
+    }
+    get stopCapturingText() {
+        return this.baseSparkScanView.stopCapturingText;
+    }
+    set stopCapturingText(newValue) {
+        this.baseSparkScanView.stopCapturingText = newValue;
+    }
+    get startCapturingText() {
+        return this.baseSparkScanView.startCapturingText;
+    }
+    set startCapturingText(newValue) {
+        this.baseSparkScanView.startCapturingText = newValue;
+    }
+    get resumeCapturingText() {
+        return this.baseSparkScanView.resumeCapturingText;
+    }
+    set resumeCapturingText(newValue) {
+        this.baseSparkScanView.resumeCapturingText = newValue;
+    }
+    get scanningCapturingText() {
+        return this.baseSparkScanView.scanningCapturingText;
+    }
+    set scanningCapturingText(newValue) {
+        this.baseSparkScanView.scanningCapturingText = newValue;
+    }
+    /**
+     * @deprecated This property is not relevant anymore.
+     */
+    get captureButtonActiveBackgroundColor() {
+        return this.baseSparkScanView.captureButtonActiveBackgroundColor;
+    }
+    /**
+     * @deprecated This property is not relevant anymore.
+     */
+    set captureButtonActiveBackgroundColor(newValue) {
+        this.baseSparkScanView.captureButtonActiveBackgroundColor = newValue;
+    }
+    /**
+     * @deprecated use triggerButtonCollapsedColor and triggerButtonExpandedColor instead.
+     */
+    get captureButtonBackgroundColor() {
+        return this.baseSparkScanView.captureButtonBackgroundColor;
+    }
+    /**
+     * @deprecated use triggerButtonCollapsedColor and triggerButtonExpandedColor instead.
+     */
+    set captureButtonBackgroundColor(newValue) {
+        this.baseSparkScanView.captureButtonBackgroundColor = newValue;
+    }
+    /**
+     * @deprecated use triggerButtonTintColor instead.
+     */
+    get captureButtonTintColor() {
+        return this.baseSparkScanView.captureButtonTintColor;
+    }
+    /**
+     * @deprecated use triggerButtonTintColor instead.
+     */
+    set captureButtonTintColor(newValue) {
+        this.baseSparkScanView.captureButtonTintColor = newValue;
     }
     get toolbarBackgroundColor() {
         return this.baseSparkScanView.toolbarBackgroundColor;
@@ -1660,8 +1402,6 @@ class SparkScanView extends React.Component {
     }
     componentDidMount() {
         this._isMounted = true;
-        // Set up navigation listeners if navigation prop is provided
-        this.setupNavigationListeners();
         // This is required to ensure that findNodeHandle returns a valid handle
         InteractionManager.runAfterInteractions(() => {
             if (this._isMounted) {
@@ -1674,37 +1414,7 @@ class SparkScanView extends React.Component {
     }
     componentWillUnmount() {
         this._isMounted = false;
-        // Clean up navigation listeners
-        this.navigationUnsubscribers.forEach(unsubscribe => unsubscribe());
-        this.navigationUnsubscribers = [];
-        // Release camera ownership
-        CameraOwnershipHelper.releaseOwnership(CameraPosition$1.WorldFacing, this.cameraOwner);
         this.baseSparkScanView.dispose();
-    }
-    setupNavigationListeners() {
-        if (!this.props.navigation)
-            return;
-        try {
-            const unsubscribeFromFocus = this.props.navigation.addListener('focus', () => {
-                // The screen is focused - component gained focus
-                this.onFocus();
-            });
-            const unsubscribeFromBlur = this.props.navigation.addListener('blur', () => {
-                // The screen is no longer focused (navigated away but still mounted) - component lost focus
-                this.onBlur();
-            });
-            this.navigationUnsubscribers.push(unsubscribeFromFocus, unsubscribeFromBlur);
-        }
-        catch (e) {
-            // tslint:disable-next-line:no-console
-            console.error('Failed to set up navigation listeners:', e);
-        }
-    }
-    onFocus() {
-        CameraOwnershipHelper.requestOwnership(CameraPosition$1.WorldFacing, this.cameraOwner);
-    }
-    onBlur() {
-        CameraOwnershipHelper.releaseOwnership(CameraPosition$1.WorldFacing, this.cameraOwner);
     }
     createSparkScanView() {
         const viewId = findNodeHandle(this);
@@ -1725,8 +1435,6 @@ var BarcodeCountViewStyle;
 class BarcodeCountView extends React.Component {
     baseBarcodeCountView;
     _isMounted = false;
-    navigationUnsubscribers = [];
-    cameraOwner;
     static get defaultRecognizedBrush() {
         return BaseBarcodeCountView.defaultRecognizedBrush;
     }
@@ -2041,16 +1749,10 @@ class BarcodeCountView extends React.Component {
     }
     constructor(props) {
         super(props);
-        // Create camera owner with unique ID
-        this.cameraOwner = {
-            id: `barcode-count-view-${Math.floor(Math.random() * 1000000)}`,
-        };
         this.baseBarcodeCountView = BaseBarcodeCountView.withProps(props, this);
     }
     componentDidMount() {
         this._isMounted = true;
-        // Set up navigation listeners if navigation prop is provided
-        this.setupNavigationListeners();
         // This is required to ensure that findNodeHandle returns a valid handle
         InteractionManager.runAfterInteractions(() => {
             if (this._isMounted) {
@@ -2060,11 +1762,6 @@ class BarcodeCountView extends React.Component {
     }
     componentWillUnmount() {
         this._isMounted = false;
-        // Clean up navigation listeners
-        this.navigationUnsubscribers.forEach(unsubscribe => unsubscribe());
-        this.navigationUnsubscribers = [];
-        // Release camera ownership
-        CameraOwnershipHelper.releaseOwnership(CameraPosition$1.WorldFacing, this.cameraOwner);
         this.baseBarcodeCountView.dispose();
     }
     componentDidUpdate(prevProps) {
@@ -2094,31 +1791,6 @@ class BarcodeCountView extends React.Component {
     render() {
         return React.createElement(RNTBarcodeCountView, { ...this.props });
     }
-    setupNavigationListeners() {
-        if (!this.props.navigation)
-            return;
-        try {
-            const unsubscribeFromFocus = this.props.navigation.addListener('focus', () => {
-                // The screen is focused - component gained focus
-                this.onFocus();
-            });
-            const unsubscribeFromBlur = this.props.navigation.addListener('blur', () => {
-                // The screen is no longer focused (navigated away but still mounted) - component lost focus
-                this.onBlur();
-            });
-            this.navigationUnsubscribers.push(unsubscribeFromFocus, unsubscribeFromBlur);
-        }
-        catch (e) {
-            // tslint:disable-next-line:no-console
-            console.error('Failed to set up navigation listeners:', e);
-        }
-    }
-    onFocus() {
-        CameraOwnershipHelper.requestOwnership(CameraPosition$1.WorldFacing, this.cameraOwner);
-    }
-    onBlur() {
-        CameraOwnershipHelper.releaseOwnership(CameraPosition$1.WorldFacing, this.cameraOwner);
-    }
     createBarcodeCountView() {
         const viewId = findNodeHandle(this);
         this.baseBarcodeCountView.createNativeView(viewId);
@@ -2130,17 +1802,35 @@ class BarcodeCountView extends React.Component {
 // tslint:disable-next-line:variable-name
 const RNTBarcodeCountView = requireNativeComponent('RNTBarcodeCountView', BarcodeCountView);
 
+/*! *****************************************************************************
+Copyright (c) Microsoft Corporation.
+
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+PERFORMANCE OF THIS SOFTWARE.
+***************************************************************************** */
+/* global Reflect, Promise */
+
+
+function __decorate(decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+}
+
 class BarcodePickView extends React.Component {
     baseBarcodePickView;
     _isMounted = false;
-    navigationUnsubscribers = [];
-    cameraOwner;
     constructor(props) {
         super(props);
-        // Create camera owner with unique ID
-        this.cameraOwner = {
-            id: `barcode-pick-view-${Math.floor(Math.random() * 1000000)}`,
-        };
         this.baseBarcodePickView = new BaseBarcodePickView({
             context: props.context,
             barcodePick: props.barcodePick,
@@ -2157,8 +1847,6 @@ class BarcodePickView extends React.Component {
     }
     async componentDidMount() {
         this._isMounted = true;
-        // Set up navigation listeners if navigation prop is provided
-        this.setupNavigationListeners();
         // This is required to ensure that findNodeHandle returns a valid handle
         InteractionManager.runAfterInteractions(() => {
             if (this._isMounted) {
@@ -2168,11 +1856,6 @@ class BarcodePickView extends React.Component {
     }
     componentWillUnmount() {
         this._isMounted = false;
-        // Clean up navigation listeners
-        this.navigationUnsubscribers.forEach(unsubscribe => unsubscribe());
-        this.navigationUnsubscribers = [];
-        // Release camera ownership
-        CameraOwnershipHelper.releaseOwnership(CameraPosition$1.WorldFacing, this.cameraOwner);
         this.baseBarcodePickView.dispose();
     }
     start() {
@@ -2211,31 +1894,6 @@ class BarcodePickView extends React.Component {
     release() {
         this.baseBarcodePickView.dispose();
     }
-    setupNavigationListeners() {
-        if (!this.props.navigation)
-            return;
-        try {
-            const unsubscribeFromFocus = this.props.navigation.addListener('focus', () => {
-                // The screen is focused - component gained focus
-                this.onFocus();
-            });
-            const unsubscribeFromBlur = this.props.navigation.addListener('blur', () => {
-                // The screen is no longer focused (navigated away but still mounted) - component lost focus
-                this.onBlur();
-            });
-            this.navigationUnsubscribers.push(unsubscribeFromFocus, unsubscribeFromBlur);
-        }
-        catch (e) {
-            // tslint:disable-next-line:no-console
-            console.error('Failed to set up navigation listeners:', e);
-        }
-    }
-    onFocus() {
-        CameraOwnershipHelper.requestOwnership(CameraPosition$1.WorldFacing, this.cameraOwner);
-    }
-    onBlur() {
-        CameraOwnershipHelper.releaseOwnership(CameraPosition$1.WorldFacing, this.cameraOwner);
-    }
     createBarcodePickView() {
         const viewId = findNodeHandle(this);
         this.baseBarcodePickView.createNativeView(viewId);
@@ -2250,26 +1908,14 @@ __decorate([
 __decorate([
     ignoreFromSerialization
 ], BarcodePickView.prototype, "_isMounted", void 0);
-__decorate([
-    ignoreFromSerialization
-], BarcodePickView.prototype, "navigationUnsubscribers", void 0);
-__decorate([
-    ignoreFromSerialization
-], BarcodePickView.prototype, "cameraOwner", void 0);
 // tslint:disable-next-line:variable-name
 const RNTBarcodePickView = requireNativeComponent('RNTBarcodePickView', BarcodePickView);
 
 class BarcodeFindView extends React.Component {
     baseBarcodeFindView;
     _isMounted = false;
-    navigationUnsubscribers = [];
-    cameraOwner;
     constructor(props) {
         super(props);
-        // Create camera owner with unique ID
-        this.cameraOwner = {
-            id: `barcode-find-view-${Math.floor(Math.random() * 1000000)}`,
-        };
         this.baseBarcodeFindView = new BaseBarcodeFindView(props);
     }
     static get hardwareTriggerSupported() {
@@ -2397,48 +2043,16 @@ class BarcodeFindView extends React.Component {
     }
     componentWillUnmount() {
         this._isMounted = false;
-        // Clean up navigation listeners
-        this.navigationUnsubscribers.forEach(unsubscribe => unsubscribe());
-        this.navigationUnsubscribers = [];
-        // Release camera ownership
-        CameraOwnershipHelper.releaseOwnership(CameraPosition$1.WorldFacing, this.cameraOwner);
         this.baseBarcodeFindView.dispose();
     }
     componentDidMount() {
         this._isMounted = true;
-        // Set up navigation listeners if navigation prop is provided
-        this.setupNavigationListeners();
         // This is required to ensure that findNodeHandle returns a valid handle
         InteractionManager.runAfterInteractions(() => {
             if (this._isMounted) {
                 this.createBarcodeFindView();
             }
         });
-    }
-    setupNavigationListeners() {
-        if (!this.props.navigation)
-            return;
-        try {
-            const unsubscribeFromFocus = this.props.navigation.addListener('focus', () => {
-                // The screen is focused - component gained focus
-                this.onFocus();
-            });
-            const unsubscribeFromBlur = this.props.navigation.addListener('blur', () => {
-                // The screen is no longer focused (navigated away but still mounted) - component lost focus
-                this.onBlur();
-            });
-            this.navigationUnsubscribers.push(unsubscribeFromFocus, unsubscribeFromBlur);
-        }
-        catch (e) {
-            // tslint:disable-next-line:no-console
-            console.error('Failed to set up navigation listeners:', e);
-        }
-    }
-    onFocus() {
-        CameraOwnershipHelper.requestOwnership(CameraPosition$1.WorldFacing, this.cameraOwner);
-    }
-    onBlur() {
-        CameraOwnershipHelper.releaseOwnership(CameraPosition$1.WorldFacing, this.cameraOwner);
     }
     createBarcodeFindView() {
         const viewId = findNodeHandle(this);
@@ -2454,4 +2068,4 @@ const RNTBarcodeFindView = requireNativeComponent('RNTBarcodeFindView', BarcodeF
 initBarcodeDefaults();
 initBarcodeProxy();
 
-export { BarcodeArCustomHighlight, BarcodeArView, BarcodeBatchAdvancedOverlay, BarcodeBatchAdvancedOverlayView, BarcodeBatchView, BarcodeCaptureView, BarcodeCountView, BarcodeCountViewStyle, BarcodeFindView, BarcodePickView, BarcodeSelectionView, SparkScanView };
+export { BarcodeArView, BarcodeBatchAdvancedOverlay, BarcodeBatchAdvancedOverlayView, BarcodeBatchView, BarcodeCaptureView, BarcodeCountView, BarcodeCountViewStyle, BarcodeFindView, BarcodePickView, BarcodeSelectionView, SparkScanView };

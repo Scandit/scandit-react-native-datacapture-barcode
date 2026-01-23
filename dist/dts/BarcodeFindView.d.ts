@@ -4,8 +4,6 @@ import { Anchor } from 'scandit-datacapture-frameworks-core';
 export declare class BarcodeFindView extends React.Component<BarcodeFindViewProps> {
     private baseBarcodeFindView;
     private _isMounted;
-    private navigationUnsubscribers;
-    private cameraOwner;
     constructor(props: BarcodeFindViewProps);
     static get hardwareTriggerSupported(): boolean;
     get barcodeFindViewUiListener(): BarcodeFindViewUiListener | null;
@@ -50,9 +48,6 @@ export declare class BarcodeFindView extends React.Component<BarcodeFindViewProp
     render(): React.JSX.Element;
     componentWillUnmount(): void;
     componentDidMount(): void;
-    private setupNavigationListeners;
-    private onFocus;
-    private onBlur;
     private createBarcodeFindView;
     private toJSON;
 }

@@ -10,12 +10,12 @@ Pod::Spec.new do |s|
   s.homepage                = package["homepage"]
   s.license                 = package["license"]
   s.authors                 = { package["author"]["name"] => package["author"]["email"] }
-  s.platforms               = { :ios => "15.0" }
+  s.platforms               = { :ios => "14.0" }
   s.source                  = { :git => package["homepage"] + ".git", :tag => "#{s.version}" }
   s.swift_version           = '5.0'
   # Check if new architecture is enabled
   is_new_arch_enabled = ENV['RCT_NEW_ARCH_ENABLED'] == '1'
-
+  
   if is_new_arch_enabled
     s.source_files = "ios/Sources/**/*.{h,m,swift}"
     s.exclude_files = "ios/Sources/**/OldArch/**/*.{h,m,swift}"
@@ -29,13 +29,13 @@ Pod::Spec.new do |s|
 
   s.dependency "React"
   s.dependency "scandit-react-native-datacapture-core", "= #{version}"
-  s.dependency "scandit-datacapture-frameworks-barcode", '= 8.0.1'
-
+  s.dependency "scandit-datacapture-frameworks-barcode", '= 7.6.6'
+  
   # New Architecture specific dependencies
   if is_new_arch_enabled
     s.dependency "React-RCTAppDelegate"
   end
-
+  
   # Set compiler flags for architecture detection (informational only)
   if is_new_arch_enabled
     s.compiler_flags = '-DRCT_NEW_ARCH_ENABLED=1'

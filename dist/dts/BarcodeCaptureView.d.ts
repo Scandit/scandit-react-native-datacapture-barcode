@@ -1,11 +1,12 @@
 import React from 'react';
 import { Brush, CameraPosition, CameraSettings, DataCaptureContext, FrameData, FrameSourceState, TorchState, TorchSwitchControl, ZoomSwitchControl } from 'scandit-react-native-datacapture-core';
-import { BarcodeCapture, BarcodeCaptureSession, BarcodeCaptureSettings } from 'scandit-datacapture-frameworks-barcode';
+import { BarcodeCapture, BarcodeCaptureOverlayStyle, BarcodeCaptureSession, BarcodeCaptureSettings } from 'scandit-datacapture-frameworks-barcode';
 interface BarcodeCaptureViewProps {
     context: DataCaptureContext;
     isEnabled: boolean;
     barcodeCaptureSettings?: BarcodeCaptureSettings | null;
     defaultBasicOverlayBrush?: Brush | null;
+    basicOverlayStyle?: BarcodeCaptureOverlayStyle | null;
     cameraSettings?: CameraSettings | null;
     desiredCameraState?: FrameSourceState | null;
     desiredCameraPosition?: CameraPosition | null;

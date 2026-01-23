@@ -102,7 +102,7 @@ RCT_EXTERN_METHOD(finishBarcodeCountBrushForRejectedBarcode
 
 RCT_EXTERN_METHOD(getBarcodeCountSpatialMap
                   : (nonnull NSDictionary *)data resolver
-                  : (RCTPromiseResolveBlock)resolve reject
+                  : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
 RCT_EXTERN_METHOD(getBarcodeCountSpatialMapWithHints
@@ -113,8 +113,8 @@ RCT_EXTERN_METHOD(getBarcodeCountSpatialMapWithHints
 RCT_EXTERN_METHOD(setBarcodeCountModeEnabledState : (nonnull NSDictionary *)data)
 
 RCT_EXTERN_METHOD(updateBarcodeCountFeedback
-                  : (nonnull NSDictionary *)data resolve
-                  : (RCTPromiseResolveBlock)resolve reject
+                  : (nonnull NSDictionary *)data resolver
+                  : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
 RCT_EXTERN_METHOD(disposeBarcodeCountView

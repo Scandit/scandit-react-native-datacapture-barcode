@@ -13,8 +13,8 @@ import ScanditFrameworksCore
 class ScanditDataCaptureBarcodePick: RCTEventEmitter {
     var barcodePickModule: BarcodePickModule!
 
-    lazy var barcodePickViewManager: BarcodePickViewManager = {
-        bridge.module(for: BarcodePickViewManager.self) as! BarcodePickViewManager
+    lazy var viewManager: BarcodePickViewManager? = {
+        bridge.module(for: BarcodePickViewManager.self) as? BarcodePickViewManager
     }()
 
     override init() {
@@ -62,6 +62,11 @@ class ScanditDataCaptureBarcodePick: RCTEventEmitter {
             ReactNativeResult(resolve, reject).reject(error: ScanditFrameworksCoreError.nilArgument)
             return
         }
+        
+        guard let viewManager = self.viewManager else {
+            ReactNativeResult(resolve, reject).reject(error: ScanditFrameworksCoreError.nilArgument)
+            return
+        }
 
         let result = ReactNativeResult(resolve, reject)
         let viewId = data.viewId
@@ -70,7 +75,7 @@ class ScanditDataCaptureBarcodePick: RCTEventEmitter {
             if let container = BarcodePickViewManager.containers.first(where: { $0.reactTag == NSNumber(value: viewId) }) {
                 self.addViewIfFrameSet(container, jsonString: jsonString, result: result)
             } else {
-                self.barcodePickViewManager.setPostContainerCreateAction(for: viewId) { [weak self] container in
+                viewManager.setPostContainerCreateAction(for: viewId) { [weak self] container in
                     guard let self = self else {
                         result.reject(error: ScanditFrameworksCoreError.nilSelf)
                         return

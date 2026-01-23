@@ -13,8 +13,8 @@ import ScanditFrameworksCore
 class ScanditDataCaptureBarcodeFind: RCTEventEmitter {
     var barcodeFindModule: BarcodeFindModule!
 
-    lazy var viewManager: BarcodeFindViewManager = {
-        bridge.module(for: BarcodeFindViewManager.self) as! BarcodeFindViewManager
+    lazy var viewManager: BarcodeFindViewManager? = {
+        bridge.module(for: BarcodeFindViewManager.self) as? BarcodeFindViewManager
     }()
 
     override init() {
@@ -74,6 +74,12 @@ class ScanditDataCaptureBarcodeFind: RCTEventEmitter {
             ReactNativeResult(resolve, reject).reject(error: ScanditFrameworksCoreError.nilArgument)
             return
         }
+        
+        guard let viewManager = self.viewManager else {
+            ReactNativeResult(resolve, reject).reject(error: ScanditFrameworksCoreError.nilArgument)
+            return
+        }
+
         let result = ReactNativeResult(resolve, reject)
         let viewId = data.viewId
         
@@ -84,7 +90,7 @@ class ScanditDataCaptureBarcodeFind: RCTEventEmitter {
                                                           jsonString: jsonString,
                                                           result: ReactNativeResult(resolve, reject))
             } else {
-                self.viewManager.setPostContainerCreateAction(for: viewId) { [weak self] container in
+                viewManager.setPostContainerCreateAction(for: viewId) { [weak self] container in
                     guard let self = self else {
                         result.reject(error: ScanditFrameworksCoreError.nilSelf)
                         return
