@@ -1,4 +1,4 @@
-import { Anchor, DataCaptureOverlay, PointWithUnit } from 'scandit-datacapture-frameworks-core';
+import { Anchor, DataCaptureOverlay, DataCaptureView, PointWithUnit } from 'scandit-datacapture-frameworks-core';
 import { BarcodeBatch, BarcodeBatchAdvancedOverlayListener, BarcodeBatchAdvancedOverlayView, TrackedBarcode } from 'scandit-datacapture-frameworks-barcode';
 export declare class BarcodeBatchAdvancedOverlay implements DataCaptureOverlay {
     private baseBarcodeBatch;
@@ -9,11 +9,13 @@ export declare class BarcodeBatchAdvancedOverlay implements DataCaptureOverlay {
     set shouldShowScanAreaGuides(shouldShow: boolean);
     private set view(value);
     private get view();
-    constructor(mode: BarcodeBatch);
+    static withBarcodeBatchForView(barcodeBatch: BarcodeBatch, view: DataCaptureView | null): BarcodeBatchAdvancedOverlay;
+    protected constructor();
     setViewForTrackedBarcode(view: BarcodeBatchAdvancedOverlayView, trackedBarcode: TrackedBarcode): Promise<void>;
     setAnchorForTrackedBarcode(anchor: Anchor, trackedBarcode: TrackedBarcode): Promise<void>;
     setOffsetForTrackedBarcode(offset: PointWithUnit, trackedBarcode: TrackedBarcode): Promise<void>;
     clearTrackedBarcodeViews(): Promise<void>;
     updateSizeOfTrackedBarcodeView(trackedBarcodeIdentifier: number, width: number, height: number): Promise<void>;
+    private get proxy();
     toJSON(): object;
 }

@@ -8,7 +8,7 @@ package com.scandit.datacapture.reactnative.barcode.ui
 
 import android.view.ViewGroup
 import android.widget.FrameLayout
-import com.facebook.react.bridge.Promise
+import com.facebook.react.bridge.ReadableArray
 import com.facebook.react.uimanager.ThemedReactContext
 import com.scandit.datacapture.barcode.count.ui.view.BarcodeCountView
 import com.scandit.datacapture.frameworks.barcode.count.BarcodeCountModule
@@ -16,7 +16,6 @@ import com.scandit.datacapture.frameworks.core.FrameworkModule
 import com.scandit.datacapture.frameworks.core.errors.ModuleNotStartedError
 import com.scandit.datacapture.frameworks.core.extensions.findViewOfType
 import com.scandit.datacapture.frameworks.core.locator.ServiceLocator
-import com.scandit.datacapture.reactnative.core.data.ViewCreationRequest
 import com.scandit.datacapture.reactnative.core.ui.ScanditViewGroupManager
 
 class BarcodeCountViewManager(
@@ -25,55 +24,41 @@ class BarcodeCountViewManager(
 
     override fun getName(): String = "RNTBarcodeCountView"
 
-    private val cachedCreationRequests = mutableMapOf<Int, ViewCreationRequest>()
-
     override fun createNewInstance(reactContext: ThemedReactContext): FrameLayout =
         FrameLayout(reactContext)
 
-    override fun onAfterUpdateTransaction(view: FrameLayout) {
-        super.onAfterUpdateTransaction(view)
-
-        val item = cachedCreationRequests.remove(view.id)
-
-        if (item != null) {
-            view.post {
-                val barcodeCountView = barcodeCountModule.getViewFromJson(item.viewJson)
-
-                view.addView(
-                    barcodeCountView,
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.MATCH_PARENT
-                )
-            }
-
-            item.promise.resolve(null)
-        }
+    override fun getCommandsMap(): MutableMap<String, Int> {
+        return mutableMapOf(
+            CREATE_BARCODE_COUNT_VIEW_COMMAND to CREATE_BARCODE_COUNT_VIEW_COMMAND_INDEX
+        )
     }
 
-    fun createBarcodeCountView(viewId: Int, viewJson: String, promise: Promise) {
-        val container = containers.firstOrNull { it.id == viewId }
+    override fun receiveCommand(root: FrameLayout, commandId: String?, args: ReadableArray?) {
+        if (commandId == CREATE_BARCODE_COUNT_VIEW_COMMAND) {
+            val viewJson = args?.getString(1) ?: return
 
-        if (container == null) {
-            cachedCreationRequests[viewId] = ViewCreationRequest(viewId, viewJson, promise)
-            return
-        }
-        container.post {
-            barcodeCountModule.getViewFromJson(viewJson)?.let { bcView ->
-                container.addView(
-                    bcView,
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.MATCH_PARENT
-                )
+            root.post {
+                barcodeCountModule.getViewFromJson(viewJson)?.let { bcView ->
+                    root.addView(
+                        bcView,
+                        ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.MATCH_PARENT
+                    )
+                }
             }
         }
-        promise.resolve(null)
     }
 
     override fun onDropViewInstance(view: FrameLayout) {
         view.findViewOfType(BarcodeCountView::class.java)?.let {
-            barcodeCountModule.viewDisposed(view.id)
+            barcodeCountModule.disposeBarcodeCountView()
         }
         super.onDropViewInstance(view)
+    }
+
+    companion object {
+        private const val CREATE_BARCODE_COUNT_VIEW_COMMAND_INDEX = 1
+        private const val CREATE_BARCODE_COUNT_VIEW_COMMAND = "createBarcodeCountView"
     }
 
     private val barcodeCountModule: BarcodeCountModule

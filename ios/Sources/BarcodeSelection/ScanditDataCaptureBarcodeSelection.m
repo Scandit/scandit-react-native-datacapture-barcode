@@ -7,9 +7,9 @@ RCT_EXTERN_METHOD(finishBarcodeSelectionDidUpdateSession : (NSDictionary *)data)
 
 RCT_EXTERN_METHOD(finishBarcodeSelectionDidSelect : (NSDictionary *)data)
 
-RCT_EXTERN_METHOD(registerBarcodeSelectionListenerForEvents : (NSDictionary *)data)
+RCT_EXTERN_METHOD(registerBarcodeSelectionListenerForEvents)
 
-RCT_EXTERN_METHOD(unregisterBarcodeSelectionListenerForEvents : (NSDictionary *)data)
+RCT_EXTERN_METHOD(unregisterBarcodeSelectionListenerForEvents)
 
 RCT_EXTERN_METHOD(getCountForBarcodeInBarcodeSelectionSession
                   : (NSDictionary *)data resolver
@@ -58,22 +58,18 @@ RCT_EXTERN_METHOD(removeTrackedBarcodeBrushProvider
                   : (RCTPromiseRejectBlock)reject)
 
 RCT_EXTERN_METHOD(resetBarcodeSelectionSession
-                  : (NSDictionary *)data resolver
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
 RCT_EXTERN_METHOD(unfreezeCameraInBarcodeSelection
-                  : (NSDictionary *)data resolver
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
 RCT_EXTERN_METHOD(selectAimedBarcode
-                  : (NSDictionary *)data resolver
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
 RCT_EXTERN_METHOD(resetBarcodeSelection
-                  : (NSDictionary *)data resolver
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 

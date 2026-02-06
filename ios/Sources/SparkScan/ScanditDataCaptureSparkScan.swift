@@ -14,10 +14,7 @@ class ScanditDataCaptureSparkScan: RCTEventEmitter {
     var sparkScanModule: SparkScanModule!
 
     lazy var sparkScanViewManager: SparkScanViewManager = {
-        guard let manager = bridge.module(for: SparkScanViewManager.self) as? SparkScanViewManager else {
-            fatalError("SparkScanViewManager not registered in bridge")
-        }
-        return manager
+        bridge.module(for: SparkScanViewManager.self) as! SparkScanViewManager
     }()
 
     override init() {
@@ -48,9 +45,9 @@ class ScanditDataCaptureSparkScan: RCTEventEmitter {
     }
 
     override func supportedEvents() -> [String]! {
-        FrameworksSparkScanEvent.allCases.map { $0.rawValue }
-            + FrameworksSparkScanFeedbackDelegateEvent.allCases.map { $0.rawValue }
-            + FrameworksSparkScanViewUIEvent.allCases.map { $0.rawValue }
+        FrameworksSparkScanEvent.allCases.map { $0.rawValue } +
+        FrameworksSparkScanFeedbackDelegateEvent.allCases.map { $0.rawValue } +
+        FrameworksSparkScanViewUIEvent.allCases.map { $0.rawValue }
     }
 
     override func constantsToExport() -> [AnyHashable: Any]! {
@@ -59,91 +56,54 @@ class ScanditDataCaptureSparkScan: RCTEventEmitter {
 
     // MARK: - SparkScan Module public API
 
-    @objc(registerSparkScanListenerForEvents:resolver:rejecter:)
-    func registerSparkScanListenerForEvents(
-        _ data: [String: Any],
-        resolve: RCTPromiseResolveBlock,
-        reject: RCTPromiseRejectBlock
-    ) {
-        sparkScanModule.addSparkScanListener(viewId: data.viewId)
-        resolve(nil)
+    @objc func registerSparkScanListenerForEvents(_ data: [String: Any]) {
+        sparkScanModule.addSparkScanListener(viewId: getViewId(data))
     }
 
-    @objc(unregisterSparkScanListenerForEvents:resolver:rejecter:)
-    func unregisterSparkScanListenerForEvents(
-        _ data: [String: Any],
-        resolve: RCTPromiseResolveBlock,
-        reject: RCTPromiseRejectBlock
-    ) {
-        sparkScanModule.removeSparkScanListener(viewId: data.viewId)
-        resolve(nil)
+    @objc func unregisterSparkScanListenerForEvents(_ data: [String: Any]) {
+        sparkScanModule.removeSparkScanListener(viewId: getViewId(data))
     }
 
-    @objc(finishSparkScanDidScan:resolver:rejecter:)
-    func finishSparkScanDidScan(
-        data: [String: Any],
-        resolve: RCTPromiseResolveBlock,
-        reject: RCTPromiseRejectBlock
-    ) {
+    @objc(finishSparkScanDidScan:)
+    func finishSparkScanDidScan(data: [String: Any]) {
         let enabled = data["isEnabled"] as? Bool ?? false
-        sparkScanModule.finishDidScan(viewId: data.viewId, enabled: enabled)
-        resolve(nil)
+        sparkScanModule.finishDidScan(viewId: getViewId(data), enabled: enabled)
     }
 
-    @objc(finishSparkScanDidUpdateSession:resolver:rejecter:)
-    func finishSparkScanDidUpdateSession(
-        data: [String: Any],
-        resolve: RCTPromiseResolveBlock,
-        reject: RCTPromiseRejectBlock
-    ) {
+    @objc(finishSparkScanDidUpdateSession:)
+    func finishSparkScanDidUpdateSession(data: [String: Any]) {
         let enabled = data["isEnabled"] as? Bool ?? false
-        sparkScanModule.finishDidUpdateSession(viewId: data.viewId, enabled: enabled)
-        resolve(nil)
+        sparkScanModule.finishDidUpdateSession(viewId: getViewId(data), enabled: enabled)
     }
 
     @objc(resetSparkScanSession:resolver:rejecter:)
     func resetSparkScanSession(data: [String: Any], resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
-        sparkScanModule.resetSession(viewId: data.viewId)
+        sparkScanModule.resetSession(viewId: getViewId(data))
         resolve(nil)
     }
 
-    @objc(registerSparkScanViewListenerEvents:resolver:rejecter:)
-    func registerSparkScanViewListenerEvents(
-        _ data: [String: Any],
-        resolve: RCTPromiseResolveBlock,
-        reject: RCTPromiseRejectBlock
-    ) {
-        sparkScanModule.addSparkScanViewUiListener(viewId: data.viewId)
-        resolve(nil)
+    @objc func registerSparkScanViewListenerEvents(_ data: [String: Any]) {
+        sparkScanModule.addSparkScanViewUiListener(viewId: getViewId(data))
     }
 
-    @objc(unregisterSparkScanViewListenerEvents:resolver:rejecter:)
-    func unregisterSparkScanViewListenerEvents(
-        _ data: [String: Any],
-        resolve: RCTPromiseResolveBlock,
-        reject: RCTPromiseRejectBlock
-    ) {
-        sparkScanModule.removeSparkScanViewUiListener(viewId: data.viewId)
-        resolve(nil)
+    @objc func unregisterSparkScanViewListenerEvents(_ data: [String: Any]) {
+        sparkScanModule.removeSparkScanViewUiListener(viewId: getViewId(data))
     }
 
     @objc(createSparkScanView:resolver:rejecter:)
-    func createSparkScanView(
-        data: [String: Any],
-        resolve: @escaping RCTPromiseResolveBlock,
-        reject: @escaping RCTPromiseRejectBlock
-    ) {
+    func createSparkScanView(data: [String: Any],
+                resolve: @escaping RCTPromiseResolveBlock,
+                reject: @escaping RCTPromiseRejectBlock) {
         guard let jsonString = data["viewJson"] as? String else {
             ReactNativeResult(resolve, reject).reject(error: ScanditFrameworksCoreError.nilArgument)
             return
         }
         let result = ReactNativeResult(resolve, reject)
-        let viewId = data.viewId
+        let viewId = getViewId(data)
 
         // The RNTSparkScanViewWrapper can be created later than this call.
         dispatchMain {
-            if let container = SparkScanViewManager.containers.first(where: { $0.reactTag == NSNumber(value: viewId) })
-            {
+            if let container = SparkScanViewManager.containers.first(where: { $0.reactTag == NSNumber(value: viewId) }) {
                 self.addViewIfFrameSet(container, jsonString: jsonString, result: result)
             } else {
                 self.sparkScanViewManager.setPostContainerCreateAction(for: viewId) { [weak self] container in
@@ -157,11 +117,10 @@ class ScanditDataCaptureSparkScan: RCTEventEmitter {
         }
     }
 
-    private func addViewIfFrameSet(_ container: RNTSparkScanViewWrapper, jsonString: String, result: ReactNativeResult)
-    {
+    private func addViewIfFrameSet(_ container: RNTSparkScanViewWrapper, jsonString: String, result: ReactNativeResult) {
         // RN updates the frame for the wrapper view at a later point, which causes the native SparkScanView to misbehave.
         if container.isFrameSet {
-            sparkScanModule.addViewToContainer(
+            _ = sparkScanModule.addViewToContainer(
                 container,
                 jsonString: jsonString,
                 result: result
@@ -172,7 +131,7 @@ class ScanditDataCaptureSparkScan: RCTEventEmitter {
                     result.reject(error: ScanditFrameworksCoreError.nilSelf)
                     return
                 }
-                self.sparkScanModule.addViewToContainer(
+                _ = self.sparkScanModule.addViewToContainer(
                     container,
                     jsonString: jsonString,
                     result: result
@@ -182,83 +141,53 @@ class ScanditDataCaptureSparkScan: RCTEventEmitter {
     }
 
     @objc(updateSparkScanView:resolver:rejecter:)
-    func updateSparkScanView(
-        data: [String: Any],
-        resolve: @escaping RCTPromiseResolveBlock,
-        reject: @escaping RCTPromiseRejectBlock
-    ) {
+    func updateSparkScanView(data: [String: Any],
+                resolve: @escaping RCTPromiseResolveBlock,
+                reject: @escaping RCTPromiseRejectBlock) {
         guard let jsonString = data["viewJson"] as? String else {
             ReactNativeResult(resolve, reject).reject(error: ScanditFrameworksCoreError.nilArgument)
             return
         }
-        sparkScanModule.updateView(
-            viewId: data.viewId,
-            viewJson: jsonString,
-            result: ReactNativeResult(resolve, reject)
-        )
+        sparkScanModule.updateView(viewId: getViewId(data), viewJson: jsonString, result: ReactNativeResult(resolve, reject))
     }
 
-    @objc(updateSparkScanMode:resolver:rejecter:)
-    func updateSparkScanMode(
-        data: [String: Any],
-        resolve: @escaping RCTPromiseResolveBlock,
-        reject: @escaping RCTPromiseRejectBlock
-    ) {
+     @objc(updateSparkScanMode:resolver:rejecter:)
+    func updateSparkScanMode(data: [String: Any],
+                resolve: @escaping RCTPromiseResolveBlock,
+                reject: @escaping RCTPromiseRejectBlock) {
         guard let jsonString = data["modeJson"] as? String else {
             ReactNativeResult(resolve, reject).reject(error: ScanditFrameworksCoreError.nilArgument)
             return
         }
-        sparkScanModule.updateMode(
-            viewId: data.viewId,
-            modeJson: jsonString,
-            result: ReactNativeResult(resolve, reject)
-        )
+        sparkScanModule.updateMode(viewId: getViewId(data), modeJson: jsonString, result: ReactNativeResult(resolve, reject))
     }
     @objc(startSparkScanViewScanning:resolver:rejecter:)
-    func startSparkScanViewScanning(
-        _ data: [String: Any],
-        resolve: @escaping RCTPromiseResolveBlock,
-        reject: @escaping RCTPromiseRejectBlock
-    ) {
-        sparkScanModule.startScanning(viewId: data.viewId, result: ReactNativeResult(resolve, reject))
+    func startSparkScanViewScanning(_ data: [String: Any],
+                     resolve: @escaping RCTPromiseResolveBlock,
+                     reject: @escaping RCTPromiseRejectBlock) {
+        sparkScanModule.startScanning(viewId: getViewId(data), result: ReactNativeResult(resolve, reject))
     }
 
     @objc(pauseSparkScanViewScanning:resolver:rejecter:)
-    func pauseSparkScanViewScanning(
-        _ data: [String: Any],
-        resolve: @escaping RCTPromiseResolveBlock,
-        reject: @escaping RCTPromiseRejectBlock
-    ) {
-        sparkScanModule.pauseScanning(viewId: data.viewId)
+    func pauseSparkScanViewScanning(_ data: [String: Any],
+                     resolve: @escaping RCTPromiseResolveBlock,
+                     reject: @escaping RCTPromiseRejectBlock) {
+        sparkScanModule.pauseScanning(viewId: getViewId(data))
         resolve(nil)
     }
 
     @objc(prepareSparkScanViewScanning:resolver:rejecter:)
-    func prepareSparkScanViewScanning(
-        _ data: [String: Any],
-        resolve: @escaping RCTPromiseResolveBlock,
-        reject: @escaping RCTPromiseRejectBlock
-    ) {
-        sparkScanModule.prepareScanning(viewId: data.viewId, result: ReactNativeResult(resolve, reject))
+    func prepareSparkScanViewScanning(_ data: [String: Any],
+                       resolve: @escaping RCTPromiseResolveBlock,
+                       reject: @escaping RCTPromiseRejectBlock) {
+        sparkScanModule.prepareScanning(viewId: getViewId(data), result: ReactNativeResult(resolve, reject))
     }
 
     @objc(stopSparkScanViewScanning:resolver:rejecter:)
-    func stopSparkScanViewScanning(
-        _ data: [String: Any],
-        resolve: @escaping RCTPromiseResolveBlock,
-        reject: @escaping RCTPromiseRejectBlock
-    ) {
-        sparkScanModule.stopScanning(viewId: data.viewId)
-        resolve(nil)
-    }
-
-    @objc(onHostPauseSparkScanView:resolver:rejecter:)
-    func onHostPauseSparkScanView(
-        _ data: [String: Any],
-        resolve: @escaping RCTPromiseResolveBlock,
-        reject: @escaping RCTPromiseRejectBlock
-    ) {
-        sparkScanModule.onHostPause()
+    func stopSparkScanViewScanning(_ data: [String: Any],
+                    resolve: @escaping RCTPromiseResolveBlock,
+                    reject: @escaping RCTPromiseRejectBlock) {
+        sparkScanModule.stopScanning(viewId: getViewId(data))
         resolve(nil)
     }
 
@@ -272,27 +201,23 @@ class ScanditDataCaptureSparkScan: RCTEventEmitter {
             ReactNativeResult(resolve, reject).reject(error: ScanditFrameworksCoreError.nilArgument)
             return
         }
-        sparkScanModule.showToast(viewId: data.viewId, text: text, result: ReactNativeResult(resolve, reject))
+        sparkScanModule.showToast(viewId: getViewId(data), text: text, result: ReactNativeResult(resolve, reject))
     }
 
     @objc(registerSparkScanFeedbackDelegateForEvents:resolver:rejecter:)
-    func registerSparkScanFeedbackDelegateForEvents(
-        _ data: [String: Any],
-        resolve: @escaping RCTPromiseResolveBlock,
-        reject: @escaping RCTPromiseRejectBlock
-    ) {
-        sparkScanModule.addFeedbackDelegate(data.viewId)
+    func registerSparkScanFeedbackDelegateForEvents(_ data: [String: Any],
+                             resolve: @escaping RCTPromiseResolveBlock,
+                             reject: @escaping RCTPromiseRejectBlock) {
+        sparkScanModule.addFeedbackDelegate(getViewId(data))
         resolve(nil)
     }
 
     @objc(unregisterSparkScanFeedbackDelegateForEvents:resolver:rejecter:)
-    func unregisterSparkScanFeedbackDelegateForEvents(
-        _ data: [String: Any],
-        resolve: @escaping RCTPromiseResolveBlock,
-        reject: @escaping RCTPromiseRejectBlock
-    ) {
-        sparkScanModule.removeFeedbackDelegate(data.viewId)
-        resolve(nil)
+    func unregisterSparkScanFeedbackDelegateForEvents(_ data: [String: Any],
+                               resolve: @escaping RCTPromiseResolveBlock,
+                               reject: @escaping RCTPromiseRejectBlock) {
+       sparkScanModule.removeFeedbackDelegate(getViewId(data))
+       resolve(nil)
     }
 
     @objc(submitSparkScanFeedbackForBarcode:resolver:rejecter:)
@@ -306,7 +231,7 @@ class ScanditDataCaptureSparkScan: RCTEventEmitter {
             return
         }
         sparkScanModule.submitFeedbackForBarcode(
-            viewId: data.viewId,
+            viewId: getViewId(data),
             feedbackJson: feedbackJson,
             result: ReactNativeResult(resolve, reject)
         )
@@ -319,21 +244,19 @@ class ScanditDataCaptureSparkScan: RCTEventEmitter {
         reject: @escaping RCTPromiseRejectBlock
     ) {
 
-        sparkScanModule.disposeView(viewId: data.viewId)
+        sparkScanModule.disposeView(viewId: getViewId(data))
         resolve(nil)
     }
 
     @objc(setSparkScanModeEnabledState:resolver:rejecter:)
-    func setSparkScanModeEnabledState(
-        data: [String: Any],
-        resolve: @escaping RCTPromiseResolveBlock,
-        reject: @escaping RCTPromiseRejectBlock
-    ) {
+    func setSparkScanModeEnabledState(data: [String: Any],
+                                     resolve: @escaping RCTPromiseResolveBlock,
+                                     reject: @escaping RCTPromiseRejectBlock) {
         guard let isEnabled = data["isEnabled"] as? Bool else {
             ReactNativeResult(resolve, reject).reject(error: ScanditFrameworksCoreError.nilArgument)
             return
         }
-        sparkScanModule.setModeEnabled(viewId: data.viewId, enabled: isEnabled)
+        sparkScanModule.setModeEnabled(viewId: getViewId(data), enabled: isEnabled)
         resolve(nil)
     }
 
@@ -353,5 +276,9 @@ class ScanditDataCaptureSparkScan: RCTEventEmitter {
         reject: @escaping RCTPromiseRejectBlock
     ) {
         resolve(nil)
+    }
+
+    private func getViewId(_ data: [String: Any]) -> Int {
+        return data["viewId"] as! Int
     }
 }

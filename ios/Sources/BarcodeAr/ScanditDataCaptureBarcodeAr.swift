@@ -14,10 +14,7 @@ class ScanditDataCaptureBarcodeAr: RCTEventEmitter {
     var barcodeArModule: BarcodeArModule!
 
     lazy var viewManager: BarcodeArViewManager = {
-        guard let manager = bridge.module(for: BarcodeArViewManager.self) as? BarcodeArViewManager else {
-            fatalError("BarcodeArViewManager not registered in bridge")
-        }
-        return manager
+        bridge.module(for: BarcodeArViewManager.self) as! BarcodeArViewManager
     }()
 
     override init() {
@@ -27,23 +24,19 @@ class ScanditDataCaptureBarcodeAr: RCTEventEmitter {
         barcodeArModule.didStart()
     }
 
-    override func constantsToExport() -> [AnyHashable: Any]! {
+    override func constantsToExport() -> [AnyHashable : Any]! {
         [
             "Defaults": barcodeArModule.defaults.toEncodable()
         ]
     }
 
     override func supportedEvents() -> [String]! {
-        let listenerEvents = BarcodeArListenerEvents.allCases.map { $0.rawValue }
-        let customHighlightEvents = BarcodeArCustomHighlightEvents.allCases.map { $0.rawValue }
-        let customAnnotationEvents = BarcodeArCustomAnnotationEvents.allCases.map { $0.rawValue }
-        let uiDelegateEvents = BarcodeArViewUiDelegateEvents.allCases.map { $0.rawValue }
-        let annotationProviderEvents = BarcodeArAnnotationProviderEvents.allCases.map { $0.rawValue }
-        let highlightProviderEvents = BarcodeArHighlightProviderEvents.allCases.map { $0.rawValue }
-        let frameworksAnnotationEvents = FrameworksBarcodeArAnnotationEvents.allCases.map { $0.rawValue }
-        return listenerEvents + customHighlightEvents + customAnnotationEvents + uiDelegateEvents
-            + annotationProviderEvents
-            + highlightProviderEvents + frameworksAnnotationEvents
+        BarcodeArListenerEvents.allCases.map { $0.rawValue } +
+        BarcodeArViewUiDelegateEvents.allCases.map { $0.rawValue } +
+        BarcodeArAnnotationProviderEvents.allCases.map { $0.rawValue } +
+        BarcodeArHighlightProviderEvents.allCases.map { $0.rawValue } +
+        FrameworksBarcodeArAnnotationEvents.allCases.map { $0.rawValue } +
+        FrameworksBarcodeArAnnotationEvents.allCases.map { $0.rawValue }
     }
 
     @objc override func invalidate() {
@@ -59,377 +52,170 @@ class ScanditDataCaptureBarcodeAr: RCTEventEmitter {
     }
 
     override class func requiresMainQueueSetup() -> Bool {
-        true
+        return true
     }
 
     override var methodQueue: DispatchQueue! {
-        sdcSharedMethodQueue
+        return sdcSharedMethodQueue
     }
 
-    @objc(createBarcodeArView:resolver:rejecter:)
-    func createBarcodeArView(
-        data: [String: Any],
-        resolve: @escaping RCTPromiseResolveBlock,
-        reject: @escaping RCTPromiseRejectBlock
-    ) {
-        guard let viewJson = data["viewJson"] as? String else {
-            ReactNativeResult(resolve, reject).reject(error: ScanditFrameworksCoreError.nilArgument)
-            return
-        }
-
-        let result = ReactNativeResult(resolve, reject)
-        let viewId = data.viewId
-
+    @objc(createBarcodeArView:jsonString:resolver:rejecter:)
+    func createBarcodeArView(reactTag: Int,
+                         jsonString: String,
+                         resolve: @escaping RCTPromiseResolveBlock,
+                         reject: @escaping RCTPromiseRejectBlock) {
         dispatchMain {
-            if let container = BarcodeArViewManager.containers.first(where: { $0.reactTag == NSNumber(value: viewId) })
-            {
-                self.addViewIfFrameSet(container, jsonString: viewJson, result: result)
-            } else {
-                self.viewManager.setPostContainerCreateAction(for: viewId) { [weak self] container in
-                    guard let self = self else {
-                        result.reject(error: ScanditFrameworksCoreError.nilSelf)
-                        return
-                    }
-                    self.addViewIfFrameSet(container, jsonString: viewJson, result: result)
-                }
-            }
-        }
-    }
-
-    private func addViewIfFrameSet(_ container: BarcodeArViewWrapperView, jsonString: String, result: ReactNativeResult)
-    {
-        // RN updates the frame for the wrapper view at a later point, which causes the native BarcodeArView to misbehave.
-        if container.isFrameSet {
-            _ = barcodeArModule.addViewFromJson(parent: container, viewJson: jsonString, result: result)
-        } else {
-            container.postFrameSetAction = { [weak self] in
-                guard let self = self else {
-                    result.reject(error: ScanditFrameworksCoreError.nilSelf)
-                    return
-                }
-                _ = self.barcodeArModule.addViewFromJson(parent: container, viewJson: jsonString, result: result)
+            if let container = BarcodeArViewManager.containers.last {
+                self.barcodeArModule.addViewToContainer(container: container,
+                                                           jsonString: jsonString,
+                                                           result: ReactNativeResult(resolve, reject))
             }
         }
     }
 
     @objc(updateBarcodeArFeedback:resolver:rejecter:)
-    func updateBarcodeArFeedback(
-        data: [String: Any],
-        resolve: @escaping RCTPromiseResolveBlock,
-        reject: @escaping RCTPromiseRejectBlock
-    ) {
-        guard let feedbackJson = data["feedbackJson"] as? String else {
-            ReactNativeResult(resolve, reject).reject(error: ScanditFrameworksCoreError.nilArgument)
-            return
-        }
-        barcodeArModule.updateFeedback(
-            viewId: data.viewId,
-            feedbackJson: feedbackJson,
-            result: ReactNativeResult(resolve, reject)
-        )
+    func updateBarcodeArFeedback(feedbackJson: String,
+                                    resolve: @escaping RCTPromiseResolveBlock,
+                                    reject: @escaping RCTPromiseRejectBlock) {
+        barcodeArModule.updateFeedback(feedbackJson: feedbackJson, result: ReactNativeResult(resolve, reject))
     }
 
     @objc(updateBarcodeArMode:resolver:rejecter:)
-    func updateBarcodeArMode(
-        data: [String: Any],
-        resolve: @escaping RCTPromiseResolveBlock,
-        reject: @escaping RCTPromiseRejectBlock
-    ) {
-        guard let modeJson = data["modeJson"] as? String else {
-            ReactNativeResult(resolve, reject).reject(error: ScanditFrameworksCoreError.nilArgument)
-            return
-        }
-        barcodeArModule.updateMode(viewId: data.viewId, modeJson: modeJson, result: ReactNativeResult(resolve, reject))
-    }
-
-    @objc(applyBarcodeArModeSettings:resolver:rejecter:)
-    func applyBarcodeArModeSettings(
-        data: [String: Any],
-        resolve: @escaping RCTPromiseResolveBlock,
-        reject: @escaping RCTPromiseRejectBlock
-    ) {
-        guard let settingsJson = data["settings"] as? String else {
-            ReactNativeResult(resolve, reject).reject(error: ScanditFrameworksCoreError.nilArgument)
-            return
-        }
-        barcodeArModule.applyBarcodeArModeSettings(
-            viewId: data.viewId,
-            modeSettingsJson: settingsJson,
-            result: ReactNativeResult(resolve, reject)
-        )
+    func updateBarcodeArMode(barcodeArJson: String,
+                                resolve: @escaping RCTPromiseResolveBlock,
+                                reject: @escaping RCTPromiseRejectBlock) {
+        barcodeArModule.applyBarcodeArModeSettings(modeSettingsJson: barcodeArJson, result: ReactNativeResult(resolve, reject))
     }
 
     @objc(updateBarcodeArView:resolver:rejecter:)
-    func updateBarcodeArView(
-        data: [String: Any],
-        resolve: @escaping RCTPromiseResolveBlock,
-        reject: @escaping RCTPromiseRejectBlock
-    ) {
-        guard let viewJson = data["viewJson"] as? String else {
-            ReactNativeResult(resolve, reject).reject(error: ScanditFrameworksCoreError.nilArgument)
-            return
-        }
-        barcodeArModule.updateView(viewId: data.viewId, viewJson: viewJson, result: ReactNativeResult(resolve, reject))
-    }
-
-    @objc(removeBarcodeArView:resolver:rejecter:)
-    func removeBarcodeArView(
-        data: [String: Any],
-        resolve: @escaping RCTPromiseResolveBlock,
-        reject: @escaping RCTPromiseRejectBlock
-    ) {
-        barcodeArModule.removeView(viewId: data.viewId, result: ReactNativeResult(resolve, reject))
+    func updateBarcodeArView(viewJson: String,
+                                resolve: @escaping RCTPromiseResolveBlock,
+                                reject: @escaping RCTPromiseRejectBlock) {
+        barcodeArModule.updateView(viewJson: viewJson, result: ReactNativeResult(resolve, reject))
     }
 
     @objc(updateBarcodeArAnnotation:resolver:rejecter:)
-    func updateBarcodeArAnnotation(
-        data: [String: Any],
-        resolve: @escaping RCTPromiseResolveBlock,
-        reject: @escaping RCTPromiseRejectBlock
-    ) {
-        guard let annotationJson = data["annotationJson"] as? String else {
-            ReactNativeResult(resolve, reject).reject(error: ScanditFrameworksCoreError.nilArgument)
-            return
-        }
-        barcodeArModule.updateAnnotation(
-            viewId: data.viewId,
-            annotationJson: annotationJson,
-            result: ReactNativeResult(resolve, reject)
-        )
+    func updateBarcodeArAnnotation(annotationJson: String,
+                                      resolve: @escaping RCTPromiseResolveBlock,
+                                      reject: @escaping RCTPromiseRejectBlock) {
+        barcodeArModule.updateAnnotation(annotationJson: annotationJson, result: ReactNativeResult(resolve, reject))
     }
 
     @objc(updateBarcodeArHighlight:resolver:rejecter:)
-    func updateBarcodeArHighlight(
-        data: [String: Any],
-        resolve: @escaping RCTPromiseResolveBlock,
-        reject: @escaping RCTPromiseRejectBlock
-    ) {
-        guard let highlightJson = data["highlightJson"] as? String else {
-            ReactNativeResult(resolve, reject).reject(error: ScanditFrameworksCoreError.nilArgument)
-            return
-        }
-        barcodeArModule.updateHighlight(
-            viewId: data.viewId,
-            highlightJson: highlightJson,
-            result: ReactNativeResult(resolve, reject)
-        )
+    func updateBarcodeArHighlight(highlightJson: String,
+                                     resolve: @escaping RCTPromiseResolveBlock,
+                                     reject: @escaping RCTPromiseRejectBlock) {
+        barcodeArModule.updateHighlight(highlightJson: highlightJson, result: ReactNativeResult(resolve, reject))
     }
 
     @objc(updateBarcodeArPopoverButtonAtIndex:resolver:rejecter:)
-    func updateBarcodeArPopoverButtonAtIndex(
-        data: [String: Any],
-        resolve: @escaping RCTPromiseResolveBlock,
-        reject: @escaping RCTPromiseRejectBlock
-    ) {
-        guard let updateJson = data["updateJson"] as? String else {
-            ReactNativeResult(resolve, reject).reject(error: ScanditFrameworksCoreError.nilArgument)
-            return
-        }
-        barcodeArModule.updateBarcodeArPopoverButtonAtIndex(
-            viewId: data.viewId,
-            updateJson: updateJson,
-            result: ReactNativeResult(resolve, reject)
-        )
+    func updateBarcodeArPopoverButtonAtIndex(updateJson: String,
+                                                resolve: @escaping RCTPromiseResolveBlock,
+                                                reject: @escaping RCTPromiseRejectBlock) {
+        barcodeArModule.updateBarcodeArPopoverButtonAtIndex(updateJson: updateJson, result: ReactNativeResult(resolve, reject))
     }
 
-    @objc(resetBarcodeAr:resolver:rejecter:)
-    func resetBarcodeAr(
-        data: [String: Any],
-        resolve: @escaping RCTPromiseResolveBlock,
-        reject: @escaping RCTPromiseRejectBlock
-    ) {
-        barcodeArModule.resetLatestBarcodeArSession(viewId: data.viewId, result: ReactNativeResult(resolve, reject))
+    @objc(resetBarcodeAr:rejecter:)
+    func resetBarcodeAr(resolve: @escaping RCTPromiseResolveBlock,
+                           reject: @escaping RCTPromiseRejectBlock) {
+        barcodeArModule.resetLatestBarcodeArSession(result: ReactNativeResult(resolve, reject))
     }
 
-    @objc(resetBarcodeArSession:resolver:rejecter:)
-    func resetBarcodeArSession(
-        data: [String: Any],
-        resolve: @escaping RCTPromiseResolveBlock,
-        reject: @escaping RCTPromiseRejectBlock
-    ) {
-        barcodeArModule.resetLatestBarcodeArSession(viewId: data.viewId, result: ReactNativeResult(resolve, reject))
+    @objc(resetBarcodeArSession:rejecter:)
+    func resetBarcodeArSession(resolve: @escaping RCTPromiseResolveBlock,
+                                  reject: @escaping RCTPromiseRejectBlock) {
+        barcodeArModule.resetLatestBarcodeArSession(result: ReactNativeResult(resolve, reject))
     }
 
-    @objc(barcodeArViewPause:resolver:rejecter:)
-    func barcodeArViewPause(
-        data: [String: Any],
-        resolve: @escaping RCTPromiseResolveBlock,
-        reject: @escaping RCTPromiseRejectBlock
-    ) {
-        barcodeArModule.viewPause(viewId: data.viewId, result: ReactNativeResult(resolve, reject))
+    @objc(barcodeArViewPause:rejecter:)
+    func barcodeArViewPause(resolve: @escaping RCTPromiseResolveBlock,
+                               reject: @escaping RCTPromiseRejectBlock) {
+        barcodeArModule.viewPause(result: ReactNativeResult(resolve, reject))
     }
 
-    @objc(barcodeArViewStart:resolver:rejecter:)
-    func barcodeArViewStart(
-        data: [String: Any],
-        resolve: @escaping RCTPromiseResolveBlock,
-        reject: @escaping RCTPromiseRejectBlock
-    ) {
-        barcodeArModule.viewStart(viewId: data.viewId, result: ReactNativeResult(resolve, reject))
+    @objc(barcodeArViewStart:rejecter:)
+    func barcodeArViewStart(resolve: @escaping RCTPromiseResolveBlock,
+                               reject: @escaping RCTPromiseRejectBlock) {
+        barcodeArModule.viewStart(result: ReactNativeResult(resolve, reject))
     }
 
-    @objc(barcodeArViewStop:resolver:rejecter:)
-    func barcodeArViewStop(
-        data: [String: Any],
-        resolve: @escaping RCTPromiseResolveBlock,
-        reject: @escaping RCTPromiseRejectBlock
-    ) {
-        barcodeArModule.viewStop(viewId: data.viewId, result: ReactNativeResult(resolve, reject))
+    @objc(barcodeArViewStop:rejecter:)
+    func barcodeArViewStop(resolve: @escaping RCTPromiseResolveBlock,
+                              reject: @escaping RCTPromiseRejectBlock) {
+        barcodeArModule.viewStop(result: ReactNativeResult(resolve, reject))
     }
 
-    @objc(barcodeArViewReset:resolver:rejecter:)
-    func barcodeArViewReset(
-        data: [String: Any],
-        resolve: @escaping RCTPromiseResolveBlock,
-        reject: @escaping RCTPromiseRejectBlock
-    ) {
-        barcodeArModule.viewReset(viewId: data.viewId, result: ReactNativeResult(resolve, reject))
+    @objc(barcodeArViewReset:rejecter:)
+    func barcodeArViewReset(resolve: @escaping RCTPromiseResolveBlock,
+                               reject: @escaping RCTPromiseRejectBlock) {
+        barcodeArModule.viewReset(result: ReactNativeResult(resolve, reject))
     }
 
-    @objc(registerBarcodeArAnnotationProvider:resolver:rejecter:)
-    func registerBarcodeArAnnotationProvider(
-        data: [String: Any],
-        resolve: @escaping RCTPromiseResolveBlock,
-        reject: @escaping RCTPromiseRejectBlock
-    ) {
-        barcodeArModule.registerBarcodeArAnnotationProvider(
-            viewId: data.viewId,
-            result: ReactNativeResult(resolve, reject)
-        )
+    @objc(registerBarcodeArAnnotationProvider:rejecter:)
+    func registerBarcodeArAnnotationProvider(resolve: @escaping RCTPromiseResolveBlock,
+                                                reject: @escaping RCTPromiseRejectBlock) {
+        barcodeArModule.registerBarcodeArAnnotationProvider(result: ReactNativeResult(resolve, reject))
     }
 
-    @objc(unregisterBarcodeArAnnotationProvider:resolver:rejecter:)
-    func unregisterBarcodeArAnnotationProvider(
-        data: [String: Any],
-        resolve: @escaping RCTPromiseResolveBlock,
-        reject: @escaping RCTPromiseRejectBlock
-    ) {
-        barcodeArModule.unregisterBarcodeArAnnotationProvider(
-            viewId: data.viewId,
-            result: ReactNativeResult(resolve, reject)
-        )
+    @objc(unregisterBarcodeArAnnotationProvider:rejecter:)
+    func unregisterBarcodeArAnnotationProvider(resolve: @escaping RCTPromiseResolveBlock,
+                                                  reject: @escaping RCTPromiseRejectBlock) {
+        barcodeArModule.unregisterBarcodeArAnnotationProvider(result: ReactNativeResult(resolve, reject))
     }
 
-    @objc(registerBarcodeArListener:resolver:rejecter:)
-    func registerBarcodeArListener(
-        data: [String: Any],
-        resolve: @escaping RCTPromiseResolveBlock,
-        reject: @escaping RCTPromiseRejectBlock
-    ) {
-        barcodeArModule.addModeListener(viewId: data.viewId, result: ReactNativeResult(resolve, reject))
+    @objc(registerBarcodeArListener:rejecter:)
+    func registerBarcodeArListener(resolve: @escaping RCTPromiseResolveBlock,
+                                      reject: @escaping RCTPromiseRejectBlock) {
+        barcodeArModule.addModeListener(result: ReactNativeResult(resolve, reject))
     }
 
-    @objc(unregisterBarcodeArListener:resolver:rejecter:)
-    func unregisterBarcodeArListener(
-        data: [String: Any],
-        resolve: @escaping RCTPromiseResolveBlock,
-        reject: @escaping RCTPromiseRejectBlock
-    ) {
-        barcodeArModule.removeModeListener(viewId: data.viewId, result: ReactNativeResult(resolve, reject))
+    @objc(unregisterBarcodeArListener:rejecter:)
+    func unregisterBarcodeArListener(resolve: @escaping RCTPromiseResolveBlock,
+                                        reject: @escaping RCTPromiseRejectBlock) {
+        barcodeArModule.removeModeListener(result: ReactNativeResult(resolve, reject))
     }
 
-    @objc(registerBarcodeArHighlightProvider:resolver:rejecter:)
-    func registerBarcodeArHighlightProvider(
-        data: [String: Any],
-        resolve: @escaping RCTPromiseResolveBlock,
-        reject: @escaping RCTPromiseRejectBlock
-    ) {
-        barcodeArModule.registerBarcodeArHighlightProvider(
-            viewId: data.viewId,
-            result: ReactNativeResult(resolve, reject)
-        )
+    @objc(registerBarcodeArHighlightProvider:rejecter:)
+    func registerBarcodeArHighlightProvider(resolve: @escaping RCTPromiseResolveBlock,
+                                               reject: @escaping RCTPromiseRejectBlock) {
+        barcodeArModule.registerBarcodeArHighlightProvider(result: ReactNativeResult(resolve, reject))
     }
 
-    @objc(unregisterBarcodeArHighlightProvider:resolver:rejecter:)
-    func unregisterBarcodeArHighlightProvider(
-        data: [String: Any],
-        resolve: @escaping RCTPromiseResolveBlock,
-        reject: @escaping RCTPromiseRejectBlock
-    ) {
-        barcodeArModule.unregisterBarcodeArHighlightProvider(
-            viewId: data.viewId,
-            result: ReactNativeResult(resolve, reject)
-        )
+    @objc(unregisterBarcodeArHighlightProvider:rejecter:)
+    func unregisterBarcodeArHighlightProvider(resolve: @escaping RCTPromiseResolveBlock,
+                                                 reject: @escaping RCTPromiseRejectBlock) {
+        barcodeArModule.unregisterBarcodeArHighlightProvider(result: ReactNativeResult(resolve, reject))
     }
 
-    @objc(registerBarcodeArViewUiListener:resolver:rejecter:)
-    func registerBarcodeArViewUiListener(
-        data: [String: Any],
-        resolve: @escaping RCTPromiseResolveBlock,
-        reject: @escaping RCTPromiseRejectBlock
-    ) {
-        barcodeArModule.registerBarcodeArViewUiListener(viewId: data.viewId, result: ReactNativeResult(resolve, reject))
+    @objc(registerBarcodeArViewUiListener:rejecter:)
+    func registerBarcodeArViewUiListener(resolve: @escaping RCTPromiseResolveBlock,
+                                            reject: @escaping RCTPromiseRejectBlock) {
+        barcodeArModule.registerBarcodeArViewUiListener(result: ReactNativeResult(resolve, reject))
     }
 
-    @objc(unregisterBarcodeArViewUiListener:resolver:rejecter:)
-    func unregisterBarcodeArViewUiListener(
-        data: [String: Any],
-        resolve: @escaping RCTPromiseResolveBlock,
-        reject: @escaping RCTPromiseRejectBlock
-    ) {
-        barcodeArModule.unregisterBarcodeArViewUiListener(
-            viewId: data.viewId,
-            result: ReactNativeResult(resolve, reject)
-        )
+    @objc(unregisterBarcodeArViewUiListener:rejecter:)
+    func unregisterBarcodeArViewUiListener(resolve: @escaping RCTPromiseResolveBlock,
+                                              reject: @escaping RCTPromiseRejectBlock) {
+        barcodeArModule.unregisterBarcodeArViewUiListener(result: ReactNativeResult(resolve, reject))
     }
 
-    @objc(finishBarcodeArOnDidUpdateSession:resolver:rejecter:)
-    func finishBarcodeArOnDidUpdateSession(
-        data: [String: Any],
-        resolve: @escaping RCTPromiseResolveBlock,
-        reject: @escaping RCTPromiseRejectBlock
-    ) {
-        barcodeArModule.finishDidUpdateSession(viewId: data.viewId, result: ReactNativeResult(resolve, reject))
+    @objc(finishBarcodeArOnDidUpdateSession:rejecter:)
+    func finishBarcodeArOnDidUpdateSession(resolve: @escaping RCTPromiseResolveBlock,
+                                              reject: @escaping RCTPromiseRejectBlock) {
+        barcodeArModule.finishDidUpdateSession(result: ReactNativeResult(resolve, reject))
     }
 
     @objc(finishBarcodeArAnnotationForBarcode:resolver:rejecter:)
-    func finishBarcodeArAnnotationForBarcode(
-        data: [String: Any],
-        resolve: @escaping RCTPromiseResolveBlock,
-        reject: @escaping RCTPromiseRejectBlock
-    ) {
-        guard let annotationJson = data["annotationJson"] as? String else {
-            ReactNativeResult(resolve, reject).reject(error: ScanditFrameworksCoreError.nilArgument)
-            return
-        }
-        barcodeArModule.finishAnnotationForBarcode(
-            viewId: data.viewId,
-            annotationJson: annotationJson,
-            result: ReactNativeResult(resolve, reject)
-        )
+    func finishBarcodeArAnnotationForBarcode(annotationJson: String,
+                                                resolve: @escaping RCTPromiseResolveBlock,
+                                                reject: @escaping RCTPromiseRejectBlock) {
+        barcodeArModule.finishAnnotationForBarcode(annotationJson: annotationJson, result: ReactNativeResult(resolve, reject))
     }
 
     @objc(finishBarcodeArHighlightForBarcode:resolver:rejecter:)
-    func finishBarcodeArHighlightForBarcode(
-        data: [String: Any],
-        resolve: @escaping RCTPromiseResolveBlock,
-        reject: @escaping RCTPromiseRejectBlock
-    ) {
-        guard let highlightJson = data["highlightJson"] as? String else {
-            ReactNativeResult(resolve, reject).reject(error: ScanditFrameworksCoreError.nilArgument)
-            return
-        }
-        barcodeArModule.finishHighlightForBarcode(
-            viewId: data.viewId,
-            highlightJson: highlightJson,
-            result: ReactNativeResult(resolve, reject)
-        )
-    }
-
-    @objc(onCustomHighlightClicked:resolver:rejecter:)
-    func onCustomHighlightClicked(
-        data: [String: Any],
-        resolve: @escaping RCTPromiseResolveBlock,
-        reject: @escaping RCTPromiseRejectBlock
-    ) {
-        guard let barcodeId = data["barcodeId"] as? String else {
-            ReactNativeResult(resolve, reject).reject(error: ScanditFrameworksCoreError.nilArgument)
-            return
-        }
-        barcodeArModule.onCustomHighlightClicked(
-            viewId: data.viewId,
-            barcodeId: barcodeId,
-            result: ReactNativeResult(resolve, reject)
-        )
+    func finishBarcodeArHighlightForBarcode(highlightJson: String,
+                                               resolve: @escaping RCTPromiseResolveBlock,
+                                               reject: @escaping RCTPromiseRejectBlock) {
+        barcodeArModule.finishHighlightForBarcode(highlightJson: highlightJson, result: ReactNativeResult(resolve, reject))
     }
 }
