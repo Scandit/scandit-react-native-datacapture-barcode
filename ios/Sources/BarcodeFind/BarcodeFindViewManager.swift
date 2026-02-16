@@ -15,13 +15,7 @@ protocol BarcodeFindViewWrapperDelegate: NSObject {
 }
 
 class BarcodeFindViewWrapperView: UIView {
-    weak var delegate: BarcodeFindViewWrapperDelegate?
-
-    var barcodeFindView: BarcodeFindView? {
-        dispatchMainSync {
-            subviews.first { $0 is BarcodeFindView } as? BarcodeFindView
-        }
-    }
+    weak var viewManager: BarcodeFindViewManager?
 
     override func addSubview(_ view: UIView) {
         super.addSubview(view)
@@ -31,17 +25,25 @@ class BarcodeFindViewWrapperView: UIView {
                 view.leadingAnchor.constraint(equalTo: leadingAnchor),
                 view.trailingAnchor.constraint(equalTo: trailingAnchor),
                 view.topAnchor.constraint(equalTo: topAnchor),
-                view.bottomAnchor.constraint(equalTo: bottomAnchor)
+                view.bottomAnchor.constraint(equalTo: bottomAnchor),
             ])
         }
     }
 
+    override func didMoveToSuperview() {
+        // Was added to the super view, if no sparkScanView yet
+        if let viewManager = viewManager {
+            let postCreationAction = viewManager.getAndRemovePostContainerCreateAction(for: self.reactTag.intValue)
+            postCreationAction?(self)
+        }
+    }
+
     override func removeFromSuperview() {
-        delegate?.wrapperViewWillBeRemoved(self)
+        viewManager?.wrapperViewWillBeRemoved(self)
         super.removeFromSuperview()
 
-        if let view = barcodeFindView, view.superview != nil {
-            view.removeFromSuperview()
+        if let viewManager = viewManager {
+            _ = viewManager.getAndRemovePostContainerCreateAction(for: self.reactTag.intValue)
         }
     }
 }
@@ -56,20 +58,29 @@ class BarcodeFindViewManager: RCTViewManager, BarcodeFindViewWrapperDelegate {
         true
     }
 
+    private var postContainerCreateActions: [Int: ((BarcodeFindViewWrapperView) -> Void)] = [:]
+
+    public func setPostContainerCreateAction(for viewId: Int, action: @escaping (BarcodeFindViewWrapperView) -> Void) {
+        postContainerCreateActions[viewId] = action
+    }
+
     override func view() -> UIView! {
         let container = BarcodeFindViewWrapperView()
-        container.delegate = self
+        container.viewManager = self
         BarcodeFindViewManager.containers.append(container)
         return container
     }
 
+    func getAndRemovePostContainerCreateAction(for viewId: Int) -> ((BarcodeFindViewWrapperView) -> Void)? {
+        let action = postContainerCreateActions[viewId]
+        postContainerCreateActions.removeValue(forKey: viewId)
+        return action
+    }
+
     func wrapperViewWillBeRemoved(_ view: BarcodeFindViewWrapperView) {
-        guard let index = BarcodeFindViewManager.containers.firstIndex(of: view) else {
-            return
+        if let index = BarcodeFindViewManager.containers.firstIndex(of: view) {
+            BarcodeFindViewManager.containers.remove(at: index)
         }
-        BarcodeFindViewManager.containers.remove(at: index)
-        if let findView = view.barcodeFindView {
-            barcodeFindModule?.onViewRemovedFromSuperview(removedView: findView)
-        }
+        barcodeFindModule?.onViewRemovedFromSuperview(viewId: view.reactTag.intValue)
     }
 }
