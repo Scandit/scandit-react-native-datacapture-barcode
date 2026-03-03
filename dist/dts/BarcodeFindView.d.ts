@@ -6,12 +6,10 @@ interface BarcodeFindViewProps {
     barcodeFind: BarcodeFind;
     viewSettings?: BarcodeFindViewSettings;
     cameraSettings?: CameraSettings;
-    style: any;
 }
 export declare class BarcodeFindView extends React.Component<BarcodeFindViewProps> {
     private baseBarcodeFindView;
     constructor(props: BarcodeFindViewProps);
-    static get hardwareTriggerSupported(): boolean;
     get barcodeFindViewUiListener(): BarcodeFindViewUiListener | null;
     set barcodeFindViewUiListener(value: BarcodeFindViewUiListener | null);
     get shouldShowUserGuidanceView(): boolean;
@@ -28,8 +26,6 @@ export declare class BarcodeFindView extends React.Component<BarcodeFindViewProp
     set shouldShowProgressBar(value: boolean);
     get shouldShowTorchControl(): boolean;
     set shouldShowTorchControl(value: boolean);
-    get shouldShowZoomControl(): boolean;
-    set shouldShowZoomControl(value: boolean);
     get torchControlPosition(): Anchor;
     set torchControlPosition(value: Anchor);
     get textForCollapseCardsButton(): string | null;

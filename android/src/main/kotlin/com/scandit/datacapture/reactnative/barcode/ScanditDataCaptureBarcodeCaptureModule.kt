@@ -10,11 +10,9 @@ import com.facebook.react.bridge.Promise
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
-import com.facebook.react.bridge.ReadableMap
 import com.scandit.datacapture.frameworks.barcode.capture.BarcodeCaptureModule
 import com.scandit.datacapture.frameworks.core.FrameworkModule
 import com.scandit.datacapture.frameworks.core.errors.ModuleNotStartedError
-import com.scandit.datacapture.frameworks.core.errors.ParameterNullError
 import com.scandit.datacapture.frameworks.core.locator.ServiceLocator
 import com.scandit.datacapture.reactnative.core.utils.ReactNativeResult
 
@@ -40,56 +38,47 @@ class ScanditDataCaptureBarcodeCaptureModule(
     )
 
     @ReactMethod
-    fun registerBarcodeCaptureListenerForEvents() {
+    fun registerListenerForEvents() {
         barcodeCaptureModule.addListener()
     }
 
     @ReactMethod
-    fun unregisterBarcodeCaptureListenerForEvents() {
+    fun unregisterListenerForEvents() {
         barcodeCaptureModule.removeListener()
     }
 
     @ReactMethod
-    fun finishBarcodeCaptureDidUpdateSession(readableMap: ReadableMap) {
-        val enabled = readableMap.getBoolean("enabled")
+    fun finishDidUpdateSessionCallback(enabled: Boolean) {
         barcodeCaptureModule.finishDidUpdateSession(enabled)
     }
 
     @ReactMethod
-    fun finishBarcodeCaptureDidScan(readableMap: ReadableMap) {
-        val enabled = readableMap.getBoolean("enabled")
+    fun finishDidScanCallback(enabled: Boolean) {
         barcodeCaptureModule.finishDidScan(enabled)
     }
 
     @ReactMethod
-    fun resetBarcodeCaptureSession() {
+    fun resetSession() {
         barcodeCaptureModule.resetSession(null)
     }
 
     @ReactMethod
-    fun setBarcodeCaptureModeEnabledState(readableMap: ReadableMap) {
-        val enabled = readableMap.getBoolean("enabled")
+    fun setModeEnabledState(enabled: Boolean) {
         barcodeCaptureModule.setModeEnabled(enabled)
     }
 
     @ReactMethod
-    fun updateBarcodeCaptureOverlay(readableMap: ReadableMap, promise: Promise) {
-        val overlayJson = readableMap.getString("overlayJson")
-            ?: return promise.reject(ParameterNullError("overlayJson"))
+    fun updateBarcodeCaptureOverlay(overlayJson: String, promise: Promise) {
         barcodeCaptureModule.updateOverlay(overlayJson, ReactNativeResult(promise))
     }
 
     @ReactMethod
-    fun updateBarcodeCaptureMode(readableMap: ReadableMap, promise: Promise) {
-        val modeJson = readableMap.getString("modeJson")
-            ?: return promise.reject(ParameterNullError("modeJson"))
+    fun updateBarcodeCaptureMode(modeJson: String, promise: Promise) {
         barcodeCaptureModule.updateModeFromJson(modeJson, ReactNativeResult(promise))
     }
 
     @ReactMethod
-    fun applyBarcodeCaptureModeSettings(readableMap: ReadableMap, promise: Promise) {
-        val modeSettingsJson = readableMap.getString("modeSettingsJson")
-            ?: return promise.reject(ParameterNullError("modeSettingsJson"))
+    fun applyBarcodeCaptureModeSettings(modeSettingsJson: String, promise: Promise) {
         barcodeCaptureModule.applyModeSettings(modeSettingsJson, ReactNativeResult(promise))
     }
 

@@ -13,6 +13,7 @@ export declare class NativeBarcodeFindViewProxy extends BaseNativeProxy implemen
     createView(id: number | null, json: string): Promise<void>;
     showView(): Promise<void>;
     hideView(): Promise<void>;
+    setPositionAndSize(_top: number, _left: number, _width: number, _height: number, _shouldBeUnderWebView: boolean): Promise<void>;
     subscribeBarcodeFindViewListener(): Promise<void>;
     unsubscribeBarcodeFindViewListener(): Promise<void>;
 }

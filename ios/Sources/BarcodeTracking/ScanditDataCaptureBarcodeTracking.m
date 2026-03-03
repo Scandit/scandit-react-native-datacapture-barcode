@@ -1,7 +1,7 @@
 #import <React/RCTBridgeModule.h>
 #import <React/RCTEventEmitter.h>
 
-@interface RCT_EXTERN_MODULE (ScanditDataCaptureBarcodeBatch, RCTEventEmitter)
+@interface RCT_EXTERN_MODULE (ScanditDataCaptureBarcodeTracking, RCTEventEmitter)
 
 RCT_EXTERN_METHOD(finishDidUpdateSessionCallback : (BOOL)enabled)
 
@@ -57,22 +57,22 @@ RCT_EXTERN_METHOD(resetSession
 
 RCT_EXTERN_METHOD(setModeEnabledState : (BOOL)enabled)
 
-RCT_EXTERN_METHOD(updateBarcodeBatchBasicOverlay
+RCT_EXTERN_METHOD(updateBarcodeTrackingBasicOverlay
                   : (NSString *)overlayJson resolve
                   : (RCTPromiseResolveBlock)resolve reject
                   : (RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(updateBarcodeBatchAdvancedOverlay
+RCT_EXTERN_METHOD(updateBarcodeTrackingAdvancedOverlay
                   : (NSString *)overlayJson resolve
                   : (RCTPromiseResolveBlock)resolve reject
                   : (RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(updateBarcodeBatchMode
+RCT_EXTERN_METHOD(updateBarcodeTrackingMode
                   : (NSString *)modeJson resolve
                   : (RCTPromiseResolveBlock)resolve reject
                   : (RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(applyBarcodeBatchModeSettings
+RCT_EXTERN_METHOD(applyBarcodeTrackingModeSettings
                   : (NSString *)modeSettingsJson resolve
                   : (RCTPromiseResolveBlock)resolve reject
                   : (RCTPromiseRejectBlock)reject)
