@@ -61,15 +61,14 @@ class BarcodePickViewManager(
 
     override fun onDropViewInstance(view: FrameLayout) {
         view.findViewOfType(BarcodePickView::class.java)?.let {
-            barcodePickModule.pickViewRelease(view.id, NoopFrameworksResult())
+            barcodePickModule.releasePickView(view.id, NoopFrameworksResult())
         }
         super.onDropViewInstance(view)
     }
 
     private val barcodePickModule: BarcodePickModule
         get() {
-            return serviceLocator.resolve(BarcodePickModule::class.java.simpleName) as?
-                BarcodePickModule?
+            return serviceLocator.resolve(BarcodePickModule::class.java.name) as? BarcodePickModule?
                 ?: throw ModuleNotStartedError(BarcodePickModule::class.java.simpleName)
         }
 }

@@ -16,7 +16,6 @@ import com.scandit.datacapture.frameworks.core.FrameworkModule
 import com.scandit.datacapture.frameworks.core.errors.ModuleNotStartedError
 import com.scandit.datacapture.frameworks.core.extensions.findViewOfType
 import com.scandit.datacapture.frameworks.core.locator.ServiceLocator
-import com.scandit.datacapture.frameworks.core.result.NoopFrameworksResult
 import com.scandit.datacapture.reactnative.core.data.ViewCreationRequest
 import com.scandit.datacapture.reactnative.core.ui.ScanditViewGroupManager
 import com.scandit.datacapture.reactnative.core.utils.ReactNativeResult
@@ -87,7 +86,7 @@ class SparkScanViewManager(
 
     override fun onDropViewInstance(view: SparkScanCoordinatorLayout) {
         // Dispose the current view
-        sparkScanModule.disposeSparkScanView(view.id, NoopFrameworksResult())
+        sparkScanModule.disposeView(view.id)
         rnViewsContainers.remove(view.id)
         super.onDropViewInstance(view)
     }
@@ -106,8 +105,7 @@ class SparkScanViewManager(
 
     private val sparkScanModule: SparkScanModule
         get() {
-            return serviceLocator.resolve(SparkScanModule::class.java.simpleName) as?
-                SparkScanModule?
+            return serviceLocator.resolve(SparkScanModule::class.java.name) as? SparkScanModule?
                 ?: throw ModuleNotStartedError(SparkScanViewManager::class.java.simpleName)
         }
 }

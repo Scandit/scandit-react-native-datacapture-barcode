@@ -67,7 +67,7 @@ class BarcodeArViewManager(
     private val barcodeArModule: BarcodeArModule
         get() {
             return serviceLocator.resolve(
-                BarcodeArModule::class.java.simpleName
+                BarcodeArModule::class.java.name
             ) as? BarcodeArModule?
                 ?: throw ModuleNotStartedError(BarcodeArModule::class.java.simpleName)
         }

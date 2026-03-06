@@ -13,7 +13,7 @@ class RNTSparkScanViewWrapper: UIView {
     var isFrameSet = false
 
     var sparkScanView: SparkScanView? {
-        subviews.first { $0 is SparkScanView } as? SparkScanView
+        return subviews.first { $0 is SparkScanView } as? SparkScanView
     }
 
     var postFrameSetAction: (() -> Void)?

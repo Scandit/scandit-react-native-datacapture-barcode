@@ -45,8 +45,6 @@ class BarcodeCountViewManager(
                     ViewGroup.LayoutParams.MATCH_PARENT
                 )
             }
-
-            item.promise.resolve(null)
         }
     }
 
@@ -66,7 +64,6 @@ class BarcodeCountViewManager(
                 )
             }
         }
-        promise.resolve(null)
     }
 
     override fun onDropViewInstance(view: FrameLayout) {
@@ -79,7 +76,7 @@ class BarcodeCountViewManager(
     private val barcodeCountModule: BarcodeCountModule
         get() {
             return serviceLocator.resolve(
-                BarcodeCountModule::class.java.simpleName
+                BarcodeCountModule::class.java.name
             ) as? BarcodeCountModule?
                 ?: throw ModuleNotStartedError(BarcodeCountModule::class.java.simpleName)
         }

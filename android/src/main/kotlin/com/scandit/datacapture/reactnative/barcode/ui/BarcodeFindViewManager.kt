@@ -63,8 +63,7 @@ class BarcodeFindViewManager(
 
     private val barcodeFindModule: BarcodeFindModule
         get() {
-            return serviceLocator.resolve(BarcodeFindModule::class.java.simpleName) as?
-                BarcodeFindModule?
+            return serviceLocator.resolve(BarcodeFindModule::class.java.name) as? BarcodeFindModule?
                 ?: throw ModuleNotStartedError(BarcodeFindModule::class.java.simpleName)
         }
 }
