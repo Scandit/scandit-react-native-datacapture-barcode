@@ -1,8 +1,10 @@
 import React from 'react';
+import { StyleProp, View, ViewStyle, ViewProps } from 'react-native';
 import { Anchor, Brush, CameraPosition, CameraSettings, DataCaptureContext, FrameData, FrameSourceState, PointWithUnit, TorchState, TorchSwitchControl, ZoomSwitchControl } from 'scandit-react-native-datacapture-core';
 import { BarcodeBatch, BarcodeBatchAdvancedOverlayView, BarcodeBatchBasicOverlay, BarcodeBatchBasicOverlayStyle, BarcodeBatchSession, BarcodeBatchSettings, TrackedBarcode } from 'scandit-datacapture-frameworks-barcode';
 import { BarcodeBatchAdvancedOverlay } from './BarcodeBatchAdvancedOverlay';
-interface BarcodeBatchViewProps {
+import { NavigationProp, ParamListBase } from '@react-navigation/native';
+interface BarcodeBatchViewProps extends ViewProps {
     context: DataCaptureContext;
     isEnabled?: boolean;
     barcodeBatchSettings?: BarcodeBatchSettings | null;
@@ -17,9 +19,9 @@ interface BarcodeBatchViewProps {
     desiredTorchState?: TorchState | null;
     torchSwitchControl?: TorchSwitchControl | null;
     zoomSwitchControl?: ZoomSwitchControl | null;
-    style: any;
+    style: StyleProp<ViewStyle>;
     useCacheForViewsForTrackedBarcodes?: boolean;
-    navigation?: any;
+    navigation?: NavigationProp<ParamListBase>;
     didUpdateSession?(barcodeBatch: BarcodeBatch, session: BarcodeBatchSession, getFrameData: () => Promise<FrameData>): Promise<void>;
     brushForTrackedBarcode?(overlay: BarcodeBatchBasicOverlay, trackedBarcode: TrackedBarcode): Brush | null;
     didTapTrackedBarcode?(overlay: BarcodeBatchBasicOverlay, trackedBarcode: TrackedBarcode): void;
@@ -28,5 +30,5 @@ interface BarcodeBatchViewProps {
     anchorForTrackedBarcode?(overlay: BarcodeBatchAdvancedOverlay, trackedBarcode: TrackedBarcode): Anchor;
     offsetForTrackedBarcode?(overlay: BarcodeBatchAdvancedOverlay, trackedBarcode: TrackedBarcode): PointWithUnit;
 }
-export declare const BarcodeBatchView: React.ForwardRefExoticComponent<BarcodeBatchViewProps & React.RefAttributes<unknown>>;
+export declare const BarcodeBatchView: React.ForwardRefExoticComponent<BarcodeBatchViewProps & React.RefAttributes<View>>;
 export {};

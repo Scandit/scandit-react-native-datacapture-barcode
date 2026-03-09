@@ -28,7 +28,7 @@ class BarcodeArViewWrapperView: UIView {
                 view.leadingAnchor.constraint(equalTo: leadingAnchor),
                 view.trailingAnchor.constraint(equalTo: trailingAnchor),
                 view.topAnchor.constraint(equalTo: topAnchor),
-                view.bottomAnchor.constraint(equalTo: bottomAnchor)
+                view.bottomAnchor.constraint(equalTo: bottomAnchor),
             ])
         }
     }
@@ -54,7 +54,8 @@ class BarcodeArViewWrapperView: UIView {
         }
 
         if let view = barcodeArView,
-           let _ = viewManager {
+            viewManager != nil
+        {
             if view.superview != nil {
                 view.removeFromSuperview()
             }
