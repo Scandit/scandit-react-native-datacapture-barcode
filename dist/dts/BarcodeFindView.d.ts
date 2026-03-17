@@ -1,21 +1,9 @@
-import { NavigationProp, ParamListBase } from '@react-navigation/native';
 import React from 'react';
-import { StyleProp, ViewStyle } from 'react-native';
-import { BarcodeFind, BarcodeFindViewUiListener, BarcodeFindViewSettings } from 'scandit-datacapture-frameworks-barcode';
-import { Anchor, CameraSettings, DataCaptureContext } from 'scandit-datacapture-frameworks-core';
-interface BarcodeFindViewProps {
-    context: DataCaptureContext;
-    barcodeFind: BarcodeFind;
-    viewSettings?: BarcodeFindViewSettings;
-    cameraSettings?: CameraSettings;
-    style?: StyleProp<ViewStyle>;
-    navigation?: NavigationProp<ParamListBase>;
-}
+import { BarcodeFindViewUiListener, BarcodeFindViewProps } from 'scandit-datacapture-frameworks-barcode';
+import { Anchor } from 'scandit-datacapture-frameworks-core';
 export declare class BarcodeFindView extends React.Component<BarcodeFindViewProps> {
     private baseBarcodeFindView;
     private _isMounted;
-    private navigationUnsubscribers;
-    private cameraOwner;
     constructor(props: BarcodeFindViewProps);
     static get hardwareTriggerSupported(): boolean;
     get barcodeFindViewUiListener(): BarcodeFindViewUiListener | null;
@@ -60,10 +48,6 @@ export declare class BarcodeFindView extends React.Component<BarcodeFindViewProp
     render(): React.JSX.Element;
     componentWillUnmount(): void;
     componentDidMount(): void;
-    private setupNavigationListeners;
-    private onFocus;
-    private onBlur;
     private createBarcodeFindView;
     private toJSON;
 }
-export {};

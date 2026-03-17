@@ -132,10 +132,4 @@ RCT_EXTERN_METHOD(barcodeArViewReset
                   : (nonnull NSDictionary *)data resolver
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
-
-RCT_EXTERN_METHOD(onCustomHighlightClicked
-                  : (nonnull NSDictionary *)data resolver
-                  : (RCTPromiseResolveBlock)resolve rejecter
-                  : (RCTPromiseRejectBlock)reject)
-
 @end

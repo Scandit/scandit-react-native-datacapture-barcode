@@ -14,12 +14,12 @@ class ScanditDataCaptureBarcode: RCTEventEmitter {
     let barcodeModule: BarcodeModule
 
     @objc override class func requiresMainQueueSetup() -> Bool {
-        false
+        return false
     }
 
     @objc
     override var methodQueue: DispatchQueue! {
-        sdcSharedMethodQueue
+        return sdcSharedMethodQueue
     }
 
     public override init() {

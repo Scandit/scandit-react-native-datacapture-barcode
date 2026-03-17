@@ -11,9 +11,9 @@ import ScanditFrameworksCore
 
 class BarcodeCountViewWrapperView: UIView {
     weak var viewManager: BarcodeCountViewManager?
-
+    
     var isFrameSet = false
-
+    
     var postFrameSetAction: (() -> Void)?
 
     var barcodeCountView: BarcodeCountView? {
@@ -34,11 +34,11 @@ class BarcodeCountViewWrapperView: UIView {
                 view.leadingAnchor.constraint(equalTo: leadingAnchor),
                 view.trailingAnchor.constraint(equalTo: trailingAnchor),
                 view.topAnchor.constraint(equalTo: topAnchor),
-                view.bottomAnchor.constraint(equalTo: bottomAnchor),
+                view.bottomAnchor.constraint(equalTo: bottomAnchor)
             ])
         }
     }
-
+    
     override func didMoveToSuperview() {
         // Was added to the super view, if no sparkScanView yet
         if let viewManager = viewManager {
@@ -47,6 +47,7 @@ class BarcodeCountViewWrapperView: UIView {
         }
     }
 
+
     override func removeFromSuperview() {
         super.removeFromSuperview()
         guard let index = BarcodeCountViewManager.containers.firstIndex(of: self) else {
@@ -54,20 +55,19 @@ class BarcodeCountViewWrapperView: UIView {
         }
 
         BarcodeCountViewManager.containers.remove(at: index)
-
+        
         if let viewManager = viewManager {
             _ = viewManager.getAndRemovePostContainerCreateAction(for: self.reactTag.intValue)
         }
 
         if let view = barcodeCountView,
-            let viewManager = viewManager
-        {
+           let viewManager = viewManager {
             if view.superview != nil {
                 view.removeFromSuperview()
             }
         }
     }
-
+    
     override func layoutSubviews() {
         super.layoutSubviews()
         // This is needed only the first time to execute the action queued in the postFrameSetAction
@@ -85,7 +85,7 @@ class BarcodeCountViewManager: RCTViewManager {
     override class func requiresMainQueueSetup() -> Bool {
         true
     }
-
+    
     private var postContainerCreateActions: [Int: ((BarcodeCountViewWrapperView) -> Void)] = [:]
 
     public func setPostContainerCreateAction(for viewId: Int, action: @escaping (BarcodeCountViewWrapperView) -> Void) {
