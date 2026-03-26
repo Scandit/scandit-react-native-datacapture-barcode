@@ -11,3 +11,4 @@
 #import <React/RCTViewManager.h>
 
 #import "SDCBarcodeCountViewDefaults.h"
+#import "ScanditDataCaptureBarcodeViews.h"

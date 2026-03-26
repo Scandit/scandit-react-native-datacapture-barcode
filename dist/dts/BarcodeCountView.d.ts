@@ -1,4 +1,4 @@
-import { BarcodeCountNotInListActionSettings, BarcodeCountToolbarSettings, BarcodeCountViewListener, BarcodeCountViewUiListener, BarcodeFilterHighlightSettings, BaseBarcodeCountViewProps, TrackedBarcode } from 'scandit-datacapture-frameworks-barcode';
+import { BarcodeCountNotInListActionSettings, BarcodeCountStatusProvider, BarcodeCountToolbarSettings, BarcodeCountViewListener, BarcodeCountViewUiListener, BarcodeFilterHighlightSettings, BaseBarcodeCountViewProps, TrackedBarcode } from 'scandit-datacapture-frameworks-barcode';
 import { StyleProp, ViewStyle } from 'react-native';
 import React from 'react';
 import { Anchor } from 'scandit-datacapture-frameworks-core';
@@ -46,6 +46,10 @@ export declare class BarcodeCountView extends React.Component<BarcodeCountViewPr
     set shouldShowFloatingShutterButton(newValue: boolean);
     get shouldShowToolbar(): boolean;
     set shouldShowToolbar(newValue: boolean);
+    get shouldShowStatusModeButton(): boolean;
+    set shouldShowStatusModeButton(newValue: boolean);
+    get shouldShowStatusIconsOnScan(): boolean;
+    set shouldShowStatusIconsOnScan(newValue: boolean);
     get shouldShowScanAreaGuides(): boolean;
     set shouldShowScanAreaGuides(newValue: boolean);
     get recognizedBrush(): Brush | null;
@@ -95,6 +99,12 @@ export declare class BarcodeCountView extends React.Component<BarcodeCountViewPr
     set singleScanButtonAccessibilityLabel(newValue: string);
     get singleScanButtonContentDescription(): string;
     set singleScanButtonContentDescription(newValue: string);
+    get statusModeButtonAccessibilityHint(): string;
+    set statusModeButtonAccessibilityHint(newValue: string);
+    get statusModeButtonAccessibilityLabel(): string;
+    set statusModeButtonAccessibilityLabel(newValue: string);
+    get statusModeButtonContentDescription(): string;
+    set statusModeButtonContentDescription(newValue: string);
     get clearHighlightsButtonText(): string;
     set clearHighlightsButtonText(newValue: string);
     get exitButtonText(): string;
@@ -107,6 +117,12 @@ export declare class BarcodeCountView extends React.Component<BarcodeCountViewPr
     set textForMoveCloserAndRescanHint(newValue: string);
     get textForMoveFurtherAndRescanHint(): string;
     set textForMoveFurtherAndRescanHint(newValue: string);
+    get textForBarcodesNotInListDetectedHint(): string;
+    set textForBarcodesNotInListDetectedHint(newValue: string);
+    get textForScreenCleanedUpHint(): string;
+    set textForScreenCleanedUpHint(newValue: string);
+    get textForClusteringGestureHint(): string;
+    set textForClusteringGestureHint(newValue: string);
     get shouldShowListProgressBar(): boolean;
     set shouldShowListProgressBar(newValue: boolean);
     get shouldShowTorchControl(): boolean;
@@ -127,6 +143,7 @@ export declare class BarcodeCountView extends React.Component<BarcodeCountViewPr
     componentDidUpdate(prevProps: BarcodeCountViewProps): void;
     clearHighlights(): Promise<void>;
     setToolbarSettings(settings: BarcodeCountToolbarSettings): void;
+    setStatusProvider(provider: BarcodeCountStatusProvider): void;
     setBrushForRecognizedBarcode(trackedBarcode: TrackedBarcode, brush: Brush | null): Promise<void>;
     setBrushForRecognizedBarcodeNotInList(trackedBarcode: TrackedBarcode, brush: Brush | null): Promise<void>;
     setBrushForAcceptedBarcode(trackedBarcode: TrackedBarcode, brush: Brush | null): Promise<void>;

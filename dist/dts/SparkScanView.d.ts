@@ -1,13 +1,26 @@
 import React from 'react';
 import { StyleProp, ViewStyle } from 'react-native';
-import { SparkScanFeedbackDelegate, SparkScanViewState, BaseSparkScanViewProps } from 'scandit-datacapture-frameworks-barcode';
+import { SparkScanFeedbackDelegate, SparkScanViewState, SparkScanScanningMode, BaseSparkScanViewProps } from 'scandit-datacapture-frameworks-barcode';
 import { Brush, Color } from 'scandit-datacapture-frameworks-core';
 import { NavigationProp, ParamListBase } from '@react-navigation/native';
 export interface SparkScanViewUiListener {
+    /**
+     * @deprecated Use {@link didTapBarcodeCountButton} instead.
+     */
     onBarcodeCountButtonTappedIn?(view: SparkScanView): void;
+    /**
+     * @deprecated Use {@link didTapBarcodeFindButton} instead.
+     */
     onBarcodeFindButtonTappedIn?(view: SparkScanView): void;
+    /**
+     * @deprecated Use {@link didTapLabelCaptureButton} instead.
+     */
     onLabelCaptureButtonTappedIn?(view: SparkScanView): void;
+    didTapBarcodeCountButton?(view: SparkScanView): void;
+    didTapBarcodeFindButton?(view: SparkScanView): void;
+    didTapLabelCaptureButton?(view: SparkScanView): void;
     didChangeViewState?(newState: SparkScanViewState): void;
+    didChangeScanningMode?(newScanningMode: SparkScanScanningMode): void;
 }
 interface SparkScanViewProps extends BaseSparkScanViewProps {
     style: StyleProp<ViewStyle>;
