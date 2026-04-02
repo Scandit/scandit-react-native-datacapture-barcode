@@ -1,11 +1,15 @@
 import React from 'react';
-import { BarcodeFindViewUiListener, BarcodeFindViewProps } from 'scandit-datacapture-frameworks-barcode';
-import { Anchor } from 'scandit-datacapture-frameworks-core';
+import { BarcodeFind, BarcodeFindViewSettings, BarcodeFindViewUiListener } from 'scandit-datacapture-frameworks-barcode';
+import { Anchor, CameraSettings, DataCaptureContext } from 'scandit-datacapture-frameworks-core';
+interface BarcodeFindViewProps {
+    context: DataCaptureContext;
+    barcodeFind: BarcodeFind;
+    viewSettings?: BarcodeFindViewSettings;
+    cameraSettings?: CameraSettings;
+}
 export declare class BarcodeFindView extends React.Component<BarcodeFindViewProps> {
     private baseBarcodeFindView;
-    private _isMounted;
     constructor(props: BarcodeFindViewProps);
-    static get hardwareTriggerSupported(): boolean;
     get barcodeFindViewUiListener(): BarcodeFindViewUiListener | null;
     set barcodeFindViewUiListener(value: BarcodeFindViewUiListener | null);
     get shouldShowUserGuidanceView(): boolean;
@@ -22,8 +26,6 @@ export declare class BarcodeFindView extends React.Component<BarcodeFindViewProp
     set shouldShowProgressBar(value: boolean);
     get shouldShowTorchControl(): boolean;
     set shouldShowTorchControl(value: boolean);
-    get shouldShowZoomControl(): boolean;
-    set shouldShowZoomControl(value: boolean);
     get torchControlPosition(): Anchor;
     set torchControlPosition(value: Anchor);
     get textForCollapseCardsButton(): string | null;
@@ -48,6 +50,7 @@ export declare class BarcodeFindView extends React.Component<BarcodeFindViewProp
     render(): React.JSX.Element;
     componentWillUnmount(): void;
     componentDidMount(): void;
-    private createBarcodeFindView;
+    private createFragment;
     private toJSON;
 }
+export {};

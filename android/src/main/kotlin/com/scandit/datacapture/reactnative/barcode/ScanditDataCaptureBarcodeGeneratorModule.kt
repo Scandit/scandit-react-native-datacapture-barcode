@@ -53,23 +53,13 @@ class ScanditDataCaptureBarcodeGeneratorModule(
     }
 
     @ReactMethod
-    fun disposeGenerator(generatorId: String, promise: Promise) {
-        barcodeGenerator.disposeGenerator(generatorId, ReactNativeResult(promise))
+    fun disposeGenerator(generatorId: String, text: String, imageWidth: Int, promise: Promise) {
+        barcodeGenerator.generate(generatorId, text, imageWidth, ReactNativeResult(promise))
     }
 
     override fun invalidate() {
         super.invalidate()
         barcodeGenerator.onDestroy()
-    }
-
-    @ReactMethod
-    fun addListener(@Suppress("UNUSED_PARAMETER") eventName: String?) {
-        // Keep: Required for RN built in Event Emitter Calls.
-    }
-
-    @ReactMethod
-    fun removeListeners(@Suppress("UNUSED_PARAMETER") count: Int?) {
-        // Keep: Required for RN built in Event Emitter Calls.
     }
 
     private val barcodeGenerator: BarcodeGeneratorModule

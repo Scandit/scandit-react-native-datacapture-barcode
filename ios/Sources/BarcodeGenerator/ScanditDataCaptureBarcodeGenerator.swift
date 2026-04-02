@@ -23,6 +23,7 @@ class ScanditDataCaptureBarcodeGenerator: RCTEventEmitter {
 
     override init() {
         super.init()
+        let emitter = ReactNativeEmitter(emitter: self)
         barcodeGenerator = BarcodeGeneratorModule()
         barcodeGenerator.didStart()
     }
