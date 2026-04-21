@@ -295,23 +295,6 @@ class ScanditDataCaptureBarcodeArModule(
     }
 
     @ReactMethod
-    fun onCustomHighlightClicked(readableMap: ReadableMap, promise: Promise) {
-        val barcodeId = readableMap.getString("barcodeId")
-        if (barcodeId == null) {
-            promise.reject(
-                ParameterNullError("barcodeId").toString(),
-                "barcodeId parameter is null"
-            )
-            return
-        }
-        barcodeArModule.onCustomHighlightClicked(
-            readableMap.viewId,
-            barcodeId,
-            ReactNativeResult(promise)
-        )
-    }
-
-    @ReactMethod
     fun removeBarcodeArView(
         @Suppress("UNUSED_PARAMETER") readableMap: ReadableMap,
         promise: Promise

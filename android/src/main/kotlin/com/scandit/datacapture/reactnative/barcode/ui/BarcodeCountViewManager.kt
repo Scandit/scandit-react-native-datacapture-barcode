@@ -45,8 +45,6 @@ class BarcodeCountViewManager(
                     ViewGroup.LayoutParams.MATCH_PARENT
                 )
             }
-
-            item.promise.resolve(null)
         }
     }
 
@@ -66,7 +64,6 @@ class BarcodeCountViewManager(
                 )
             }
         }
-        promise.resolve(null)
     }
 
     override fun onDropViewInstance(view: FrameLayout) {
