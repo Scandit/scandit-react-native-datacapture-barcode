@@ -60,21 +60,24 @@ class ScanditDataCaptureSparkScanModule(
     }
 
     @ReactMethod
-    fun finishSparkScanDidUpdateSession(readableMap: ReadableMap) {
+    fun finishSparkScanDidUpdateSession(readableMap: ReadableMap, promise: Promise) {
         val isEnabled = readableMap.getBoolean("isEnabled")
         sparkScanModule.finishDidUpdateSessionCallback(readableMap.viewId, isEnabled)
+        promise.resolve(null)
     }
 
     @ReactMethod
-    fun finishSparkScanDidScan(readableMap: ReadableMap) {
+    fun finishSparkScanDidScan(readableMap: ReadableMap, promise: Promise) {
         val isEnabled = readableMap.getBoolean("isEnabled")
         sparkScanModule.finishDidScanCallback(readableMap.viewId, isEnabled)
+        promise.resolve(null)
     }
 
     @ReactMethod
-    fun setSparkScanModeEnabledState(readableMap: ReadableMap) {
+    fun setSparkScanModeEnabledState(readableMap: ReadableMap, promise: Promise) {
         val isEnabled = readableMap.getBoolean("isEnabled")
         sparkScanModule.setModeEnabled(readableMap.viewId, isEnabled)
+        promise.resolve(null)
     }
 
     // SparkScanViewProxy methods

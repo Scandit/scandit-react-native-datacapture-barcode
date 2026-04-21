@@ -6,27 +6,32 @@
 
 import Foundation
 import React
-import ScanditDataCaptureCore
-import ScanditFrameworksCore
-import ScanditFrameworksBarcode
-
 import React_RCTAppDelegate
+import ScanditDataCaptureCore
+import ScanditFrameworksBarcode
+import ScanditFrameworksCore
 
 public extension AdvancedOverlayContainer {
-    
+
     /// Creates a native view for the given JS view using the new architecture (Fabric)
     /// Falls back to old architecture if new architecture is not available
     func rootViewWith(jsView: JSView) -> ScanditRootView? {
         // Check if new architecture is available through the factory cache
         if RCTRootViewFactoryCache.shared.isNewArchitectureAvailable,
-           let rootViewFactory = RCTRootViewFactoryCache.shared.factory {
-            
+            let rootViewFactory = RCTRootViewFactoryCache.shared.factory
+        {
+
             // Use RCTRootViewFactory which creates surface views in new architecture
-            guard let rootView = rootViewFactory.view(withModuleName: jsView.moduleName, initialProperties: jsView.initialProperties) as? RCTSurfaceHostingProxyRootView else {
+            guard
+                let rootView = rootViewFactory.view(
+                    withModuleName: jsView.moduleName,
+                    initialProperties: jsView.initialProperties
+                ) as? RCTSurfaceHostingProxyRootView
+            else {
                 Log.error("Unable to create ArView root view")
                 return nil
             }
-            
+
             rootView.backgroundColor = .clear
             rootView.sizeFlexibility = RCTRootViewSizeFlexibility.widthAndHeight
             // Create ScanditRootView with the React Native root view
@@ -36,11 +41,11 @@ public extension AdvancedOverlayContainer {
 
             return scanditView
         }
-        
+
         // Fallback to old architecture
         return createLegacyRootView(jsView: jsView)
     }
-    
+
     /// Creates a legacy root view for fallback compatibility
     private func createLegacyRootView(jsView: JSView) -> ScanditRootView {
         // Old Architecture: Use RCTRootView directly
@@ -49,11 +54,11 @@ public extension AdvancedOverlayContainer {
             moduleName: jsView.moduleName,
             initialProperties: jsView.initialProperties
         )
-        
+
         let scanditView = ScanditRootView(rootView: rootView)
         scanditView.backgroundColor = UIColor.clear
         scanditView.isUserInteractionEnabled = true
-        
+
         return scanditView
     }
 }
@@ -63,25 +68,25 @@ public class ScanditRootView: UIView, TappableView {
     public var didTap: (() -> Void)?
     // Flag to track if animation is in progress
     internal var isAnimating = false
-    
+
     private let reactRootView: UIView
     private var hasSetInitialSize = false
     private var displayLink: CADisplayLink?
-    
+
     init(rootView: UIView) {
         self.reactRootView = rootView
         super.init(frame: .zero)
         setupView()
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     deinit {
         displayLink?.invalidate()
     }
-    
+
     private func setupView() {
         addSubview(reactRootView)
         reactRootView.translatesAutoresizingMaskIntoConstraints = false
@@ -89,25 +94,25 @@ public class ScanditRootView: UIView, TappableView {
             reactRootView.topAnchor.constraint(equalTo: topAnchor),
             reactRootView.leadingAnchor.constraint(equalTo: leadingAnchor),
             reactRootView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            reactRootView.bottomAnchor.constraint(equalTo: bottomAnchor)
+            reactRootView.bottomAnchor.constraint(equalTo: bottomAnchor),
         ])
-        
+
         setupGestureRecognizer()
     }
-    
+
     private func setupGestureRecognizer() {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap))
-        tapGesture.cancelsTouchesInView = false // Don't interfere with React Native touches
+        tapGesture.cancelsTouchesInView = false  // Don't interfere with React Native touches
         tapGesture.delaysTouchesBegan = false
         tapGesture.delaysTouchesEnded = false
-        
+
         // Add to the React Native root view so it can intercept touches
         reactRootView.addGestureRecognizer(tapGesture)
-        
+
         // Ensure the root view can receive touches
         reactRootView.isUserInteractionEnabled = true
     }
-    
+
     @objc private func handleTap() {
         didTap?()
     }
@@ -116,7 +121,7 @@ public class ScanditRootView: UIView, TappableView {
         super.layoutSubviews()
         reactRootView.setNeedsLayout()
         reactRootView.layoutIfNeeded()
-        
+
         if !hasSetInitialSize, let actualSize = findRCTViewComponentViewSize() {
             if actualSize.width > 0 && actualSize.height > 0 && !bounds.size.equalTo(actualSize) {
                 self.bounds.size = actualSize
@@ -126,14 +131,14 @@ public class ScanditRootView: UIView, TappableView {
             }
         }
     }
-    
+
     private func findRCTViewComponentViewSize() -> CGSize? {
-        return findFirstValidRCTViewComponentView(in: reactRootView)?.bounds.size
+        findFirstValidRCTViewComponentView(in: reactRootView)?.bounds.size
     }
-    
+
     private func findFirstValidRCTViewComponentView(in view: UIView, depth: Int = 0) -> UIView? {
         guard depth < 10 else { return nil }
-        
+
         // Use proper inheritance checking instead of string matching
         if let rctViewComponentViewClass = NSClassFromString("RCTViewComponentView") {
             if view.isKind(of: rctViewComponentViewClass) {
@@ -143,7 +148,7 @@ public class ScanditRootView: UIView, TappableView {
                 }
             }
         }
-        
+
         // Fallback to string matching for compatibility
         let className = String(describing: type(of: view))
         if className.contains("RCTViewComponentView") {
@@ -152,37 +157,38 @@ public class ScanditRootView: UIView, TappableView {
                 return view
             }
         }
-        
+
         // Search in subviews
         for subview in view.subviews {
             if let found = findFirstValidRCTViewComponentView(in: subview, depth: depth + 1) {
                 return found
             }
         }
-        
+
         return nil
     }
-    
+
     // MARK: - UIView Layout Methods
-    
+
     public override var intrinsicContentSize: CGSize {
         if hasSetInitialSize {
             return bounds.size
         }
-        return UIView.noIntrinsicMetric == UIView.noIntrinsicMetric ? CGSize(width: UIView.noIntrinsicMetric, height: UIView.noIntrinsicMetric) : .zero
+        return UIView.noIntrinsicMetric == UIView.noIntrinsicMetric
+            ? CGSize(width: UIView.noIntrinsicMetric, height: UIView.noIntrinsicMetric) : .zero
     }
-    
+
     public override func sizeThatFits(_ size: CGSize) -> CGSize {
-        return intrinsicContentSize
+        intrinsicContentSize
     }
 
     public override func didMoveToSuperview() {
         super.didMoveToSuperview()
         setNeedsLayout()
     }
-    
+
     // MARK: - React Native Integration
-    
+
     public override func reactSetFrame(_ frame: CGRect) {
         if hasSetInitialSize {
             super.reactSetFrame(frame)
@@ -190,7 +196,7 @@ public class ScanditRootView: UIView, TappableView {
             setNeedsLayout()
         }
     }
-    
+
     public override func invalidateIntrinsicContentSize() {
         super.invalidateIntrinsicContentSize()
         superview?.setNeedsLayout()
