@@ -16,7 +16,8 @@ class ScanditDataCaptureBarcodeCapture: RCTEventEmitter {
     override init() {
         super.init()
         let emitter = ReactNativeEmitter(emitter: self)
-        barcodeCaptureModule = BarcodeCaptureModule(emitter: emitter)
+        let frameworksBarcodeListener = FrameworksBarcodeCaptureListener(emitter: emitter)
+        barcodeCaptureModule = BarcodeCaptureModule(barcodeCaptureListener: frameworksBarcodeListener)
         barcodeCaptureModule.didStart()
     }
 
@@ -36,31 +37,28 @@ class ScanditDataCaptureBarcodeCapture: RCTEventEmitter {
         FrameworksBarcodeCaptureEvent.allCases.compactMap { $0.rawValue }
     }
 
-    @objc(registerBarcodeCaptureListenerForEvents:)
-    func registerBarcodeCaptureListenerForEvents(data: [String: Any]) {
-        barcodeCaptureModule.addListener(modeId: data.modeId)
+    @objc func registerListenerForEvents() {
+        barcodeCaptureModule.addListener()
     }
 
-    @objc(unregisterBarcodeCaptureListenerForEvents:)
-    func unregisterBarcodeCaptureListenerForEvents(data: [String: Any]) {
-        barcodeCaptureModule.removeListener(modeId: data.modeId)
+    @objc func unregisterListenerForEvents() {
+        barcodeCaptureModule.removeListener()
     }
 
-    @objc(finishBarcodeCaptureDidUpdateSession:)
-    func finishBarcodeCaptureDidUpdateSession(data: [String: Any]) {
-        let enabled = data["enabled"] as! Bool
-        barcodeCaptureModule.finishDidUpdateSession(modeId: data.modeId, enabled: enabled)
+    @objc(finishDidUpdateSessionCallback:)
+    func finishDidUpdateSessionCallback(enabled: Bool) {
+        barcodeCaptureModule.finishDidUpdateSession(enabled: enabled)
     }
 
-    @objc(finishBarcodeCaptureDidScan:)
-    func finishBarcodeCaptureDidScan(data: [String: Any]) {
-        let enabled = data["enabled"] as! Bool
-        barcodeCaptureModule.finishDidScan(modeId: data.modeId, enabled: enabled)
+
+    @objc(finishDidScanCallback:)
+    func finishDidScanCallback(enabled: Bool) {
+        barcodeCaptureModule.finishDidScan(enabled: enabled)
     }
 
-    @objc(resetBarcodeCaptureSession:rejecter:)
-    func resetBarcodeCaptureSession(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
-        barcodeCaptureModule.resetSession()
+    @objc(resetSession:rejecter:)
+    func resetSession(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
+        barcodeCaptureModule.resetSession(frameSequenceId: nil)
         resolve(nil)
     }
 
@@ -73,27 +71,23 @@ class ScanditDataCaptureBarcodeCapture: RCTEventEmitter {
         invalidate()
     }
 
-    @objc(setBarcodeCaptureModeEnabledState:)
-    func setBarcodeCaptureModeEnabledState(data: [String: Any]) {
-        let enabled = data["enabled"] as! Bool
-        barcodeCaptureModule.setModeEnabled(modeId: data.modeId, enabled: enabled)
+    @objc(setModeEnabledState:)
+    func setModeEnabledState(enabled: Bool) {
+        barcodeCaptureModule.setModeEnabled(enabled: enabled)
     }
 
-    @objc(updateBarcodeCaptureOverlay:resolver:rejecter:)
-    func updateBarcodeCaptureOverlay(data: [String: Any], resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
-        let overlayJson = data["overlayJson"] as! String
-        barcodeCaptureModule.updateOverlay(data.viewId, overlayJson: overlayJson, result: ReactNativeResult(resolve, reject))
+    @objc(updateBarcodeCaptureOverlay:resolve:reject:)
+    func updateBarcodeCaptureOverlay(overlayJson: String, resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
+        barcodeCaptureModule.updateOverlay(overlayJson: overlayJson, result: ReactNativeResult(resolve, reject))
     }
 
-    @objc(updateBarcodeCaptureMode:resolver:rejecter:)
-    func updateBarcodeCaptureMode(data: [String: Any], resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
-        let modeJson = data["modeJson"] as! String
+    @objc(updateBarcodeCaptureMode:resolve:reject:)
+    func updateBarcodeCaptureMode(modeJson: String, resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
         barcodeCaptureModule.updateModeFromJson(modeJson: modeJson, result: ReactNativeResult(resolve, reject))
     }
 
-    @objc(applyBarcodeCaptureModeSettings:resolver:rejecter:)
-    func applyBarcodeCaptureModeSettings(data: [String: Any], resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
-        let modeSettingsJson = data["modeSettingsJson"] as! String
-        barcodeCaptureModule.applyModeSettings(modeId: data.modeId, modeSettingsJson: modeSettingsJson, result: ReactNativeResult(resolve, reject))
+    @objc(applyBarcodeCaptureModeSettings:resolve:reject:)
+    func applyBarcodeCaptureModeSettings(modeSettingsJson: String, resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
+        barcodeCaptureModule.applyModeSettings(modeSettingsJson: modeSettingsJson, result: ReactNativeResult(resolve, reject))
     }
 }

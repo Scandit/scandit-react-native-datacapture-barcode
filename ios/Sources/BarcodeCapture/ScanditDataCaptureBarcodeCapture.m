@@ -3,32 +3,33 @@
 
 @interface RCT_EXTERN_MODULE (ScanditDataCaptureBarcodeCapture, RCTEventEmitter)
 
-RCT_EXTERN_METHOD(finishBarcodeCaptureDidUpdateSession : (NSDictionary *)data)
+RCT_EXTERN_METHOD(finishDidUpdateSessionCallback : (BOOL)enabled)
 
-RCT_EXTERN_METHOD(finishBarcodeCaptureDidScan : (NSDictionary *)data)
+RCT_EXTERN_METHOD(finishDidScanCallback : (BOOL)enabled)
 
-RCT_EXTERN_METHOD(registerBarcodeCaptureListenerForEvents : (NSDictionary *)data)
+RCT_EXTERN_METHOD(registerListenerForEvents)
 
-RCT_EXTERN_METHOD(unregisterBarcodeCaptureListenerForEvents : (NSDictionary *)data)
+RCT_EXTERN_METHOD(unregisterListenerForEvents)
 
-RCT_EXTERN_METHOD(resetBarcodeCaptureSession
+RCT_EXTERN_METHOD(resetSession
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(setBarcodeCaptureModeEnabledState : (NSDictionary *)data)
+RCT_EXTERN_METHOD(setModeEnabledState : (BOOL)enabled)
 
 RCT_EXTERN_METHOD(updateBarcodeCaptureOverlay
-                  : (NSDictionary *)data resolver
-                  : (RCTPromiseResolveBlock)resolve rejecter
+                  : (NSString *)overlayJson resolve
+                  : (RCTPromiseResolveBlock)resolve reject
                   : (RCTPromiseRejectBlock)reject)
 
 RCT_EXTERN_METHOD(updateBarcodeCaptureMode
-                  : (NSDictionary *)data resolver
-                  : (RCTPromiseResolveBlock)resolve rejecter
+                  : (NSString *)modeJson resolve
+                  : (RCTPromiseResolveBlock)resolve reject
                   : (RCTPromiseRejectBlock)reject)
 
 RCT_EXTERN_METHOD(applyBarcodeCaptureModeSettings
-                  : (NSDictionary *)data resolver
-                  : (RCTPromiseResolveBlock)resolve rejecter
+                  : (NSString *)modeSettingsJson resolve
+                  : (RCTPromiseResolveBlock)resolve reject
                   : (RCTPromiseRejectBlock)reject)
+
 @end

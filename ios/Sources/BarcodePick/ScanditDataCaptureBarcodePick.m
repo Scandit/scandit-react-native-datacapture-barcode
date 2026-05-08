@@ -9,128 +9,77 @@
 
 @interface RCT_EXTERN_MODULE (ScanditDataCaptureBarcodePick, RCTEventEmitter)
 
-RCT_EXTERN_METHOD(createPickView
-                  : (NSDictionary *)data resolver
+RCT_EXTERN_METHOD(createView
+                  : (NSInteger)reactTag jsonString
+                  : (nonnull NSString *)JSONString resolver
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(updatePickView
-                  : (NSDictionary *)data resolver
+RCT_EXTERN_METHOD(updateView
+                  : (nonnull NSString *)JSONString resolver
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(removePickView
-                  : (NSDictionary *)data resolver
+RCT_EXTERN_METHOD(addActionListener
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(pickViewStart
-                  : (NSDictionary *)data resolver
+RCT_EXTERN_METHOD(removeActionListener
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(pickViewStop
-                  : (NSDictionary *)data resolver
+RCT_EXTERN_METHOD(addScanningListener
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(pickViewFreeze
-                  : (NSDictionary *)data resolver
+RCT_EXTERN_METHOD(removeScanningListener
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(pickViewPause
-                  : (NSDictionary *)data resolver
+RCT_EXTERN_METHOD(addViewListener
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(pickViewResume
-                  : (NSDictionary *)data resolver
-                  : (RCTPromiseResolveBlock)resolve rejecter
-                  : (RCTPromiseRejectBlock)reject)
-
-RCT_EXTERN_METHOD(pickViewReset
-                  : (NSDictionary *)data resolver
-                  : (RCTPromiseResolveBlock)resolve rejecter
-                  : (RCTPromiseRejectBlock)reject)
-
-RCT_EXTERN_METHOD(finishPickAction
-                  : (NSDictionary *)data resolver
-                  : (RCTPromiseResolveBlock)resolve rejecter
-                  : (RCTPromiseRejectBlock)reject)
-
-RCT_EXTERN_METHOD(addPickActionListener
-                  : (NSDictionary *)data resolver
-                  : (RCTPromiseResolveBlock)resolve rejecter
-                  : (RCTPromiseRejectBlock)reject)
-
-RCT_EXTERN_METHOD(removePickActionListener
-                  : (NSDictionary *)data resolver
-                  : (RCTPromiseResolveBlock)resolve rejecter
-                  : (RCTPromiseRejectBlock)reject)
-
-RCT_EXTERN_METHOD(addBarcodePickScanningListener
-                  : (NSDictionary *)data resolver
-                  : (RCTPromiseResolveBlock)resolve rejecter
-                  : (RCTPromiseRejectBlock)reject)
-
-RCT_EXTERN_METHOD(removeBarcodePickScanningListener
-                  : (NSDictionary *)data resolver
-                  : (RCTPromiseResolveBlock)resolve rejecter
-                  : (RCTPromiseRejectBlock)reject)
-
-RCT_EXTERN_METHOD(addPickViewListener
-                  : (NSDictionary *)data resolver
-                  : (RCTPromiseResolveBlock)resolve rejecter
-                  : (RCTPromiseRejectBlock)reject)
-
-RCT_EXTERN_METHOD(removePickViewListener
-                  : (NSDictionary *)data resolver
+RCT_EXTERN_METHOD(removeViewListener
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
 RCT_EXTERN_METHOD(registerBarcodePickViewUiListener
-                  : (NSDictionary *)data resolver
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
 RCT_EXTERN_METHOD(unregisterBarcodePickViewUiListener
-                  : (NSDictionary *)data resolver
+                  : (RCTPromiseResolveBlock)resolve rejecter
+                  : (RCTPromiseRejectBlock)reject)
+
+RCT_EXTERN_METHOD(finishPickAction
+                  : (nonnull NSString *)data result
+                  : (BOOL)result resolver
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
 RCT_EXTERN_METHOD(finishOnProductIdentifierForItems
-                  : (NSDictionary *)data resolver
+                  : (nonnull NSString *)JSONString resolver
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(registerOnProductIdentifierForItemsListener
-                  : (NSDictionary *)data resolver
+RCT_EXTERN_METHOD(viewPause
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(unregisterOnProductIdentifierForItemsListener
-                  : (NSDictionary *)data resolver
+RCT_EXTERN_METHOD(viewResume
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(addBarcodePickListener
-                  : (NSDictionary *)data resolver
+RCT_EXTERN_METHOD(viewStart
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(removeBarcodePickListener
-                  : (NSDictionary *)data resolver
+RCT_EXTERN_METHOD(viewFreeze
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(finishBarcodePickViewHighlightStyleCustomViewProviderViewForRequest
-                  : (NSDictionary *)data resolver
-                  : (RCTPromiseResolveBlock)resolve rejecter
-                  : (RCTPromiseRejectBlock)reject)
-
-RCT_EXTERN_METHOD(finishBarcodePickViewHighlightStyleAsyncProviderStyleForRequest
-                  : (NSDictionary *)data resolver
+RCT_EXTERN_METHOD(viewStop
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 
