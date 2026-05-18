@@ -6,113 +6,64 @@
 
 package com.scandit.datacapture.reactnative.barcode
 
-import com.facebook.react.ReactPackage
 import com.facebook.react.bridge.NativeModule
 import com.facebook.react.bridge.ReactApplicationContext
+import com.facebook.react.uimanager.ViewGroupManager
 import com.facebook.react.uimanager.ViewManager
-import com.scandit.datacapture.frameworks.barcode.BarcodeModule
-import com.scandit.datacapture.frameworks.barcode.capture.BarcodeCaptureModule
-import com.scandit.datacapture.frameworks.barcode.count.BarcodeCountModule
-import com.scandit.datacapture.frameworks.barcode.find.BarcodeFindModule
-import com.scandit.datacapture.frameworks.barcode.generator.BarcodeGeneratorModule
-import com.scandit.datacapture.frameworks.barcode.pick.BarcodePickModule
-import com.scandit.datacapture.frameworks.barcode.selection.BarcodeSelectionModule
-import com.scandit.datacapture.frameworks.barcode.spark.SparkScanModule
-import com.scandit.datacapture.frameworks.barcode.tracking.BarcodeTrackingModule
 import com.scandit.datacapture.frameworks.core.locator.DefaultServiceLocator
+import com.scandit.datacapture.reactnative.barcode.ui.BarcodeArViewManager
 import com.scandit.datacapture.reactnative.barcode.ui.BarcodeCountViewManager
 import com.scandit.datacapture.reactnative.barcode.ui.BarcodeFindViewManager
 import com.scandit.datacapture.reactnative.barcode.ui.BarcodePickViewManager
 import com.scandit.datacapture.reactnative.barcode.ui.SparkScanViewManager
-import com.scandit.datacapture.reactnative.core.utils.ReactNativeEventEmitter
-import java.util.concurrent.locks.ReentrantLock
+import com.scandit.datacapture.reactnative.core.ScanditReactPackageBase
+import java.util.concurrent.ConcurrentHashMap
 
 @Suppress("unused")
-class ScanditDataCaptureBarcodePackage : ReactPackage {
+class ScanditDataCaptureBarcodePackage : ScanditReactPackageBase() {
 
     private val serviceLocator = DefaultServiceLocator.getInstance()
+
+    private val viewManagers: MutableMap<String, ViewGroupManager<*>> = ConcurrentHashMap()
 
     override fun createNativeModules(
         reactContext: ReactApplicationContext
     ): MutableList<NativeModule> {
-        setupSharedModules(reactContext)
-
+        // Module sets up its own shared modules in init
         return mutableListOf(
-            ScanditDataCaptureBarcodeModule(reactContext, serviceLocator),
-            ScanditDataCaptureBarcodeCaptureModule(reactContext, serviceLocator),
-            ScanditDataCaptureBarcodeTrackingModule(reactContext, serviceLocator),
-            ScanditDataCaptureBarcodeSelectionModule(reactContext, serviceLocator),
-            ScanditDataCaptureSparkScanModule(reactContext, serviceLocator),
-            ScanditDataCaptureBarcodeCountModule(reactContext, serviceLocator),
-            ScanditDataCaptureBarcodeFindModule(reactContext, serviceLocator),
-            ScanditDataCaptureBarcodePickModule(reactContext, serviceLocator),
-            ScanditDataCaptureBarcodeGeneratorModule(reactContext, serviceLocator)
+            ScanditDataCaptureBarcodeModule(reactContext, serviceLocator, viewManagers)
         )
     }
 
     override fun createViewManagers(
         reactContext: ReactApplicationContext
-    ): MutableList<ViewManager<*, *>> =
-        mutableListOf(
-            SparkScanViewManager(serviceLocator),
-            BarcodeCountViewManager(serviceLocator),
-            BarcodeFindViewManager(serviceLocator),
-            BarcodePickViewManager(serviceLocator)
+    ): MutableList<ViewManager<*, *>> {
+        // Clear existing instances of previously cached viewMangers
+        viewManagers.clear()
+
+        val sparkScanViewManager = SparkScanViewManager(serviceLocator)
+        viewManagers[SparkScanViewManager::class.java.simpleName] = sparkScanViewManager
+        val barcodeCountViewManager = BarcodeCountViewManager(serviceLocator)
+        viewManagers[BarcodeCountViewManager::class.java.simpleName] = barcodeCountViewManager
+        val barcodeArViewManager = BarcodeArViewManager(serviceLocator)
+        viewManagers[BarcodeArViewManager::class.java.simpleName] = barcodeArViewManager
+        val barcodeFindViewManager = BarcodeFindViewManager(serviceLocator)
+        viewManagers[BarcodeFindViewManager::class.java.simpleName] = barcodeFindViewManager
+        val barcodePickViewManager = BarcodePickViewManager(serviceLocator)
+        viewManagers[BarcodePickViewManager::class.java.simpleName] = barcodePickViewManager
+
+        return mutableListOf(
+            sparkScanViewManager,
+            barcodeCountViewManager,
+            barcodeArViewManager,
+            barcodeFindViewManager,
+            barcodePickViewManager
         )
-
-    private fun getBarcodeModule(reactContext: ReactApplicationContext): BarcodeModule {
-        return BarcodeModule().also {
-            it.onCreate(reactContext)
-        }
     }
 
-    private fun setupSharedModules(reactContext: ReactApplicationContext) {
-        lock.lock()
-        try {
-            val emitter = ReactNativeEventEmitter(reactContext)
-
-            val barcodeModule = BarcodeModule().also {
-                it.onCreate(reactContext)
-            }
-            val captureModule = BarcodeCaptureModule.create(emitter).also {
-                it.onCreate(reactContext)
-            }
-            val trackingModule = BarcodeTrackingModule.create(emitter).also {
-                it.onCreate(reactContext)
-            }
-            val selectionModule = BarcodeSelectionModule.create(emitter).also {
-                it.onCreate(reactContext)
-            }
-            val sparkScanModule = SparkScanModule.create(emitter).also {
-                it.onCreate(reactContext)
-            }
-            val countModule = BarcodeCountModule.create(emitter).also {
-                it.onCreate(reactContext)
-            }
-            val findModule = BarcodeFindModule.create(emitter).also {
-                it.onCreate(reactContext)
-            }
-            val pickModule = BarcodePickModule(emitter).also {
-                it.onCreate(reactContext)
-            }
-            val generatorModule = BarcodeGeneratorModule().also {
-                it.onCreate(reactContext)
-            }
-            serviceLocator.register(barcodeModule)
-            serviceLocator.register(captureModule)
-            serviceLocator.register(trackingModule)
-            serviceLocator.register(selectionModule)
-            serviceLocator.register(pickModule)
-            serviceLocator.register(findModule)
-            serviceLocator.register(sparkScanModule)
-            serviceLocator.register(countModule)
-            serviceLocator.register(generatorModule)
-        } finally {
-            lock.unlock()
-        }
-    }
-
-    companion object {
-        private val lock: ReentrantLock = ReentrantLock()
+    override fun getModuleClasses(): List<Class<out NativeModule>> {
+        return listOf(
+            ScanditDataCaptureBarcodeModule::class.java,
+        )
     }
 }
