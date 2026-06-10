@@ -1,15 +1,35 @@
-import { setBarcodeDefaultsLoader, BarcodeBatch, BarcodeBatchSettings, BarcodeBatchBasicOverlay, BarcodeBatchBasicOverlayStyle, BarcodeCapture, BarcodeCaptureSettings, BarcodeCaptureOverlay, BaseBarcodeArView, BarcodeSelection, BarcodeSelectionSettings, BarcodeSelectionBasicOverlay, BarcodeSelectionBasicOverlayStyle, BaseSparkScanView, BaseBarcodeCountView, BaseBarcodePickView, BaseBarcodeFindView, registerBarcodeProxies, loadAllBarcodeDefaults, BaseBarcodeBatchAdvancedOverlay, BarcodeArAnnotationTrigger } from './barcode.js';
-export { ArucoDictionary, ArucoDictionaryPreset, ArucoMarker, AztecBarcodeGeneratorBuilder, Barcode, BarcodeAr, BarcodeArAnnotationTrigger, BarcodeArCircleHighlight, BarcodeArCircleHighlightPreset, BarcodeArFeedback, BarcodeArInfoAnnotation, BarcodeArInfoAnnotationAnchor, BarcodeArInfoAnnotationBodyComponent, BarcodeArInfoAnnotationFooter, BarcodeArInfoAnnotationHeader, BarcodeArInfoAnnotationWidthPreset, BarcodeArPopoverAnnotation, BarcodeArPopoverAnnotationButton, BarcodeArRectangleHighlight, BarcodeArResponsiveAnnotation, BarcodeArSession, BarcodeArSettings, BarcodeArStatusIconAnnotation, BarcodeArViewSettings, BarcodeBatch, BarcodeBatchBasicOverlay, BarcodeBatchBasicOverlayStyle, BarcodeBatchSession, BarcodeBatchSettings, BarcodeCapture, BarcodeCaptureFeedback, BarcodeCaptureOverlay, BarcodeCaptureSession, BarcodeCaptureSettings, BarcodeCount, BarcodeCountCaptureList, BarcodeCountCaptureListSession, BarcodeCountFeedback, BarcodeCountMappingFlowSettings, BarcodeCountNotInListActionSettings, BarcodeCountSession, BarcodeCountSettings, BarcodeCountStatus, BarcodeCountStatusItem, BarcodeCountStatusProviderCallback, BarcodeCountStatusResultAbort, BarcodeCountStatusResultError, BarcodeCountStatusResultSuccess, BarcodeCountToolbarSettings, BarcodeDefinition, BarcodeDefinitionBuilder, BarcodeFilterHighlightSettingsBrush, BarcodeFilterHighlightType, BarcodeFilterSettings, BarcodeFind, BarcodeFindFeedback, BarcodeFindItem, BarcodeFindItemContent, BarcodeFindItemSearchOptions, BarcodeFindSession, BarcodeFindSettings, BarcodeFindViewSettings, BarcodeGenerator, BarcodeGeneratorBuilder, BarcodeIdentifier, BarcodeInfo, BarcodePick, BarcodePickAction, BarcodePickActionCallback, BarcodePickAsyncMapperProductProvider, BarcodePickProduct, BarcodePickProductProviderCallback, BarcodePickProductProviderCallbackItem, BarcodePickScanningSession, BarcodePickSession, BarcodePickSettings, BarcodePickState, BarcodePickStatusIconSettings, BarcodePickStatusIconStyle, BarcodePickViewEvents, BarcodePickViewHighlightStyleCustomView, BarcodePickViewHighlightStyleCustomViewResponse, BarcodePickViewHighlightStyleRequest, BarcodePickViewHighlightStyleResponse, BarcodePickViewHighlightStyleResponseBuilder, BarcodePickViewSettings, BarcodeSelection, BarcodeSelectionAimerSelection, BarcodeSelectionAutoSelectionStrategy, BarcodeSelectionBasicOverlay, BarcodeSelectionBasicOverlayStyle, BarcodeSelectionFeedback, BarcodeSelectionFreezeBehavior, BarcodeSelectionManualSelectionStrategy, BarcodeSelectionSession, BarcodeSelectionSettings, BarcodeSelectionTapBehavior, BarcodeSelectionTapSelection, BarcodeSpatialGrid, BatterySavingMode, CapturePreset, Checksum, Cluster, Code128BarcodeGeneratorBuilder, Code39BarcodeGeneratorBuilder, CompositeFlag, CompositeType, DataMatrixBarcodeGeneratorBuilder, Dot, DotWithIcons, Ean13BarcodeGeneratorBuilder, Ean13UpcaClassification, EncodingRange, InterleavedTwoOfFiveBarcodeGeneratorBuilder, LocalizedOnlyBarcode, Pdf417BarcodeGeneratorBuilder, Pdf417CompactionMode, Pdf417Dimensions, QrCodeBarcodeGeneratorBuilder, QrCodeErrorCorrectionLevel, Range, Rectangular, RectangularWithIcons, ScanComponentBarcodePreset, ScanComponentTextSemanticType, ScanItemDefinition, ScanItemIdentifier, ScannedBarcode, ScannedComponentIdentifier, ScannedItem, ScannedItemIdentifier, ScannedText, SparkScan, SparkScanBarcodeErrorFeedback, SparkScanBarcodeFeedback, SparkScanBarcodeSuccessFeedback, SparkScanMiniPreviewSize, SparkScanPreviewBehavior, SparkScanScanningBehavior, SparkScanScanningModeDefault, SparkScanScanningModeTarget, SparkScanSession, SparkScanSettings, SparkScanToastSettings, SparkScanViewSettings, SparkScanViewState, StructuredAppendData, Symbology, SymbologyDescription, SymbologySettings, TargetBarcode, TextDefinition, TextDefinitionBuilder, TextIdentifier, TrackedBarcode, TrackedObject, UpcaBarcodeGeneratorBuilder } from './barcode.js';
-import { CameraPosition, FrameSourceState, Anchor, PointWithUnit, NumberWithUnit, MeasureUnit, DataCaptureView, initCoreProxy, initCoreDefaults, getModuleDefaults, getNativeModule, createRNNativeCaller } from 'scandit-react-native-datacapture-core';
+import { BarcodeBatch as BarcodeBatch$1, BarcodeBatchSettings, BarcodeBatchBasicOverlay, BarcodeBatchBasicOverlayStyle, BarcodeCapture as BarcodeCapture$1, BarcodeCaptureSettings, BarcodeCaptureOverlay, BaseBarcodeArView, BarcodeSelection as BarcodeSelection$1, BarcodeSelectionSettings, BarcodeSelectionBasicOverlay, BarcodeSelectionBasicOverlayStyle, BaseSparkScanView, BaseBarcodeCountView, BaseBarcodePickView, BaseBarcodeFindView, registerBarcodeProxies, loadBarcodeDefaults, loadBarcodeCaptureDefaults, loadBarcodeArDefaults, loadBarcodeBatchDefaults, loadBarcodeSelectionDefaults, loadBarcodeCountDefaults, loadBarcodePickDefaults, loadBarcodeFindDefaults, loadSparkScanDefaults, BaseBarcodeBatchAdvancedOverlay, BarcodeArAnnotationTrigger } from './barcode.js';
+export { ArucoDictionary, ArucoDictionaryPreset, ArucoMarker, AztecBarcodeGeneratorBuilder, Barcode, BarcodeAr, BarcodeArAnnotationTrigger, BarcodeArCircleHighlight, BarcodeArCircleHighlightPreset, BarcodeArFeedback, BarcodeArInfoAnnotation, BarcodeArInfoAnnotationAnchor, BarcodeArInfoAnnotationBodyComponent, BarcodeArInfoAnnotationFooter, BarcodeArInfoAnnotationHeader, BarcodeArInfoAnnotationWidthPreset, BarcodeArPopoverAnnotation, BarcodeArPopoverAnnotationButton, BarcodeArRectangleHighlight, BarcodeArSession, BarcodeArSettings, BarcodeArStatusIconAnnotation, BarcodeArViewSettings, BarcodeBatch, BarcodeBatchBasicOverlay, BarcodeBatchBasicOverlayStyle, BarcodeBatchSession, BarcodeBatchSettings, BarcodeCapture, BarcodeCaptureFeedback, BarcodeCaptureOverlay, BarcodeCaptureSession, BarcodeCaptureSettings, BarcodeCount, BarcodeCountCaptureList, BarcodeCountCaptureListSession, BarcodeCountFeedback, BarcodeCountNotInListActionSettings, BarcodeCountSession, BarcodeCountSettings, BarcodeCountToolbarSettings, BarcodeDefinition, BarcodeDefinitionBuilder, BarcodeFilterHighlightSettingsBrush, BarcodeFilterHighlightType, BarcodeFilterSettings, BarcodeFind, BarcodeFindFeedback, BarcodeFindItem, BarcodeFindItemContent, BarcodeFindItemSearchOptions, BarcodeFindSession, BarcodeFindSettings, BarcodeFindViewSettings, BarcodeGenerator, BarcodeGeneratorBuilder, BarcodeIdentifier, BarcodePick, BarcodePickActionCallback, BarcodePickAsyncMapperProductProvider, BarcodePickProduct, BarcodePickProductProviderCallback, BarcodePickProductProviderCallbackItem, BarcodePickScanningSession, BarcodePickSession, BarcodePickSettings, BarcodePickState, BarcodePickStatusIconSettings, BarcodePickViewEvents, BarcodePickViewSettings, BarcodeSelection, BarcodeSelectionAimerSelection, BarcodeSelectionAutoSelectionStrategy, BarcodeSelectionBasicOverlay, BarcodeSelectionBasicOverlayStyle, BarcodeSelectionFeedback, BarcodeSelectionFreezeBehavior, BarcodeSelectionManualSelectionStrategy, BarcodeSelectionSession, BarcodeSelectionSettings, BarcodeSelectionTapBehavior, BarcodeSelectionTapSelection, BarcodeSpatialGrid, BatterySavingMode, Checksum, Code128BarcodeGeneratorBuilder, Code39BarcodeGeneratorBuilder, CompositeFlag, CompositeType, DataMatrixBarcodeGeneratorBuilder, Dot, DotWithIcons, Ean13BarcodeGeneratorBuilder, Ean13UpcaClassification, EncodingRange, InterleavedTwoOfFiveBarcodeGeneratorBuilder, LocalizedOnlyBarcode, QrCodeBarcodeGeneratorBuilder, QrCodeErrorCorrectionLevel, Range, Rectangular, RectangularWithIcons, ScanComponentBarcodePreset, ScanComponentTextSemanticType, ScanItemDefinition, ScanItemIdentifier, ScannedBarcode, ScannedComponentIdentifier, ScannedItem, ScannedItemIdentifier, ScannedText, SparkScan, SparkScanBarcodeErrorFeedback, SparkScanBarcodeFeedback, SparkScanBarcodeSuccessFeedback, SparkScanMiniPreviewSize, SparkScanPreviewBehavior, SparkScanScanningBehavior, SparkScanScanningModeDefault, SparkScanScanningModeTarget, SparkScanSession, SparkScanSettings, SparkScanToastSettings, SparkScanViewSettings, SparkScanViewState, StructuredAppendData, Symbology, SymbologyDescription, SymbologySettings, TargetBarcode, TextDefinition, TextDefinitionBuilder, TextIdentifier, TrackedBarcode, UpcaBarcodeGeneratorBuilder } from './barcode.js';
+import { CameraPosition, FrameSourceState, Anchor, PointWithUnit, NumberWithUnit, MeasureUnit, DataCaptureView, initCoreProxy, initCoreDefaults, createRNNativeCaller } from 'scandit-react-native-datacapture-core';
+import { AppState, View, StyleSheet, InteractionManager, findNodeHandle, requireNativeComponent, NativeModules } from 'react-native';
 import React, { forwardRef, useRef, useState, useMemo, useCallback, useEffect, useImperativeHandle } from 'react';
-import { AppState, View, StyleSheet, InteractionManager, findNodeHandle, requireNativeComponent } from 'react-native';
 import { CameraOwnershipHelper, nameForSerialization, CameraPosition as CameraPosition$1, Observable, Anchor as Anchor$1, ignoreFromSerialization } from 'scandit-react-native-datacapture-core/dist/core';
 
 class RNBarcodeNativeCallerProvider {
-    getNativeCaller(_proxyType) {
-        // Use getNativeModule which handles both TurboModules and legacy modules
-        const nativeModule = getNativeModule('ScanditDataCaptureBarcode');
-        return createRNNativeCaller(nativeModule);
+    moduleMap = {
+        BarcodeCaptureListenerProxy: 'ScanditDataCaptureBarcodeCapture',
+        BarcodeCaptureOverlayProxy: 'ScanditDataCaptureBarcodeCapture',
+        BarcodeBatchListenerProxy: 'ScanditDataCaptureBarcodeBatch',
+        BarcodeBatchBasicOverlayProxy: 'ScanditDataCaptureBarcodeBatch',
+        BarcodeBatchAdvancedOverlayProxy: 'ScanditDataCaptureBarcodeBatch',
+        BarcodeSelectionListenerProxy: 'ScanditDataCaptureBarcodeSelection',
+        BarcodeSelectionOverlayProxy: 'ScanditDataCaptureBarcodeSelection',
+        BarcodeSelectionProxy: 'ScanditDataCaptureBarcodeSelection',
+        BarcodeArSessionProxy: 'ScanditDataCaptureBarcodeAr',
+        BarcodeArViewProxy: 'ScanditDataCaptureBarcodeAr',
+        BarcodeCountViewProxy: 'ScanditDataCaptureBarcodeCount',
+        BarcodeCountSessionProxy: 'ScanditDataCaptureBarcodeCount',
+        BarcodePickViewProxy: 'ScanditDataCaptureBarcodePick',
+        SparkScanViewProxy: 'ScanditDataCaptureSparkScan',
+        BarcodeFindViewProxy: 'ScanditDataCaptureBarcodeFind',
+        BarcodeGeneratorProxy: 'ScanditDataCaptureBarcodeGenerator',
+    };
+    getNativeCaller(proxyType) {
+        const moduleName = this.moduleMap[proxyType];
+        if (!moduleName) {
+            throw new Error(`No native module mapped for proxy type: ${proxyType}`);
+        }
+        return createRNNativeCaller(NativeModules[moduleName]);
     }
 }
 
@@ -18,11 +38,35 @@ function initBarcodeProxy() {
     registerBarcodeProxies(new RNBarcodeNativeCallerProvider());
 }
 
+function getNativeModule(name) {
+    const mod = NativeModules[name];
+    if (!mod) {
+        throw new Error(`Module ${name} not found`);
+    }
+    return mod;
+}
+const ScanditDataCaptureBarcode = getNativeModule('ScanditDataCaptureBarcode');
+const BarcodeCapture = getNativeModule('ScanditDataCaptureBarcodeCapture');
+const BarcodeAr = getNativeModule('ScanditDataCaptureBarcodeAr');
+const BarcodeCount = getNativeModule('ScanditDataCaptureBarcodeCount');
+const BarcodePickModule = getNativeModule('ScanditDataCaptureBarcodePick');
+const BarcodeSelection = getNativeModule('ScanditDataCaptureBarcodeSelection');
+const BarcodeBatch = getNativeModule('ScanditDataCaptureBarcodeBatch');
+const SparkScan = getNativeModule('ScanditDataCaptureSparkScan');
+const BarcodeFind = getNativeModule('ScanditDataCaptureBarcodeFind');
 function initBarcodeDefaults() {
     initCoreDefaults();
-    loadAllBarcodeDefaults(getModuleDefaults('ScanditDataCaptureBarcode'));
+    loadBarcodeDefaults(ScanditDataCaptureBarcode.Defaults);
+    loadBarcodeCaptureDefaults(BarcodeCapture.Defaults);
+    loadBarcodeArDefaults(BarcodeAr.Defaults);
+    loadBarcodeBatchDefaults(BarcodeBatch.Defaults);
+    loadBarcodeSelectionDefaults(BarcodeSelection.Defaults);
+    loadBarcodeCountDefaults(BarcodeCount.Defaults);
+    loadBarcodePickDefaults(BarcodePickModule.Defaults);
+    loadBarcodeFindDefaults(BarcodeFind.Defaults);
+    loadSparkScanDefaults(SparkScan.Defaults);
+    loadBarcodeFindDefaults(BarcodeFind.Defaults);
 }
-setBarcodeDefaultsLoader(initBarcodeDefaults);
 
 class BarcodeBatchAdvancedOverlay {
     baseBarcodeBatch;
@@ -68,10 +112,6 @@ class BarcodeBatchAdvancedOverlay {
     toJSON() {
         return this.baseBarcodeBatch.toJSON();
     }
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    onViewIdChanged() {
-        this.baseBarcodeBatch.onViewIdChanged();
-    }
 }
 
 const BarcodeBatchView = forwardRef(function BarcodeBatchView(props, ref) {
@@ -89,7 +129,7 @@ const BarcodeBatchView = forwardRef(function BarcodeBatchView(props, ref) {
         if (barcodeBatchModeRef.current !== null) {
             return barcodeBatchModeRef.current;
         }
-        barcodeBatchModeRef.current = new BarcodeBatch(props.barcodeBatchSettings || new BarcodeBatchSettings());
+        barcodeBatchModeRef.current = new BarcodeBatch$1(props.barcodeBatchSettings || new BarcodeBatchSettings());
         barcodeBatchModeRef.current['parentId'] = viewId;
         return barcodeBatchModeRef.current;
     }, [props.barcodeBatchSettings, viewId]);
@@ -172,7 +212,7 @@ const BarcodeBatchView = forwardRef(function BarcodeBatchView(props, ref) {
         const position = props.desiredCameraPosition || CameraPosition.WorldFacing;
         // Request ownership and set up camera
         await CameraOwnershipHelper.withCameraWhenAvailable(position, cameraOwner, async (camera) => {
-            const settings = props.cameraSettings || BarcodeBatch.createRecommendedCameraSettings();
+            const settings = props.cameraSettings || BarcodeBatch$1.createRecommendedCameraSettings();
             await camera.applySettings(settings);
             const newCameraState = props.desiredCameraState || FrameSourceState.On;
             await camera.switchToDesiredState(newCameraState);
@@ -400,7 +440,7 @@ const BarcodeBatchView = forwardRef(function BarcodeBatchView(props, ref) {
             return; // Don't run until camera is ready
         // default to SDK recommended camera settings if the prop is unset
         const position = props.desiredCameraPosition || CameraPosition.WorldFacing;
-        const settings = props.cameraSettings || BarcodeBatch.createRecommendedCameraSettings();
+        const settings = props.cameraSettings || BarcodeBatch$1.createRecommendedCameraSettings();
         void CameraOwnershipHelper.withCamera(position, cameraOwner, async (camera) => {
             await camera.applySettings(settings);
         });
@@ -510,7 +550,7 @@ const BarcodeCaptureView = forwardRef(function BarcodeCaptureView(props, _ref) {
         if (barcodeCaptureModeRef.current !== null) {
             return barcodeCaptureModeRef.current;
         }
-        barcodeCaptureModeRef.current = new BarcodeCapture(props.barcodeCaptureSettings || new BarcodeCaptureSettings());
+        barcodeCaptureModeRef.current = new BarcodeCapture$1(props.barcodeCaptureSettings || new BarcodeCaptureSettings());
         barcodeCaptureModeRef.current['parentId'] = viewId;
         return barcodeCaptureModeRef.current;
     }, [props.barcodeCaptureSettings, viewId]);
@@ -552,7 +592,7 @@ const BarcodeCaptureView = forwardRef(function BarcodeCaptureView(props, _ref) {
         const position = props.desiredCameraPosition || CameraPosition.WorldFacing;
         // Request ownership and set up camera
         await CameraOwnershipHelper.withCameraWhenAvailable(position, cameraOwner, async (camera) => {
-            const settings = props.cameraSettings || BarcodeCapture.createRecommendedCameraSettings();
+            const settings = props.cameraSettings || BarcodeCapture$1.createRecommendedCameraSettings();
             await camera.applySettings(settings);
             await camera.switchToDesiredState(props.desiredCameraState || FrameSourceState.On);
             await props.context.setFrameSource(camera);
@@ -647,7 +687,7 @@ const BarcodeCaptureView = forwardRef(function BarcodeCaptureView(props, _ref) {
             return; // Don't run until camera is ready
         // default to SDK recommended camera settings if the prop is unset
         const position = props.desiredCameraPosition || CameraPosition.WorldFacing;
-        const settings = props.cameraSettings || BarcodeCapture.createRecommendedCameraSettings();
+        const settings = props.cameraSettings || BarcodeCapture$1.createRecommendedCameraSettings();
         void CameraOwnershipHelper.withCamera(position, cameraOwner, async (camera) => {
             await camera.applySettings(settings);
         });
@@ -1292,7 +1332,7 @@ const BarcodeSelectionView = forwardRef(function BarcodeSelectionView(props, ref
         if (barcodeSelectionModeRef.current !== null) {
             return barcodeSelectionModeRef.current;
         }
-        barcodeSelectionModeRef.current = new BarcodeSelection(props.barcodeSelectionSettings || new BarcodeSelectionSettings());
+        barcodeSelectionModeRef.current = new BarcodeSelection$1(props.barcodeSelectionSettings || new BarcodeSelectionSettings());
         barcodeSelectionModeRef.current.isEnabled = isEnabledState;
         barcodeSelectionModeRef.current['parentId'] = viewId;
         return barcodeSelectionModeRef.current;
@@ -1351,7 +1391,7 @@ const BarcodeSelectionView = forwardRef(function BarcodeSelectionView(props, ref
         const position = props.desiredCameraPosition || CameraPosition.WorldFacing;
         // Request ownership and set up camera
         await CameraOwnershipHelper.withCameraWhenAvailable(position, cameraOwner, async (camera) => {
-            const settings = props.cameraSettings || BarcodeSelection.createRecommendedCameraSettings();
+            const settings = props.cameraSettings || BarcodeSelection$1.createRecommendedCameraSettings();
             await camera.applySettings(settings);
             await camera.switchToDesiredState(props.desiredCameraState || FrameSourceState.On);
             await props.context.setFrameSource(camera);
@@ -1465,7 +1505,7 @@ const BarcodeSelectionView = forwardRef(function BarcodeSelectionView(props, ref
             return; // Don't run until camera is ready
         // default to SDK recommended camera settings if the prop is unset
         const position = props.desiredCameraPosition || CameraPosition.WorldFacing;
-        const settings = props.cameraSettings || BarcodeSelection.createRecommendedCameraSettings();
+        const settings = props.cameraSettings || BarcodeSelection$1.createRecommendedCameraSettings();
         void CameraOwnershipHelper.withCamera(position, cameraOwner, async (camera) => {
             await camera.applySettings(settings);
         });
@@ -1594,18 +1634,12 @@ class SparkScanView extends React.Component {
             },
             didTapBarcodeCountButton: () => {
                 listener?.onBarcodeCountButtonTappedIn?.(this);
-                listener?.didTapBarcodeCountButton?.(this);
             },
             didTapBarcodeFindButton: () => {
                 listener?.onBarcodeFindButtonTappedIn?.(this);
-                listener?.didTapBarcodeFindButton?.(this);
             },
             didTapLabelCaptureButton: () => {
                 listener?.onLabelCaptureButtonTappedIn?.(this);
-                listener?.didTapLabelCaptureButton?.(this);
-            },
-            didChangeScanningMode: (newScanningMode) => {
-                listener?.didChangeScanningMode?.(newScanningMode);
             },
         };
         this.rnViewListener = listener;
@@ -1689,12 +1723,6 @@ class SparkScanView extends React.Component {
     }
     set torchControlVisible(newValue) {
         this.baseSparkScanView.torchControlVisible = newValue;
-    }
-    get zoomSwitchControlVisible() {
-        return this.baseSparkScanView.zoomSwitchControlVisible;
-    }
-    set zoomSwitchControlVisible(newValue) {
-        this.baseSparkScanView.zoomSwitchControlVisible = newValue;
     }
     get previewCloseControlVisible() {
         return this.baseSparkScanView.previewCloseControlVisible;
@@ -1788,7 +1816,7 @@ class SparkScanView extends React.Component {
         this.navigationUnsubscribers = [];
         // Release camera ownership
         CameraOwnershipHelper.releaseOwnership(CameraPosition$1.WorldFacing, this.cameraOwner);
-        void this.baseSparkScanView.dispose();
+        this.baseSparkScanView.dispose();
     }
     setupNavigationListeners() {
         const nav = this.props.navigation;
@@ -1914,18 +1942,6 @@ class BarcodeCountView extends React.Component {
     }
     set shouldShowToolbar(newValue) {
         this.baseBarcodeCountView.shouldShowToolbar = newValue;
-    }
-    get shouldShowStatusModeButton() {
-        return this.baseBarcodeCountView.shouldShowStatusModeButton;
-    }
-    set shouldShowStatusModeButton(newValue) {
-        this.baseBarcodeCountView.shouldShowStatusModeButton = newValue;
-    }
-    get shouldShowStatusIconsOnScan() {
-        return this.baseBarcodeCountView.shouldShowStatusIconsOnScan;
-    }
-    set shouldShowStatusIconsOnScan(newValue) {
-        this.baseBarcodeCountView.shouldShowStatusIconsOnScan = newValue;
     }
     get shouldShowScanAreaGuides() {
         return this.baseBarcodeCountView.shouldShowScanAreaGuides;
@@ -2074,24 +2090,6 @@ class BarcodeCountView extends React.Component {
     set singleScanButtonContentDescription(newValue) {
         this.baseBarcodeCountView.singleScanButtonContentDescription = newValue;
     }
-    get statusModeButtonAccessibilityHint() {
-        return this.baseBarcodeCountView.statusModeButtonAccessibilityHint;
-    }
-    set statusModeButtonAccessibilityHint(newValue) {
-        this.baseBarcodeCountView.statusModeButtonAccessibilityHint = newValue;
-    }
-    get statusModeButtonAccessibilityLabel() {
-        return this.baseBarcodeCountView.statusModeButtonAccessibilityLabel;
-    }
-    set statusModeButtonAccessibilityLabel(newValue) {
-        this.baseBarcodeCountView.statusModeButtonAccessibilityLabel = newValue;
-    }
-    get statusModeButtonContentDescription() {
-        return this.baseBarcodeCountView.statusModeButtonContentDescription;
-    }
-    set statusModeButtonContentDescription(newValue) {
-        this.baseBarcodeCountView.statusModeButtonContentDescription = newValue;
-    }
     get clearHighlightsButtonText() {
         return this.baseBarcodeCountView.clearHighlightsButtonText;
     }
@@ -2127,24 +2125,6 @@ class BarcodeCountView extends React.Component {
     }
     set textForMoveFurtherAndRescanHint(newValue) {
         this.baseBarcodeCountView.textForMoveFurtherAndRescanHint = newValue;
-    }
-    get textForBarcodesNotInListDetectedHint() {
-        return this.baseBarcodeCountView.textForBarcodesNotInListDetectedHint;
-    }
-    set textForBarcodesNotInListDetectedHint(newValue) {
-        this.baseBarcodeCountView.textForBarcodesNotInListDetectedHint = newValue;
-    }
-    get textForScreenCleanedUpHint() {
-        return this.baseBarcodeCountView.textForScreenCleanedUpHint;
-    }
-    set textForScreenCleanedUpHint(newValue) {
-        this.baseBarcodeCountView.textForScreenCleanedUpHint = newValue;
-    }
-    get textForClusteringGestureHint() {
-        return this.baseBarcodeCountView.textForClusteringGestureHint;
-    }
-    set textForClusteringGestureHint(newValue) {
-        this.baseBarcodeCountView.textForClusteringGestureHint = newValue;
     }
     get shouldShowListProgressBar() {
         return this.baseBarcodeCountView.shouldShowListProgressBar;
@@ -2224,9 +2204,6 @@ class BarcodeCountView extends React.Component {
     }
     setToolbarSettings(settings) {
         this.baseBarcodeCountView.setToolbarSettings(settings);
-    }
-    setStatusProvider(provider) {
-        this.baseBarcodeCountView.setStatusProvider(provider);
     }
     setBrushForRecognizedBarcode(trackedBarcode, brush) {
         return this.baseBarcodeCountView.setBrushForRecognizedBarcode(trackedBarcode, brush);
