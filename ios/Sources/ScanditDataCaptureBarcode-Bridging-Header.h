@@ -11,3 +11,13 @@
 #import <React/RCTViewManager.h>
 
 #import "SDCBarcodeCountViewDefaults.h"
+#import "ScanditDataCaptureBarcodeViews.h"
+
+// SDC-30774: bridge React-RCTAppDelegate types (see core bridging header).
+#if __has_include(<React-RCTAppDelegate/RCTRootViewFactory.h>)
+#    import <React-RCTAppDelegate/RCTRootViewFactory.h>
+#    import <React-RCTAppDelegate/RCTReactNativeFactory.h>
+#elif __has_include(<React_RCTAppDelegate/RCTRootViewFactory.h>)
+#    import <React_RCTAppDelegate/RCTRootViewFactory.h>
+#    import <React_RCTAppDelegate/RCTReactNativeFactory.h>
+#endif

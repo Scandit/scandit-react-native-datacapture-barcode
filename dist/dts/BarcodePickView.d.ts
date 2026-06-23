@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleProp, ViewStyle } from 'react-native';
+import { LayoutChangeEvent, StyleProp, ViewStyle } from 'react-native';
 import { BarcodePickViewListener } from 'scandit-datacapture-frameworks-barcode';
 import { DataCaptureContext } from 'scandit-datacapture-frameworks-core';
 import { CameraSettings } from 'scandit-datacapture-frameworks-core';
@@ -14,10 +14,12 @@ interface BarcodePickViewProps {
     cameraSettings: CameraSettings;
     style: StyleProp<ViewStyle>;
     navigation?: NavigationProp<ParamListBase>;
+    onLayout?: (event: LayoutChangeEvent) => void;
 }
 export declare class BarcodePickView extends React.Component<BarcodePickViewProps> {
     private baseBarcodePickView;
     private _isMounted;
+    private _viewCreated;
     private navigationUnsubscribers;
     private cameraOwner;
     constructor(props: BarcodePickViewProps);
@@ -40,6 +42,7 @@ export declare class BarcodePickView extends React.Component<BarcodePickViewProp
     private setupNavigationListeners;
     private onFocus;
     private onBlur;
+    private onNativeViewLayout;
     private createBarcodePickView;
     private toJSON;
 }
