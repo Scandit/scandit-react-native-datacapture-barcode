@@ -50,6 +50,8 @@ export declare class SparkScanView extends React.Component<SparkScanViewProps> {
     set barcodeFindButtonVisible(newValue: boolean);
     get targetModeButtonVisible(): boolean;
     set targetModeButtonVisible(newValue: boolean);
+    get selectionModeButtonVisible(): boolean;
+    set selectionModeButtonVisible(newValue: boolean);
     get labelCaptureButtonVisible(): boolean;
     set labelCaptureButtonVisible(newValue: boolean);
     get toolbarBackgroundColor(): Color | null;

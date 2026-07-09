@@ -59,6 +59,7 @@ declare export { BarcodeCaptureSettings } from "scandit-datacapture-frameworks-b
 declare export { BarcodeAr } from "scandit-datacapture-frameworks-barcode";
 declare export { BarcodeArAnnotation } from "scandit-datacapture-frameworks-barcode";
 declare export { BarcodeArAnnotationProvider } from "scandit-datacapture-frameworks-barcode";
+declare export { BarcodeArFilter } from "scandit-datacapture-frameworks-barcode";
 declare export { BarcodeArCircleHighlight } from "scandit-datacapture-frameworks-barcode";
 declare export { BarcodeArCircleHighlightPreset } from "scandit-datacapture-frameworks-barcode";
 declare export { BarcodeArFeedback } from "scandit-datacapture-frameworks-barcode";
@@ -246,3 +247,11 @@ declare export {
   Pdf417CompactionMode,
   Pdf417Dimensions,
 } from "scandit-datacapture-frameworks-barcode";
+declare export {
+  useIsForeground,
+  useCameraPermission,
+  ScanditProvider,
+} from "scandit-react-native-datacapture-core";
+export type { ScanditProviderProps } from "scandit-react-native-datacapture-core";
+import * as _internal from "./private/internal";
+declare export { _internal };

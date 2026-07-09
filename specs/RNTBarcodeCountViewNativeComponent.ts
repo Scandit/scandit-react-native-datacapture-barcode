@@ -15,6 +15,4 @@ import codegenNativeComponent from 'react-native/Libraries/Utilities/codegenNati
  */
 export interface NativeProps extends ViewProps {}
 
-export default codegenNativeComponent<NativeProps>(
-  'RNTBarcodeCountView',
-) as HostComponent<NativeProps>;
+export default codegenNativeComponent<NativeProps>('RNTBarcodeCountView') as HostComponent<NativeProps>;
