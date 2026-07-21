@@ -1,0 +1,30 @@
+import React from 'react';
+import { ViewProps } from 'react-native';
+import { Brush, CameraPosition, CameraSettings, DataCaptureContext, FrameData, FrameSourceState, PointWithUnit, TorchState, TorchSwitchControl, ZoomSwitchControl } from 'scandit-react-native-datacapture-core';
+import { BarcodeSelection, BarcodeSelectionBasicOverlayStyle, BarcodeSelectionBrushProvider, BarcodeSelectionFeedback, BarcodeSelectionSession, BarcodeSelectionSettings } from 'scandit-datacapture-frameworks-barcode';
+import { NavigationProp, ParamListBase } from '@react-navigation/native';
+interface BarcodeSelectionViewProps extends ViewProps {
+    context: DataCaptureContext;
+    isEnabled: boolean;
+    barcodeSelectionSettings?: BarcodeSelectionSettings | null;
+    aimedBrush?: Brush | null;
+    selectedBrush?: Brush | null;
+    selectingBrush?: Brush | null;
+    trackedBrush?: Brush | null;
+    aimedBarcodeBrushProvider?: BarcodeSelectionBrushProvider | null;
+    trackedBarcodeBrushProvider?: BarcodeSelectionBrushProvider | null;
+    basicOverlayStyle?: BarcodeSelectionBasicOverlayStyle | null;
+    cameraSettings?: CameraSettings | null;
+    desiredCameraState?: FrameSourceState | null;
+    desiredCameraPosition?: CameraPosition | null;
+    desiredTorchState?: TorchState | null;
+    torchSwitchControl?: TorchSwitchControl | null;
+    zoomSwitchControl?: ZoomSwitchControl | null;
+    pointOfInterest?: PointWithUnit | null;
+    feedback?: BarcodeSelectionFeedback;
+    navigation?: NavigationProp<ParamListBase>;
+    shouldUnfreezeCamera?: boolean | null;
+    didUpdateSelection?(barcodeSelection: BarcodeSelection, session: BarcodeSelectionSession, getFrameData: () => Promise<FrameData>): Promise<void>;
+}
+export declare const BarcodeSelectionView: React.ForwardRefExoticComponent<BarcodeSelectionViewProps & React.RefAttributes<unknown>>;
+export {};

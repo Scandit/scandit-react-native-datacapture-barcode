@@ -1,0 +1,34 @@
+import React from 'react';
+import { StyleProp, View, ViewStyle, ViewProps } from 'react-native';
+import { Anchor, Brush, CameraPosition, CameraSettings, DataCaptureContext, FrameData, FrameSourceState, PointWithUnit, TorchState, TorchSwitchControl, ZoomSwitchControl } from 'scandit-react-native-datacapture-core';
+import { BarcodeBatch, BarcodeBatchAdvancedOverlayView, BarcodeBatchBasicOverlay, BarcodeBatchBasicOverlayStyle, BarcodeBatchSession, BarcodeBatchSettings, TrackedBarcode } from 'scandit-datacapture-frameworks-barcode';
+import { BarcodeBatchAdvancedOverlay } from './BarcodeBatchAdvancedOverlay';
+import { NavigationProp, ParamListBase } from '@react-navigation/native';
+interface BarcodeBatchViewProps extends ViewProps {
+    context: DataCaptureContext;
+    isEnabled?: boolean;
+    barcodeBatchSettings?: BarcodeBatchSettings | null;
+    defaultBasicOverlayBrush?: Brush | null;
+    basicOverlayStyle?: BarcodeBatchBasicOverlayStyle | null;
+    shouldShowScanAreaGuides?: boolean;
+    defaultAnchorForTrackedBarcode?: Anchor;
+    defaultsOffsetForTrackedBarcode?: PointWithUnit;
+    cameraSettings?: CameraSettings | null;
+    desiredCameraState?: FrameSourceState;
+    desiredCameraPosition?: CameraPosition | null;
+    desiredTorchState?: TorchState | null;
+    torchSwitchControl?: TorchSwitchControl | null;
+    zoomSwitchControl?: ZoomSwitchControl | null;
+    style: StyleProp<ViewStyle>;
+    useCacheForViewsForTrackedBarcodes?: boolean;
+    navigation?: NavigationProp<ParamListBase>;
+    didUpdateSession?(barcodeBatch: BarcodeBatch, session: BarcodeBatchSession, getFrameData: () => Promise<FrameData>): Promise<void>;
+    brushForTrackedBarcode?(overlay: BarcodeBatchBasicOverlay, trackedBarcode: TrackedBarcode): Brush | null;
+    didTapTrackedBarcode?(overlay: BarcodeBatchBasicOverlay, trackedBarcode: TrackedBarcode): void;
+    didTapViewForTrackedBarcode?(overlay: BarcodeBatchAdvancedOverlay, trackedBarcode: TrackedBarcode): void;
+    viewForTrackedBarcode?(overlay: BarcodeBatchAdvancedOverlay, trackedBarcode: TrackedBarcode): BarcodeBatchAdvancedOverlayView | null | Promise<BarcodeBatchAdvancedOverlayView | null>;
+    anchorForTrackedBarcode?(overlay: BarcodeBatchAdvancedOverlay, trackedBarcode: TrackedBarcode): Anchor;
+    offsetForTrackedBarcode?(overlay: BarcodeBatchAdvancedOverlay, trackedBarcode: TrackedBarcode): PointWithUnit;
+}
+export declare const BarcodeBatchView: React.ForwardRefExoticComponent<BarcodeBatchViewProps & React.RefAttributes<View>>;
+export {};
