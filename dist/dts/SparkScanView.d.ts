@@ -1,39 +1,23 @@
 import React from 'react';
-import { LayoutChangeEvent, StyleProp, ViewStyle } from 'react-native';
-import { SparkScanFeedbackDelegate, SparkScanViewState, SparkScanScanningMode, BaseSparkScanViewProps } from 'scandit-datacapture-frameworks-barcode';
+import { StyleProp, ViewStyle } from 'react-native';
+import { SparkScanFeedbackDelegate, SparkScanViewState, BaseSparkScanViewProps } from 'scandit-datacapture-frameworks-barcode';
 import { Brush, Color } from 'scandit-datacapture-frameworks-core';
 import { NavigationProp, ParamListBase } from '@react-navigation/native';
 export interface SparkScanViewUiListener {
-    /**
-     * @deprecated Use {@link didTapBarcodeCountButton} instead.
-     */
     onBarcodeCountButtonTappedIn?(view: SparkScanView): void;
-    /**
-     * @deprecated Use {@link didTapBarcodeFindButton} instead.
-     */
     onBarcodeFindButtonTappedIn?(view: SparkScanView): void;
-    /**
-     * @deprecated Use {@link didTapLabelCaptureButton} instead.
-     */
     onLabelCaptureButtonTappedIn?(view: SparkScanView): void;
-    didTapBarcodeCountButton?(view: SparkScanView): void;
-    didTapBarcodeFindButton?(view: SparkScanView): void;
-    didTapLabelCaptureButton?(view: SparkScanView): void;
     didChangeViewState?(newState: SparkScanViewState): void;
-    didChangeScanningMode?(newScanningMode: SparkScanScanningMode): void;
 }
 interface SparkScanViewProps extends BaseSparkScanViewProps {
     style: StyleProp<ViewStyle>;
     children?: React.ReactNode;
     navigation?: NavigationProp<ParamListBase>;
-    onLayout?: (event: LayoutChangeEvent) => void;
 }
 export declare class SparkScanView extends React.Component<SparkScanViewProps> {
     private baseSparkScanView;
     private rnViewListener;
     private _isMounted;
-    private _viewCreated;
-    private _createViewRafHandle;
     private navigationUnsubscribers;
     private cameraOwner;
     get uiListener(): SparkScanViewUiListener | null;
@@ -51,8 +35,6 @@ export declare class SparkScanView extends React.Component<SparkScanViewProps> {
     set barcodeFindButtonVisible(newValue: boolean);
     get targetModeButtonVisible(): boolean;
     set targetModeButtonVisible(newValue: boolean);
-    get selectionModeButtonVisible(): boolean;
-    set selectionModeButtonVisible(newValue: boolean);
     get labelCaptureButtonVisible(): boolean;
     set labelCaptureButtonVisible(newValue: boolean);
     get toolbarBackgroundColor(): Color | null;
@@ -65,8 +47,6 @@ export declare class SparkScanView extends React.Component<SparkScanViewProps> {
     set cameraSwitchButtonVisible(newValue: boolean);
     get torchControlVisible(): boolean;
     set torchControlVisible(newValue: boolean);
-    get zoomSwitchControlVisible(): boolean;
-    set zoomSwitchControlVisible(newValue: boolean);
     get previewCloseControlVisible(): boolean;
     set previewCloseControlVisible(newValue: boolean);
     get triggerButtonAnimationColor(): Color | null;
@@ -95,9 +75,7 @@ export declare class SparkScanView extends React.Component<SparkScanViewProps> {
     private setupNavigationListeners;
     private onFocus;
     private onBlur;
-    private onNativeViewLayout;
-    private scheduleCreateNativeView;
-    private tryCreateNativeView;
+    private createSparkScanView;
     private toJSON;
 }
 export {};
