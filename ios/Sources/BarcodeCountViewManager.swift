@@ -26,6 +26,13 @@ class BarcodeCountViewWrapperView: UIView {
         }
     }
 
+    override func didMoveToWindow() {
+        super.didMoveToWindow()
+        // Drives the JS single-owner camera model (SDC-32484): attach -> the
+        // hosting wrapper claims camera ownership, detach -> it releases.
+        ViewWindowEventsRelay.notifyWindowChanged(viewId: reactTag.intValue, attached: window != nil)
+    }
+
     override func addSubview(_ view: UIView) {
         super.addSubview(view)
         if view is BarcodeCountView {

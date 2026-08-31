@@ -51,6 +51,28 @@ using namespace facebook::react;
     }
 }
 
+- (void)setPostFrameSetAction:(void (^)(void))postFrameSetAction {
+    // A recycled Fabric container keeps its previous (non-zero) frame, so
+    // layoutSubviews may never observe another zero->set transition. If the
+    // frame is already usable, run the action immediately instead of parking
+    // it forever (SDC-32484: white screen - the parked createView RPC never
+    // replayed on a recycled view, wedging the JS attach path).
+    if (postFrameSetAction != nil && !CGRectEqualToRect(self.frame, CGRectZero)) {
+        self.isFrameSet = YES;
+        _postFrameSetAction = nil;
+        postFrameSetAction();
+        return;
+    }
+    _postFrameSetAction = [postFrameSetAction copy];
+}
+
+- (void)didMoveToWindow {
+    [super didMoveToWindow];
+    // Drives the JS single-owner camera model (SDC-32484): attach -> the
+    // hosting wrapper claims camera ownership, detach -> it releases.
+    [SDCViewWindowEventsBridge notifyWindowChanged:self.tag attached:self.window != nil];
+}
+
 - (void)cleanupForRecycle {
     for (UIView *subview in self.subviews) {
         [subview removeFromSuperview];
@@ -125,6 +147,18 @@ static NSMutableArray<RCTBarcodeArViewWrapper *> *_containers;
 
     [[SDCPendingFabricViewActions shared] executePendingActionFor:self.tag
                                                         container:_containerView];
+}
+
+// Re-assert the native AR view's started state whenever this component
+// (re-)enters a window: `SDCBarcodeArView.start()` can silently no-op while
+// off-window (mid navigation transition) and never self-recovers once
+// re-added (SDC-32484 black screen on back-navigation).
+- (void)didMoveToWindow {
+    [super didMoveToWindow];
+    if (self.window == nil) {
+        return;
+    }
+    [SDCBarcodeArWindowReassert onWindowAttached:self.tag];
 }
 
 - (void)prepareForRecycle {
