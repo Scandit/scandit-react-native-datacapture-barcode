@@ -1,0 +1,53 @@
+import React from 'react';
+import { Anchor, CameraSettings, DataCaptureContext } from 'scandit-datacapture-frameworks-core';
+import { BarcodeAr, BarcodeArAnnotationProvider, BarcodeArHighlightProvider, BarcodeArViewSettings, BarcodeArViewUiListener } from 'scandit-datacapture-frameworks-barcode';
+interface BarcodeArViewProps {
+    context: DataCaptureContext;
+    barcodeAr: BarcodeAr;
+    settings?: BarcodeArViewSettings;
+    cameraSettings?: CameraSettings;
+    annotationProvider?: BarcodeArAnnotationProvider;
+    highlightProvider?: BarcodeArHighlightProvider;
+    uiListener?: BarcodeArViewUiListener;
+    style?: any;
+}
+export declare class BarcodeArView extends React.Component<BarcodeArViewProps> {
+    private baseBarcodeArView;
+    private handle;
+    static forMode(dataCaptureContext: DataCaptureContext, barcodeAr: BarcodeAr): BarcodeArView;
+    static forModeWithViewSettings(dataCaptureContext: DataCaptureContext, barcodeAr: BarcodeAr, viewSettings: BarcodeArViewSettings): BarcodeArView;
+    static forModeWithViewSettingsAndCameraSettings(dataCaptureContext: DataCaptureContext, barcodeAr: BarcodeAr, viewSettings: BarcodeArViewSettings, cameraSettings: CameraSettings): BarcodeArView;
+    constructor(props: BarcodeArViewProps);
+    componentDidMount(): Promise<void>;
+    componentWillUnmount(): void;
+    get uiListener(): BarcodeArViewUiListener | null;
+    set uiListener(value: BarcodeArViewUiListener | null);
+    get annotationProvider(): BarcodeArAnnotationProvider | null;
+    set annotationProvider(value: BarcodeArAnnotationProvider | null);
+    get highlightProvider(): BarcodeArHighlightProvider | null;
+    set highlightProvider(value: BarcodeArHighlightProvider | null);
+    start(): void;
+    stop(): void;
+    pause(): void;
+    reset(): void;
+    get shouldShowTorchControl(): boolean;
+    set shouldShowTorchControl(value: boolean);
+    get torchControlPosition(): Anchor;
+    set torchControlPosition(value: Anchor);
+    get shouldShowZoomControl(): boolean;
+    set shouldShowZoomControl(value: boolean);
+    get zoomControlPosition(): Anchor;
+    set zoomControlPosition(value: Anchor);
+    get shouldShowCameraSwitchControl(): boolean;
+    set shouldShowCameraSwitchControl(value: boolean);
+    get cameraSwitchControlPosition(): Anchor;
+    set cameraSwitchControlPosition(value: Anchor);
+    get shouldShowMacroModeControl(): boolean;
+    set shouldShowMacroModeControl(value: boolean);
+    get macroModeControlPosition(): Anchor;
+    set macroModeControlPosition(value: Anchor);
+    render(): React.JSX.Element;
+    private createBarcodeArView;
+    private toJSON;
+}
+export {};
