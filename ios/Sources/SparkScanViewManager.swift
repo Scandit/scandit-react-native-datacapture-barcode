@@ -20,6 +20,13 @@ class RNTSparkScanViewWrapper: UIView {
 
     weak var viewManager: SparkScanViewManager?
 
+    override func didMoveToWindow() {
+        super.didMoveToWindow()
+        // Drives the JS single-owner camera model (SDC-32484): attach -> the
+        // hosting wrapper claims camera ownership, detach -> it releases.
+        ViewWindowEventsRelay.notifyWindowChanged(viewId: reactTag.intValue, attached: window != nil)
+    }
+
     override func removeFromSuperview() {
         super.removeFromSuperview()
         guard let index = SparkScanViewManager.containers.firstIndex(of: self) else {
