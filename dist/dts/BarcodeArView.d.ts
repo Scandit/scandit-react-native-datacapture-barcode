@@ -20,7 +20,9 @@ export declare class BarcodeArView extends React.Component<BarcodeArViewProps> {
         shownAnnotations: Record<string, Barcode>;
     };
     private baseBarcodeArView;
-    private handle;
+    private _isMounted;
+    private _viewCreated;
+    private _createViewRafHandle;
     private unregisterFromCustomHighlightCreateEvent;
     private unregisterFromCustomHighlightDisposeEvent;
     private unregisterFromCustomAnnotationCreateEvent;
@@ -72,7 +74,8 @@ export declare class BarcodeArView extends React.Component<BarcodeArViewProps> {
     private setupNavigationListeners;
     private onFocus;
     private onBlur;
-    private createBarcodeArView;
+    private scheduleCreateNativeView;
+    private tryCreateNativeView;
     private toJSON;
 }
 export {};

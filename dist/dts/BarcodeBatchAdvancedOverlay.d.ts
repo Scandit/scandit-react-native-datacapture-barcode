@@ -16,4 +16,5 @@ export declare class BarcodeBatchAdvancedOverlay implements DataCaptureOverlay {
     clearTrackedBarcodeViews(): Promise<void>;
     updateSizeOfTrackedBarcodeView(trackedBarcodeIdentifier: number, width: number, height: number): Promise<void>;
     toJSON(): object;
+    private onViewIdChanged;
 }
