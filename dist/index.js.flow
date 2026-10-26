@@ -4,254 +4,1788 @@
  * Flowgen v1.21.0
  */
 
-declare export {
-  Barcode,
-  BarcodeInfo,
-  LocalizedOnlyBarcode,
+import {
+  BarcodeBatchAdvancedOverlayListener as BarcodeBatchAdvancedOverlayListener$1,
+  BarcodeBatch,
+  BarcodeBatchAdvancedOverlayView as BarcodeBatchAdvancedOverlayView$1,
   TrackedBarcode,
-  TargetBarcode,
+  BarcodeBatchSettings,
+  BarcodeBatchBasicOverlayStyle,
+  BarcodeBatchSession,
+  BarcodeBatchBasicOverlay,
+  Barcode,
+  BarcodeCaptureSession,
+  Symbology,
+  CompositeType,
+  BatterySavingMode,
+  ArucoDictionary,
+  BarcodeCaptureSettings,
+  BarcodeCaptureFeedback,
+  BarcodeArHighlight,
+  BarcodeArAnnotationTrigger,
+  BarcodeArAnnotation,
+  BarcodeAr,
+  BarcodeArViewSettings,
+  BarcodeArViewUiListener,
+  BarcodeArAnnotationProvider,
+  BarcodeArHighlightProvider,
+  BarcodeSelectionSettings,
+  BarcodeSelectionBrushProvider,
+  BarcodeSelectionBasicOverlayStyle,
+  BarcodeSelectionFeedback,
+  BarcodeSelection,
+  BarcodeSelectionSession,
+  SparkScanViewState,
+  SparkScanScanningMode,
+  SparkScanFeedbackDelegate,
+  BaseSparkScanViewProps,
+  BarcodeCountViewUiListener,
+  BarcodeCountViewListener,
+  BarcodeFilterHighlightSettings,
+  BarcodeCountNotInListActionSettings,
+  BarcodeCountToolbarSettings,
+  BarcodeCountStatusProvider,
+  BaseBarcodeCountViewProps,
+  BarcodePickViewUiListener,
+  BarcodePickViewListener,
+  BarcodePickActionListener,
+  BarcodePick,
+  BarcodePickViewSettings,
+  BarcodeFindViewUiListener,
+  BarcodeFind,
+  BarcodeFindViewSettings,
+  SparkScanSession,
+  ScanItemDefinition,
+  SparkScanSettings,
+  SparkScanViewSettings,
+  SparkScanBarcodeFeedback,
+  Cluster,
+  BarcodeCountSession,
+  BarcodeCountSettings,
+  BarcodeCountCaptureList,
+  BarcodeCountFeedback,
+  BarcodeArSettings,
+  BarcodeArSession,
+  BarcodeArFilter,
+  BarcodeArFeedback,
+  getBarcodeArDefaults,
+  getBarcodeBatchDefaults,
+  getBarcodeCountDefaults,
+} from "./barcode";
+import type {
+  BarcodeCountDefaults,
+  BarcodeCountViewSettingsDefaults,
+  BarcodeArDefaults,
+  BarcodeBatchDefaults,
+} from "./barcode";
+declare export {
   ArucoDictionary,
   ArucoDictionaryPreset,
   ArucoMarker,
-} from "scandit-datacapture-frameworks-barcode";
-declare export { TrackedObject } from "scandit-datacapture-frameworks-barcode";
-declare export {
-  Symbology,
-  SymbologyDescription,
-  SymbologySettings,
-} from "scandit-datacapture-frameworks-barcode";
-declare export {
-  Range,
-  Ean13UpcaClassification,
-  CompositeFlag,
-  EncodingRange,
-  StructuredAppendData,
-} from "scandit-datacapture-frameworks-barcode";
-declare export {
-  CompositeType,
-  Checksum,
-} from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeSpatialGrid } from "scandit-datacapture-frameworks-barcode";
-declare export { BatterySavingMode } from "scandit-datacapture-frameworks-barcode";
-declare export { Cluster } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeDataTransformer } from "scandit-datacapture-frameworks-barcode";
-declare export { CapturePreset } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeBatch } from "scandit-datacapture-frameworks-barcode";
-declare export {
-  BarcodeBatchBasicOverlayStyle,
-  BarcodeBatchBasicOverlayListener,
+  AztecBarcodeGeneratorBuilder,
+  Barcode,
+  BarcodeAr,
+  BarcodeArAnnotation,
+  BarcodeArAnnotationProvider,
+  BarcodeArAnnotationTrigger,
+  BarcodeArCircleHighlight,
+  BarcodeArCircleHighlightPreset,
+  BarcodeArFeedback,
+  BarcodeArFilter,
+  BarcodeArHighlight,
+  BarcodeArHighlightProvider,
+  BarcodeArInfoAnnotation,
+  BarcodeArInfoAnnotationAnchor,
+  BarcodeArInfoAnnotationBodyComponent,
+  BarcodeArInfoAnnotationFooter,
+  BarcodeArInfoAnnotationHeader,
+  BarcodeArInfoAnnotationListener,
+  BarcodeArInfoAnnotationWidthPreset,
+  BarcodeArListener,
+  BarcodeArPopoverAnnotation,
+  BarcodeArPopoverAnnotationAnchor,
+  BarcodeArPopoverAnnotationButton,
+  BarcodeArPopoverAnnotationListener,
+  BarcodeArRectangleHighlight,
+  BarcodeArResponsiveAnnotation,
+  BarcodeArSession,
+  BarcodeArSettings,
+  BarcodeArStatusIconAnnotation,
+  BarcodeArStatusIconAnnotationAnchor,
+  BarcodeArViewSettings,
+  BarcodeArViewUiListener,
+  BarcodeBatch,
   BarcodeBatchBasicOverlay,
-} from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeBatchListener } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeBatchSession } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeBatchSettings } from "scandit-datacapture-frameworks-barcode";
-declare export * from "./BarcodeBatchView";
-declare export { BarcodeBatchAdvancedOverlayView } from "./BarcodeBatchAdvancedOverlayView";
-declare export { BarcodeBatchAdvancedOverlay } from "./BarcodeBatchAdvancedOverlay";
-declare export { BarcodeBatchAdvancedOverlayListener } from "./BarcodeBatchAdvancedOverlayListener";
-declare export { BarcodeCapture } from "scandit-datacapture-frameworks-barcode";
-declare export * from "./BarcodeCaptureView";
-declare export { BarcodeCaptureFeedback } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeCaptureListener } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeCaptureSession } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeCaptureOverlay } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeCaptureSettings } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeAr } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeArAnnotation } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeArAnnotationProvider } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeArFilter } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeArCircleHighlight } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeArCircleHighlightPreset } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeArFeedback } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeArHighlight } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeArHighlightProvider } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeArInfoAnnotation } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeArInfoAnnotationAnchor } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeArInfoAnnotationBodyComponent } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeArInfoAnnotationListener } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeArInfoAnnotationWidthPreset } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeArListener } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeArPopoverAnnotation } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeArPopoverAnnotationButton } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeArInfoAnnotationFooter } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeArInfoAnnotationHeader } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeArPopoverAnnotationListener } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeArRectangleHighlight } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeArResponsiveAnnotation } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeArSession } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeArSettings } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeArStatusIconAnnotation } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeArViewSettings } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeArViewUiListener } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeArAnnotationTrigger } from "scandit-datacapture-frameworks-barcode";
-declare export * from "./BarcodeArCustomHighlight";
-declare export * from "./BarcodeArCustomAnnotation";
-declare export * from "./BarcodeArView";
-declare export { BarcodeSelection } from "scandit-datacapture-frameworks-barcode";
-declare export * from "./BarcodeSelectionView";
-declare export { BarcodeSelectionFeedback } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeSelectionListener } from "scandit-datacapture-frameworks-barcode";
-declare export {
-  BarcodeSelectionBasicOverlay,
-  BarcodeSelectionBrushProvider,
-  BarcodeSelectionBasicOverlayStyle,
-} from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeSelectionSession } from "scandit-datacapture-frameworks-barcode";
-declare export {
-  BarcodeSelectionSettings,
-  BarcodeSelectionStrategy,
-  BarcodeSelectionAutoSelectionStrategy,
-  BarcodeSelectionManualSelectionStrategy,
-  BarcodeSelectionFreezeBehavior,
-  BarcodeSelectionTapBehavior,
-  BarcodeSelectionType,
-  BarcodeSelectionAimerSelection,
-  BarcodeSelectionTapSelection,
-} from "scandit-datacapture-frameworks-barcode";
-declare export { SparkScan } from "scandit-datacapture-frameworks-barcode";
-declare export { SparkScanListener } from "scandit-datacapture-frameworks-barcode";
-declare export { SparkScanSession } from "scandit-datacapture-frameworks-barcode";
-declare export {
-  SparkScanSettings,
-  SparkScanViewState,
-} from "scandit-datacapture-frameworks-barcode";
-declare export * from "./SparkScanView";
-declare export {
-  SparkScanScanningMode,
-  SparkScanScanningModeDefault,
-  SparkScanScanningModeTarget,
-  SparkScanScanningBehavior,
-  SparkScanViewSettings,
-} from "scandit-datacapture-frameworks-barcode";
-declare export {
-  SparkScanToastSettings,
-  SparkScanPreviewBehavior,
-} from "scandit-datacapture-frameworks-barcode";
-declare export {
-  SparkScanBarcodeFeedback,
-  SparkScanBarcodeErrorFeedback,
-  SparkScanBarcodeSuccessFeedback,
-  SparkScanFeedbackDelegate,
-} from "scandit-datacapture-frameworks-barcode";
-declare export { SparkScanMiniPreviewSize } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeCount } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeCountFeedback } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeCountListener } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeCountSession } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeCountSettings } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeCountStatus } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeCountStatusItem } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeCountStatusProvider } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeCountStatusProviderCallback } from "scandit-datacapture-frameworks-barcode";
-declare export {
+  BarcodeBatchBasicOverlayListener,
+  BarcodeBatchBasicOverlayStyle,
+  BarcodeBatchLicenseInfo,
+  BarcodeBatchListener,
+  BarcodeBatchSession,
+  BarcodeBatchSettings,
+  BarcodeCapture,
+  BarcodeCaptureFeedback,
+  BarcodeCaptureLicenseInfo,
+  BarcodeCaptureListener,
+  BarcodeCaptureOverlay,
+  BarcodeCaptureSession,
+  BarcodeCaptureSettings,
+  BarcodeCount,
+  BarcodeCountCaptureList,
+  BarcodeCountCaptureListListener,
+  BarcodeCountCaptureListSession,
+  BarcodeCountFeedback,
+  BarcodeCountListener,
+  BarcodeCountMappingFlowSettings,
+  BarcodeCountNotInListActionSettings,
+  BarcodeCountSession,
+  BarcodeCountSettings,
+  BarcodeCountStatus,
+  BarcodeCountStatusItem,
+  BarcodeCountStatusProvider,
+  BarcodeCountStatusProviderCallback,
   BarcodeCountStatusResult,
-  BarcodeCountStatusResultSuccess,
-  BarcodeCountStatusResultError,
   BarcodeCountStatusResultAbort,
-} from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeCountViewUiListener } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeCountViewListener } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeCountToolbarSettings } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeCountCaptureList } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeCountCaptureListListener } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeCountCaptureListSession } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeFilterSettings } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeFilterHighlightType } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeFilterHighlightSettingsBrush } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeFilterHighlightSettings } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeCountNotInListActionSettings } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeCountMappingFlowSettings } from "scandit-datacapture-frameworks-barcode";
-declare export * from "./BarcodeCountView";
-declare export { BarcodePick } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodePickAction } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodePickActionListener } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodePickActionCallback } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodePickListener } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodePickSession } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodePickState } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodePickSettings } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodePickProduct } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodePickProductProvider } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodePickProductProviderCallback } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodePickProductProviderCallbackItem } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodePickAsyncMapperProductProvider } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodePickAsyncMapperProductProviderCallback } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodePickScanningListener } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodePickScanningSession } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodePickViewEvents } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodePickViewListener } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodePickViewUiListener } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodePickViewSettings } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodePickViewHighlightStyle } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodePickStatusIconSettings } from "scandit-datacapture-frameworks-barcode";
-declare export { Dot } from "scandit-datacapture-frameworks-barcode";
-declare export { DotWithIcons } from "scandit-datacapture-frameworks-barcode";
-declare export { Rectangular } from "scandit-datacapture-frameworks-barcode";
-declare export { RectangularWithIcons } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodePickStatusIconStyle } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodePickViewHighlightStyleRequest } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodePickViewHighlightStyleResponse } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodePickViewHighlightStyleResponseBuilder } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodePickViewHighlightStyleAsyncProvider } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodePickViewHighlightStyleCustomViewProvider } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodePickViewHighlightStyleCustomViewResponse } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodePickViewHighlightStyleCustomView } from "scandit-datacapture-frameworks-barcode";
-declare export * from "./BarcodePickView";
-declare export { BarcodeFind } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeFindFeedback } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeFindItem } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeFindItemContent } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeFindItemSearchOptions } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeFindListener } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeFindSession } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeFindSettings } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeFindViewSettings } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeFindViewUiListener } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeFindTransformer } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeFindViewProps } from "scandit-datacapture-frameworks-barcode";
-declare export * from "./BarcodeFindView";
-declare export { ScanComponentDefinition } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeIdentifier } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeDefinition } from "scandit-datacapture-frameworks-barcode";
-declare export { ScanComponentBarcodePreset } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeDefinitionBuilder } from "scandit-datacapture-frameworks-barcode";
-declare export { TextIdentifier } from "scandit-datacapture-frameworks-barcode";
-declare export { ScanItemIdentifier } from "scandit-datacapture-frameworks-barcode";
-declare export { ScannedItemIdentifier } from "scandit-datacapture-frameworks-barcode";
-declare export { ScannedComponentIdentifier } from "scandit-datacapture-frameworks-barcode";
-declare export { ScanItemDefinition } from "scandit-datacapture-frameworks-barcode";
-declare export { ScannedComponent } from "scandit-datacapture-frameworks-barcode";
-declare export { ScannedBarcode } from "scandit-datacapture-frameworks-barcode";
-declare export { ScannedText } from "scandit-datacapture-frameworks-barcode";
-declare export { ScannedItem } from "scandit-datacapture-frameworks-barcode";
-declare export { ScanComponentTextSemanticType } from "scandit-datacapture-frameworks-barcode";
-declare export { TextDefinition } from "scandit-datacapture-frameworks-barcode";
-declare export { TextDefinitionBuilder } from "scandit-datacapture-frameworks-barcode";
-declare export {
+  BarcodeCountStatusResultError,
+  BarcodeCountStatusResultSuccess,
+  BarcodeCountToolbarSettings,
+  BarcodeCountViewListener,
+  BarcodeCountViewUiListener,
+  BarcodeDataTransformer,
+  BarcodeDefinition,
+  BarcodeDefinitionBuilder,
+  BarcodeFilterHighlightSettings,
+  BarcodeFilterHighlightSettingsBrush,
+  BarcodeFilterHighlightType,
+  BarcodeFilterSettings,
+  BarcodeFind,
+  BarcodeFindFeedback,
+  BarcodeFindItem,
+  BarcodeFindItemContent,
+  BarcodeFindItemSearchOptions,
+  BarcodeFindListener,
+  BarcodeFindSession,
+  BarcodeFindSettings,
+  BarcodeFindTransformer,
+  BarcodeFindViewProps,
+  BarcodeFindViewSettings,
+  BarcodeFindViewUiListener,
   BarcodeGenerator,
   BarcodeGeneratorBuilder,
-  Code39BarcodeGeneratorBuilder,
+  BarcodeIdentifier,
+  BarcodeInfo,
+  BarcodePick,
+  BarcodePickAction,
+  BarcodePickActionCallback,
+  BarcodePickActionListener,
+  BarcodePickAsyncMapperProductProvider,
+  BarcodePickAsyncMapperProductProviderCallback,
+  BarcodePickListener,
+  BarcodePickProduct,
+  BarcodePickProductProvider,
+  BarcodePickProductProviderCallback,
+  BarcodePickProductProviderCallbackItem,
+  BarcodePickScanningListener,
+  BarcodePickScanningSession,
+  BarcodePickSession,
+  BarcodePickSettings,
+  BarcodePickState,
+  BarcodePickStatusIconSettings,
+  BarcodePickStatusIconStyle,
+  BarcodePickViewEvents,
+  BarcodePickViewHighlightStyle,
+  BarcodePickViewHighlightStyleAsyncProvider,
+  BarcodePickViewHighlightStyleCustomView,
+  BarcodePickViewHighlightStyleCustomViewProvider,
+  BarcodePickViewHighlightStyleCustomViewResponse,
+  BarcodePickViewHighlightStyleRequest,
+  BarcodePickViewHighlightStyleResponse,
+  BarcodePickViewHighlightStyleResponseBuilder,
+  BarcodePickViewListener,
+  BarcodePickViewSettings,
+  BarcodePickViewUiListener,
+  BarcodeSelection,
+  BarcodeSelectionAimerSelection,
+  BarcodeSelectionAutoSelectionStrategy,
+  BarcodeSelectionBasicOverlay,
+  BarcodeSelectionBasicOverlayStyle,
+  BarcodeSelectionBrushProvider,
+  BarcodeSelectionFeedback,
+  BarcodeSelectionFreezeBehavior,
+  BarcodeSelectionLicenseInfo,
+  BarcodeSelectionListener,
+  BarcodeSelectionManualSelectionStrategy,
+  BarcodeSelectionSession,
+  BarcodeSelectionSettings,
+  BarcodeSelectionStrategy,
+  BarcodeSelectionTapBehavior,
+  BarcodeSelectionTapSelection,
+  BarcodeSelectionType,
+  BarcodeSpatialGrid,
+  BatterySavingMode,
+  CapturePreset,
+  Checksum,
+  Cluster,
   Code128BarcodeGeneratorBuilder,
-  Ean13BarcodeGeneratorBuilder,
-} from "scandit-datacapture-frameworks-barcode";
-declare export {
-  UpcaBarcodeGeneratorBuilder,
-  InterleavedTwoOfFiveBarcodeGeneratorBuilder,
-  QrCodeBarcodeGeneratorBuilder,
+  Code39BarcodeGeneratorBuilder,
+  CompositeFlag,
+  CompositeType,
   DataMatrixBarcodeGeneratorBuilder,
-  QrCodeErrorCorrectionLevel,
-  AztecBarcodeGeneratorBuilder,
-} from "scandit-datacapture-frameworks-barcode";
-declare export {
+  Dot,
+  DotWithIcons,
+  Ean13BarcodeGeneratorBuilder,
+  Ean13UpcaClassification,
+  EncodingRange,
+  InterleavedTwoOfFiveBarcodeGeneratorBuilder,
+  LocalizedOnlyBarcode,
   Pdf417BarcodeGeneratorBuilder,
   Pdf417CompactionMode,
   Pdf417Dimensions,
-} from "scandit-datacapture-frameworks-barcode";
+  QrCodeBarcodeGeneratorBuilder,
+  QrCodeErrorCorrectionLevel,
+  Range,
+  Rectangular,
+  RectangularWithIcons,
+  ScanComponentBarcodePreset,
+  ScanComponentDefinition,
+  ScanComponentTextSemanticType,
+  ScanItemDefinition,
+  ScanItemIdentifier,
+  ScannedBarcode,
+  ScannedComponent,
+  ScannedComponentIdentifier,
+  ScannedItem,
+  ScannedItemIdentifier,
+  ScannedText,
+  SparkScan,
+  SparkScanBarcodeErrorFeedback,
+  SparkScanBarcodeFeedback,
+  SparkScanBarcodeSuccessFeedback,
+  SparkScanFeedbackDelegate,
+  SparkScanLicenseInfo,
+  SparkScanListener,
+  SparkScanMiniPreviewSize,
+  SparkScanPreviewBehavior,
+  SparkScanScanningBehavior,
+  SparkScanScanningMode,
+  SparkScanScanningModeDefault,
+  SparkScanScanningModeTarget,
+  SparkScanSession,
+  SparkScanSettings,
+  SparkScanToastSettings,
+  SparkScanViewSettings,
+  SparkScanViewState,
+  StructuredAppendData,
+  Symbology,
+  SymbologyDescription,
+  SymbologySettings,
+  TargetBarcode,
+  TextDefinition,
+  TextDefinitionBuilder,
+  TextIdentifier,
+  TrackedBarcode,
+  TrackedObject,
+  UpcaBarcodeGeneratorBuilder,
+} from "./barcode";
+import React, { Element } from "react";
+import {
+  View,
+  ViewProps,
+  StyleProp,
+  ViewStyle,
+  LayoutChangeEvent,
+} from "react-native";
+import {
+  DataCaptureContext,
+  Brush,
+  Anchor as Anchor$1,
+  PointWithUnit as PointWithUnit$1,
+  CameraSettings,
+  FrameSourceState,
+  CameraPosition,
+  TorchState,
+  TorchSwitchControl,
+  ZoomSwitchControl,
+  FrameData,
+  Viewfinder,
+  _internal,
+  DataCaptureView,
+  Size,
+  Orientation,
+  Point,
+  Quadrilateral,
+  Control,
+} from "scandit-react-native-datacapture-core";
 declare export {
-  useIsForeground,
-  useCameraPermission,
   ScanditProvider,
+  useCameraPermission,
+  useIsForeground,
 } from "scandit-react-native-datacapture-core";
 export type { ScanditProviderProps } from "scandit-react-native-datacapture-core";
-import * as _internal from "./private/internal";
-declare export { _internal };
+import {
+  DataCaptureOverlay,
+  Anchor,
+  PointWithUnit,
+  FrameData as FrameData$1,
+  LocationSelection,
+  ScanIntention,
+  Observable,
+  DataCaptureContext as DataCaptureContext$1,
+  CameraSettings as CameraSettings$1,
+  LogoStyle,
+  ZoomSwitchOrientation,
+  Brush as Brush$1,
+  Color,
+  FrameSourceState as FrameSourceState$1,
+} from "scandit-react-native-datacapture-core/dist/core";
+import { NavigationProp, ParamListBase } from "@react-navigation/native";
+declare class BarcodeBatchAdvancedOverlay mixins DataCaptureOverlay {
+  listener: BarcodeBatchAdvancedOverlayListener$1 | null;
+  -listener: any;
+  type: any;
+  shouldShowScanAreaGuides: boolean;
+  -shouldShowScanAreaGuides: any;
+  -view: any;
+  view: any;
+  constructor(mode: BarcodeBatch): this;
+  setViewForTrackedBarcode(
+    view: BarcodeBatchAdvancedOverlayView$1,
+    trackedBarcode: TrackedBarcode
+  ): Promise<void>;
+  setAnchorForTrackedBarcode(
+    anchor: $Values<typeof Anchor>,
+    trackedBarcode: TrackedBarcode
+  ): Promise<void>;
+  setOffsetForTrackedBarcode(
+    offset: PointWithUnit,
+    trackedBarcode: TrackedBarcode
+  ): Promise<void>;
+  clearTrackedBarcodeViews(): Promise<void>;
+  updateSizeOfTrackedBarcodeView(
+    trackedBarcodeIdentifier: number,
+    width: number,
+    height: number
+  ): Promise<void>;
+  toJSON(): { [key: string]: any };
+}
+declare type BarcodeBatchViewProps$1 = {
+  context: DataCaptureContext,
+  isEnabled?: boolean,
+  barcodeBatchSettings?: BarcodeBatchSettings | null,
+  defaultBasicOverlayBrush?: Brush | null,
+  basicOverlayStyle?: $Values<typeof BarcodeBatchBasicOverlayStyle> | null,
+  shouldShowScanAreaGuides?: boolean,
+  defaultAnchorForTrackedBarcode?: Anchor$1,
+  defaultsOffsetForTrackedBarcode?: PointWithUnit$1,
+  cameraSettings?: CameraSettings | null,
+  desiredCameraState?: FrameSourceState,
+  desiredCameraPosition?: CameraPosition | null,
+  desiredTorchState?: TorchState | null,
+  torchSwitchControl?: TorchSwitchControl | null,
+  zoomSwitchControl?: ZoomSwitchControl | null,
+  style: StyleProp<ViewStyle>,
+  useCacheForViewsForTrackedBarcodes?: boolean,
+  navigation?: NavigationProp<ParamListBase>,
+  didUpdateSession?: (
+    barcodeBatch: BarcodeBatch,
+    session: BarcodeBatchSession,
+    getFrameData: () => Promise<FrameData>
+  ) => Promise<void>,
+  brushForTrackedBarcode?: (
+    overlay: BarcodeBatchBasicOverlay,
+    trackedBarcode: TrackedBarcode
+  ) => Brush | null,
+  didTapTrackedBarcode?: (
+    overlay: BarcodeBatchBasicOverlay,
+    trackedBarcode: TrackedBarcode
+  ) => void,
+  didTapViewForTrackedBarcode?: (
+    overlay: BarcodeBatchAdvancedOverlay,
+    trackedBarcode: TrackedBarcode
+  ) => void,
+  viewForTrackedBarcode?: (
+    overlay: BarcodeBatchAdvancedOverlay,
+    trackedBarcode: TrackedBarcode
+  ) =>
+    | BarcodeBatchAdvancedOverlayView$1
+    | null
+    | Promise<BarcodeBatchAdvancedOverlayView$1 | null>,
+  anchorForTrackedBarcode?: (
+    overlay: BarcodeBatchAdvancedOverlay,
+    trackedBarcode: TrackedBarcode
+  ) => Anchor$1,
+  offsetForTrackedBarcode?: (
+    overlay: BarcodeBatchAdvancedOverlay,
+    trackedBarcode: TrackedBarcode
+  ) => PointWithUnit$1,
+  ...
+} & ViewProps;
+declare var BarcodeBatchView$1: React.ForwardRefExoticComponent<{
+  ...BarcodeBatchViewProps$1,
+  ...React.RefAttributes<View>,
+}>;
+declare class BarcodeBatchAdvancedOverlayView mixins React.Component {
+  static moduleName: string;
+  moduleName: string;
+}
+declare interface BarcodeBatchAdvancedOverlayListener {
+  didTapViewForTrackedBarcode?: (
+    overlay: BarcodeBatchAdvancedOverlay,
+    trackedBarcode: TrackedBarcode
+  ) => void;
+  viewForTrackedBarcode?: (
+    overlay: BarcodeBatchAdvancedOverlay,
+    trackedBarcode: TrackedBarcode
+  ) => BarcodeBatchAdvancedOverlayView | null;
+  anchorForTrackedBarcode?: (
+    overlay: BarcodeBatchAdvancedOverlay,
+    trackedBarcode: TrackedBarcode
+  ) => $Values<typeof Anchor>;
+  offsetForTrackedBarcode?: (
+    overlay: BarcodeBatchAdvancedOverlay,
+    trackedBarcode: TrackedBarcode
+  ) => PointWithUnit;
+}
+/**
+ * Basic-overlay configuration. The overlay is attached by default; pass
+ * `{ enabled: false }` to skip it. `BarcodeCaptureOverlay` has no listener
+ * interface, so this is purely a setter bag.
+ * @internal
+ */
+declare interface BarcodeCaptureBasicOverlayProps {
+  /**
+   * Whether to attach the basic overlay. Defaults to `true`.
+   */
+  enabled?: boolean;
+
+  /**
+   * Default brush applied to recognized barcodes.
+   */
+  defaultBrush?: Brush | null;
+
+  /**
+   * Viewfinder rendered on top of the camera preview.
+   */
+  viewfinder?: Viewfinder | null;
+
+  /**
+   * Whether to render scan-area guides.
+   */
+  shouldShowScanAreaGuides?: boolean;
+}
+declare type BarcodeCaptureViewProps = {
+  /**
+   * Called for each newly-recognized barcode. Return a `Promise` to keep the
+   * frame alive while async work runs — `getFrameData()` becomes invalid once
+   * the returned promise resolves. Sync handlers return immediately (1
+   * microtask) and don't impact throughput.
+   *
+   * Backed by the native `BarcodeCaptureListener.didScan` event — fires only
+   * on a recognition, independently of `didUpdateSession`.
+   */
+  didScan?: (
+    barcodes: Barcode[],
+    session: BarcodeCaptureSession,
+    getFrameData: () => Promise<FrameData$1>
+  ) => void | Promise<void>,
+
+  /**
+   * Called on every session update (~once per processed frame), regardless of
+   * whether a barcode was recognized. Backed by the native
+   * `BarcodeCaptureListener.didUpdateSession` event — independent of `didScan`.
+   *
+   * If the handler is `async`, the native pipeline awaits it — useful when
+   * you need `getFrameData()` to stay valid through async work, but be aware
+   * it can slow down frame processing. For "fire-and-forget" background
+   * work that doesn't need frame data, keep the handler synchronous and
+   * dispatch via your own queue.
+   */
+  didUpdateSession?: (
+    session: BarcodeCaptureSession,
+    getFrameData: () => Promise<FrameData$1>
+  ) => void | Promise<void>,
+
+  /**
+   * Symbologies to enable. Ignored when `barcodeCaptureSettings` is set.
+   */
+  symbologies?: $Values<typeof Symbology>[],
+
+  /**
+   * Restrict the scan area within the camera frame. Ignored when `barcodeCaptureSettings` is set.
+   */
+  locationSelection?: LocationSelection | null,
+
+  /**
+   * Composite barcode types to enable (e.g. GS1 composites). Ignored when `barcodeCaptureSettings` is set.
+   */
+  compositeTypes?: $Values<typeof CompositeType>[],
+
+  /**
+   * Battery saving mode. Ignored when `barcodeCaptureSettings` is set.
+   */
+  batterySaving?: $Values<typeof BatterySavingMode>,
+
+  /**
+   * Scan intention (smart or manual). Ignored when `barcodeCaptureSettings` is set.
+   */
+  scanIntention?: $Values<typeof ScanIntention>,
+
+  /**
+   * Time interval in ms during which duplicate barcodes are filtered out. Ignored when `barcodeCaptureSettings` is set.
+   */
+  codeDuplicateFilter?: number,
+
+  /**
+   * ArUco marker dictionary to use. Ignored when `barcodeCaptureSettings` is set.
+   */
+  arucoDictionary?: ArucoDictionary,
+
+  /**
+   * Full settings object. Takes precedence over all shorthand settings props.
+   */
+  barcodeCaptureSettings?: BarcodeCaptureSettings | null,
+
+  /**
+   * Optional navigation object (e.g. React Navigation's `navigation` prop).
+   * When provided, scanning is suspended (mode + camera off) while the screen
+   * is blurred or the app is backgrounded, and resumed when it returns —
+   * unless `disabled` is set.
+   */
+  navigation?: _internal.ScanditNavigationProp,
+
+  /**
+   * Disable the mode. When set, scanning is kept off regardless of whether
+   * automatic navigation-event handling and/or AppState handling is turned on.
+   * You can also use the view handle methods `enable()` / `disable()` to
+   * enable/disable once, but when using those this prop might go out of sync
+   * with the actual state of the component. Setting this to `false` does not
+   * guarantee that scanning is constantly running — automatic event handling
+   * might still turn the mode on and off.
+   */
+  disabled?: boolean,
+
+  /**
+   * Disable the automatic enabling and disabling of the mode based on AppState.
+   */
+  appStateHandlingDisabled?: boolean,
+
+  /**
+   * Basic overlay configuration. Omit the prop (or pass `undefined`) to use
+   * defaults. Pass `{ enabled: false }` to skip the overlay.
+   */
+  basicOverlay?: BarcodeCaptureBasicOverlayProps,
+
+  /**
+   * Called when the view's size or orientation changes.
+   */
+  onDidChangeSize?: (
+    view: DataCaptureView,
+    size: Size,
+    orientation: Orientation
+  ) => void,
+
+  /**
+   * Native on-view torch toggle control.
+   */
+  torchSwitchControl?: TorchSwitchControl | null,
+
+  /**
+   * Native on-view zoom toggle control.
+   */
+  zoomSwitchControl?: ZoomSwitchControl | null,
+
+  /**
+   * Sound / vibration feedback on scan. Omit to use the SDK default.
+   */
+  feedback?: BarcodeCaptureFeedback,
+  ...
+} & ViewProps;
+
+/**
+ * Imperative methods exposed via `ref`. `BarcodeCaptureOverlay` has no
+ * imperative API of its own, so there's no overlay-scoped namespace.
+ * @internal
+ */
+declare interface BarcodeCaptureViewMethods {
+  /**
+   * Reset the current capture session (clears recently-recognized barcodes
+   * tracked by the duplicate filter). No-op until the first session callback
+   * has fired.
+   */
+  reset(): Promise<void>;
+
+  /**
+   * Maps a point in frame coordinates to view coordinates.
+   */
+  viewPointForFramePoint(point: Point): Promise<Point>;
+
+  /**
+   * Maps a quadrilateral in frame coordinates to view coordinates.
+   */
+  viewQuadrilateralForFrameQuadrilateral(
+    quadrilateral: Quadrilateral
+  ): Promise<Quadrilateral>;
+
+  /**
+   * Add a custom on-view control.
+   */
+  addControl(control: Control): Promise<void>;
+
+  /**
+   * Remove a previously-added on-view control.
+   */
+  removeControl(control: Control): void;
+}
+declare type BarcodeCaptureViewHandle = {
+  ...BarcodeCaptureViewMethods,
+  ..._internal.EnableDisableHandle,
+};
+declare var BarcodeCaptureView: React.ForwardRefExoticComponent<{
+  ...BarcodeCaptureViewProps,
+  ...React.RefAttributes<BarcodeCaptureViewHandle>,
+}>;
+declare interface BarcodeArCustomHighlightConfig {
+  renderHighlight: () => Element;
+}
+declare class BarcodeArCustomHighlight mixins Observable, BarcodeArHighlight {
+  renderHighlight: () => Element;
+  constructor(config: BarcodeArCustomHighlightConfig): this;
+}
+declare interface BarcodeArCustomAnnotationConfig {
+  renderAnnotation: () => Element;
+
+  /**
+   * Defaults to `BarcodeArAnnotationTrigger.HighlightTap`.
+   */
+  annotationTrigger?: $Values<typeof BarcodeArAnnotationTrigger>;
+
+  /**
+   * Defaults to `Anchor.TopCenter`.
+   */
+  anchor?: $Values<typeof Anchor>;
+}
+declare class BarcodeArCustomAnnotation mixins Observable, BarcodeArAnnotation {
+  annotationTrigger: $Values<typeof BarcodeArAnnotationTrigger>;
+  anchor: $Values<typeof Anchor>;
+  renderAnnotation: () => Element;
+  constructor(config: BarcodeArCustomAnnotationConfig): this;
+}
+declare type BarcodeArViewProps$1 = {
+  context: DataCaptureContext$1,
+  barcodeAr: BarcodeAr,
+  settings?: BarcodeArViewSettings,
+  cameraSettings?: CameraSettings$1,
+  annotationProvider?: BarcodeArAnnotationProvider,
+  highlightProvider?: BarcodeArHighlightProvider,
+  uiListener?: BarcodeArViewUiListener,
+  style?: StyleProp<ViewStyle>,
+  navigation?: NavigationProp<ParamListBase>,
+  ...
+} & ViewProps;
+declare class BarcodeArView$1 mixins React.Component<BarcodeArViewProps$1> {
+  state: {
+    shownHighlights: { [key: string]: Barcode, ... },
+    shownAnnotations: { [key: string]: Barcode, ... },
+    ...
+  };
+  static forMode(
+    dataCaptureContext: DataCaptureContext$1,
+    barcodeAr: BarcodeAr
+  ): BarcodeArView$1;
+  static forModeWithViewSettings(
+    dataCaptureContext: DataCaptureContext$1,
+    barcodeAr: BarcodeAr,
+    viewSettings: BarcodeArViewSettings
+  ): BarcodeArView$1;
+  static forModeWithViewSettingsAndCameraSettings(
+    dataCaptureContext: DataCaptureContext$1,
+    barcodeAr: BarcodeAr,
+    viewSettings: BarcodeArViewSettings,
+    cameraSettings: CameraSettings$1
+  ): BarcodeArView$1;
+  constructor(props: BarcodeArViewProps$1): this;
+  componentDidMount(): void;
+  componentWillUnmount(): void;
+  uiListener: BarcodeArViewUiListener | null;
+  -uiListener: any;
+  annotationProvider: BarcodeArAnnotationProvider | null;
+  -annotationProvider: any;
+  highlightProvider: BarcodeArHighlightProvider | null;
+  -highlightProvider: any;
+  start(): Promise<void>;
+  stop(): Promise<void>;
+  pause(): Promise<void>;
+  reset(): Promise<void>;
+  shouldShowTorchControl: boolean;
+  -shouldShowTorchControl: any;
+  torchControlPosition: $Values<typeof Anchor>;
+  -torchControlPosition: any;
+  shouldShowZoomControl: boolean;
+  -shouldShowZoomControl: any;
+  zoomControlPosition: $Values<typeof Anchor>;
+  -zoomControlPosition: any;
+  shouldShowCameraSwitchControl: boolean;
+  -shouldShowCameraSwitchControl: any;
+  cameraSwitchControlPosition: $Values<typeof Anchor>;
+  -cameraSwitchControlPosition: any;
+  shouldShowMacroModeControl: boolean;
+  -shouldShowMacroModeControl: any;
+  macroModeControlPosition: $Values<typeof Anchor>;
+  -macroModeControlPosition: any;
+  torchControlOffset: PointWithUnit | null;
+  -torchControlOffset: any;
+  zoomControlOffset: PointWithUnit | null;
+  -zoomControlOffset: any;
+  cameraSwitchControlOffset: PointWithUnit | null;
+  -cameraSwitchControlOffset: any;
+  macroModeControlOffset: PointWithUnit | null;
+  -macroModeControlOffset: any;
+  logoStyle: $Values<typeof LogoStyle>;
+  -logoStyle: any;
+  zoomControlOrientation: $Values<typeof ZoomSwitchOrientation>;
+  -zoomControlOrientation: any;
+  logoAnchor: $Values<typeof Anchor>;
+  -logoAnchor: any;
+  logoOffset: PointWithUnit;
+  -logoOffset: any;
+  render(): React.JSX.Element;
+}
+declare type BarcodeSelectionViewProps = {
+  context: DataCaptureContext,
+  isEnabled: boolean,
+  barcodeSelectionSettings?: BarcodeSelectionSettings | null,
+  aimedBrush?: Brush | null,
+  selectedBrush?: Brush | null,
+  selectingBrush?: Brush | null,
+  trackedBrush?: Brush | null,
+  aimedBarcodeBrushProvider?: BarcodeSelectionBrushProvider | null,
+  trackedBarcodeBrushProvider?: BarcodeSelectionBrushProvider | null,
+  basicOverlayStyle?: $Values<typeof BarcodeSelectionBasicOverlayStyle> | null,
+  cameraSettings?: CameraSettings | null,
+  desiredCameraState?: FrameSourceState | null,
+  desiredCameraPosition?: CameraPosition | null,
+  desiredTorchState?: TorchState | null,
+  torchSwitchControl?: TorchSwitchControl | null,
+  zoomSwitchControl?: ZoomSwitchControl | null,
+  pointOfInterest?: PointWithUnit$1 | null,
+  feedback?: BarcodeSelectionFeedback,
+  navigation?: NavigationProp<ParamListBase>,
+  shouldUnfreezeCamera?: boolean | null,
+  didUpdateSelection?: (
+    barcodeSelection: BarcodeSelection,
+    session: BarcodeSelectionSession,
+    getFrameData: () => Promise<FrameData>
+  ) => Promise<void>,
+  ...
+} & ViewProps;
+declare var BarcodeSelectionView: React.ForwardRefExoticComponent<{
+  ...BarcodeSelectionViewProps,
+  ...React.RefAttributes<mixed>,
+}>;
+declare interface SparkScanViewUiListener$1 {
+  /**
+   * @deprecated [object Object],[object Object],[object Object]
+   */
+  onBarcodeCountButtonTappedIn?: (view: SparkScanView$1) => void;
+
+  /**
+   * @deprecated [object Object],[object Object],[object Object]
+   */
+  onBarcodeFindButtonTappedIn?: (view: SparkScanView$1) => void;
+
+  /**
+   * @deprecated [object Object],[object Object],[object Object]
+   */
+  onLabelCaptureButtonTappedIn?: (view: SparkScanView$1) => void;
+  didTapBarcodeCountButton?: (view: SparkScanView$1) => void;
+  didTapBarcodeFindButton?: (view: SparkScanView$1) => void;
+  didTapLabelCaptureButton?: (view: SparkScanView$1) => void;
+  didChangeViewState?: (newState: $Values<typeof SparkScanViewState>) => void;
+  didChangeScanningMode?: (newScanningMode: SparkScanScanningMode) => void;
+}
+declare type SparkScanViewProps$1 = {
+  style: StyleProp<ViewStyle>,
+  children?: React.ReactNode,
+  navigation?: NavigationProp<ParamListBase>,
+  onLayout?: (event: LayoutChangeEvent) => void,
+  ...
+} & BaseSparkScanViewProps;
+declare class SparkScanView$1 mixins React.Component<SparkScanViewProps$1> {
+  uiListener: SparkScanViewUiListener$1 | null;
+  -uiListener: any;
+  static defaultBrush: Brush$1;
+  constructor(props: SparkScanViewProps$1): this;
+  render(): React.JSX.Element;
+  previewSizeControlVisible: boolean;
+  -previewSizeControlVisible: any;
+  scanningBehaviorButtonVisible: boolean;
+  -scanningBehaviorButtonVisible: any;
+  barcodeCountButtonVisible: boolean;
+  -barcodeCountButtonVisible: any;
+  barcodeFindButtonVisible: boolean;
+  -barcodeFindButtonVisible: any;
+  targetModeButtonVisible: boolean;
+  -targetModeButtonVisible: any;
+  selectionModeButtonVisible: boolean;
+  -selectionModeButtonVisible: any;
+  labelCaptureButtonVisible: boolean;
+  -labelCaptureButtonVisible: any;
+  toolbarBackgroundColor: Color | null;
+  -toolbarBackgroundColor: any;
+  toolbarIconActiveTintColor: Color | null;
+  -toolbarIconActiveTintColor: any;
+  toolbarIconInactiveTintColor: Color | null;
+  -toolbarIconInactiveTintColor: any;
+  cameraSwitchButtonVisible: boolean;
+  -cameraSwitchButtonVisible: any;
+  torchControlVisible: boolean;
+  -torchControlVisible: any;
+  zoomSwitchControlVisible: boolean;
+  -zoomSwitchControlVisible: any;
+  previewCloseControlVisible: boolean;
+  -previewCloseControlVisible: any;
+  triggerButtonAnimationColor: Color | null;
+  -triggerButtonAnimationColor: any;
+  triggerButtonExpandedColor: Color | null;
+  -triggerButtonExpandedColor: any;
+  triggerButtonCollapsedColor: Color | null;
+  -triggerButtonCollapsedColor: any;
+  triggerButtonTintColor: Color | null;
+  -triggerButtonTintColor: any;
+  triggerButtonVisible: boolean;
+  -triggerButtonVisible: any;
+  triggerButtonImage: string | null;
+  -triggerButtonImage: any;
+  prepareScanning(): Promise<void>;
+  startScanning(): Promise<void>;
+  pauseScanning(): Promise<void>;
+  stopScanning(): Promise<void>;
+  onHostPause(): Promise<void>;
+  feedbackDelegate: SparkScanFeedbackDelegate | null;
+  -feedbackDelegate: any;
+  showToast(text: string): Promise<void>;
+  componentDidMount(): void;
+  componentDidUpdate(prevProps: SparkScanViewProps$1): void;
+  componentWillUnmount(): void;
+}
+declare var BarcodeCountViewStyle: {|
+  +Icon: "icon", // "icon"
+  +Dot: "dot", // "dot"
+|};
+declare type BarcodeCountViewProps = {
+  style: StyleProp<ViewStyle>,
+  navigation?: NavigationProp<ParamListBase>,
+  onLayout?: (event: LayoutChangeEvent) => void,
+  ...
+} & BaseBarcodeCountViewProps;
+declare class BarcodeCountView$1 mixins React.Component<BarcodeCountViewProps> {
+  static defaultRecognizedBrush: Brush;
+  static defaultNotInListBrush: Brush;
+  static defaultAcceptedBrush: Brush;
+  static defaultRejectedBrush: Brush;
+  static hardwareTriggerSupported: boolean;
+  uiListener: BarcodeCountViewUiListener | null;
+  -uiListener: any;
+  listener: BarcodeCountViewListener | null;
+  -listener: any;
+  shouldShowUserGuidanceView: boolean;
+  -shouldShowUserGuidanceView: any;
+  shouldShowListButton: boolean;
+  -shouldShowListButton: any;
+  shouldDisableModeOnExitButtonTapped: boolean;
+  -shouldDisableModeOnExitButtonTapped: any;
+  shouldShowExitButton: boolean;
+  -shouldShowExitButton: any;
+  shouldShowShutterButton: boolean;
+  -shouldShowShutterButton: any;
+  shouldShowHints: boolean;
+  -shouldShowHints: any;
+  shouldShowClearHighlightsButton: boolean;
+  -shouldShowClearHighlightsButton: any;
+  shouldShowSingleScanButton: boolean;
+  -shouldShowSingleScanButton: any;
+  shouldShowFloatingShutterButton: boolean;
+  -shouldShowFloatingShutterButton: any;
+  shouldShowToolbar: boolean;
+  -shouldShowToolbar: any;
+  shouldShowStatusModeButton: boolean;
+  -shouldShowStatusModeButton: any;
+  shouldShowStatusIconsOnScan: boolean;
+  -shouldShowStatusIconsOnScan: any;
+  shouldShowScanAreaGuides: boolean;
+  -shouldShowScanAreaGuides: any;
+  recognizedBrush: Brush | null;
+  -recognizedBrush: any;
+  notInListBrush: Brush | null;
+  -notInListBrush: any;
+  acceptedBrush: Brush | null;
+  -acceptedBrush: any;
+  rejectedBrush: Brush | null;
+  -rejectedBrush: any;
+  filterSettings: BarcodeFilterHighlightSettings | null;
+  -filterSettings: any;
+  style: $Values<typeof BarcodeCountViewStyle>;
+  listButtonAccessibilityHint: string;
+  -listButtonAccessibilityHint: any;
+  listButtonAccessibilityLabel: string;
+  -listButtonAccessibilityLabel: any;
+  listButtonContentDescription: string;
+  -listButtonContentDescription: any;
+  exitButtonAccessibilityHint: string;
+  -exitButtonAccessibilityHint: any;
+  exitButtonAccessibilityLabel: string;
+  -exitButtonAccessibilityLabel: any;
+  exitButtonContentDescription: string;
+  -exitButtonContentDescription: any;
+  shutterButtonAccessibilityHint: string;
+  -shutterButtonAccessibilityHint: any;
+  shutterButtonAccessibilityLabel: string;
+  -shutterButtonAccessibilityLabel: any;
+  shutterButtonContentDescription: string;
+  -shutterButtonContentDescription: any;
+  floatingShutterButtonAccessibilityHint: string;
+  -floatingShutterButtonAccessibilityHint: any;
+  floatingShutterButtonAccessibilityLabel: string;
+  -floatingShutterButtonAccessibilityLabel: any;
+  floatingShutterButtonContentDescription: string;
+  -floatingShutterButtonContentDescription: any;
+  clearHighlightsButtonAccessibilityHint: string;
+  -clearHighlightsButtonAccessibilityHint: any;
+  clearHighlightsButtonAccessibilityLabel: string;
+  -clearHighlightsButtonAccessibilityLabel: any;
+  clearHighlightsButtonContentDescription: string;
+  -clearHighlightsButtonContentDescription: any;
+  singleScanButtonAccessibilityHint: string;
+  -singleScanButtonAccessibilityHint: any;
+  singleScanButtonAccessibilityLabel: string;
+  -singleScanButtonAccessibilityLabel: any;
+  singleScanButtonContentDescription: string;
+  -singleScanButtonContentDescription: any;
+  statusModeButtonAccessibilityHint: string;
+  -statusModeButtonAccessibilityHint: any;
+  statusModeButtonAccessibilityLabel: string;
+  -statusModeButtonAccessibilityLabel: any;
+  statusModeButtonContentDescription: string;
+  -statusModeButtonContentDescription: any;
+  clearHighlightsButtonText: string;
+  -clearHighlightsButtonText: any;
+  exitButtonText: string;
+  -exitButtonText: any;
+  textForTapShutterToScanHint: string;
+  -textForTapShutterToScanHint: any;
+  textForScanningHint: string;
+  -textForScanningHint: any;
+  textForMoveCloserAndRescanHint: string;
+  -textForMoveCloserAndRescanHint: any;
+  textForMoveFurtherAndRescanHint: string;
+  -textForMoveFurtherAndRescanHint: any;
+  textForBarcodesNotInListDetectedHint: string;
+  -textForBarcodesNotInListDetectedHint: any;
+  textForScreenCleanedUpHint: string;
+  -textForScreenCleanedUpHint: any;
+  textForClusteringGestureHint: string;
+  -textForClusteringGestureHint: any;
+  shouldShowListProgressBar: boolean;
+  -shouldShowListProgressBar: any;
+  shouldShowTorchControl: boolean;
+  -shouldShowTorchControl: any;
+  torchControlPosition: $Values<typeof Anchor>;
+  -torchControlPosition: any;
+  textForTapToUncountHint: string;
+  -textForTapToUncountHint: any;
+  tapToUncountEnabled: boolean;
+  -tapToUncountEnabled: any;
+  barcodeNotInListActionSettings: BarcodeCountNotInListActionSettings;
+  -barcodeNotInListActionSettings: any;
+  hardwareTriggerEnabled: boolean;
+  -hardwareTriggerEnabled: any;
+  constructor(props: BarcodeCountViewProps): this;
+  componentDidMount(): void;
+  componentWillUnmount(): void;
+  componentDidUpdate(prevProps: BarcodeCountViewProps): void;
+  clearHighlights(): Promise<void>;
+  setToolbarSettings(settings: BarcodeCountToolbarSettings): void;
+  setStatusProvider(provider: BarcodeCountStatusProvider): void;
+  setBrushForRecognizedBarcode(
+    trackedBarcode: TrackedBarcode,
+    brush: Brush | null
+  ): Promise<void>;
+  setBrushForRecognizedBarcodeNotInList(
+    trackedBarcode: TrackedBarcode,
+    brush: Brush | null
+  ): Promise<void>;
+  setBrushForAcceptedBarcode(
+    trackedBarcode: TrackedBarcode,
+    brush: Brush | null
+  ): Promise<void>;
+  setBrushForRejectedBarcode(
+    trackedBarcode: TrackedBarcode,
+    brush: Brush | null
+  ): Promise<void>;
+  enableHardwareTrigger(hardwareTriggerKeyCode: number | null): Promise<void>;
+  render(): React.JSX.Element;
+}
+declare interface BarcodePickViewProps {
+  context: DataCaptureContext$1;
+  barcodePick: BarcodePick;
+  settings: BarcodePickViewSettings;
+  cameraSettings: CameraSettings$1;
+  style: StyleProp<ViewStyle>;
+  navigation?: NavigationProp<ParamListBase>;
+  onLayout?: (event: LayoutChangeEvent) => void;
+}
+declare class BarcodePickView mixins React.Component<BarcodePickViewProps> {
+  constructor(props: BarcodePickViewProps): this;
+  uiListener: BarcodePickViewUiListener | null;
+  -uiListener: any;
+  componentDidMount(): void;
+  componentWillUnmount(): void;
+  start(): Promise<void>;
+  stop(): Promise<void>;
+  freeze(): Promise<void>;
+  pause(): Promise<void>;
+  resume(): Promise<void>;
+  reset(): Promise<void>;
+  addListener(listener: BarcodePickViewListener): void;
+  removeListener(listener: BarcodePickViewListener): void;
+  addActionListener(listener: BarcodePickActionListener): void;
+  removeActionListener(listener: BarcodePickActionListener): void;
+  render(): React.JSX.Element;
+  release(): void;
+}
+declare interface BarcodeFindViewProps {
+  context: DataCaptureContext$1;
+  barcodeFind: BarcodeFind;
+  viewSettings?: BarcodeFindViewSettings;
+  cameraSettings?: CameraSettings$1;
+  style?: StyleProp<ViewStyle>;
+  navigation?: NavigationProp<ParamListBase>;
+  onLayout?: (event: LayoutChangeEvent) => void;
+}
+declare class BarcodeFindView mixins React.Component<BarcodeFindViewProps> {
+  constructor(props: BarcodeFindViewProps): this;
+  static hardwareTriggerSupported: boolean;
+  barcodeFindViewUiListener: BarcodeFindViewUiListener | null;
+  -barcodeFindViewUiListener: any;
+  shouldShowUserGuidanceView: boolean;
+  -shouldShowUserGuidanceView: any;
+  shouldShowHints: boolean;
+  -shouldShowHints: any;
+  shouldShowCarousel: boolean;
+  -shouldShowCarousel: any;
+  shouldShowPauseButton: boolean;
+  -shouldShowPauseButton: any;
+  shouldShowFinishButton: boolean;
+  -shouldShowFinishButton: any;
+  shouldShowProgressBar: boolean;
+  -shouldShowProgressBar: any;
+  shouldShowTorchControl: boolean;
+  -shouldShowTorchControl: any;
+  shouldShowZoomControl: boolean;
+  -shouldShowZoomControl: any;
+  torchControlPosition: $Values<typeof Anchor>;
+  -torchControlPosition: any;
+  textForCollapseCardsButton: string | null;
+  -textForCollapseCardsButton: any;
+  textForAllItemsFoundSuccessfullyHint: string | null;
+  -textForAllItemsFoundSuccessfullyHint: any;
+  textForItemListUpdatedHint: string | null;
+  -textForItemListUpdatedHint: any;
+  textForItemListUpdatedWhenPausedHint: string | null;
+  -textForItemListUpdatedWhenPausedHint: any;
+  textForPointAtBarcodesToSearchHint: string | null;
+  -textForPointAtBarcodesToSearchHint: any;
+  textForMoveCloserToBarcodesHint: string | null;
+  -textForMoveCloserToBarcodesHint: any;
+  textForTapShutterToPauseScreenHint: string | null;
+  -textForTapShutterToPauseScreenHint: any;
+  textForTapShutterToResumeSearchHint: string | null;
+  -textForTapShutterToResumeSearchHint: any;
+  logoStyle: $Values<typeof LogoStyle>;
+  -logoStyle: any;
+  logoAnchor: $Values<typeof Anchor>;
+  -logoAnchor: any;
+  cameraStateOnStop: $Values<typeof FrameSourceState>;
+  -cameraStateOnStop: any;
+  stopSearching(): Promise<void>;
+  startSearching(): Promise<void>;
+  pauseSearching(): Promise<void>;
+  render(): React.JSX.Element;
+  componentWillUnmount(): void;
+  componentDidMount(): void;
+}
+/**
+ * UI-listener callbacks fired by the native trigger/toolbar.
+ *
+ * The `view` parameter is the imperative handle.
+ */
+declare interface SparkScanViewUiListener {
+  didTapBarcodeCountButton?: (view: SparkScanViewHandle) => void;
+  didTapBarcodeFindButton?: (view: SparkScanViewHandle) => void;
+  didTapLabelCaptureButton?: (view: SparkScanViewHandle) => void;
+  didChangeViewState?: (newState: $Values<typeof SparkScanViewState>) => void;
+  didChangeScanningMode?: (newScanningMode: SparkScanScanningMode) => void;
+}
+/**
+ * Props inherited from `BaseSparkScanViewProps`. We `Omit` the four fields
+ * the AIO component owns (`context` + `sparkScan` are auto-resolved,
+ * `sparkScanViewSettings` is optional, `uiListener` uses the local type).
+ */
+declare type InheritedBaseProps$1 = $Diff<
+  $Rest<BaseSparkScanViewProps, { ... }>,
+  { context: any, sparkScan: any, sparkScanViewSettings: any, uiListener: any }
+>;
+declare type SparkScanViewProps = {
+  /**
+   * Called for each newly-recognized barcode. Receives the new barcode
+   * extracted from `session.newlyRecognizedBarcode` (empty array if none).
+   * Return a `Promise` to keep the frame alive while async work runs —
+   * `getFrameData()` becomes invalid once the returned promise resolves.
+   *
+   * Backed by the native `SparkScanListener.didScan` event — fires only on a
+   * recognition, independently of `didUpdateSession`.
+   */
+  didScan?: (
+    barcodes: Barcode[],
+    session: SparkScanSession,
+    getFrameData: () => Promise<FrameData$1 | null>
+  ) => void | Promise<void>,
+
+  /**
+   * Called on every session update (native `SparkScanListener.didUpdateSession`
+   * event) — independent of `didScan`.
+   */
+  didUpdateSession?: (
+    session: SparkScanSession,
+    getFrameData: () => Promise<FrameData$1 | null>
+  ) => void | Promise<void>,
+
+  /**
+   * Symbologies to enable. Ignored when `sparkScanSettings` is set.
+   */
+  symbologies?: $Values<typeof Symbology>[],
+
+  /**
+   * Scan intention. Ignored when `sparkScanSettings` is set.
+   */
+  scanIntention?: $Values<typeof ScanIntention>,
+
+  /**
+   * Composite types to enable. Ignored when `sparkScanSettings` is set.
+   */
+  enabledCompositeTypes?: $Values<typeof CompositeType>[],
+
+  /**
+   * Item definitions for USI-style scanning. Ignored when `sparkScanSettings` is set.
+   */
+  itemDefinitions?: ScanItemDefinition[],
+
+  /**
+   * Time interval in ms during which duplicate barcodes are filtered out. Ignored when `sparkScanSettings` is set.
+   */
+  codeDuplicateFilter?: number,
+
+  /**
+   * Battery saving mode. Ignored when `sparkScanSettings` is set.
+   */
+  batterySaving?: $Values<typeof BatterySavingMode>,
+
+  /**
+   * Full settings object. Takes precedence over all shorthand settings props.
+   */
+  sparkScanSettings?: SparkScanSettings | null,
+
+  /**
+   * View-level settings (mini preview, animation, etc.).
+   */
+  sparkScanViewSettings?: SparkScanViewSettings | null,
+
+  /**
+   * UI listener.
+   */
+  uiListener?: SparkScanViewUiListener,
+
+  /**
+   * Sound / vibration feedback applied to every scanned barcode. Shorthand for
+   * a constant `feedbackDelegate` (which decides feedback per barcode and takes
+   * precedence when both are set). Matches the simple `feedback` prop on the
+   * other AIO views.
+   */
+  feedback?: SparkScanBarcodeFeedback,
+
+  /**
+   * Optional navigation object (e.g. React Navigation's `navigation` prop).
+   * When provided, scanning is suspended while the screen is blurred or the app
+   * is backgrounded, and resumed when it returns — unless `disabled` is set.
+   */
+  navigation?: _internal.ScanditNavigationProp,
+
+  /**
+   * Disable the mode. When set, scanning is kept off regardless of whether
+   * automatic navigation-event handling and/or AppState handling is turned on.
+   * You can also use the view handle methods `enable()` / `disable()` to
+   * enable/disable once, but when using those this prop might go out of sync
+   * with the actual state of the component. Setting this to `false` does not
+   * guarantee that scanning is constantly running — automatic event handling
+   * might still turn the mode on and off.
+   */
+  disabled?: boolean,
+
+  /**
+   * Disable the automatic enabling and disabling of the mode based on AppState.
+   */
+  appStateHandlingDisabled?: boolean,
+  style?: StyleProp<ViewStyle>,
+  children?: React.ReactNode,
+  ...
+} & InheritedBaseProps$1;
+
+/**
+ * Imperative methods exposed via `ref`.
+ */
+declare interface SparkScanViewMethods {
+  showToast(text: string): Promise<void>;
+  startScanning(): Promise<void>;
+  pauseScanning(): Promise<void>;
+  stopScanning(): Promise<void>;
+  show(): Promise<void>;
+  hide(): Promise<void>;
+}
+declare type SparkScanViewHandle = {
+  ...SparkScanViewMethods,
+  ..._internal.EnableDisableHandle,
+};
+declare var SparkScanView: React.ForwardRefExoticComponent<{
+  ...SparkScanViewProps,
+  ...React.RefAttributes<SparkScanViewHandle>,
+}>;
+/**
+ * Inherited pass-through props. `context`, `barcodeCount`, and the two
+ * listeners are owned by the AIO component; everything else is forwarded as-is
+ * to `BaseBarcodeCountView`.
+ */
+declare type InheritedBaseProps = $Diff<
+  $Rest<BaseBarcodeCountViewProps, { ... }>,
+  { context: any, barcodeCount: any, uiListener: any, listener: any }
+>;
+/**
+ * UI-listener callbacks for the AIO `BarcodeCountView`. Identical to
+ * `BarcodeCountViewUiListener` from the shared layer, minus the `view` argument
+ * that consumers of the AIO API never need.
+ */
+declare interface BarcodeCountAioUiListener {
+  didTapListButton?: () => void;
+  didTapExitButton?: () => void;
+  didTapSingleScanButton?: () => void;
+}
+/**
+ * View-listener callbacks for the AIO `BarcodeCountView`. Identical to
+ * `BarcodeCountViewListener` from the shared layer, minus the `view` argument.
+ */
+declare interface BarcodeCountAioViewListener {
+  brushForRecognizedBarcode?: (trackedBarcode: TrackedBarcode) => Brush | null;
+  brushForRecognizedBarcodeNotInList?: (
+    trackedBarcode: TrackedBarcode
+  ) => Brush | null;
+  brushForAcceptedBarcode?: (trackedBarcode: TrackedBarcode) => Brush | null;
+  brushForRejectedBarcode?: (trackedBarcode: TrackedBarcode) => Brush | null;
+  didTapRecognizedBarcode?: (trackedBarcode: TrackedBarcode) => void;
+  didTapFilteredBarcode?: (filteredBarcode: TrackedBarcode) => void;
+  didTapRecognizedBarcodeNotInList?: (trackedBarcode: TrackedBarcode) => void;
+  didTapAcceptedBarcode?: (trackedBarcode: TrackedBarcode) => void;
+  didTapRejectedBarcode?: (trackedBarcode: TrackedBarcode) => void;
+  didTapCluster?: (cluster: Cluster) => void;
+  didCompleteCaptureList?: () => void;
+}
+declare type BarcodeCountViewAioProps = {
+  /**
+   * Optional navigation object (e.g. React Navigation's `navigation` prop).
+   * When provided, scanning is suspended (mode + camera off) while the screen
+   * is blurred or the app is backgrounded, and resumed when it returns —
+   * unless `disabled` is set.
+   */
+  navigation?: _internal.ScanditNavigationProp,
+
+  /**
+   * Disable the mode. When set, scanning is kept off regardless of whether
+   * automatic navigation-event handling and/or AppState handling is turned on.
+   * You can also use the view handle methods `enable()` / `disable()` to
+   * enable/disable once, but when using those this prop might go out of sync
+   * with the actual state of the component. Setting this to `false` does not
+   * guarantee that scanning is constantly running — automatic event handling
+   * might still turn the mode on and off.
+   */
+  disabled?: boolean,
+
+  /**
+   * Disable the automatic enabling and disabling of the mode based on AppState.
+   */
+  appStateHandlingDisabled?: boolean,
+
+  /**
+   * Called on each native `BarcodeCountListener.didScan` event — fires only on
+   * a recognition, independently of `didUpdateSession`. Receives
+   * `session.recognizedBarcodes` as `barcodes` for convenience; the full
+   * session is also passed.
+   */
+  didScan?: (
+    barcodes: Barcode[],
+    session: BarcodeCountSession,
+    getFrameData: () => Promise<FrameData$1 | null>
+  ) => void | Promise<void>,
+
+  /**
+   * Called on each session update (native `BarcodeCountListener.onSessionUpdated`
+   * event) — independent of `didScan`.
+   */
+  didUpdateSession?: (
+    session: BarcodeCountSession,
+    getFrameData: () => Promise<FrameData$1 | null>
+  ) => void | Promise<void>,
+
+  /**
+   * Shorthand: enabled symbologies. Ignored when `barcodeCountSettings` is set.
+   */
+  symbologies?: $Values<typeof Symbology>[],
+
+  /**
+   * Full settings object. Takes precedence over `symbologies`.
+   */
+  barcodeCountSettings?: BarcodeCountSettings | null,
+  captureList?: BarcodeCountCaptureList | null,
+  additionalBarcodes?: Barcode[] | null,
+  uiListener?: BarcodeCountAioUiListener,
+  listener?: BarcodeCountAioViewListener,
+
+  /**
+   * Sound / vibration feedback on scan. Omit to use the default.
+   */
+  feedback?: BarcodeCountFeedback,
+
+  /**
+   * Text/accessibility overrides for the in-view toolbar toggle buttons.
+   */
+  toolbarSettings?: BarcodeCountToolbarSettings,
+
+  /**
+   * Status provider used to drive status icons / status mode. Required when
+   * `shouldShowStatusIconsOnScan` is `true` — without one, the engine still
+   * enters the status-icon code path on every scan and aborts.
+   */
+  statusProvider?: BarcodeCountStatusProvider | null,
+  style?: StyleProp<ViewStyle>,
+  children?: React.ReactNode,
+  ...
+} & InheritedBaseProps;
+
+/**
+ * Imperative methods exposed via `ref`.
+ */
+declare interface BarcodeCountViewMethods {
+  clearHighlights(): Promise<void>;
+  setToolbarSettings(settings: BarcodeCountToolbarSettings): void;
+  setStatusProvider(provider: BarcodeCountStatusProvider): void;
+  setBrushForRecognizedBarcode(
+    trackedBarcode: TrackedBarcode,
+    brush: Brush | null
+  ): Promise<void>;
+  setBrushForRecognizedBarcodeNotInList(
+    trackedBarcode: TrackedBarcode,
+    brush: Brush | null
+  ): Promise<void>;
+  setBrushForAcceptedBarcode(
+    trackedBarcode: TrackedBarcode,
+    brush: Brush | null
+  ): Promise<void>;
+  setBrushForRejectedBarcode(
+    trackedBarcode: TrackedBarcode,
+    brush: Brush | null
+  ): Promise<void>;
+  enableHardwareTrigger(hardwareTriggerKeyCode: number | null): Promise<void>;
+}
+declare type BarcodeCountViewHandle = {
+  ...BarcodeCountViewMethods,
+  ..._internal.EnableDisableHandle,
+};
+declare var BarcodeCountView: React.ForwardRefExoticComponent<{
+  ...BarcodeCountViewAioProps,
+  ...React.RefAttributes<BarcodeCountViewHandle>,
+}>;
+/**
+ * Basic-overlay configuration. The overlay is attached by default; pass
+ * `{ enabled: false }` to skip it.
+ */
+declare interface BarcodeBatchBasicOverlayProps {
+  enabled?: boolean;
+
+  /**
+   * Overlay style (constructor arg). Defaults to `Frame`. Changing this recreates the overlay.
+   */
+  style?: $Values<typeof BarcodeBatchBasicOverlayStyle> | null;
+  defaultBrush?: Brush | null;
+  shouldShowScanAreaGuides?: boolean;
+
+  /**
+   * Per-barcode brush. Overrides `defaultBrush` per call.
+   */
+  brushForTrackedBarcode?: (trackedBarcode: TrackedBarcode) => Brush | null;
+  didTapTrackedBarcode?: (trackedBarcode: TrackedBarcode) => void;
+}
+/**
+ * Advanced-overlay configuration. Renders custom views per tracked barcode.
+ * The overlay is only attached when this prop is supplied — omit it entirely
+ * if you don't need custom-view annotations. Pass `{ enabled: false }` to
+ * keep the prop shape but disable the overlay (e.g. for runtime opt-out).
+ */
+declare interface BarcodeBatchAdvancedOverlayProps {
+  /**
+   * Whether to attach the advanced overlay. Defaults to `true` (when the prop is supplied).
+   */
+  enabled?: boolean;
+
+  /**
+   * Whether to render scan-area guides.
+   */
+  shouldShowScanAreaGuides?: boolean;
+
+  /**
+   * View to render over each tracked barcode. Return `null` to skip. Returning
+   * a `Promise` is supported.
+   */
+  viewForTrackedBarcode?: (
+    trackedBarcode: TrackedBarcode
+  ) =>
+    | BarcodeBatchAdvancedOverlayView$1
+    | null
+    | Promise<BarcodeBatchAdvancedOverlayView$1 | null>;
+
+  /**
+   * Tap callback for the custom view.
+   */
+  didTapViewForTrackedBarcode?: (trackedBarcode: TrackedBarcode) => void;
+
+  /**
+   * Per-barcode anchor.
+   */
+  anchorForTrackedBarcode?: (trackedBarcode: TrackedBarcode) => Anchor$1;
+
+  /**
+   * Per-barcode offset.
+   */
+  offsetForTrackedBarcode?: (trackedBarcode: TrackedBarcode) => PointWithUnit$1;
+}
+/**
+ * Note: unlike the other AIO views, there is no `feedback` prop — the
+ * BarcodeBatch mode has no feedback API at the SDK level. Trigger your own
+ * feedback from `didScan` if needed.
+ */
+declare type BarcodeBatchViewProps = {
+  /**
+   * Optional navigation object (e.g. React Navigation's `navigation` prop).
+   * When provided, scanning is suspended (mode + camera off) while the screen
+   * is blurred or the app is backgrounded, and resumed when it returns —
+   * unless `disabled` is set.
+   */
+  navigation?: _internal.ScanditNavigationProp,
+
+  /**
+   * Disable the mode. When set, scanning is kept off regardless of whether
+   * automatic navigation-event handling and/or AppState handling is turned on.
+   * You can also use the view handle methods `enable()` / `disable()` to
+   * enable/disable once, but when using those this prop might go out of sync
+   * with the actual state of the component. Setting this to `false` does not
+   * guarantee that scanning is constantly running — automatic event handling
+   * might still turn the mode on and off.
+   */
+  disabled?: boolean,
+
+  /**
+   * Disable the automatic enabling and disabling of the mode based on AppState.
+   */
+  appStateHandlingDisabled?: boolean,
+
+  /**
+   * Symbologies to enable. Ignored when `barcodeBatchSettings` is set.
+   */
+  symbologies?: $Values<typeof Symbology>[],
+
+  /**
+   * Full BarcodeBatch settings object. Takes precedence over `symbologies`.
+   */
+  barcodeBatchSettings?: BarcodeBatchSettings | null,
+
+  /**
+   * Convenience callback fired on each session update with all newly-added
+   * tracked barcodes (`session.addedTrackedBarcodes`).
+   *
+   * Derived from the same native `BarcodeBatchListener.didUpdateSession` event
+   * as `didUpdateSession`: when both are set, `didUpdateSession` completes first,
+   * then `didScan` fires (skipped when nothing was added). `getFrameData()`
+   * stays valid across both.
+   */
+  didScan?: (
+    barcodes: TrackedBarcode[],
+    session: BarcodeBatchSession,
+    getFrameData: () => Promise<FrameData$1>
+  ) => void | Promise<void>,
+
+  /**
+   * Fires on every session update, before `didScan` for the same update.
+   */
+  didUpdateSession?: (
+    session: BarcodeBatchSession,
+    getFrameData: () => Promise<FrameData$1>
+  ) => void | Promise<void>,
+
+  /**
+   * Basic overlay configuration. Omit the prop (or pass `undefined`) to use
+   * defaults. Pass `{ enabled: false }` to skip the overlay.
+   */
+  basicOverlay?: BarcodeBatchBasicOverlayProps,
+
+  /**
+   * Advanced overlay configuration. Omit the prop entirely to skip the overlay;
+   * pass any object (even `{}`) to opt in to custom-view annotations.
+   */
+  advancedOverlay?: BarcodeBatchAdvancedOverlayProps,
+  ...
+} & ViewProps;
+
+/**
+ * Imperative methods scoped to the basic overlay. Present only when `basicOverlay.enabled !== false`.
+ */
+declare interface BarcodeBatchBasicOverlayHandle {
+  /**
+   * Override the brush for a specific tracked barcode.
+   */
+  setBrushForTrackedBarcode(
+    brush: Brush | null,
+    trackedBarcode: TrackedBarcode
+  ): Promise<void>;
+
+  /**
+   * Clear all per-barcode brush overrides set via `setBrushForTrackedBarcode`.
+   */
+  clearTrackedBarcodeBrushes(): Promise<void>;
+}
+/**
+ * Imperative methods scoped to the advanced overlay. Present only when the `advancedOverlay` prop is supplied and enabled.
+ */
+declare interface BarcodeBatchAdvancedOverlayHandle {
+  /**
+   * Set the view for a tracked barcode.
+   */
+  setViewForTrackedBarcode(
+    view:
+      | BarcodeBatchAdvancedOverlayView$1
+      | Promise<BarcodeBatchAdvancedOverlayView$1>,
+    trackedBarcode: TrackedBarcode
+  ): Promise<void>;
+
+  /**
+   * Set the anchor for a tracked barcode.
+   */
+  setAnchorForTrackedBarcode(
+    anchor: Anchor$1,
+    trackedBarcode: TrackedBarcode
+  ): Promise<void>;
+
+  /**
+   * Set the offset for a tracked barcode.
+   */
+  setOffsetForTrackedBarcode(
+    offset: PointWithUnit$1,
+    trackedBarcode: TrackedBarcode
+  ): Promise<void>;
+
+  /**
+   * Clear all per-barcode views.
+   */
+  clearTrackedBarcodeViews(): Promise<void>;
+
+  /**
+   * Update the recorded size of a tracked-barcode view (after layout).
+   */
+  updateSizeOfTrackedBarcodeView(
+    trackedBarcodeIdentifier: number,
+    width: number,
+    height: number
+  ): Promise<void>;
+}
+/**
+ * Imperative methods exposed via `ref`. Overlay-scoped methods live under
+ * `basicOverlay` / `advancedOverlay` namespaces that are only present when
+ * the corresponding overlay is configured + enabled — so consumers can't call
+ * a method that has nothing to act on.
+ */
+declare interface BarcodeBatchViewMethods {
+  /**
+   * Reset the mode's tracking session.
+   */
+  reset(): Promise<void>;
+
+  /**
+   * Basic overlay methods (omitted when `basicOverlay.enabled === false`).
+   */
+  basicOverlay?: BarcodeBatchBasicOverlayHandle;
+
+  /**
+   * Advanced overlay methods (omitted when `advancedOverlay` is not supplied or `enabled === false`).
+   */
+  advancedOverlay?: BarcodeBatchAdvancedOverlayHandle;
+}
+declare type BarcodeBatchViewHandle = {
+  ...BarcodeBatchViewMethods,
+  ..._internal.EnableDisableHandle,
+};
+declare var BarcodeBatchView: React.ForwardRefExoticComponent<{
+  ...BarcodeBatchViewProps,
+  ...React.RefAttributes<BarcodeBatchViewHandle>,
+}>;
+declare interface BarcodeArViewProps {
+  symbologies?: $Values<typeof Symbology>[];
+  settings?: BarcodeArSettings | null;
+  viewSettings?: BarcodeArViewSettings | null;
+  cameraSettings?: CameraSettings$1 | null;
+
+  /**
+   * Convenience callback fired with the barcodes newly added to the session
+   * (`session.addedTrackedBarcodes`) on a session update.
+   *
+   * Derived from the same native `BarcodeArListener.didUpdateSession` event as
+   * `didUpdateSession`: when both are set, `didUpdateSession` completes first,
+   * then `didScan` fires (skipped when nothing was added). `getFrameData()`
+   * stays valid across both.
+   */
+  didScan?: (
+    barcodes: TrackedBarcode[],
+    session: BarcodeArSession,
+    getFrameData: () => Promise<FrameData$1>
+  ) => void | Promise<void>;
+
+  /**
+   * Fires on every session update, before `didScan` for the same update.
+   */
+  didUpdateSession?: (
+    session: BarcodeArSession,
+    getFrameData: () => Promise<FrameData$1>
+  ) => void | Promise<void>;
+  highlightProvider?: BarcodeArHighlightProvider | null;
+  annotationProvider?: BarcodeArAnnotationProvider | null;
+  uiListener?: BarcodeArViewUiListener | null;
+  barcodeFilter?: BarcodeArFilter | null;
+  feedback?: BarcodeArFeedback;
+  shouldShowTorchControl?: boolean;
+  torchControlPosition?: $Values<typeof Anchor>;
+  shouldShowZoomControl?: boolean;
+  zoomControlPosition?: $Values<typeof Anchor>;
+  shouldShowCameraSwitchControl?: boolean;
+  cameraSwitchControlPosition?: $Values<typeof Anchor>;
+  shouldShowMacroModeControl?: boolean;
+  macroModeControlPosition?: $Values<typeof Anchor>;
+
+  /**
+   * Optional navigation object (e.g. React Navigation's `navigation` prop).
+   * When provided, scanning is suspended while the screen is blurred or the app
+   * is backgrounded, and resumed when it returns — unless `disabled` is set.
+   */
+  navigation?: _internal.ScanditNavigationProp;
+
+  /**
+   * Disable the mode. When set, scanning is kept off regardless of whether
+   * automatic navigation-event handling and/or AppState handling is turned on.
+   * You can also use the view handle methods `enable()` / `disable()` to
+   * enable/disable once, but when using those this prop might go out of sync
+   * with the actual state of the component. Setting this to `false` does not
+   * guarantee that scanning is constantly running — automatic event handling
+   * might still turn the mode on and off.
+   */
+  disabled?: boolean;
+
+  /**
+   * Disable the automatic enabling and disabling of the mode based on AppState.
+   */
+  appStateHandlingDisabled?: boolean;
+  style?: StyleProp<ViewStyle>;
+  children?: React.ReactNode;
+}
+/**
+ * Imperative methods exposed via `ref`.
+ */
+declare interface BarcodeArViewMethods {
+  start(): Promise<void>;
+  stop(): Promise<void>;
+  pause(): Promise<void>;
+  reset(): Promise<void>;
+}
+declare type BarcodeArViewHandle = {
+  ...BarcodeArViewMethods,
+  ..._internal.EnableDisableHandle,
+};
+declare var BarcodeArView: React.ForwardRefExoticComponent<{
+  ...BarcodeArViewProps,
+  ...React.RefAttributes<BarcodeArViewHandle>,
+}>;
+declare var internal_d_BarcodeArDefaults: typeof BarcodeArDefaults;
+declare var internal_d_BarcodeArView: typeof BarcodeArView;
+declare type internal_d_BarcodeArViewHandle = BarcodeArViewHandle;
+declare var internal_d_BarcodeBatchDefaults: typeof BarcodeBatchDefaults;
+declare var internal_d_BarcodeBatchView: typeof BarcodeBatchView;
+declare type internal_d_BarcodeCountAioUiListener = BarcodeCountAioUiListener;
+declare type internal_d_BarcodeCountAioViewListener =
+  BarcodeCountAioViewListener;
+declare var internal_d_BarcodeCountDefaults: typeof BarcodeCountDefaults;
+declare var internal_d_BarcodeCountView: typeof BarcodeCountView;
+declare type internal_d_BarcodeCountViewHandle = BarcodeCountViewHandle;
+declare var internal_d_BarcodeCountViewSettingsDefaults: typeof BarcodeCountViewSettingsDefaults;
+declare var internal_d_SparkScanView: typeof SparkScanView;
+declare type internal_d_SparkScanViewHandle = SparkScanViewHandle;
+declare type internal_d_SparkScanViewUiListener = SparkScanViewUiListener;
+declare var internal_d_getBarcodeArDefaults: typeof getBarcodeArDefaults;
+declare var internal_d_getBarcodeBatchDefaults: typeof getBarcodeBatchDefaults;
+declare var internal_d_getBarcodeCountDefaults: typeof getBarcodeCountDefaults;
+declare export {
+  internal_d_BarcodeArDefaults as BarcodeArDefaults,
+  internal_d_BarcodeArView as BarcodeArView,
+  internal_d_BarcodeBatchDefaults as BarcodeBatchDefaults,
+  internal_d_BarcodeBatchView as BarcodeBatchView,
+  internal_d_BarcodeCountDefaults as BarcodeCountDefaults,
+  internal_d_BarcodeCountView as BarcodeCountView,
+  internal_d_BarcodeCountViewSettingsDefaults as BarcodeCountViewSettingsDefaults,
+  internal_d_SparkScanView as SparkScanView,
+  internal_d_getBarcodeArDefaults as getBarcodeArDefaults,
+  internal_d_getBarcodeBatchDefaults as getBarcodeBatchDefaults,
+  internal_d_getBarcodeCountDefaults as getBarcodeCountDefaults,
+};
+
+export type {
+  internal_d_BarcodeArViewHandle as BarcodeArViewHandle,
+  internal_d_BarcodeCountAioUiListener as BarcodeCountAioUiListener,
+  internal_d_BarcodeCountAioViewListener as BarcodeCountAioViewListener,
+  internal_d_BarcodeCountViewHandle as BarcodeCountViewHandle,
+  internal_d_SparkScanViewHandle as SparkScanViewHandle,
+  internal_d_SparkScanViewUiListener as SparkScanViewUiListener,
+};
+declare export {
+  BarcodeArCustomAnnotation,
+  BarcodeArCustomHighlight,
+  BarcodeArView$1 as BarcodeArView,
+  BarcodeBatchAdvancedOverlay,
+  BarcodeBatchAdvancedOverlayView,
+  BarcodeBatchView$1 as BarcodeBatchView,
+  BarcodeCaptureView,
+  BarcodeCountView$1 as BarcodeCountView,
+  BarcodeCountViewStyle,
+  BarcodeFindView,
+  BarcodePickView,
+  BarcodeSelectionView,
+  SparkScanView$1 as SparkScanView,
+  internal_d as _internal,
+};
+export type {
+  BarcodeArCustomAnnotationConfig,
+  BarcodeArCustomHighlightConfig,
+  BarcodeBatchAdvancedOverlayListener,
+  BarcodeCaptureBasicOverlayProps,
+  BarcodeCaptureViewHandle,
+  SparkScanViewUiListener$1 as SparkScanViewUiListener,
+};

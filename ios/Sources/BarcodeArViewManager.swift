@@ -1,6 +1,7 @@
 import React
 import ScanditBarcodeCapture
 import ScanditDataCaptureCore
+import ScanditFrameworksBarcode
 import ScanditFrameworksCore
 
 class BarcodeArViewWrapperView: UIView {
@@ -70,6 +71,26 @@ class BarcodeArViewWrapperView: UIView {
             postFrameSetAction?()
         }
     }
+
+    // Re-assert the native AR view's started state whenever this container
+    // (re-)enters a window. Native `SDCBarcodeArView.start()` can silently
+    // no-op/fail while off-window (e.g. mid navigation transition) and never
+    // self-recovers once re-added, so we force a re-assert here (SDC-32484).
+    override func didMoveToWindow() {
+        super.didMoveToWindow()
+        // Drives the JS single-owner camera model (SDC-32484): attach -> the
+        // hosting wrapper claims camera ownership, detach -> it releases.
+        ViewWindowEventsRelay.notifyWindowChanged(viewId: reactTag.intValue, attached: window != nil)
+        guard window != nil else { return }
+        guard
+            let module = DefaultServiceLocator.shared.resolve(
+                clazzName: String(describing: BarcodeArModule.self)
+            ) as? BarcodeArModule
+        else {
+            return
+        }
+        module.getView(viewId: self.reactTag.intValue)?.reassertStartedIfNeeded()
+    }
 }
 
 @objc(RNTSDCBarcodeArViewManager)
@@ -99,5 +120,34 @@ class BarcodeArViewManager: RCTViewManager {
         BarcodeArViewManager.containers.append(container)
 
         return container
+    }
+}
+
+/// Fabric (New Architecture) bridge for the window re-assert: the ObjC++
+/// component view (`RCTBarcodeArView.mm`) cannot reach the Swift module types
+/// directly, so this @objc helper performs the module lookup and forwards to
+/// `FrameworksBarcodeArView.reassertStartedIfNeeded()` (SDC-32484).
+/// Fabric bridge for per-view window attach/detach events: the ObjC++
+/// component wrappers cannot reach the Swift relay type directly, so this
+/// @objc helper forwards to `ViewWindowEventsRelay` (SDC-32484 single-owner
+/// camera model).
+@objc(SDCViewWindowEventsBridge)
+public class ViewWindowEventsBridge: NSObject {
+    @objc public static func notifyWindowChanged(_ tag: NSInteger, attached: Bool) {
+        ViewWindowEventsRelay.notifyWindowChanged(viewId: tag, attached: attached)
+    }
+}
+
+@objc(SDCBarcodeArWindowReassert)
+public class SDCBarcodeArWindowReassert: NSObject {
+    @objc public static func onWindowAttached(_ tag: NSInteger) {
+        guard
+            let module = DefaultServiceLocator.shared.resolve(
+                clazzName: String(describing: BarcodeArModule.self)
+            ) as? BarcodeArModule
+        else {
+            return
+        }
+        module.getView(viewId: tag)?.reassertStartedIfNeeded()
     }
 }
