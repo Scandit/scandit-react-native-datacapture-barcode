@@ -1,5 +1,5 @@
-import { setBarcodeDefaultsLoader, BarcodeBatch, BarcodeBatchSettings, BarcodeBatchBasicOverlay, BarcodeBatchBasicOverlayStyle, BarcodeCaptureOverlay, BarcodeCapture, BaseBarcodeArView, BarcodeSelection, BarcodeSelectionSettings, BarcodeSelectionBasicOverlay, BarcodeSelectionBasicOverlayStyle, BaseSparkScanView, BaseBarcodeCountView, BaseBarcodePickView, BaseBarcodeFindView, SparkScan, SparkScanViewSettings, BarcodeCount, BarcodeAr, registerBarcodeProxies, loadAllBarcodeDefaults, BaseBarcodeBatchAdvancedOverlay, BarcodeCaptureSettings, BarcodeArAnnotationTrigger, SparkScanSettings, BarcodeCountSettings, BarcodeArSettings, getBarcodeArDefaults, getBarcodeBatchDefaults, getBarcodeCountDefaults } from './barcode.js';
-export { ArucoDictionary, ArucoDictionaryPreset, ArucoMarker, AztecBarcodeGeneratorBuilder, Barcode, BarcodeAr, BarcodeArAnnotationTrigger, BarcodeArCircleHighlight, BarcodeArCircleHighlightPreset, BarcodeArFeedback, BarcodeArInfoAnnotation, BarcodeArInfoAnnotationAnchor, BarcodeArInfoAnnotationBodyComponent, BarcodeArInfoAnnotationFooter, BarcodeArInfoAnnotationHeader, BarcodeArInfoAnnotationWidthPreset, BarcodeArPopoverAnnotation, BarcodeArPopoverAnnotationAnchor, BarcodeArPopoverAnnotationButton, BarcodeArRectangleHighlight, BarcodeArResponsiveAnnotation, BarcodeArSession, BarcodeArSettings, BarcodeArStatusIconAnnotation, BarcodeArStatusIconAnnotationAnchor, BarcodeArViewSettings, BarcodeBatch, BarcodeBatchBasicOverlay, BarcodeBatchBasicOverlayStyle, BarcodeBatchLicenseInfo, BarcodeBatchSession, BarcodeBatchSettings, BarcodeCapture, BarcodeCaptureFeedback, BarcodeCaptureLicenseInfo, BarcodeCaptureOverlay, BarcodeCaptureSession, BarcodeCaptureSettings, BarcodeCount, BarcodeCountCaptureList, BarcodeCountCaptureListSession, BarcodeCountFeedback, BarcodeCountMappingFlowSettings, BarcodeCountNotInListActionSettings, BarcodeCountSession, BarcodeCountSettings, BarcodeCountStatus, BarcodeCountStatusItem, BarcodeCountStatusProviderCallback, BarcodeCountStatusResultAbort, BarcodeCountStatusResultError, BarcodeCountStatusResultSuccess, BarcodeCountToolbarSettings, BarcodeDefinition, BarcodeDefinitionBuilder, BarcodeFilterHighlightSettingsBrush, BarcodeFilterHighlightType, BarcodeFilterSettings, BarcodeFind, BarcodeFindFeedback, BarcodeFindItem, BarcodeFindItemContent, BarcodeFindItemSearchOptions, BarcodeFindSession, BarcodeFindSettings, BarcodeFindViewSettings, BarcodeGenerator, BarcodeGeneratorBuilder, BarcodeIdentifier, BarcodeInfo, BarcodePick, BarcodePickAction, BarcodePickActionCallback, BarcodePickAsyncMapperProductProvider, BarcodePickProduct, BarcodePickProductProviderCallback, BarcodePickProductProviderCallbackItem, BarcodePickScanningSession, BarcodePickSession, BarcodePickSettings, BarcodePickState, BarcodePickStatusIconSettings, BarcodePickStatusIconStyle, BarcodePickViewEvents, BarcodePickViewHighlightStyleCustomView, BarcodePickViewHighlightStyleCustomViewResponse, BarcodePickViewHighlightStyleRequest, BarcodePickViewHighlightStyleResponse, BarcodePickViewHighlightStyleResponseBuilder, BarcodePickViewSettings, BarcodeSelection, BarcodeSelectionAimerSelection, BarcodeSelectionAutoSelectionStrategy, BarcodeSelectionBasicOverlay, BarcodeSelectionBasicOverlayStyle, BarcodeSelectionFeedback, BarcodeSelectionFreezeBehavior, BarcodeSelectionLicenseInfo, BarcodeSelectionManualSelectionStrategy, BarcodeSelectionSession, BarcodeSelectionSettings, BarcodeSelectionTapBehavior, BarcodeSelectionTapSelection, BarcodeSpatialGrid, BatterySavingMode, CapturePreset, Checksum, Cluster, Code128BarcodeGeneratorBuilder, Code39BarcodeGeneratorBuilder, CompositeFlag, CompositeType, DataMatrixBarcodeGeneratorBuilder, Dot, DotWithIcons, Ean13BarcodeGeneratorBuilder, Ean13UpcaClassification, EncodingRange, InterleavedTwoOfFiveBarcodeGeneratorBuilder, LocalizedOnlyBarcode, Pdf417BarcodeGeneratorBuilder, Pdf417CompactionMode, Pdf417Dimensions, QrCodeBarcodeGeneratorBuilder, QrCodeErrorCorrectionLevel, Range, Rectangular, RectangularWithIcons, ScanComponentBarcodePreset, ScanComponentTextSemanticType, ScanItemDefinition, ScanItemIdentifier, ScannedBarcode, ScannedComponentIdentifier, ScannedItem, ScannedItemIdentifier, ScannedText, SparkScan, SparkScanBarcodeErrorFeedback, SparkScanBarcodeFeedback, SparkScanBarcodeSuccessFeedback, SparkScanLicenseInfo, SparkScanMiniPreviewSize, SparkScanPreviewBehavior, SparkScanScanningBehavior, SparkScanScanningModeDefault, SparkScanScanningModeTarget, SparkScanSession, SparkScanSettings, SparkScanToastSettings, SparkScanViewSettings, SparkScanViewState, StructuredAppendData, Symbology, SymbologyDescription, SymbologySettings, TargetBarcode, TextDefinition, TextDefinitionBuilder, TextIdentifier, TrackedBarcode, TrackedObject, UpcaBarcodeGeneratorBuilder } from './barcode.js';
+import { setBarcodeDefaultsLoader, BarcodeBatch, BarcodeBatchSettings, BarcodeBatchBasicOverlay, BarcodeBatchBasicOverlayStyle, BarcodeCaptureOverlay, BarcodeCapture, BaseBarcodeArView, BarcodeSelection, BarcodeSelectionSettings, BarcodeSelectionBasicOverlay, BarcodeSelectionBasicOverlayStyle, BaseSparkScanView, BaseBarcodeCountView, BaseBarcodePickView, BaseBarcodeFindView, SparkScan, SparkScanViewSettings, BarcodeCount, BarcodeAr, registerBarcodeProxies, loadAllBarcodeDefaults, BaseBarcodeBatchAdvancedOverlay, BarcodeCaptureSettings, BarcodeArAnnotationTrigger, SparkScanSettings, BarcodeCountSettings, BarcodeArSettings } from './barcode.js';
+export { ArucoDictionary, ArucoDictionaryPreset, ArucoMarker, AztecBarcodeGeneratorBuilder, Barcode, BarcodeAr, BarcodeArAnnotationTrigger, BarcodeArCircleHighlight, BarcodeArCircleHighlightPreset, BarcodeArFeedback, BarcodeArInfoAnnotation, BarcodeArInfoAnnotationAnchor, BarcodeArInfoAnnotationBodyComponent, BarcodeArInfoAnnotationFooter, BarcodeArInfoAnnotationHeader, BarcodeArInfoAnnotationWidthPreset, BarcodeArPopoverAnnotation, BarcodeArPopoverAnnotationButton, BarcodeArRectangleHighlight, BarcodeArResponsiveAnnotation, BarcodeArSession, BarcodeArSettings, BarcodeArStatusIconAnnotation, BarcodeArViewSettings, BarcodeBatch, BarcodeBatchBasicOverlay, BarcodeBatchBasicOverlayStyle, BarcodeBatchSession, BarcodeBatchSettings, BarcodeCapture, BarcodeCaptureFeedback, BarcodeCaptureOverlay, BarcodeCaptureSession, BarcodeCaptureSettings, BarcodeCount, BarcodeCountCaptureList, BarcodeCountCaptureListSession, BarcodeCountFeedback, BarcodeCountMappingFlowSettings, BarcodeCountNotInListActionSettings, BarcodeCountSession, BarcodeCountSettings, BarcodeCountStatus, BarcodeCountStatusItem, BarcodeCountStatusProviderCallback, BarcodeCountStatusResultAbort, BarcodeCountStatusResultError, BarcodeCountStatusResultSuccess, BarcodeCountToolbarSettings, BarcodeDefinition, BarcodeDefinitionBuilder, BarcodeFilterHighlightSettingsBrush, BarcodeFilterHighlightType, BarcodeFilterSettings, BarcodeFind, BarcodeFindFeedback, BarcodeFindItem, BarcodeFindItemContent, BarcodeFindItemSearchOptions, BarcodeFindSession, BarcodeFindSettings, BarcodeFindViewSettings, BarcodeGenerator, BarcodeGeneratorBuilder, BarcodeIdentifier, BarcodeInfo, BarcodePick, BarcodePickAction, BarcodePickActionCallback, BarcodePickAsyncMapperProductProvider, BarcodePickProduct, BarcodePickProductProviderCallback, BarcodePickProductProviderCallbackItem, BarcodePickScanningSession, BarcodePickSession, BarcodePickSettings, BarcodePickState, BarcodePickStatusIconSettings, BarcodePickStatusIconStyle, BarcodePickViewEvents, BarcodePickViewHighlightStyleCustomView, BarcodePickViewHighlightStyleCustomViewResponse, BarcodePickViewHighlightStyleRequest, BarcodePickViewHighlightStyleResponse, BarcodePickViewHighlightStyleResponseBuilder, BarcodePickViewSettings, BarcodeSelection, BarcodeSelectionAimerSelection, BarcodeSelectionAutoSelectionStrategy, BarcodeSelectionBasicOverlay, BarcodeSelectionBasicOverlayStyle, BarcodeSelectionFeedback, BarcodeSelectionFreezeBehavior, BarcodeSelectionManualSelectionStrategy, BarcodeSelectionSession, BarcodeSelectionSettings, BarcodeSelectionTapBehavior, BarcodeSelectionTapSelection, BarcodeSpatialGrid, BatterySavingMode, CapturePreset, Checksum, Cluster, Code128BarcodeGeneratorBuilder, Code39BarcodeGeneratorBuilder, CompositeFlag, CompositeType, DataMatrixBarcodeGeneratorBuilder, Dot, DotWithIcons, Ean13BarcodeGeneratorBuilder, Ean13UpcaClassification, EncodingRange, InterleavedTwoOfFiveBarcodeGeneratorBuilder, LocalizedOnlyBarcode, Pdf417BarcodeGeneratorBuilder, Pdf417CompactionMode, Pdf417Dimensions, QrCodeBarcodeGeneratorBuilder, QrCodeErrorCorrectionLevel, Range, Rectangular, RectangularWithIcons, ScanComponentBarcodePreset, ScanComponentTextSemanticType, ScanItemDefinition, ScanItemIdentifier, ScannedBarcode, ScannedComponentIdentifier, ScannedItem, ScannedItemIdentifier, ScannedText, SparkScan, SparkScanBarcodeErrorFeedback, SparkScanBarcodeFeedback, SparkScanBarcodeSuccessFeedback, SparkScanMiniPreviewSize, SparkScanPreviewBehavior, SparkScanScanningBehavior, SparkScanScanningModeDefault, SparkScanScanningModeTarget, SparkScanSession, SparkScanSettings, SparkScanToastSettings, SparkScanViewSettings, SparkScanViewState, StructuredAppendData, Symbology, SymbologyDescription, SymbologySettings, TargetBarcode, TextDefinition, TextDefinitionBuilder, TextIdentifier, TrackedBarcode, TrackedObject, UpcaBarcodeGeneratorBuilder } from './barcode.js';
 import { CameraPosition, FrameSourceState, Anchor, PointWithUnit, NumberWithUnit, MeasureUnit, DataCaptureView, _internal, initCoreProxy, initCoreDefaults, getModuleDefaults, getNativeModule, createRNNativeCaller } from 'scandit-react-native-datacapture-core';
 export { ScanditProvider, useCameraPermission, useIsForeground } from 'scandit-react-native-datacapture-core';
 import React, { forwardRef, useRef, useState, useMemo, useCallback, useEffect, useImperativeHandle } from 'react';
@@ -543,20 +543,11 @@ const BarcodeCaptureView = forwardRef(function BarcodeCaptureView(props, ref) {
     const basicOverlayViewfinder = _internal.useStableProp(props.basicOverlay?.viewfinder);
     const torchSwitchControl = _internal.useStableProp(props.torchSwitchControl);
     const zoomSwitchControl = _internal.useStableProp(props.zoomSwitchControl);
-    const feedback = _internal.useStableProp(props.feedback);
     const context = _internal.useDataCaptureContextInternal();
-    // Shared claim: coexists with any other provider-camera view, coalesced
-    // by the coordinator into a single ON/OFF as views come and go.
-    const [cameraActive, setCameraActive] = useState(false);
     // viewHandle bundles a stable ref callback, a reactive snapshot (used by
     // useModeListener and effects that need to react to mount), the mutable ref
     // for imperative calls, and a stable parent-id for native serialization.
     const viewHandle = _internal.useViewHandle();
-    const cameraClaim = _internal.useCameraClaim({
-        mode: 'shared',
-        active: cameraActive,
-        nativeViewRef: viewHandle.mutableRef,
-    });
     const viewRef = viewHandle.mutableRef;
     const viewState = viewHandle.current;
     const viewRefCallback = viewHandle.ref;
@@ -602,8 +593,8 @@ const BarcodeCaptureView = forwardRef(function BarcodeCaptureView(props, ref) {
         },
         updateDeps: [basicOverlayDefaultBrush, basicOverlayViewfinder, props.basicOverlay?.shouldShowScanAreaGuides],
     });
-    const { getMode, attach: attachMode, detach: detachMode, } = _internal.useMode({
-        disabled: props.disabled,
+    const { getMode } = _internal.useMode({
+        state: props.state ?? 'enabled',
         createMode: () => {
             const mode = new BarcodeCapture(resolveSettings());
             // `parentId` is a private serialization field that links the mode to its
@@ -625,20 +616,24 @@ const BarcodeCaptureView = forwardRef(function BarcodeCaptureView(props, ref) {
     _internal.useModeListener({
         mode: getMode(),
         listenerFns: {
-            didScan: props.didScan
+            didScan: props.onScan || props.didScan
                 ? async (_mode, session, getFD) => {
                     latestSessionRef.current = session;
-                    if (props.didScan) {
+                    if (props.didScan)
+                        await props.didScan(session, getFD);
+                    if (props.onScan) {
                         const barcodes = session.newlyRecognizedBarcode ? [session.newlyRecognizedBarcode] : [];
-                        await props.didScan(barcodes, session, getFD);
+                        await props.onScan(barcodes, session, getFD);
                     }
                 }
                 : undefined,
-            didUpdateSession: props.didUpdateSession
+            didUpdateSession: props.onUpdateSession || props.didUpdateSession
                 ? async (_mode, session, getFD) => {
                     latestSessionRef.current = session;
                     if (props.didUpdateSession)
                         await props.didUpdateSession(session, getFD);
+                    if (props.onUpdateSession)
+                        await props.onUpdateSession(session, getFD);
                 }
                 : (_mode, session) => {
                     // Always track the latest session so `reset()` works even when
@@ -649,38 +644,6 @@ const BarcodeCaptureView = forwardRef(function BarcodeCaptureView(props, ref) {
         },
         addListener: (m, l) => m.addListener(l),
         removeListener: (m, l) => m.removeListener(l),
-    });
-    // ─── Feedback ─────────────────────────────────────────────────────────────
-    useEffect(() => {
-        if (feedback === undefined)
-            return;
-        getMode().feedback = feedback;
-    }, [feedback, getMode]);
-    // Enable/disable scanning, shared by the navigation prop and the imperative
-    // `enable()`/`disable()` handle. Focus fully *attaches* (adds the mode to the
-    // shared context) and blur *detaches* (removes it) — not merely toggling
-    // `isEnabled`. The native context is single-active-mode: `addMode` of a
-    // non-coexisting mode (e.g. BarcodeCount) silently evicts BarcodeCapture from
-    // the context, and the framework isn't notified. Re-adding on focus keeps the
-    // focused view as the context's active mode and re-registers its listener
-    // (the instance is reused, so the listener re-subscribes on re-add).
-    const enable = useCallback(async () => {
-        await attachMode();
-        setCameraActive(true);
-        await cameraClaim.granted();
-    }, [attachMode, cameraClaim]);
-    const disable = useCallback(async () => {
-        setCameraActive(false);
-        await detachMode();
-    }, [detachMode]);
-    // Lifecycle: focus/blur + app foreground/background + the `disabled` veto,
-    // resolved to a single enable/disable.
-    _internal.useLifecycleHook({
-        navigation: props.navigation,
-        disabled: props.disabled,
-        appStateHandlingDisabled: props.appStateHandlingDisabled,
-        onEnable: enable,
-        onDisable: disable,
     });
     // ─── Native controls ──────────────────────────────────────────────────────
     _internal.useNativeControl(viewState, torchSwitchControl);
@@ -695,17 +658,8 @@ const BarcodeCaptureView = forwardRef(function BarcodeCaptureView(props, ref) {
     });
     useImperativeHandle(ref, () => ({
         reset: () => latestSessionRef.current?.reset() ?? Promise.resolve(),
-        viewPointForFramePoint: point => viewRef.current?.viewPointForFramePoint(point) ?? Promise.reject(new Error('DataCaptureView not mounted')),
-        viewQuadrilateralForFrameQuadrilateral: quad => viewRef.current?.viewQuadrilateralForFrameQuadrilateral(quad) ??
-            Promise.reject(new Error('DataCaptureView not mounted')),
-        addControl: control => viewRef.current?.addControl(control) ?? Promise.reject(new Error('DataCaptureView not mounted')),
-        removeControl: control => {
-            viewRef.current?.removeControl(control);
-        },
-        enable,
-        disable,
-    }), [viewRef, enable, disable]);
-    return (React.createElement(DataCaptureView, { context: context, parentId: viewId, style: props.style ?? { flex: 1 }, ref: viewRefCallback, onNativeDispose: teardown => cameraClaim.release(teardown) }));
+    }), []);
+    return (React.createElement(DataCaptureView, { context: context, parentId: viewId, style: props.style ?? { flex: 1 }, ref: viewRefCallback }));
 });
 
 /******************************************************************************
@@ -774,23 +728,24 @@ __decorate([
 // (AIO) need this component, so the require lives here and they import it.
 const RNTBarcodeArView = requireNativeComponent('RNTBarcodeArView');
 
-function BarcodeArCustomHighlightContainer({ barcodeId, customHighlight, onClick, registerCustomHighlightUpdateEvent, registerCustomHighlightHideEvent, registerCustomHighlightShowEvent, }) {
+function BarcodeArCustomHighlightContainer({ barcodeId, barcode, customHighlight, onClick, registerCustomHighlightUpdateEvent, registerCustomHighlightHideEvent, registerCustomHighlightShowEvent, }) {
     const viewRef = useRef(null);
     const timeoutRef = useRef(null);
     const widthAndHeight = useRef({ width: 0, height: 0 });
     // Start hidden and only show when we get a position update
     const [hidden, setHidden] = useState(true);
-    // `setHidden` is stable and idempotent for equal values, so we don't need
-    // `hidden` as a dep — keeping it stable prevents the effect below from
-    // tearing down and re-registering listeners on every visibility flip.
     const onUpdate = useCallback((centerPosition) => {
+        // set a timeout to hide the highlight if we don't get updates for a second
         if (timeoutRef.current) {
             clearTimeout(timeoutRef.current);
         }
         timeoutRef.current = setTimeout(() => {
             setHidden(true);
         }, 1000);
-        setHidden(false);
+        // After an update, we know the position.
+        if (hidden) {
+            setHidden(false);
+        }
         if (!viewRef.current) {
             return;
         }
@@ -799,7 +754,7 @@ function BarcodeArCustomHighlightContainer({ barcodeId, customHighlight, onClick
         viewRef.current.setNativeProps({
             style: { left: xPos, top: yPos },
         });
-    }, []);
+    }, [hidden, setHidden]);
     useEffect(() => {
         const disposeUpdate = registerCustomHighlightUpdateEvent(onUpdate, barcodeId);
         const disposeShow = registerCustomHighlightShowEvent(() => {
@@ -814,8 +769,10 @@ function BarcodeArCustomHighlightContainer({ barcodeId, customHighlight, onClick
             disposeHide();
         };
     }, [
+        barcode,
         barcodeId,
         onUpdate,
+        setHidden,
         registerCustomHighlightUpdateEvent,
         registerCustomHighlightHideEvent,
         registerCustomHighlightShowEvent,
@@ -836,23 +793,24 @@ const styles$1 = StyleSheet.create({
     },
 });
 
-function BarcodeArCustomAnnotationContainer({ barcodeId, customAnnotation, registerCustomAnnotationUpdateEvent, registerCustomAnnotationHideEvent, registerCustomAnnotationShowEvent, }) {
+function BarcodeArCustomAnnotationContainer({ barcodeId, barcode, customAnnotation, registerCustomAnnotationUpdateEvent, registerCustomAnnotationHideEvent, registerCustomAnnotationShowEvent, }) {
     const viewRef = useRef(null);
     const timeoutRef = useRef(null);
     const widthAndHeight = useRef({ width: 0, height: 0 });
     // Start hidden and only show when we get a position update
     const [hidden, setHidden] = useState(true);
-    // `setHidden` is stable and idempotent for equal values, so we don't need
-    // `hidden` as a dep — keeping it stable prevents the effect below from
-    // tearing down and re-registering listeners on every visibility flip.
     const onUpdate = useCallback((centerPosition) => {
+        // set a timeout to hide the annotation if we don't get updates for a second
         if (timeoutRef.current) {
             clearTimeout(timeoutRef.current);
         }
         timeoutRef.current = setTimeout(() => {
             setHidden(true);
         }, 1000);
-        setHidden(false);
+        // After an update, we know the position.
+        if (hidden) {
+            setHidden(false);
+        }
         if (!viewRef.current) {
             return;
         }
@@ -860,7 +818,7 @@ function BarcodeArCustomAnnotationContainer({ barcodeId, customAnnotation, regis
         viewRef.current.setNativeProps({
             style: position,
         });
-    }, [customAnnotation.anchor]);
+    }, [hidden, setHidden, customAnnotation.anchor]);
     useEffect(() => {
         const disposeUpdate = registerCustomAnnotationUpdateEvent(onUpdate, barcodeId);
         const disposeShow = registerCustomAnnotationShowEvent(() => {
@@ -875,8 +833,10 @@ function BarcodeArCustomAnnotationContainer({ barcodeId, customAnnotation, regis
             disposeHide();
         };
     }, [
+        barcode,
         barcodeId,
         onUpdate,
+        setHidden,
         registerCustomAnnotationUpdateEvent,
         registerCustomAnnotationHideEvent,
         registerCustomAnnotationShowEvent,
@@ -1029,9 +989,7 @@ let BarcodeArView$1 = class BarcodeArView extends React.Component {
         this.navigationUnsubscribers = [];
         // Release camera ownership
         CameraOwnershipHelper.releaseOwnership(CameraPosition$1.WorldFacing, this.cameraOwner);
-        // dispose() is now async (awaits native teardown); the classic view
-        // tears down fire-and-forget as before, so explicitly ignore the promise.
-        void this.baseBarcodeArView.dispose();
+        this.baseBarcodeArView.dispose();
         this.baseBarcodeArView.unsubscribeFromCustomHighlightEvents();
         this.baseBarcodeArView.unsubscribeFromCustomAnnotationEvents();
     }
@@ -1120,54 +1078,6 @@ let BarcodeArView$1 = class BarcodeArView extends React.Component {
     }
     set macroModeControlPosition(value) {
         this.baseBarcodeArView.macroModeControlPosition = value;
-    }
-    get torchControlOffset() {
-        return this.baseBarcodeArView.torchControlOffset;
-    }
-    set torchControlOffset(value) {
-        this.baseBarcodeArView.torchControlOffset = value;
-    }
-    get zoomControlOffset() {
-        return this.baseBarcodeArView.zoomControlOffset;
-    }
-    set zoomControlOffset(value) {
-        this.baseBarcodeArView.zoomControlOffset = value;
-    }
-    get cameraSwitchControlOffset() {
-        return this.baseBarcodeArView.cameraSwitchControlOffset;
-    }
-    set cameraSwitchControlOffset(value) {
-        this.baseBarcodeArView.cameraSwitchControlOffset = value;
-    }
-    get macroModeControlOffset() {
-        return this.baseBarcodeArView.macroModeControlOffset;
-    }
-    set macroModeControlOffset(value) {
-        this.baseBarcodeArView.macroModeControlOffset = value;
-    }
-    get logoStyle() {
-        return this.baseBarcodeArView.logoStyle;
-    }
-    set logoStyle(value) {
-        this.baseBarcodeArView.logoStyle = value;
-    }
-    get zoomControlOrientation() {
-        return this.baseBarcodeArView.zoomControlOrientation;
-    }
-    set zoomControlOrientation(value) {
-        this.baseBarcodeArView.zoomControlOrientation = value;
-    }
-    get logoAnchor() {
-        return this.baseBarcodeArView.logoAnchor;
-    }
-    set logoAnchor(value) {
-        this.baseBarcodeArView.logoAnchor = value;
-    }
-    get logoOffset() {
-        return this.baseBarcodeArView.logoOffset;
-    }
-    set logoOffset(value) {
-        this.baseBarcodeArView.logoOffset = value;
     }
     render() {
         return (React.createElement(React.Fragment, null,
@@ -2776,25 +2686,6 @@ class BarcodeFindView extends React.Component {
     set textForTapShutterToResumeSearchHint(value) {
         this.baseBarcodeFindView.textForTapShutterToResumeSearchHint = value;
     }
-    get logoStyle() {
-        return this.baseBarcodeFindView.logoStyle;
-    }
-    set logoStyle(value) {
-        this.baseBarcodeFindView.logoStyle = value;
-    }
-    get logoAnchor() {
-        return this.baseBarcodeFindView.logoAnchor;
-    }
-    set logoAnchor(value) {
-        this.baseBarcodeFindView.logoAnchor = value;
-    }
-    // cameraStateOnStop is only effective on iOS; it is ignored on Android.
-    get cameraStateOnStop() {
-        return this.baseBarcodeFindView.cameraStateOnStop;
-    }
-    set cameraStateOnStop(value) {
-        this.baseBarcodeFindView.cameraStateOnStop = value;
-    }
     stopSearching() {
         return this.baseBarcodeFindView.stopSearching();
     }
@@ -2960,48 +2851,15 @@ const PASS_THROUGH_KEYS$1 = [
     'shouldHandleAndroidLifecycleAutomatically',
 ];
 const SparkScanView = forwardRef(function SparkScanView(props, ref) {
-    const { didScan, didUpdateSession, uiListener, navigation, style, children, symbologies, scanIntention, enabledCompositeTypes, itemDefinitions, codeDuplicateFilter, batterySaving, } = props;
+    const { state: declaredState = 'enabled', onScan, onUpdateSession, didScan, didUpdateSession, uiListener, navigation, style, children, symbologies, scanIntention, enabledCompositeTypes, itemDefinitions, codeDuplicateFilter, batterySaving, } = props;
     // Stable structural references for SDK class instances.
     const sparkScanSettings = _internal.useStableProp(props.sparkScanSettings);
     const sparkScanViewSettings = _internal.useStableProp(props.sparkScanViewSettings);
-    // Not stabilized: registered via useModeListener, which handles re-subscription.
-    const feedbackDelegateProp = props.feedbackDelegate;
-    const feedbackProp = _internal.useStableProp(props.feedback);
-    // `feedback` is sugar for a constant delegate (same feedback for every
-    // barcode); an explicit `feedbackDelegate` takes precedence.
-    const feedbackDelegate = useMemo(() => {
-        if (feedbackDelegateProp)
-            return feedbackDelegateProp;
-        if (feedbackProp)
-            return { feedbackForBarcode: () => feedbackProp };
-        return feedbackDelegateProp;
-    }, [feedbackDelegateProp, feedbackProp]);
-    useEffect(() => {
-        if (feedbackDelegateProp && feedbackProp) {
-            console.warn('SparkScanView: `feedbackDelegate` takes precedence; `feedback` is ignored.');
-        }
-    }, [feedbackDelegateProp, feedbackProp]);
+    const feedbackDelegate = _internal.useStableProp(props.feedbackDelegate);
     const stableItemDefinitions = _internal.useStableProp(itemDefinitions);
-    // Stabilize array shorthand props too — otherwise an inline `symbologies={[…]}`
-    // is a new identity every render, churns `resolveSettings`, and re-applies
-    // settings natively on every unrelated render. (Finding F1; matches BarcodeCaptureView.)
-    const stableSymbologies = _internal.useStableProp(symbologies);
-    const stableEnabledCompositeTypes = _internal.useStableProp(enabledCompositeTypes);
     const context = _internal.useDataCaptureContextInternal();
     const viewHandle = _internal.useViewHandle();
     const viewNode = viewHandle.current;
-    // Own-camera view: an exclusive claim hands the provider camera back while
-    // this SparkScan is the focused scanner, so camera 0 is free for its own
-    // native camera; releasing it (on blur, driven from enable/disable below)
-    // re-asserts the provider. Focus-keyed via `cameraActive`, not mount-keyed,
-    // so a blurred-but-mounted SparkScan in a nav stack doesn't starve a
-    // focused provider-camera mode above it.
-    const [cameraActive, setCameraActive] = useState(false);
-    const cameraClaim = _internal.useCameraClaim({
-        mode: 'exclusive',
-        active: cameraActive,
-        nativeViewRef: viewHandle.mutableRef,
-    });
     const baseViewRef = useRef(null);
     // Reactive snapshot of the base view so listener hooks can register once it
     // exists and re-register after a detach/re-attach cycle. Updated alongside
@@ -3010,52 +2868,29 @@ const SparkScanView = forwardRef(function SparkScanView(props, ref) {
     const prevPassThroughRef = useRef(null);
     const resolveSettings = useCallback(() => buildSettings$3({
         sparkScanSettings,
-        symbologies: stableSymbologies,
+        symbologies,
         scanIntention,
-        enabledCompositeTypes: stableEnabledCompositeTypes,
+        enabledCompositeTypes,
         itemDefinitions: stableItemDefinitions,
         codeDuplicateFilter,
         batterySaving,
     }), [
         sparkScanSettings,
-        stableSymbologies,
+        symbologies,
         scanIntention,
-        stableEnabledCompositeTypes,
+        enabledCompositeTypes,
         stableItemDefinitions,
         codeDuplicateFilter,
         batterySaving,
     ]);
-    const { getMode: getSparkScan, enable: enableMode, disable: disableMode, } = _internal.useMode({
-        disabled: props.disabled,
+    const { getMode: getSparkScan } = _internal.useMode({
+        state: declaredState,
         canAttach: viewNode != null,
         createMode: () => new SparkScan(resolveSettings()),
         applySettings: m => m.applySettings(resolveSettings()),
-        setEnabled: async (m, enabled) => {
-            // Claim camera 0 exclusively before this view opens it; this is the
-            // single gate every enable path (incl. useMode's auto-attach) funnels
-            // through. `granted()` resolving already guarantees the provider camera
-            // is off — no separate `run()`/`runExclusive` serialization needed to
-            // order this against a pending provider OFF (SDC-32484).
-            if (enabled) {
-                setCameraActive(true);
-                await cameraClaim.granted();
-                if (m.isEnabled !== enabled)
-                    m.isEnabled = enabled;
-                // onHostPause() before prepareScanning(): SparkScan manages its camera
-                // NATIVELY, and a sibling component's native teardown can switch
-                // camera 0 off while this view's native side still believes it is
-                // active — a bare prepare then no-ops on the stale state and the
-                // preview stays black. The pause→prepare cycle forces the native view
-                // to re-assert its camera on every (re-)enable (SDC-32484, iOS).
-                await getBaseView().onHostPause();
-                await getBaseView().prepareScanning();
-            }
-            else {
-                if (m.isEnabled !== enabled)
-                    m.isEnabled = enabled;
-                await getBaseView().onHostPause();
-                setCameraActive(false);
-            }
+        setEnabled: (m, enabled) => {
+            if (m.isEnabled !== enabled)
+                m.isEnabled = enabled;
         },
         attach: () => new Promise(resolve => {
             const node = viewNode;
@@ -3073,19 +2908,11 @@ const SparkScanView = forwardRef(function SparkScanView(props, ref) {
             });
         }),
         detach: async () => {
-            const view = baseViewRef.current;
+            if (baseViewRef.current)
+                await baseViewRef.current.dispose();
             baseViewRef.current = null;
             setBaseView(null);
             prevPassThroughRef.current = null;
-            const disposed = Promise.resolve(view?.dispose());
-            // Hand the claim release over to the dispose: on iOS the async native
-            // teardown nulls/steals the context frame source *after* unmount, so
-            // releasing before `dispose()` resolves races it and leaves the
-            // provider camera off (SDC-32484 black screen on back-navigation). The
-            // coordinator parks `disposed` as a barrier and waits for it before
-            // re-asserting the provider camera.
-            cameraClaim.release(disposed);
-            await disposed;
         },
         settingsDeps: [resolveSettings],
     });
@@ -3096,6 +2923,7 @@ const SparkScanView = forwardRef(function SparkScanView(props, ref) {
             context,
             sparkScan: getSparkScan(),
             sparkScanViewSettings: sparkScanViewSettings ?? new SparkScanViewSettings(),
+            feedbackDelegate: feedbackDelegate ?? undefined,
             previewSizeControlVisible: props.previewSizeControlVisible,
             scanningBehaviorButtonVisible: props.scanningBehaviorButtonVisible,
             barcodeCountButtonVisible: props.barcodeCountButtonVisible,
@@ -3123,14 +2951,16 @@ const SparkScanView = forwardRef(function SparkScanView(props, ref) {
         // Lazy: subsequent updates go through `updateWithProps` in the diffing
         // effect. Listing every prop here would defeat lazy construction.
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [context, getSparkScan, sparkScanViewSettings]);
+    }, [context, getSparkScan, sparkScanViewSettings, feedbackDelegate]);
     // ─── Pass-through prop diffing ───────────────────────────────────────────
     useEffect(() => {
+        if (declaredState === 'detached')
+            return;
         const next = {
             context,
             sparkScan: getSparkScan(),
-            // updateWithProps ignores this; read from the view rather than build a default.
-            sparkScanViewSettings: sparkScanViewSettings ?? getBaseView().viewSettings,
+            sparkScanViewSettings: sparkScanViewSettings ?? new SparkScanViewSettings(),
+            feedbackDelegate,
         };
         const writableNext = next;
         const propsByKey = props;
@@ -3141,6 +2971,8 @@ const SparkScanView = forwardRef(function SparkScanView(props, ref) {
         prevPassThroughRef.current = next;
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [
+        declaredState,
+        feedbackDelegate,
         sparkScanViewSettings,
         props.previewSizeControlVisible,
         props.scanningBehaviorButtonVisible,
@@ -3168,15 +3000,22 @@ const SparkScanView = forwardRef(function SparkScanView(props, ref) {
     _internal.useModeListener({
         mode: getSparkScan(),
         listenerFns: {
-            didScan: didScan
+            didScan: onScan || didScan
                 ? async (_s, session, getFD) => {
-                    const barcodes = session.newlyRecognizedBarcode ? [session.newlyRecognizedBarcode] : [];
-                    await didScan(barcodes, session, getFD);
+                    if (didScan)
+                        await didScan(session, getFD);
+                    if (onScan) {
+                        const barcodes = session.newlyRecognizedBarcode ? [session.newlyRecognizedBarcode] : [];
+                        await onScan(barcodes, session, getFD);
+                    }
                 }
                 : undefined,
-            didUpdateSession: didUpdateSession
+            didUpdateSession: onUpdateSession || didUpdateSession
                 ? async (_s, session, getFD) => {
-                    await didUpdateSession(session, getFD);
+                    if (didUpdateSession)
+                        await didUpdateSession(session, getFD);
+                    if (onUpdateSession)
+                        await onUpdateSession(session, getFD);
                 }
                 : undefined,
         },
@@ -3184,11 +3023,12 @@ const SparkScanView = forwardRef(function SparkScanView(props, ref) {
         removeListener: (m, l) => m.removeListener(l),
     });
     // ─── Imperative handle ───────────────────────────────────────────────────
-    const enable = enableMode;
-    const disable = disableMode;
     const handle = useMemo(() => ({
         showToast: async (text) => {
             await getBaseView().showToast(text);
+        },
+        prepareScanning: async () => {
+            await getBaseView().prepareScanning();
         },
         startScanning: async () => {
             await getBaseView().startScanning();
@@ -3199,15 +3039,10 @@ const SparkScanView = forwardRef(function SparkScanView(props, ref) {
         stopScanning: async () => {
             await getBaseView().stopScanning();
         },
-        show: async () => {
-            await getBaseView().show();
+        onHostPause: async () => {
+            await getBaseView().onHostPause();
         },
-        hide: async () => {
-            await getBaseView().hide();
-        },
-        enable,
-        disable,
-    }), [getBaseView, enable, disable]);
+    }), [getBaseView]);
     useImperativeHandle(ref, () => handle, [handle]);
     // ─── UI listener (prop-driven) ───────────────────────────────────────────
     // `useModeListener` handles the latest-callbacks-via-ref dance, and the
@@ -3241,35 +3076,23 @@ const SparkScanView = forwardRef(function SparkScanView(props, ref) {
             v.uiListener = null;
         },
     });
-    // `feedbackDelegate` is a listener (its setter subscribes the controller to the
-    // native feedbackForBarcode/feedbackForScannedItem events), so register it
-    // through `useModeListener` like `uiListener` rather than via prop diffing. The
-    // computed `feedbackDelegate` above carries the `feedback` shorthand too.
-    _internal.useModeListener({
-        mode: baseView,
-        listenerFns: {
-            feedbackForBarcode: feedbackDelegate?.feedbackForBarcode
-                ? (barcode) => feedbackDelegate.feedbackForBarcode(barcode)
-                : undefined,
-            feedbackForScannedItem: feedbackDelegate?.feedbackForScannedItem
-                ? (item) => feedbackDelegate.feedbackForScannedItem(item)
-                : undefined,
-        },
-        addListener: (v, l) => {
-            v.feedbackDelegate = l;
-        },
-        removeListener: v => {
-            v.feedbackDelegate = null;
-        },
-    });
-    // ─── Lifecycle: focus/blur + foreground/background + the `disabled` veto ──
-    _internal.useLifecycleHook({
-        navigation,
-        disabled: props.disabled,
-        appStateHandlingDisabled: props.appStateHandlingDisabled,
-        onEnable: enable,
-        onDisable: disable,
-    });
+    // ─── Navigation focus/blur ───────────────────────────────────────────────
+    useEffect(() => {
+        if (!navigation)
+            return;
+        const unsubFocus = navigation.addListener('focus', () => {
+            if (declaredState !== 'detached')
+                void getBaseView().prepareScanning();
+        });
+        const unsubBlur = navigation.addListener('blur', () => {
+            if (declaredState !== 'detached')
+                void getBaseView().onHostPause();
+        });
+        return () => {
+            unsubFocus();
+            unsubBlur();
+        };
+    }, [navigation, declaredState, getBaseView]);
     return (React.createElement(RNTSparkScanView, { style: style ?? { flex: 1 }, ref: viewHandle.ref, onLayout: viewHandle.onLayout }, children));
 });
 
@@ -3299,6 +3122,7 @@ const PASS_THROUGH_KEYS = [
     'shouldShowFloatingShutterButton',
     'shouldShowToolbar',
     'shouldShowStatusModeButton',
+    'shouldShowStatusIconsOnScan',
     'shouldShowScanAreaGuides',
     'recognizedBrush',
     'notInListBrush',
@@ -3345,37 +3169,19 @@ const PASS_THROUGH_KEYS = [
     'mappingFlowSettings',
 ];
 const BarcodeCountView = forwardRef(function BarcodeCountView(props, ref) {
-    const { didScan, didUpdateSession, uiListener, listener, style, children, symbologies } = props;
+    const { state: declaredState = 'enabled', onScan, onSessionUpdated, uiListener, listener, style, children, symbologies, } = props;
     const barcodeCountSettings = _internal.useStableProp(props.barcodeCountSettings);
-    // Stabilize the array shorthand too — an inline `symbologies={[…]}` is a new
-    // identity every render and would churn `resolveSettings` → re-apply settings
-    // natively on every unrelated render. (Finding F1; matches the other views.)
-    const stableSymbologies = _internal.useStableProp(symbologies);
     const captureList = _internal.useStableProp(props.captureList);
     const additionalBarcodes = _internal.useStableProp(props.additionalBarcodes);
-    const feedback = _internal.useStableProp(props.feedback);
-    const toolbarSettings = _internal.useStableProp(props.toolbarSettings);
     const context = _internal.useDataCaptureContextInternal();
     const viewHandle = _internal.useViewHandle();
     const viewNode = viewHandle.current;
-    // On RN, BarcodeCountView renders the PROVIDER camera: device-verified
-    // (SDC-32484) — with an exclusive claim (provider handed off) the preview
-    // goes black and the native trace shows no camera activity at all, while
-    // the previous shared-demand wiring worked on every run. The native SDK's
-    // BarcodeCountView can manage its own camera standalone, but the RN
-    // integration does not feed it that way — same trap as BarcodeAr (H5).
-    const [cameraActive, setCameraActive] = useState(false);
-    const cameraClaim = _internal.useCameraClaim({
-        mode: 'shared',
-        active: cameraActive,
-        nativeViewRef: viewHandle.mutableRef,
-    });
     const baseViewRef = useRef(null);
     // Reactive snapshot so listener hooks can register once the base view exists
     // and re-register after a detach/re-attach cycle.
     const [baseView, setBaseView] = useState(null);
     const prevPassThroughRef = useRef(null);
-    const resolveSettings = useCallback(() => buildSettings$2({ barcodeCountSettings, symbologies: stableSymbologies }), [barcodeCountSettings, stableSymbologies]);
+    const resolveSettings = useCallback(() => buildSettings$2({ barcodeCountSettings, symbologies }), [barcodeCountSettings, symbologies]);
     const buildPassThrough = useCallback((mode) => {
         const next = {
             context,
@@ -3389,17 +3195,9 @@ const BarcodeCountView = forwardRef(function BarcodeCountView(props, ref) {
                 writableNext[key] = propsByKey[key];
         }
         return next;
-    }, 
-    // Depend on the individual pass-through values rather than the whole
-    // `props` object, so this callback (and the diffing effect that consumes
-    // it) only re-runs when a forwarded prop actually changes — not on every
-    // unrelated render. Behavior is unchanged: the same values are read, and
-    // `updateWithProps` still diffs prev/next.
-    // `viewStyle` is already part of `PASS_THROUGH_KEYS`, so the spread covers it.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [context, ...PASS_THROUGH_KEYS.map(k => props[k])]);
-    const { getMode: getBarcodeCount, attach: attachMode, detach: detachMode, } = _internal.useMode({
-        disabled: props.disabled,
+    }, [context, props]);
+    const { getMode: getBarcodeCount } = _internal.useMode({
+        state: declaredState,
         canAttach: viewNode != null,
         createMode: () => new BarcodeCount(resolveSettings()),
         applySettings: m => m.applySettings(resolveSettings()),
@@ -3439,29 +3237,6 @@ const BarcodeCountView = forwardRef(function BarcodeCountView(props, ref) {
         },
         settingsDeps: [resolveSettings],
     });
-    // Enable/disable scanning, shared by the navigation prop and the imperative
-    // `enable()`/`disable()` handle. Focus *attaches* (adds the mode + builds the
-    // native view) and blur *detaches* (removes it): the native context is
-    // single-active-mode and `addMode` of a non-coexisting mode silently evicts
-    // this one, so re-adding on focus keeps it the active mode and re-registers
-    // its listener. Just toggling `isEnabled` is not enough.
-    const enable = useCallback(async () => {
-        await attachMode();
-        setCameraActive(true);
-        await cameraClaim.granted();
-    }, [attachMode, cameraClaim]);
-    const disable = useCallback(async () => {
-        setCameraActive(false);
-        await detachMode();
-    }, [detachMode]);
-    // Lifecycle: focus/blur + app foreground/background + the `disabled` veto.
-    _internal.useLifecycleHook({
-        navigation: props.navigation,
-        disabled: props.disabled,
-        appStateHandlingDisabled: props.appStateHandlingDisabled,
-        onEnable: enable,
-        onDisable: disable,
-    });
     const getBaseView = useCallback((mode) => {
         if (baseViewRef.current)
             return baseViewRef.current;
@@ -3475,59 +3250,41 @@ const BarcodeCountView = forwardRef(function BarcodeCountView(props, ref) {
     }, [buildPassThrough, getBarcodeCount]);
     // ─── Pass-through prop diffing ───────────────────────────────────────────
     useEffect(() => {
+        if (declaredState === 'detached')
+            return;
         if (!baseViewRef.current)
             return;
         const next = buildPassThrough(getBarcodeCount());
         const prev = prevPassThroughRef.current ?? next;
         baseViewRef.current.updateWithProps(prev, next);
         prevPassThroughRef.current = next;
-    }, [buildPassThrough, getBarcodeCount]);
+    }, [declaredState, buildPassThrough, getBarcodeCount]);
     // ─── Capture list ────────────────────────────────────────────────────────
     useEffect(() => {
+        if (declaredState === 'detached')
+            return;
         if (!captureList)
             return;
         getBarcodeCount().setBarcodeCountCaptureList(captureList);
-    }, [captureList, getBarcodeCount]);
+    }, [declaredState, captureList, getBarcodeCount]);
     // ─── Additional barcodes ─────────────────────────────────────────────────
     useEffect(() => {
+        if (declaredState === 'detached')
+            return;
         void getBarcodeCount().setAdditionalBarcodes(additionalBarcodes ?? []);
-    }, [additionalBarcodes, getBarcodeCount]);
-    // ─── Feedback ────────────────────────────────────────────────────────────
-    useEffect(() => {
-        if (feedback === undefined)
-            return;
-        getBarcodeCount().feedback = feedback;
-    }, [feedback, getBarcodeCount]);
-    // ─── Toolbar settings ────────────────────────────────────────────────────
-    useEffect(() => {
-        if (toolbarSettings === undefined)
-            return;
-        baseView?.setToolbarSettings(toolbarSettings);
-    }, [toolbarSettings, baseView]);
-    useEffect(() => {
-        if (!baseView)
-            return;
-        if (props.shouldShowStatusIconsOnScan === true && !props.statusProvider) {
-            console.warn('BarcodeCountView: `statusProvider` is required when `shouldShowStatusIconsOnScan` is `true`; status icons will not be shown.');
-            return;
-        }
-        baseView.shouldShowStatusIconsOnScan = props.shouldShowStatusIconsOnScan === true;
-        if (props.statusProvider) {
-            baseView.setStatusProvider(props.statusProvider);
-        }
-    }, [props.shouldShowStatusIconsOnScan, props.statusProvider, baseView]);
-    // ─── Mode listener (didScan / didUpdateSession) ────────────────────────────
+    }, [declaredState, additionalBarcodes, getBarcodeCount]);
+    // ─── Mode listener (onScan / onSessionUpdated) ───────────────────────────
     _internal.useModeListener({
         mode: getBarcodeCount(),
         listenerFns: {
-            didScan: didScan
+            didScan: onScan
                 ? async (_m, session, getFD) => {
-                    await didScan(session.recognizedBarcodes ?? [], session, getFD);
+                    await onScan(session.recognizedBarcodes ?? [], session, getFD);
                 }
                 : undefined,
-            onSessionUpdated: didUpdateSession
+            onSessionUpdated: onSessionUpdated
                 ? async (_m, session, getFD) => {
-                    await didUpdateSession(session, getFD);
+                    await onSessionUpdated(session, getFD);
                 }
                 : undefined,
         },
@@ -3535,15 +3292,13 @@ const BarcodeCountView = forwardRef(function BarcodeCountView(props, ref) {
         removeListener: (m, l) => m.removeListener(l),
     });
     // ─── UI listener (single-slot setter) ────────────────────────────────────
-    // The AIO listener shape drops the `view` argument that the shared
-    // `BarcodeCountViewUiListener` exposes; we adapt it here.
     _internal.useModeListener({
         mode: baseView,
         listenerFns: {
-            didTapListButton: uiListener?.didTapListButton ? () => uiListener.didTapListButton?.() : undefined,
-            didTapExitButton: uiListener?.didTapExitButton ? () => uiListener.didTapExitButton?.() : undefined,
+            didTapListButton: uiListener?.didTapListButton ? () => uiListener.didTapListButton?.(baseView) : undefined,
+            didTapExitButton: uiListener?.didTapExitButton ? () => uiListener.didTapExitButton?.(baseView) : undefined,
             didTapSingleScanButton: uiListener?.didTapSingleScanButton
-                ? () => uiListener.didTapSingleScanButton?.()
+                ? () => uiListener.didTapSingleScanButton?.(baseView)
                 : undefined,
         },
         addListener: (v, l) => {
@@ -3553,42 +3308,14 @@ const BarcodeCountView = forwardRef(function BarcodeCountView(props, ref) {
             v.uiListener = null;
         },
     });
-    // ─── View listener (single-slot setter) ──────────────────────────────────
-    // Same shape adaptation as the UI listener: drop the `view` argument from
-    // every callback the consumer provides.
+    // ─── View listener (single-slot setter; pass-through) ────────────────────
+    //
+    // View-listener callbacks include synchronous `brushFor*` methods that must
+    // return a `Brush`. Wrapping them through a latest-callback proxy works the
+    // same as the async tap callbacks; `useModeListener` already does that.
     _internal.useModeListener({
         mode: baseView,
-        listenerFns: {
-            brushForRecognizedBarcode: listener?.brushForRecognizedBarcode
-                ? (_v, tb) => listener.brushForRecognizedBarcode(tb)
-                : undefined,
-            brushForRecognizedBarcodeNotInList: listener?.brushForRecognizedBarcodeNotInList
-                ? (_v, tb) => listener.brushForRecognizedBarcodeNotInList(tb)
-                : undefined,
-            brushForAcceptedBarcode: listener?.brushForAcceptedBarcode
-                ? (_v, tb) => listener.brushForAcceptedBarcode(tb)
-                : undefined,
-            brushForRejectedBarcode: listener?.brushForRejectedBarcode
-                ? (_v, tb) => listener.brushForRejectedBarcode(tb)
-                : undefined,
-            didTapRecognizedBarcode: listener?.didTapRecognizedBarcode
-                ? (_v, tb) => listener.didTapRecognizedBarcode(tb)
-                : undefined,
-            didTapFilteredBarcode: listener?.didTapFilteredBarcode
-                ? (_v, tb) => listener.didTapFilteredBarcode(tb)
-                : undefined,
-            didTapRecognizedBarcodeNotInList: listener?.didTapRecognizedBarcodeNotInList
-                ? (_v, tb) => listener.didTapRecognizedBarcodeNotInList(tb)
-                : undefined,
-            didTapAcceptedBarcode: listener?.didTapAcceptedBarcode
-                ? (_v, tb) => listener.didTapAcceptedBarcode(tb)
-                : undefined,
-            didTapRejectedBarcode: listener?.didTapRejectedBarcode
-                ? (_v, tb) => listener.didTapRejectedBarcode(tb)
-                : undefined,
-            didTapCluster: listener?.didTapCluster ? (_v, cluster) => listener.didTapCluster(cluster) : undefined,
-            didCompleteCaptureList: listener?.didCompleteCaptureList ? () => listener.didCompleteCaptureList() : undefined,
-        },
+        listenerFns: listener ? listener : {},
         addListener: (v, l) => {
             v.listener = l;
         },
@@ -3621,10 +3348,8 @@ const BarcodeCountView = forwardRef(function BarcodeCountView(props, ref) {
             setBrushForAcceptedBarcode: (t, b) => ifAttached('setBrushForAcceptedBarcode', v => v.setBrushForAcceptedBarcode(t, b), noop),
             setBrushForRejectedBarcode: (t, b) => ifAttached('setBrushForRejectedBarcode', v => v.setBrushForRejectedBarcode(t, b), noop),
             enableHardwareTrigger: code => ifAttached('enableHardwareTrigger', v => v.enableHardwareTrigger(code), noop),
-            enable,
-            disable,
         };
-    }, [enable, disable]);
+    }, []);
     useImperativeHandle(ref, () => handle, [handle]);
     return (React.createElement(RNTBarcodeCountView, { style: style ?? { flex: 1 }, ref: viewHandle.ref, onLayout: viewHandle.onLayout }, children));
 });
@@ -3650,15 +3375,7 @@ const BarcodeBatchView = forwardRef(function BarcodeBatchView(props, ref) {
     const barcodeBatchSettings = _internal.useStableProp(props.barcodeBatchSettings);
     const symbologies = _internal.useStableProp(props.symbologies);
     const context = _internal.useDataCaptureContextInternal();
-    // Shared claim: coexists with any other provider-camera view, coalesced
-    // by the coordinator into a single ON/OFF as views come and go.
-    const [cameraActive, setCameraActive] = useState(false);
     const viewHandle = _internal.useViewHandle();
-    const cameraClaim = _internal.useCameraClaim({
-        mode: 'shared',
-        active: cameraActive,
-        nativeViewRef: viewHandle.mutableRef,
-    });
     const viewRef = viewHandle.mutableRef;
     const viewId = viewHandle.id;
     const resolveSettings = useCallback(() => buildSettings$1(barcodeBatchSettings, symbologies), [barcodeBatchSettings, symbologies]);
@@ -3690,8 +3407,8 @@ const BarcodeBatchView = forwardRef(function BarcodeBatchView(props, ref) {
         updateDeps: [props.advancedOverlay?.shouldShowScanAreaGuides],
     });
     // ─── Mode ─────────────────────────────────────────────────────────────────
-    const { getMode, attach: attachMode, detach: detachMode, } = _internal.useMode({
-        disabled: props.disabled,
+    const { getMode } = _internal.useMode({
+        state: props.state ?? 'enabled',
         createMode: () => {
             const mode = new BarcodeBatch(resolveSettings());
             // `parentId` links the mode to its DataCaptureView for native serialization.
@@ -3704,44 +3421,19 @@ const BarcodeBatchView = forwardRef(function BarcodeBatchView(props, ref) {
                 mode.isEnabled = enabled;
         },
         attach: mode => context.addMode(mode),
-        // Quiesce the shared camera while the mode is removed — removing it with
-        // frames still streaming aborts natively in the engine.
         detach: mode => context.removeMode(mode),
         attachables: [basicOverlay, advancedOverlay],
         settingsDeps: [resolveSettings],
     });
-    // Enable/disable scanning, shared by the navigation prop and the imperative
-    // `enable()`/`disable()` handle. Focus *attaches* (adds the mode to the shared
-    // context) and blur *detaches* (removes it): the native context is
-    // single-active-mode and `addMode` of a non-coexisting mode silently evicts
-    // this one, so re-adding on focus keeps it the active mode and re-registers
-    // its listener. Just toggling `isEnabled` is not enough.
-    const enable = useCallback(async () => {
-        await attachMode();
-        setCameraActive(true);
-        await cameraClaim.granted();
-    }, [attachMode, cameraClaim]);
-    const disable = useCallback(async () => {
-        setCameraActive(false);
-        await detachMode();
-    }, [detachMode]);
-    // Lifecycle: focus/blur + app foreground/background + the `disabled` veto.
-    _internal.useLifecycleHook({
-        navigation: props.navigation,
-        disabled: props.disabled,
-        appStateHandlingDisabled: props.appStateHandlingDisabled,
-        onEnable: enable,
-        onDisable: disable,
-    });
     _internal.useModeListener({
         mode: getMode(),
         listenerFns: {
-            didUpdateSession: props.didScan || props.didUpdateSession
+            didUpdateSession: props.onScan || props.onUpdateSession
                 ? async (_mode, session, getFD) => {
-                    if (props.didUpdateSession)
-                        await props.didUpdateSession(session, getFD);
-                    if (props.didScan && session.addedTrackedBarcodes?.length) {
-                        await props.didScan(session.addedTrackedBarcodes, session, getFD);
+                    if (props.onUpdateSession)
+                        await props.onUpdateSession(session, getFD);
+                    if (props.onScan && session.addedTrackedBarcodes?.length) {
+                        await props.onScan(session.addedTrackedBarcodes, session, getFD);
                     }
                 }
                 : undefined,
@@ -3797,147 +3489,25 @@ const BarcodeBatchView = forwardRef(function BarcodeBatchView(props, ref) {
     const advancedOverlayEnabled = props.advancedOverlay !== undefined && props.advancedOverlay.enabled !== false;
     useImperativeHandle(ref, () => ({
         reset: () => getMode().reset(),
-        // Call through `getOverlay()?.` so the handle is safe before the overlay
-        // has attached (overlay is null until then) and so `this` stays bound to
-        // the overlay instance. Mirrors LabelCaptureView. (Finding F4.)
         basicOverlay: basicOverlayEnabled
             ? {
-                setBrushForTrackedBarcode: (brush, tb) => basicOverlay.getOverlay()?.setBrushForTrackedBarcode(brush, tb) ?? Promise.resolve(),
-                clearTrackedBarcodeBrushes: () => basicOverlay.getOverlay()?.clearTrackedBarcodeBrushes() ?? Promise.resolve(),
+                setBrushForTrackedBarcode: basicOverlay.getOverlay().setBrushForTrackedBarcode,
+                clearTrackedBarcodeBrushes: basicOverlay.getOverlay().clearTrackedBarcodeBrushes,
             }
             : undefined,
         advancedOverlay: advancedOverlayEnabled
             ? {
-                setViewForTrackedBarcode: (view, tb) => advancedOverlay.getOverlay()?.setViewForTrackedBarcode(view, tb) ?? Promise.resolve(),
-                setAnchorForTrackedBarcode: (anchor, tb) => advancedOverlay.getOverlay()?.setAnchorForTrackedBarcode(anchor, tb) ?? Promise.resolve(),
-                setOffsetForTrackedBarcode: (offset, tb) => advancedOverlay.getOverlay()?.setOffsetForTrackedBarcode(offset, tb) ?? Promise.resolve(),
-                clearTrackedBarcodeViews: () => advancedOverlay.getOverlay()?.clearTrackedBarcodeViews() ?? Promise.resolve(),
-                updateSizeOfTrackedBarcodeView: (id, w, h) => advancedOverlay.getOverlay()?.updateSizeOfTrackedBarcodeView(id, w, h) ?? Promise.resolve(),
+                setViewForTrackedBarcode: advancedOverlay.getOverlay().setViewForTrackedBarcode,
+                setAnchorForTrackedBarcode: advancedOverlay.getOverlay().setAnchorForTrackedBarcode,
+                setOffsetForTrackedBarcode: advancedOverlay.getOverlay().setOffsetForTrackedBarcode,
+                clearTrackedBarcodeViews: advancedOverlay.getOverlay().clearTrackedBarcodeViews,
+                updateSizeOfTrackedBarcodeView: advancedOverlay.getOverlay().updateSizeOfTrackedBarcodeView,
             }
             : undefined,
-        enable,
-        disable,
-    }), [getMode, basicOverlay, advancedOverlay, basicOverlayEnabled, advancedOverlayEnabled, enable, disable]);
-    return (React.createElement(DataCaptureView, { context: context, parentId: viewId, style: props.style ?? { flex: 1 }, ref: viewHandle.ref, onNativeDispose: teardown => cameraClaim.release(teardown) }));
+    }), [getMode, basicOverlay, advancedOverlay, basicOverlayEnabled, advancedOverlayEnabled]);
+    return (React.createElement(DataCaptureView, { context: context, parentId: viewId, style: props.style ?? { flex: 1 }, ref: viewHandle.ref }));
 });
 
-const BarcodeArCustomAugmentationOverlay = forwardRef(function BarcodeArCustomAugmentationOverlay({ baseView, highlightProvider, annotationProvider }, ref) {
-    const customHighlightCacheRef = useRef({});
-    const customAnnotationCacheRef = useRef({});
-    const [shownHighlights, setShownHighlights] = useState({});
-    const [shownAnnotations, setShownAnnotations] = useState({});
-    const wrappedHighlightProvider = useMemo(() => {
-        if (!highlightProvider)
-            return null;
-        return {
-            highlightForBarcode: async (barcode) => {
-                const highlight = await highlightProvider.highlightForBarcode(barcode);
-                if (highlight instanceof BarcodeArCustomHighlight) {
-                    customHighlightCacheRef.current[barcode['_barcodeId']] = highlight;
-                }
-                return highlight;
-            },
-        };
-    }, [highlightProvider]);
-    const wrappedAnnotationProvider = useMemo(() => {
-        if (!annotationProvider)
-            return null;
-        return {
-            annotationForBarcode: async (barcode) => {
-                const annotation = await annotationProvider.annotationForBarcode(barcode);
-                if (annotation instanceof BarcodeArCustomAnnotation) {
-                    customAnnotationCacheRef.current[barcode['_barcodeId']] = annotation;
-                }
-                return annotation;
-            },
-        };
-    }, [annotationProvider]);
-    useEffect(() => {
-        if (!baseView)
-            return;
-        baseView.highlightProvider = wrappedHighlightProvider;
-    }, [baseView, wrappedHighlightProvider]);
-    useEffect(() => {
-        if (!baseView)
-            return;
-        baseView.annotationProvider = wrappedAnnotationProvider;
-    }, [baseView, wrappedAnnotationProvider]);
-    useEffect(() => {
-        if (!baseView)
-            return;
-        baseView.subscribeForCustomHighlightEvents();
-        baseView.subscribeForCustomAnnotationEvents();
-        const unregisterHighlightCreate = baseView.registerCustomHighlightCreateEvent((barcode, barcodeId) => {
-            setShownHighlights(prev => (prev[barcodeId] ? prev : { ...prev, [barcodeId]: barcode }));
-        });
-        // Note: don't evict `customHighlightCacheRef` on dispose. Native dedupes
-        // highlights by barcodeId and won't re-invoke the provider when the same
-        // barcode is rediscovered, so dropping the cache here would make the next
-        // create render to null. The cache is cleared in the effect teardown
-        // (view detached) below.
-        const unregisterHighlightDispose = baseView.registerCustomHighlightDisposeEvent(barcodeId => {
-            setShownHighlights(prev => {
-                if (!(barcodeId in prev))
-                    return prev;
-                const { [barcodeId]: _unused, ...rest } = prev;
-                return rest;
-            });
-        });
-        const unregisterAnnotationCreate = baseView.registerCustomAnnotationCreateEvent((barcode, barcodeId) => {
-            setShownAnnotations(prev => (prev[barcodeId] ? prev : { ...prev, [barcodeId]: barcode }));
-        });
-        const unregisterAnnotationDispose = baseView.registerCustomAnnotationDisposeEvent(barcodeId => {
-            setShownAnnotations(prev => {
-                if (!(barcodeId in prev))
-                    return prev;
-                const { [barcodeId]: _unused, ...rest } = prev;
-                return rest;
-            });
-        });
-        return () => {
-            unregisterHighlightCreate();
-            unregisterHighlightDispose();
-            unregisterAnnotationCreate();
-            unregisterAnnotationDispose();
-            baseView.unsubscribeFromCustomHighlightEvents();
-            baseView.unsubscribeFromCustomAnnotationEvents();
-            setShownHighlights({});
-            setShownAnnotations({});
-            customHighlightCacheRef.current = {};
-            customAnnotationCacheRef.current = {};
-        };
-    }, [baseView]);
-    return (React.createElement(View, { ref: ref, style: { position: 'absolute', overflow: 'hidden', pointerEvents: 'box-none' } },
-        Object.entries(shownAnnotations).map(([barcodeId, barcode]) => {
-            const annotation = customAnnotationCacheRef.current[barcodeId];
-            if (!annotation || !baseView)
-                return null;
-            return (React.createElement(BarcodeArCustomAnnotationContainer, { key: 'annotation:' + barcodeId, barcodeId: barcodeId, barcode: barcode, customAnnotation: annotation, registerCustomAnnotationUpdateEvent: baseView.registerCustomAnnotationUpdateEvent, registerCustomAnnotationShowEvent: baseView.registerCustomAnnotationShowEvent, registerCustomAnnotationHideEvent: baseView.registerCustomAnnotationHideEvent }));
-        }),
-        Object.entries(shownHighlights).map(([barcodeId, barcode]) => {
-            const highlight = customHighlightCacheRef.current[barcodeId];
-            if (!highlight || !baseView)
-                return null;
-            return (React.createElement(BarcodeArCustomHighlightContainer, { key: 'highlight:' + barcodeId, barcodeId: barcodeId, barcode: barcode, customHighlight: highlight, onClick: () => {
-                    void baseView.onCustomHighlightClicked(barcodeId);
-                }, registerCustomHighlightUpdateEvent: baseView.registerCustomHighlightUpdateEvent, registerCustomHighlightShowEvent: baseView.registerCustomHighlightShowEvent, registerCustomHighlightHideEvent: baseView.registerCustomHighlightHideEvent }));
-        })));
-});
-
-// Pass-through props that map 1:1 to `BaseBarcodeArView` setters. The
-// `satisfies` clause guarantees every entry is both a prop name *and* a
-// matching field on the base view — a rename on either side is a compile
-// error. Adding a new control prop? Add it here and to `BarcodeArViewProps`.
-const CONTROL_PASS_THROUGH_KEYS = [
-    'shouldShowTorchControl',
-    'torchControlPosition',
-    'shouldShowZoomControl',
-    'zoomControlPosition',
-    'shouldShowCameraSwitchControl',
-    'cameraSwitchControlPosition',
-    'shouldShowMacroModeControl',
-    'macroModeControlPosition',
-];
 function buildSettings(settings, symbologies) {
     if (settings) {
         if (symbologies !== undefined) {
@@ -3951,46 +3521,18 @@ function buildSettings(settings, symbologies) {
     return s;
 }
 const BarcodeArView = forwardRef(function BarcodeArView(props, ref) {
-    const { didScan, didUpdateSession, highlightProvider, annotationProvider, uiListener, barcodeFilter, navigation, style, children, } = props;
+    const { state: declaredState = 'enabled', didUpdateSession, highlightProvider, annotationProvider, uiListener, barcodeFilter, navigation, style, children, } = props;
     const settings = _internal.useStableProp(props.settings);
     const symbologies = _internal.useStableProp(props.symbologies);
     const viewSettings = _internal.useStableProp(props.viewSettings);
     const cameraSettings = _internal.useStableProp(props.cameraSettings);
-    const feedback = _internal.useStableProp(props.feedback);
     const context = _internal.useDataCaptureContextInternal();
     const viewHandle = _internal.useViewHandle();
     const viewNode = viewHandle.current;
-    // AR is an own-camera view: native SDCBarcodeArView creates/manages its own
-    // internal camera from `cameraSettings`, invisible to JS. Holding the
-    // shared provider camera ON blocks AR's internal camera, so an exclusive
-    // claim hands the provider camera back while AR is enabled and releases it
-    // on disable, same as SparkScanView.
-    const [cameraActive, setCameraActive] = useState(false);
-    // On RN, BarcodeAr renders the PROVIDER camera — device-verified twice
-    // (SDC-32484): with an exclusive claim the handoff switches the provider
-    // camera off and the native view's "internal camera" never engages (zero
-    // camera activity in the native trace, main-thread + in-window + post-create
-    // all proven). Same finding as BarcodeCount. The native SDK's BarcodeArView
-    // can drive its own camera standalone; the RN integration does not wire it
-    // that way.
-    const cameraClaim = _internal.useCameraClaim({
-        mode: 'shared',
-        active: cameraActive,
-        nativeViewRef: viewHandle.mutableRef,
-    });
     // Reactive snapshot of the base view: listener effects depend on it so they
     // (re-)register once it exists, and again after a detach/re-attach cycle.
     const baseViewRef = useRef(null);
     const [baseView, setBaseView] = useState(null);
-    const augmentationContainerRef = useRef(null);
-    // Remount epoch for the native host component. Bumped on every detach so the
-    // next focus mounts a FRESH Fabric component: the native module's pending
-    // create actions pair with the container on didMoveToSuperview, which never
-    // re-fires for a reused, still-mounted container — recreating the native AR
-    // view into the old host leaves it unattached/unsized and the preview black
-    // (SDC-32484 back-navigation; forward-nav always creates a fresh host and
-    // has never failed).
-    const [hostEpoch, setHostEpoch] = useState(0);
     const resolveSettings = useCallback(() => buildSettings(settings, symbologies), [settings, symbologies]);
     // Providers / listeners are NOT passed to the constructor: doing so makes
     // the controller's `initialize()` call `registerHighlightProvider` during
@@ -4004,54 +3546,32 @@ const BarcodeArView = forwardRef(function BarcodeArView(props, ref) {
         baseViewRef.current = new BaseBarcodeArView(context, mode, null, viewSettings ?? undefined, cameraSettings ?? undefined);
         return baseViewRef.current;
     }, [context, viewSettings, cameraSettings]);
-    const { getMode, enable: enableMode, disable: disableMode, } = _internal.useMode({
-        disabled: props.disabled,
+    const { getMode } = _internal.useMode({
+        state: declaredState,
         canAttach: viewNode != null,
         createMode: () => new BarcodeAr(resolveSettings()),
         applySettings: m => m.applySettings(resolveSettings()),
-        setEnabled: async (_m, enabled) => {
+        setEnabled: (_m, enabled) => {
             const view = baseViewRef.current;
-            if (!view) {
+            if (!view)
                 return;
-            }
-            // Claim camera 0 exclusively before AR opens its own internal camera.
-            // `granted()` resolving already guarantees the provider camera is off —
-            // ordering against a pending provider OFF is guaranteed without a
-            // separate `run()`/`runExclusive` wrapper. A stop→start re-assert (not
-            // a bare start) is still required: the native view can be left with a
-            // stale "started" flag that makes a bare `start()` a no-op (SDC-32484).
-            if (enabled) {
-                setCameraActive(true);
-                await cameraClaim.granted();
-                await view.stop();
-                await view.start();
-            }
-            else {
-                await view.stop();
-                setCameraActive(false);
-            }
+            if (enabled)
+                void view.start();
+            else
+                void view.pause();
         },
         attach: mode => new Promise(resolve => {
             const node = viewNode;
-            if (!node) {
+            if (!node)
                 return resolve();
-            }
             // Gate creation on layout (the view being committed to the native tree)
             // rather than InteractionManager.runAfterInteractions, whose queue can
             // be starved by a blocked JS interaction. See SDC-32208.
             void viewHandle.whenReady().then(async () => {
                 const id = findNodeHandle(node);
-                if (id == null) {
+                if (id == null)
                     return resolve();
-                }
                 const view = getBaseView(mode);
-                // Create only after the camera coordinator settles: a popped sibling
-                // screen's DataCaptureView teardown is parked as a coordinator
-                // barrier, and iOS only renders to the most recently attached view —
-                // creating ours while the dead one still exists leaves rendering
-                // bound to a corpse and the preview black (SDC-32484).
-                setCameraActive(true);
-                await cameraClaim.granted();
                 await view.createNativeView(id);
                 // Publish the reactive snapshot only after the native view has
                 // actually been created, so the provider/listener effects below
@@ -4060,23 +3580,11 @@ const BarcodeArView = forwardRef(function BarcodeArView(props, ref) {
                 resolve();
             });
         }),
-        detach: async () => {
-            // Await native teardown before resolving so a rapid detach→attach
-            // (e.g. mid-navigation) can't race a new createNativeView against an
-            // in-flight dispose. Matches SparkScanView/BarcodeCountView.
-            const view = baseViewRef.current;
+        detach: () => {
+            if (baseViewRef.current)
+                baseViewRef.current.dispose();
             baseViewRef.current = null;
             setBaseView(null);
-            const disposed = Promise.resolve(view?.dispose());
-            setHostEpoch(e => e + 1);
-            // Hand the claim release over to the dispose: on iOS the async native
-            // teardown nulls/steals the context frame source *after* unmount, so
-            // releasing before `dispose()` resolves races it and leaves the
-            // provider camera off (SDC-32484 black screen on back-navigation). The
-            // coordinator parks `disposed` as a barrier and waits for it before
-            // re-asserting the provider camera.
-            cameraClaim.release(disposed);
-            await disposed;
         },
         settingsDeps: [resolveSettings],
     });
@@ -4087,25 +3595,28 @@ const BarcodeArView = forwardRef(function BarcodeArView(props, ref) {
     _internal.useModeListener({
         mode: getMode(),
         listenerFns: {
-            didUpdateSession: didScan || didUpdateSession
+            didUpdateSession: didUpdateSession
                 ? async (_m, session, getFD) => {
-                    if (didUpdateSession)
-                        await didUpdateSession(session, getFD);
-                    if (didScan && session.addedTrackedBarcodes?.length) {
-                        await didScan(session.addedTrackedBarcodes, session, getFD);
-                    }
+                    await didUpdateSession(session, getFD);
                 }
                 : undefined,
         },
         addListener: (m, l) => m.addListener(l),
         removeListener: (m, l) => m.removeListener(l),
     });
-    // ─── UI-listener wiring ──────────────────────────────────────────────────
+    // ─── Provider / UI-listener wiring ───────────────────────────────────────
     // Depends on `baseView` (reactive) so handlers (re-)register when the view
-    // is (re-)created after a detach/attach cycle. Highlight/annotation
-    // provider wiring and the custom RN-view augmentation lifecycle live in
-    // `BarcodeArCustomAugmentationOverlay` so state churn from frequent
-    // create/dispose events doesn't re-render this component.
+    // is (re-)created after a detach/attach cycle.
+    useEffect(() => {
+        if (!baseView)
+            return;
+        baseView.highlightProvider = highlightProvider ?? null;
+    }, [baseView, highlightProvider]);
+    useEffect(() => {
+        if (!baseView)
+            return;
+        baseView.annotationProvider = annotationProvider ?? null;
+    }, [baseView, annotationProvider]);
     useEffect(() => {
         if (!baseView)
             return;
@@ -4121,27 +3632,25 @@ const BarcodeArView = forwardRef(function BarcodeArView(props, ref) {
         void getMode().setBarcodeFilter(barcodeFilter ?? null);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [baseView, barcodeFilter]);
-    // ─── Feedback ────────────────────────────────────────────────────────────
-    // Gated on `baseView` so the setter's `updateFeedback` RPC reaches a live
-    // controller (matches the barcodeFilter pattern above).
+    // ─── Navigation focus/blur ───────────────────────────────────────────────
     useEffect(() => {
-        if (!baseView)
+        if (!navigation)
             return;
-        if (feedback === undefined)
-            return;
-        getMode().feedback = feedback;
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [baseView, feedback]);
-    _internal.usePassThroughProps(baseView, props, CONTROL_PASS_THROUGH_KEYS);
-    // Lifecycle: focus/blur + app foreground/background + the `disabled` veto.
-    // Provider-camera demand/release lives in `setEnabled`, so these wire straight through.
-    _internal.useLifecycleHook({
-        navigation,
-        disabled: props.disabled,
-        appStateHandlingDisabled: props.appStateHandlingDisabled,
-        onEnable: enableMode,
-        onDisable: disableMode,
-    });
+        const unsubFocus = navigation.addListener('focus', () => {
+            if (declaredState !== 'detached' && baseViewRef.current) {
+                void baseViewRef.current.start();
+            }
+        });
+        const unsubBlur = navigation.addListener('blur', () => {
+            if (declaredState !== 'detached' && baseViewRef.current) {
+                void baseViewRef.current.pause();
+            }
+        });
+        return () => {
+            unsubFocus();
+            unsubBlur();
+        };
+    }, [navigation, declaredState]);
     // ─── Imperative handle ───────────────────────────────────────────────────
     const handle = useMemo(() => ({
         start: async () => {
@@ -4156,21 +3665,12 @@ const BarcodeArView = forwardRef(function BarcodeArView(props, ref) {
         reset: async () => {
             await baseViewRef.current?.reset();
         },
-        enable: enableMode,
-        disable: disableMode,
-    }), [enableMode, disableMode]);
+    }), []);
     useImperativeHandle(ref, () => handle, [handle]);
-    const onNativeViewLayout = useCallback((event) => {
-        const { x, y, width, height } = event.nativeEvent.layout;
-        augmentationContainerRef.current?.setNativeProps({
-            style: { top: y, left: x, width, height },
-        });
-        // Signal native-view readiness so `attach` can create the view. See SDC-32208.
-        viewHandle.onLayout();
-    }, [viewHandle]);
-    return (React.createElement(React.Fragment, null,
-        React.createElement(RNTBarcodeArView, { key: hostEpoch, style: style ?? { flex: 1 }, ref: viewHandle.ref, onLayout: onNativeViewLayout }, children),
-        React.createElement(BarcodeArCustomAugmentationOverlay, { ref: augmentationContainerRef, baseView: baseView, highlightProvider: highlightProvider, annotationProvider: annotationProvider })));
+    return (
+    // onLayout signals native-view readiness so `attach` (which awaits
+    // viewHandle.whenReady) can create the view. See SDC-32208.
+    React.createElement(RNTBarcodeArView, { style: style ?? { flex: 1 }, ref: viewHandle.ref, onLayout: viewHandle.onLayout }, children));
 });
 
 // Internal-only exports for AIO views and other not-yet-public APIs.
@@ -4181,10 +3681,7 @@ var internal = /*#__PURE__*/Object.freeze({
     BarcodeArView: BarcodeArView,
     BarcodeBatchView: BarcodeBatchView,
     BarcodeCountView: BarcodeCountView,
-    SparkScanView: SparkScanView,
-    getBarcodeArDefaults: getBarcodeArDefaults,
-    getBarcodeBatchDefaults: getBarcodeBatchDefaults,
-    getBarcodeCountDefaults: getBarcodeCountDefaults
+    SparkScanView: SparkScanView
 });
 
 initBarcodeDefaults();

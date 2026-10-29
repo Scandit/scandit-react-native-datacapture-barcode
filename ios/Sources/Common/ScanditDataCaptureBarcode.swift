@@ -213,7 +213,6 @@ public class ScanditDataCaptureBarcodeImpl: NSObject {
         events += BarcodeArAnnotationProviderEvents.allCases.map { $0.rawValue }
         events += BarcodeArHighlightProviderEvents.allCases.map { $0.rawValue }
         events += FrameworksBarcodeArAnnotationEvents.allCases.map { $0.rawValue }
-        events += BarcodeArAugmentationsEvents.allCases.map { $0.rawValue }
         events += FrameworksBarcodeDataTransformerEvent.allCases.map { $0.rawValue }
 
         return events
