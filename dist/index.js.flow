@@ -4,254 +4,4009 @@
  * Flowgen v1.21.0
  */
 
-declare export {
-  Barcode,
-  BarcodeInfo,
-  LocalizedOnlyBarcode,
+import {
+  BarcodeBatchBasicOverlayStyle,
   TrackedBarcode,
-  TargetBarcode,
+  BarcodeBatchAdvancedOverlayView as BarcodeBatchAdvancedOverlayView$1,
+  Symbology,
+  BarcodeBatchSettings,
+  BarcodeBatchSession,
+  BarcodeBatchAdvancedOverlayListener as BarcodeBatchAdvancedOverlayListener$1,
+  BarcodeBatch,
+  Barcode,
+  BarcodeCaptureSession,
+  CompositeType,
+  BatterySavingMode,
+  ArucoDictionary,
+  BarcodeCaptureSettings,
+  BarcodeCaptureFeedback,
+  AdaptiveRecognitionServiceListener,
+  BarcodeArHighlight,
+  BarcodeArAnnotationTrigger,
+  BarcodeArAnnotation,
+  BarcodeAr,
+  BarcodeArViewSettings,
+  BarcodeArViewUiListener,
+  BarcodeArAnnotationProvider,
+  BarcodeArHighlightProvider,
+  BarcodeArSettings,
+  BarcodeArSession,
+  BarcodeArFilter,
+  BarcodeArFeedback,
+  SparkScanViewState,
+  SparkScanScanningMode,
+  SparkScanFeedbackDelegate,
+  BaseSparkScanViewProps,
+  SparkScanSession,
+  ScanItemDefinition,
+  SparkScanSettings,
+  SparkScanViewSettings,
+  SparkScanBarcodeFeedback,
+  BarcodeCountIcon,
+  BarcodeCountViewUiListener,
+  BarcodeCountViewListener,
+  BarcodeFilterHighlightSettings,
+  BarcodeCountNotInListActionSettings,
+  BarcodeCountToolbarSettings,
+  BarcodeCountStatusProvider,
+  BaseBarcodeCountViewProps,
+  BarcodeCountSessionSnapshot,
+  Cluster,
+  BarcodeCountSession,
+  BarcodeCountSettings,
+  BarcodeCountCaptureList,
+  BarcodeCountFeedback,
+  BarcodeCountMappingFlowSettings,
+  BarcodePickViewUiListener,
+  BarcodePickViewListener,
+  BarcodePickActionListener,
+  BarcodePick,
+  BarcodePickViewSettings,
+  BarcodeFindViewUiListener,
+  BarcodeFind,
+  BarcodeFindViewSettings,
+  BarcodeSelectionSettings,
+  BarcodeSelectionBrushProvider,
+  BarcodeSelectionBasicOverlayStyle,
+  BarcodeSelectionFeedback,
+  BarcodeSelection,
+  BarcodeSelectionSession,
+  getBarcodeArDefaults,
+  getBarcodeBatchDefaults,
+  getBarcodeCountDefaults,
+} from "./barcode";
+import type {
+  BarcodeCountDefaults,
+  BarcodeCountViewSettingsDefaults,
+  BarcodeArDefaults,
+  BarcodeBatchDefaults,
+} from "./barcode";
+declare export {
+  AdaptiveRecognitionErrorReason,
+  AdaptiveRecognitionFrameMetadata,
+  AdaptiveRecognitionServiceListener,
   ArucoDictionary,
   ArucoDictionaryPreset,
   ArucoMarker,
-} from "scandit-datacapture-frameworks-barcode";
-declare export { TrackedObject } from "scandit-datacapture-frameworks-barcode";
-declare export {
-  Symbology,
-  SymbologyDescription,
-  SymbologySettings,
-} from "scandit-datacapture-frameworks-barcode";
-declare export {
-  Range,
-  Ean13UpcaClassification,
-  CompositeFlag,
-  EncodingRange,
-  StructuredAppendData,
-} from "scandit-datacapture-frameworks-barcode";
-declare export {
-  CompositeType,
-  Checksum,
-} from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeSpatialGrid } from "scandit-datacapture-frameworks-barcode";
-declare export { BatterySavingMode } from "scandit-datacapture-frameworks-barcode";
-declare export { Cluster } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeDataTransformer } from "scandit-datacapture-frameworks-barcode";
-declare export { CapturePreset } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeBatch } from "scandit-datacapture-frameworks-barcode";
-declare export {
-  BarcodeBatchBasicOverlayStyle,
-  BarcodeBatchBasicOverlayListener,
+  AztecBarcodeGeneratorBuilder,
+  Barcode,
+  BarcodeAr,
+  BarcodeArAnnotation,
+  BarcodeArAnnotationProvider,
+  BarcodeArAnnotationTrigger,
+  BarcodeArCircleHighlight,
+  BarcodeArCircleHighlightPreset,
+  BarcodeArFeedback,
+  BarcodeArFilter,
+  BarcodeArHighlight,
+  BarcodeArHighlightProvider,
+  BarcodeArInfoAnnotation,
+  BarcodeArInfoAnnotationAnchor,
+  BarcodeArInfoAnnotationBodyComponent,
+  BarcodeArInfoAnnotationFooter,
+  BarcodeArInfoAnnotationHeader,
+  BarcodeArInfoAnnotationListener,
+  BarcodeArInfoAnnotationWidthPreset,
+  BarcodeArListener,
+  BarcodeArPopoverAnnotation,
+  BarcodeArPopoverAnnotationAnchor,
+  BarcodeArPopoverAnnotationButton,
+  BarcodeArPopoverAnnotationListener,
+  BarcodeArRectangleHighlight,
+  BarcodeArResponsiveAnnotation,
+  BarcodeArSession,
+  BarcodeArSettings,
+  BarcodeArStatusIconAnnotation,
+  BarcodeArStatusIconAnnotationAnchor,
+  BarcodeArViewSettings,
+  BarcodeArViewUiListener,
+  BarcodeBatch,
   BarcodeBatchBasicOverlay,
-} from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeBatchListener } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeBatchSession } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeBatchSettings } from "scandit-datacapture-frameworks-barcode";
-declare export * from "./BarcodeBatchView";
-declare export { BarcodeBatchAdvancedOverlayView } from "./BarcodeBatchAdvancedOverlayView";
-declare export { BarcodeBatchAdvancedOverlay } from "./BarcodeBatchAdvancedOverlay";
-declare export { BarcodeBatchAdvancedOverlayListener } from "./BarcodeBatchAdvancedOverlayListener";
-declare export { BarcodeCapture } from "scandit-datacapture-frameworks-barcode";
-declare export * from "./BarcodeCaptureView";
-declare export { BarcodeCaptureFeedback } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeCaptureListener } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeCaptureSession } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeCaptureOverlay } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeCaptureSettings } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeAr } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeArAnnotation } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeArAnnotationProvider } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeArFilter } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeArCircleHighlight } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeArCircleHighlightPreset } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeArFeedback } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeArHighlight } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeArHighlightProvider } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeArInfoAnnotation } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeArInfoAnnotationAnchor } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeArInfoAnnotationBodyComponent } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeArInfoAnnotationListener } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeArInfoAnnotationWidthPreset } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeArListener } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeArPopoverAnnotation } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeArPopoverAnnotationButton } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeArInfoAnnotationFooter } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeArInfoAnnotationHeader } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeArPopoverAnnotationListener } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeArRectangleHighlight } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeArResponsiveAnnotation } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeArSession } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeArSettings } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeArStatusIconAnnotation } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeArViewSettings } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeArViewUiListener } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeArAnnotationTrigger } from "scandit-datacapture-frameworks-barcode";
-declare export * from "./BarcodeArCustomHighlight";
-declare export * from "./BarcodeArCustomAnnotation";
-declare export * from "./BarcodeArView";
-declare export { BarcodeSelection } from "scandit-datacapture-frameworks-barcode";
-declare export * from "./BarcodeSelectionView";
-declare export { BarcodeSelectionFeedback } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeSelectionListener } from "scandit-datacapture-frameworks-barcode";
-declare export {
-  BarcodeSelectionBasicOverlay,
-  BarcodeSelectionBrushProvider,
-  BarcodeSelectionBasicOverlayStyle,
-} from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeSelectionSession } from "scandit-datacapture-frameworks-barcode";
-declare export {
-  BarcodeSelectionSettings,
-  BarcodeSelectionStrategy,
-  BarcodeSelectionAutoSelectionStrategy,
-  BarcodeSelectionManualSelectionStrategy,
-  BarcodeSelectionFreezeBehavior,
-  BarcodeSelectionTapBehavior,
-  BarcodeSelectionType,
-  BarcodeSelectionAimerSelection,
-  BarcodeSelectionTapSelection,
-} from "scandit-datacapture-frameworks-barcode";
-declare export { SparkScan } from "scandit-datacapture-frameworks-barcode";
-declare export { SparkScanListener } from "scandit-datacapture-frameworks-barcode";
-declare export { SparkScanSession } from "scandit-datacapture-frameworks-barcode";
-declare export {
-  SparkScanSettings,
-  SparkScanViewState,
-} from "scandit-datacapture-frameworks-barcode";
-declare export * from "./SparkScanView";
-declare export {
-  SparkScanScanningMode,
-  SparkScanScanningModeDefault,
-  SparkScanScanningModeTarget,
-  SparkScanScanningBehavior,
-  SparkScanViewSettings,
-} from "scandit-datacapture-frameworks-barcode";
-declare export {
-  SparkScanToastSettings,
-  SparkScanPreviewBehavior,
-} from "scandit-datacapture-frameworks-barcode";
-declare export {
-  SparkScanBarcodeFeedback,
-  SparkScanBarcodeErrorFeedback,
-  SparkScanBarcodeSuccessFeedback,
-  SparkScanFeedbackDelegate,
-} from "scandit-datacapture-frameworks-barcode";
-declare export { SparkScanMiniPreviewSize } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeCount } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeCountFeedback } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeCountListener } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeCountSession } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeCountSettings } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeCountStatus } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeCountStatusItem } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeCountStatusProvider } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeCountStatusProviderCallback } from "scandit-datacapture-frameworks-barcode";
-declare export {
+  BarcodeBatchBasicOverlayListener,
+  BarcodeBatchBasicOverlayStyle,
+  BarcodeBatchLicenseInfo,
+  BarcodeBatchListener,
+  BarcodeBatchSession,
+  BarcodeBatchSettings,
+  BarcodeCapture,
+  BarcodeCaptureFeedback,
+  BarcodeCaptureLicenseInfo,
+  BarcodeCaptureListener,
+  BarcodeCaptureOverlay,
+  BarcodeCaptureSession,
+  BarcodeCaptureSettings,
+  BarcodeCount,
+  BarcodeCountCaptureList,
+  BarcodeCountCaptureListListener,
+  BarcodeCountCaptureListSession,
+  BarcodeCountFeedback,
+  BarcodeCountIcon,
+  BarcodeCountListener,
+  BarcodeCountMappingFlowSettings,
+  BarcodeCountNotInListActionSettings,
+  BarcodeCountSession,
+  BarcodeCountSessionSnapshot,
+  BarcodeCountSettings,
+  BarcodeCountStatus,
+  BarcodeCountStatusItem,
+  BarcodeCountStatusProvider,
+  BarcodeCountStatusProviderCallback,
   BarcodeCountStatusResult,
-  BarcodeCountStatusResultSuccess,
-  BarcodeCountStatusResultError,
   BarcodeCountStatusResultAbort,
-} from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeCountViewUiListener } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeCountViewListener } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeCountToolbarSettings } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeCountCaptureList } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeCountCaptureListListener } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeCountCaptureListSession } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeFilterSettings } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeFilterHighlightType } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeFilterHighlightSettingsBrush } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeFilterHighlightSettings } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeCountNotInListActionSettings } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeCountMappingFlowSettings } from "scandit-datacapture-frameworks-barcode";
-declare export * from "./BarcodeCountView";
-declare export { BarcodePick } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodePickAction } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodePickActionListener } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodePickActionCallback } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodePickListener } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodePickSession } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodePickState } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodePickSettings } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodePickProduct } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodePickProductProvider } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodePickProductProviderCallback } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodePickProductProviderCallbackItem } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodePickAsyncMapperProductProvider } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodePickAsyncMapperProductProviderCallback } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodePickScanningListener } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodePickScanningSession } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodePickViewEvents } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodePickViewListener } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodePickViewUiListener } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodePickViewSettings } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodePickViewHighlightStyle } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodePickStatusIconSettings } from "scandit-datacapture-frameworks-barcode";
-declare export { Dot } from "scandit-datacapture-frameworks-barcode";
-declare export { DotWithIcons } from "scandit-datacapture-frameworks-barcode";
-declare export { Rectangular } from "scandit-datacapture-frameworks-barcode";
-declare export { RectangularWithIcons } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodePickStatusIconStyle } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodePickViewHighlightStyleRequest } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodePickViewHighlightStyleResponse } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodePickViewHighlightStyleResponseBuilder } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodePickViewHighlightStyleAsyncProvider } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodePickViewHighlightStyleCustomViewProvider } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodePickViewHighlightStyleCustomViewResponse } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodePickViewHighlightStyleCustomView } from "scandit-datacapture-frameworks-barcode";
-declare export * from "./BarcodePickView";
-declare export { BarcodeFind } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeFindFeedback } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeFindItem } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeFindItemContent } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeFindItemSearchOptions } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeFindListener } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeFindSession } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeFindSettings } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeFindViewSettings } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeFindViewUiListener } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeFindTransformer } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeFindViewProps } from "scandit-datacapture-frameworks-barcode";
-declare export * from "./BarcodeFindView";
-declare export { ScanComponentDefinition } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeIdentifier } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeDefinition } from "scandit-datacapture-frameworks-barcode";
-declare export { ScanComponentBarcodePreset } from "scandit-datacapture-frameworks-barcode";
-declare export { BarcodeDefinitionBuilder } from "scandit-datacapture-frameworks-barcode";
-declare export { TextIdentifier } from "scandit-datacapture-frameworks-barcode";
-declare export { ScanItemIdentifier } from "scandit-datacapture-frameworks-barcode";
-declare export { ScannedItemIdentifier } from "scandit-datacapture-frameworks-barcode";
-declare export { ScannedComponentIdentifier } from "scandit-datacapture-frameworks-barcode";
-declare export { ScanItemDefinition } from "scandit-datacapture-frameworks-barcode";
-declare export { ScannedComponent } from "scandit-datacapture-frameworks-barcode";
-declare export { ScannedBarcode } from "scandit-datacapture-frameworks-barcode";
-declare export { ScannedText } from "scandit-datacapture-frameworks-barcode";
-declare export { ScannedItem } from "scandit-datacapture-frameworks-barcode";
-declare export { ScanComponentTextSemanticType } from "scandit-datacapture-frameworks-barcode";
-declare export { TextDefinition } from "scandit-datacapture-frameworks-barcode";
-declare export { TextDefinitionBuilder } from "scandit-datacapture-frameworks-barcode";
-declare export {
+  BarcodeCountStatusResultError,
+  BarcodeCountStatusResultSuccess,
+  BarcodeCountToolbarSettings,
+  BarcodeCountViewListener,
+  BarcodeCountViewUiListener,
+  BarcodeDataTransformer,
+  BarcodeDefinition,
+  BarcodeDefinitionBuilder,
+  BarcodeFilterHighlightSettings,
+  BarcodeFilterHighlightSettingsBrush,
+  BarcodeFilterHighlightType,
+  BarcodeFilterSettings,
+  BarcodeFind,
+  BarcodeFindFeedback,
+  BarcodeFindItem,
+  BarcodeFindItemContent,
+  BarcodeFindItemSearchOptions,
+  BarcodeFindListener,
+  BarcodeFindSession,
+  BarcodeFindSettings,
+  BarcodeFindTransformer,
+  BarcodeFindViewProps,
+  BarcodeFindViewSettings,
+  BarcodeFindViewUiListener,
   BarcodeGenerator,
   BarcodeGeneratorBuilder,
-  Code39BarcodeGeneratorBuilder,
+  BarcodeIdentifier,
+  BarcodeInfo,
+  BarcodePick,
+  BarcodePickAction,
+  BarcodePickActionCallback,
+  BarcodePickActionListener,
+  BarcodePickAsyncMapperProductProvider,
+  BarcodePickAsyncMapperProductProviderCallback,
+  BarcodePickListener,
+  BarcodePickProduct,
+  BarcodePickProductProvider,
+  BarcodePickProductProviderCallback,
+  BarcodePickProductProviderCallbackItem,
+  BarcodePickScanningListener,
+  BarcodePickScanningSession,
+  BarcodePickSession,
+  BarcodePickSettings,
+  BarcodePickState,
+  BarcodePickStatusIconSettings,
+  BarcodePickStatusIconStyle,
+  BarcodePickViewEvents,
+  BarcodePickViewHighlightStyle,
+  BarcodePickViewHighlightStyleAsyncProvider,
+  BarcodePickViewHighlightStyleCustomView,
+  BarcodePickViewHighlightStyleCustomViewProvider,
+  BarcodePickViewHighlightStyleCustomViewResponse,
+  BarcodePickViewHighlightStyleRequest,
+  BarcodePickViewHighlightStyleResponse,
+  BarcodePickViewHighlightStyleResponseBuilder,
+  BarcodePickViewListener,
+  BarcodePickViewSettings,
+  BarcodePickViewUiListener,
+  BarcodeSelection,
+  BarcodeSelectionAimerBehavior,
+  BarcodeSelectionAimerSelection,
+  BarcodeSelectionAutoSelectionStrategy,
+  BarcodeSelectionBasicOverlay,
+  BarcodeSelectionBasicOverlayStyle,
+  BarcodeSelectionBrushProvider,
+  BarcodeSelectionFeedback,
+  BarcodeSelectionFreezeBehavior,
+  BarcodeSelectionLicenseInfo,
+  BarcodeSelectionListener,
+  BarcodeSelectionManualSelectionStrategy,
+  BarcodeSelectionSession,
+  BarcodeSelectionSettings,
+  BarcodeSelectionStrategy,
+  BarcodeSelectionTapBehavior,
+  BarcodeSelectionTapSelection,
+  BarcodeSelectionType,
+  BarcodeSpatialGrid,
+  BatterySavingMode,
+  CapturePreset,
+  Checksum,
+  Cluster,
   Code128BarcodeGeneratorBuilder,
-  Ean13BarcodeGeneratorBuilder,
-} from "scandit-datacapture-frameworks-barcode";
-declare export {
-  UpcaBarcodeGeneratorBuilder,
-  InterleavedTwoOfFiveBarcodeGeneratorBuilder,
-  QrCodeBarcodeGeneratorBuilder,
+  Code39BarcodeGeneratorBuilder,
+  CompositeFlag,
+  CompositeType,
+  CompositeTypeDescription,
   DataMatrixBarcodeGeneratorBuilder,
-  QrCodeErrorCorrectionLevel,
-  AztecBarcodeGeneratorBuilder,
-} from "scandit-datacapture-frameworks-barcode";
-declare export {
+  Dot,
+  DotWithIcons,
+  Ean13BarcodeGeneratorBuilder,
+  Ean13UpcaClassification,
+  EncodingRange,
+  InterleavedTwoOfFiveBarcodeGeneratorBuilder,
+  LocalizedOnlyBarcode,
   Pdf417BarcodeGeneratorBuilder,
   Pdf417CompactionMode,
   Pdf417Dimensions,
-} from "scandit-datacapture-frameworks-barcode";
+  QrCodeBarcodeGeneratorBuilder,
+  QrCodeErrorCorrectionLevel,
+  Range,
+  Rectangular,
+  RectangularWithIcons,
+  ScanComponentBarcodePreset,
+  ScanComponentDefinition,
+  ScanComponentTextSemanticType,
+  ScanItemDefinition,
+  ScanItemIdentifier,
+  ScannedBarcode,
+  ScannedComponent,
+  ScannedComponentIdentifier,
+  ScannedItem,
+  ScannedItemIdentifier,
+  ScannedText,
+  SparkScan,
+  SparkScanBarcodeErrorFeedback,
+  SparkScanBarcodeFeedback,
+  SparkScanBarcodeSuccessFeedback,
+  SparkScanFeedbackDelegate,
+  SparkScanLicenseInfo,
+  SparkScanListener,
+  SparkScanMiniPreviewSize,
+  SparkScanPreviewBehavior,
+  SparkScanScanningBehavior,
+  SparkScanScanningMode,
+  SparkScanScanningModeDefault,
+  SparkScanScanningModeTarget,
+  SparkScanSession,
+  SparkScanSettings,
+  SparkScanToastSettings,
+  SparkScanViewSettings,
+  SparkScanViewState,
+  StructuredAppendData,
+  Symbology,
+  SymbologyDescription,
+  SymbologySettings,
+  TargetBarcode,
+  TextDefinition,
+  TextDefinitionBuilder,
+  TextIdentifier,
+  TrackedBarcode,
+  TrackedObject,
+  UpcaBarcodeGeneratorBuilder,
+} from "./barcode";
+import React from "react";
+import { Element } from "react";
+import type { Node } from "react";
+import {
+  StyleProp,
+  ViewStyle,
+  ViewProps,
+  LayoutChangeEvent,
+} from "react-native";
+import {
+  Brush,
+  Anchor,
+  PointWithUnit,
+  Viewfinder,
+  TorchSwitchControl,
+  ZoomSwitchControl,
+  Point,
+  Quadrilateral,
+  Control,
+  DataCaptureContext as DataCaptureContext$1,
+  CameraSettings as CameraSettings$1,
+  FrameSourceState as FrameSourceState$1,
+  CameraPosition,
+  TorchState,
+  FrameData as FrameData$1,
+} from "scandit-react-native-datacapture-core";
+import type { ScanditNavigationProp } from "scandit-react-native-datacapture-core";
 declare export {
-  useIsForeground,
-  useCameraPermission,
   ScanditProvider,
+  useCameraPermission,
+  useIsForeground,
 } from "scandit-react-native-datacapture-core";
 export type { ScanditProviderProps } from "scandit-react-native-datacapture-core";
-import * as _internal from "./private/internal";
-declare export { _internal };
+import {
+  FrameData,
+  DataCaptureOverlay,
+  Anchor as Anchor$1,
+  PointWithUnit as PointWithUnit$1,
+  LocationSelection,
+  ScanIntention,
+  Observable,
+  DataCaptureContext,
+  CameraSettings,
+  LogoStyle,
+  ZoomSwitchOrientation,
+  Brush as Brush$1,
+  Color,
+  FrameSourceState,
+} from "scandit-react-native-datacapture-core/dist/core";
+import { NavigationProp, ParamListBase } from "@react-navigation/native";
+
+/**
+ * [object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]
+ * @since 8.7.0
+ */
+declare interface BarcodeBatchAioBasicOverlayProps {
+  /**
+   * Whether to attach the basic overlay at all. Defaults to *true*; pass *false* to render the camera preview without it.
+   * @since 8.7.0
+   */
+  enabled?: boolean;
+
+  /**
+   * The overlay style. Defaults to `Frame`.
+   * @since 8.7.0
+   */
+  style?: $Values<typeof BarcodeBatchBasicOverlayStyle> | null;
+
+  /**
+   * [object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  defaultBrush?: Brush | null;
+
+  /**
+   * [object Object],[object Object],[object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  shouldShowScanAreaGuides?: boolean;
+
+  /**
+   * [object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  brushForTrackedBarcode?: (trackedBarcode: TrackedBarcode) => Brush | null;
+
+  /**
+   * Called when the user taps a tracked barcode. Called from the main thread.
+   * @since 8.7.0
+   */
+  didTapTrackedBarcode?: (trackedBarcode: TrackedBarcode) => void;
+}
+/**
+ * [object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]
+ * @since 8.7.0
+ */
+declare interface BarcodeBatchAioAdvancedOverlayProps {
+  /**
+   * Whether to attach the advanced overlay. Defaults to *true* when the prop is supplied.
+   * @since 8.7.0
+   */
+  enabled?: boolean;
+
+  /**
+   * Whether the overlay renders scan-area guides. Defaults to *false*. Useful during development to visualize the active scan area; not intended for production.
+   * @since 8.7.0
+   */
+  shouldShowScanAreaGuides?: boolean;
+
+  /**
+   * [object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  viewForTrackedBarcode?: (
+    trackedBarcode: TrackedBarcode
+  ) =>
+    | BarcodeBatchAdvancedOverlayView$1
+    | null
+    | Promise<BarcodeBatchAdvancedOverlayView$1 | null>;
+
+  /**
+   * Called when the user taps the view drawn for a tracked barcode.
+   * @since 8.7.0
+   */
+  didTapViewForTrackedBarcode?: (trackedBarcode: TrackedBarcode) => void;
+
+  /**
+   * [object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  anchorForTrackedBarcode?: (trackedBarcode: TrackedBarcode) => Anchor;
+
+  /**
+   * [object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  offsetForTrackedBarcode?: (trackedBarcode: TrackedBarcode) => PointWithUnit;
+}
+/**
+ * [object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]
+ * @since 8.7.0
+ */
+declare interface BarcodeBatchAioViewProps {
+  /**
+   * [object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  style?: StyleProp<ViewStyle>;
+
+  /**
+   * [object Object],[object Object],[object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  navigation?: ScanditNavigationProp;
+
+  /**
+   * [object Object],[object Object],[object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  disabled?: boolean;
+
+  /**
+   * Turns off the automatic enabling and disabling of the mode in response to the application moving between foreground and background.
+   * @since 8.7.0
+   */
+  appStateHandlingDisabled?: boolean;
+
+  /**
+   * [object Object],[object Object],[object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  symbologies?: $Values<typeof Symbology>[];
+
+  /**
+   * [object Object],[object Object],[object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  barcodeBatchSettings?: BarcodeBatchSettings | null;
+
+  /**
+   * [object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  didScan?: (
+    barcodes: TrackedBarcode[],
+    session: BarcodeBatchSession,
+    getFrameData: () => Promise<FrameData>
+  ) => void | Promise<void>;
+
+  /**
+   * [object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  didUpdateSession?: (
+    session: BarcodeBatchSession,
+    getFrameData: () => Promise<FrameData>
+  ) => void | Promise<void>;
+
+  /**
+   * [object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  basicOverlay?: BarcodeBatchAioBasicOverlayProps;
+
+  /**
+   * [object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  advancedOverlay?: BarcodeBatchAioAdvancedOverlayProps;
+}
+declare type BarcodeBatchAioViewSettingsSource =
+  | {
+      symbologies: $Values<typeof Symbology>[],
+      ...
+    }
+  | {
+      barcodeBatchSettings: BarcodeBatchSettings,
+      ...
+    };
+declare type BarcodeBatchAioViewComponentProps = {
+  ...BarcodeBatchAioViewProps,
+  ...BarcodeBatchAioViewSettingsSource,
+};
+/**
+ * [object Object],[object Object],[object Object]
+ * @since 8.7.0
+ */
+declare interface BarcodeBatchAioBasicOverlayHandle {
+  /**
+   * [object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  setBrushForTrackedBarcode(
+    brush: Brush | null,
+    trackedBarcode: TrackedBarcode
+  ): Promise<void>;
+
+  /**
+   * [object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  clearTrackedBarcodeBrushes(): Promise<void>;
+}
+/**
+ * [object Object],[object Object],[object Object]
+ * @since 8.7.0
+ */
+declare interface BarcodeBatchAioAdvancedOverlayHandle {
+  /**
+   * [object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  setViewForTrackedBarcode(
+    view:
+      | BarcodeBatchAdvancedOverlayView$1
+      | Promise<BarcodeBatchAdvancedOverlayView$1>,
+    trackedBarcode: TrackedBarcode
+  ): Promise<void>;
+
+  /**
+   * [object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  setAnchorForTrackedBarcode(
+    anchor: Anchor,
+    trackedBarcode: TrackedBarcode
+  ): Promise<void>;
+
+  /**
+   * [object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  setOffsetForTrackedBarcode(
+    offset: PointWithUnit,
+    trackedBarcode: TrackedBarcode
+  ): Promise<void>;
+
+  /**
+   * Removes every view currently drawn by the advanced overlay. Thread-safe.
+   * @since 8.7.0
+   */
+  clearTrackedBarcodeViews(): Promise<void>;
+
+  /**
+   * Changes the width and height of the view drawn for a tracked barcode.
+   * @since 8.7.0
+   */
+  updateSizeOfTrackedBarcodeView(
+    trackedBarcodeIdentifier: number,
+    width: number,
+    height: number
+  ): Promise<void>;
+}
+/**
+ * [object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]
+ * @since 8.7.0
+ */
+declare interface BarcodeBatchAioViewHandle {
+  /**
+   * Resets the mode’s tracking session, clearing every currently tracked barcode.
+   * @since 8.7.0
+   */
+  reset(): Promise<void>;
+
+  /**
+   * Operations on the basic overlay. Omitted when the basic overlay is disabled.
+   * @since 8.7.0
+   */
+  basicOverlay?: BarcodeBatchAioBasicOverlayHandle;
+
+  /**
+   * Operations on the advanced overlay. Omitted when the advanced overlay is not supplied or is disabled.
+   * @since 8.7.0
+   */
+  advancedOverlay?: BarcodeBatchAioAdvancedOverlayHandle;
+
+  /**
+   * Turns scanning on now: enables the mode and turns the camera on. Automatic navigation and application-state handling may subsequently turn it off again.
+   * @since 8.7.0
+   */
+  enable(): Promise<void>;
+
+  /**
+   * Turns scanning off now: disables the mode and turns the camera off.
+   * @since 8.7.0
+   */
+  disable(): Promise<void>;
+}
+/**
+ * [object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]
+ * @since 8.7.0
+ */
+declare var BarcodeBatchAioView: React.ForwardRefExoticComponent<{
+  ...BarcodeBatchAioViewComponentProps,
+  ...React.RefAttributes<BarcodeBatchAioViewHandle>,
+}>;
+/**
+ * [object Object],[object Object],[object Object],[object Object],[object Object]
+ * @since 7.0.0
+ */
+declare class BarcodeBatchAdvancedOverlayView mixins React.Component {
+  /**
+   * @since 7.0.0
+   */
+  static moduleName: string;
+  moduleName: string;
+}
+/**
+ * [object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]
+ * @since 7.0.0
+ */
+declare class BarcodeBatchAdvancedOverlay mixins DataCaptureOverlay {
+  /**
+   * @since 7.0.0
+   */
+  listener: BarcodeBatchAdvancedOverlayListener$1 | null;
+  -listener: any;
+  type: any;
+
+  /**
+   * Whether to show scan area guides on top of the preview. This property is useful during development to visualize the current scan areas on screen. It is not meant to be used for production. By default this property is *false*.
+   * @since 7.0.0
+   */
+  shouldShowScanAreaGuides: boolean;
+  -shouldShowScanAreaGuides: any;
+  -view: any;
+  view: any;
+
+  /**
+   * [object Object],[object Object],[object Object]
+   * @since 7.6.0
+   */
+  constructor(mode: BarcodeBatch): this;
+
+  /**
+   * [object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]
+   * @since 7.0.0
+   */
+  setViewForTrackedBarcode(
+    view: BarcodeBatchAdvancedOverlayView$1,
+    trackedBarcode: TrackedBarcode
+  ): Promise<void>;
+
+  /**
+   * [object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]
+   * @since 7.0.0
+   */
+  setAnchorForTrackedBarcode(
+    anchor: $Values<typeof Anchor$1>,
+    trackedBarcode: TrackedBarcode
+  ): Promise<void>;
+
+  /**
+   * [object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]
+   * @since 7.0.0
+   */
+  setOffsetForTrackedBarcode(
+    offset: PointWithUnit$1,
+    trackedBarcode: TrackedBarcode
+  ): Promise<void>;
+
+  /**
+   * Clears all the views for the currently tracked barcodes from this overlay. This method is thread-safe, it can be called from any thread.
+   * @since 7.0.0
+   */
+  clearTrackedBarcodeViews(): Promise<void>;
+
+  /**
+   * The method can be called to change the width and height of the existing tracked barcode view.
+   * @since 7.4.0
+   */
+  updateSizeOfTrackedBarcodeView(
+    trackedBarcodeIdentifier: number,
+    width: number,
+    height: number
+  ): Promise<void>;
+  toJSON(): { [key: string]: any };
+}
+/**
+ * @since 7.0.0
+ */
+declare interface BarcodeBatchAdvancedOverlayListener {
+  /**
+   * Callback method that can be used to define an action that should be performed when a view for a tracked barcode is tapped.
+   * @since 7.0.0
+   */
+  didTapViewForTrackedBarcode?: (
+    overlay: BarcodeBatchAdvancedOverlay,
+    trackedBarcode: TrackedBarcode
+  ) => void;
+
+  /**
+   * [object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]
+   * @since 7.0.0
+   */
+  viewForTrackedBarcode?: (
+    overlay: BarcodeBatchAdvancedOverlay,
+    trackedBarcode: TrackedBarcode
+  ) => BarcodeBatchAdvancedOverlayView | null;
+
+  /**
+   * [object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]
+   * @since 7.0.0
+   */
+  anchorForTrackedBarcode?: (
+    overlay: BarcodeBatchAdvancedOverlay,
+    trackedBarcode: TrackedBarcode
+  ) => $Values<typeof Anchor$1>;
+
+  /**
+   * [object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]
+   * @since 7.0.0
+   */
+  offsetForTrackedBarcode?: (
+    overlay: BarcodeBatchAdvancedOverlay,
+    trackedBarcode: TrackedBarcode
+  ) => PointWithUnit$1;
+}
+/**
+ * [object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]
+ * @since 8.7.0
+ */
+declare interface BarcodeCaptureAioBasicOverlayProps {
+  /**
+   * Whether to attach the basic overlay at all. Defaults to *true*; pass *false* to render the camera preview without it.
+   * @since 8.7.0
+   */
+  enabled?: boolean;
+
+  /**
+   * Default brush applied to every recognized barcode. To turn off drawing of locations, use a brush with both a transparent fill and a transparent stroke color. Defaults to a brush with a transparent fill color, a “Scandit”-blue stroke color and a stroke width of 1.
+   * @since 8.7.0
+   */
+  defaultBrush?: Brush | null;
+
+  /**
+   * The viewfinder drawn by the basic overlay. Defaults to *null*, in which case no viewfinder is drawn.
+   * @since 8.7.0
+   */
+  viewfinder?: Viewfinder | null;
+
+  /**
+   * Whether the overlay renders scan-area guides. Defaults to *false*.
+   * @since 8.7.0
+   */
+  shouldShowScanAreaGuides?: boolean;
+}
+/**
+ * [object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]
+ * @since 8.7.0
+ */
+declare interface BarcodeCaptureAioViewProps {
+  /**
+   * [object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  style?: StyleProp<ViewStyle>;
+
+  /**
+   * [object Object],[object Object],[object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  didScan?: (
+    barcodes: Barcode[],
+    session: BarcodeCaptureSession,
+    getFrameData: () => Promise<FrameData>
+  ) => void | Promise<void>;
+
+  /**
+   * [object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  didUpdateSession?: (
+    session: BarcodeCaptureSession,
+    getFrameData: () => Promise<FrameData>
+  ) => void | Promise<void>;
+
+  /**
+   * [object Object],[object Object],[object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  symbologies?: $Values<typeof Symbology>[];
+
+  /**
+   * [object Object],[object Object],[object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  locationSelection?: LocationSelection | null;
+
+  /**
+   * [object Object],[object Object],[object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  compositeTypes?: $Values<typeof CompositeType>[];
+
+  /**
+   * [object Object],[object Object],[object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  batterySaving?: $Values<typeof BatterySavingMode$1>;
+
+  /**
+   * [object Object],[object Object],[object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  scanIntention?: $Values<typeof ScanIntention$1>;
+
+  /**
+   * [object Object],[object Object],[object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  codeDuplicateFilter?: number;
+
+  /**
+   * [object Object],[object Object],[object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  arucoDictionary?: ArucoDictionary;
+
+  /**
+   * [object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  barcodeCaptureSettings?: BarcodeCaptureSettings | null;
+
+  /**
+   * [object Object],[object Object],[object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  navigation?: ScanditNavigationProp;
+
+  /**
+   * [object Object],[object Object],[object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  disabled?: boolean;
+
+  /**
+   * Turns off the automatic enabling and disabling of the mode in response to the application moving between foreground and background.
+   * @since 8.7.0
+   */
+  appStateHandlingDisabled?: boolean;
+
+  /**
+   * [object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  basicOverlay?: BarcodeCaptureAioBasicOverlayProps;
+
+  /**
+   * A torch toggle rendered on the view.
+   * @since 8.7.0
+   */
+  torchSwitchControl?: TorchSwitchControl | null;
+
+  /**
+   * A zoom toggle rendered on the view.
+   * @since 8.7.0
+   */
+  zoomSwitchControl?: ZoomSwitchControl | null;
+
+  /**
+   * [object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  feedback?: BarcodeCaptureFeedback;
+}
+declare type BarcodeCaptureAioViewSettingsSource =
+  | {
+      symbologies: $Values<typeof Symbology>[],
+      ...
+    }
+  | {
+      barcodeCaptureSettings: BarcodeCaptureSettings,
+      ...
+    };
+declare type BarcodeCaptureAioViewComponentProps = {
+  ...BarcodeCaptureAioViewProps,
+  ...BarcodeCaptureAioViewSettingsSource,
+};
+/**
+ * [object Object],[object Object],[object Object]
+ * @since 8.7.0
+ */
+declare interface BarcodeCaptureAioViewHandle {
+  /**
+   * [object Object],[object Object],[object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  reset(): Promise<void>;
+
+  /**
+   * Converts a point in the coordinate system of the last visible frame to a coordinate in the view. Thread-safe.
+   * @since 8.7.0
+   */
+  viewPointForFramePoint(point: Point): Promise<Point>;
+
+  /**
+   * Converts a quadrilateral in the coordinate system of the last visible frame to coordinates in the view.
+   * @since 8.7.0
+   */
+  viewQuadrilateralForFrameQuadrilateral(
+    quadrilateral: Quadrilateral
+  ): Promise<Quadrilateral>;
+
+  /**
+   * [object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  addControl(control: Control): Promise<void>;
+
+  /**
+   * [object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  removeControl(control: Control): void;
+
+  /**
+   * [object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  addAdaptiveRecognitionServiceListener(
+    listener: AdaptiveRecognitionServiceListener
+  ): void;
+
+  /**
+   * [object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  removeAdaptiveRecognitionServiceListener(
+    listener: AdaptiveRecognitionServiceListener
+  ): void;
+
+  /**
+   * Turns scanning on now: enables the mode and turns the camera on. Automatic navigation and application-state handling may subsequently turn it off again.
+   * @since 8.7.0
+   */
+  enable(): Promise<void>;
+
+  /**
+   * Turns scanning off now: disables the mode and turns the camera off.
+   * @since 8.7.0
+   */
+  disable(): Promise<void>;
+}
+/**
+ * [object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]
+ * @since 8.7.0
+ */
+declare var BarcodeCaptureAioView: React.ForwardRefExoticComponent<{
+  ...BarcodeCaptureAioViewComponentProps,
+  ...React.RefAttributes<BarcodeCaptureAioViewHandle>,
+}>;
+/**
+ * Configuration object for BarcodeArCustomHighlight.
+ * @since 8.0.0
+ */
+declare interface BarcodeArCustomHighlightConfig {
+  /**
+   * Method that returns a React component to be used as a custom highlight.
+   * @since 8.0.0
+   */
+  renderHighlight: () => Element;
+}
+/**
+ * A custom highlight that can be used to attach your own component to a scanned barcode.
+ * @since 8.0.0
+ */
+declare class BarcodeArCustomHighlight mixins Observable, BarcodeArHighlight {
+  /**
+   * @since 8.0.0
+   */
+  renderHighlight: () => Element;
+
+  /**
+   * Creates a new instance with the provided configuration.
+   * @since 8.0.0
+   */
+  constructor(config: BarcodeArCustomHighlightConfig): this;
+}
+/**
+ * Configuration object for BarcodeArCustomAnnotation.
+ * @since 8.1.0
+ */
+declare interface BarcodeArCustomAnnotationConfig {
+  /**
+   * Method that returns a React component to be used as a custom annotation.
+   * @since 8.1.0
+   */
+  renderAnnotation: () => Element;
+
+  /**
+   * [object Object],[object Object],[object Object]
+   * @since 8.1.0
+   */
+  annotationTrigger?: $Values<typeof BarcodeArAnnotationTrigger>;
+
+  /**
+   * [object Object],[object Object]
+   * @since 8.1.0
+   */
+  anchor?: $Values<typeof Anchor$1>;
+}
+/**
+ * A custom annotation that can be used to attach your own component to a scanned barcode.
+ * @since 8.1.0
+ */
+declare class BarcodeArCustomAnnotation mixins Observable, BarcodeArAnnotation {
+  annotationTrigger: $Values<typeof BarcodeArAnnotationTrigger>;
+  anchor: $Values<typeof Anchor$1>;
+
+  /**
+   * Method that returns a React component to be used as a custom annotation.
+   * @since 8.1.0
+   */
+  renderAnnotation: () => Element;
+
+  /**
+   * Creates a new instance with the provided configuration.
+   * @since 8.1.0
+   */
+  constructor(config: BarcodeArCustomAnnotationConfig): this;
+}
+declare type ShownCustomAnnotation = {
+  barcode: Barcode,
+  barcodeId: string,
+  threshold?: number,
+  ...
+};
+declare type BarcodeArViewProps = {
+  context: DataCaptureContext,
+  barcodeAr: BarcodeAr,
+  settings?: BarcodeArViewSettings,
+  cameraSettings?: CameraSettings,
+  annotationProvider?: BarcodeArAnnotationProvider,
+  highlightProvider?: BarcodeArHighlightProvider,
+  uiListener?: BarcodeArViewUiListener,
+  style?: StyleProp<ViewStyle>,
+  navigation?: NavigationProp<ParamListBase>,
+  ...
+} & ViewProps;
+
+/**
+ * Barcode AR comes with a ready-to-use UI that allows highlighting barcodes and displaying additional information over them. The BarcodeArView integrates with any app in just a few lines of code.
+ * @since 7.1.0
+ */
+declare class BarcodeArView mixins React.Component<BarcodeArViewProps> {
+  state: {
+    shownHighlights: { [key: string]: Barcode, ... },
+    shownAnnotations: { [key: string]: ShownCustomAnnotation, ... },
+    ...
+  };
+
+  /**
+   * Creates a new BarcodeArView with the provided mode, viewSettings and cameraSettings.
+   * @since 7.1.0
+   */
+  static forMode(
+    dataCaptureContext: DataCaptureContext,
+    barcodeAr: BarcodeAr
+  ): BarcodeArView;
+
+  /**
+   * [object Object],[object Object],[object Object]
+   * @since 7.1.0
+   */
+  static forModeWithViewSettings(
+    dataCaptureContext: DataCaptureContext,
+    barcodeAr: BarcodeAr,
+    viewSettings: BarcodeArViewSettings
+  ): BarcodeArView;
+
+  /**
+   * Creates a new BarcodeArView with the provided mode, viewSettings and cameraSettings.
+   * @since 7.1.0
+   */
+  static forModeWithViewSettingsAndCameraSettings(
+    dataCaptureContext: DataCaptureContext,
+    barcodeAr: BarcodeAr,
+    viewSettings: BarcodeArViewSettings,
+    cameraSettings: CameraSettings
+  ): BarcodeArView;
+  constructor(props: BarcodeArViewProps): this;
+  componentDidMount(): void;
+  componentWillUnmount(): void;
+
+  /**
+   * Sets the listener which is called whenever a barcode highlight is tapped in the view.
+   * @since 7.1.0
+   */
+  uiListener: BarcodeArViewUiListener | null;
+  -uiListener: any;
+
+  /**
+   * Sets the provider which supplies annotation information for barcodes in the view. If *null*, no annotation will be displayed for any barcode.
+   * @since 7.1.0
+   */
+  annotationProvider: BarcodeArAnnotationProvider | null;
+  -annotationProvider: any;
+
+  /**
+   * Sets the provider which supplies highlight information for barcodes in the view. If *null*, a default provider is used, which returns a predefined highlight for each barcode.
+   * @since 7.1.0
+   */
+  highlightProvider: BarcodeArHighlightProvider | null;
+  -highlightProvider: any;
+
+  /**
+   * Starts the scanning process.
+   * @since 7.1.0
+   */
+  start(): Promise<void>;
+
+  /**
+   * Stops the scanning process.
+   *
+   * On Android the highlights and annotations that are already shown are kept, and they are still there when scanning starts again. On iOS they are removed, and they are supplied again by the providers after the next start. Resetting or disposing the view removes them.
+   * @since 7.1.0
+   */
+  stop(): Promise<void>;
+
+  /**
+   * Pauses the scanning process.
+   *
+   * The highlights and annotations that are already shown are kept, so they stay tappable while the view is paused and when scanning starts again. Resetting or disposing the view removes them.
+   * @since 7.1.0
+   */
+  pause(): Promise<void>;
+
+  /**
+   * [object Object],[object Object],[object Object],[object Object],[object Object]
+   * @since 7.2.0
+   */
+  reset(): Promise<void>;
+
+  /**
+   * Indicates whether the torch control button should be shown to the user.
+   *
+   * Default is *false*.
+   * @since 7.1.0
+   */
+  shouldShowTorchControl: boolean;
+  -shouldShowTorchControl: any;
+
+  /**
+   * [object Object],[object Object],[object Object]
+   * @since 7.1.0
+   */
+  torchControlPosition: $Values<typeof Anchor$1>;
+  -torchControlPosition: any;
+
+  /**
+   * Indicates whether the zoom control button should be shown to the user.
+   * @since 7.1.0
+   */
+  shouldShowZoomControl: boolean;
+  -shouldShowZoomControl: any;
+
+  /**
+   * [object Object],[object Object],[object Object]
+   * @since 7.1.0
+   */
+  zoomControlPosition: $Values<typeof Anchor$1>;
+  -zoomControlPosition: any;
+
+  /**
+   * Indicates whether the camera switch control button should be shown to the user.
+   * @since 7.1.0
+   */
+  shouldShowCameraSwitchControl: boolean;
+  -shouldShowCameraSwitchControl: any;
+
+  /**
+   * [object Object],[object Object],[object Object]
+   * @since 7.1.0
+   */
+  cameraSwitchControlPosition: $Values<typeof Anchor$1>;
+  -cameraSwitchControlPosition: any;
+
+  /**
+   * Indicates whether the macro mode control button should be shown to the user.
+   * @since 7.1.0
+   */
+  shouldShowMacroModeControl: boolean;
+  -shouldShowMacroModeControl: any;
+
+  /**
+   * [object Object],[object Object],[object Object]
+   * @since 7.1.0
+   */
+  macroModeControlPosition: $Values<typeof Anchor$1>;
+  -macroModeControlPosition: any;
+
+  /**
+   * Sets the visual offset of the torch control button.
+   *
+   * Assign null to reset the offset to its default position.
+   * @since 8.6.0
+   */
+  torchControlOffset: PointWithUnit$1 | null;
+  -torchControlOffset: any;
+
+  /**
+   * Sets the visual offset of the zoom control button.
+   *
+   * Assign null to reset the offset to its default position.
+   * @since 8.6.0
+   */
+  zoomControlOffset: PointWithUnit$1 | null;
+  -zoomControlOffset: any;
+
+  /**
+   * Sets the visual offset of the camera switch control button.
+   *
+   * Assign null to reset the offset to its default position.
+   * @since 8.6.0
+   */
+  cameraSwitchControlOffset: PointWithUnit$1 | null;
+  -cameraSwitchControlOffset: any;
+
+  /**
+   * Sets the visual offset of the macro mode control button.
+   *
+   * Assign null to reset the offset to its default position.
+   * @since 8.6.0
+   */
+  macroModeControlOffset: PointWithUnit$1 | null;
+  -macroModeControlOffset: any;
+
+  /**
+   * [object Object],[object Object],[object Object]
+   * @since 8.6.0
+   */
+  logoStyle: $Values<typeof LogoStyle$1>;
+  -logoStyle: any;
+
+  /**
+   * [object Object],[object Object],[object Object]
+   * @since 8.6.0
+   */
+  zoomControlOrientation: $Values<typeof ZoomSwitchOrientation>;
+  -zoomControlOrientation: any;
+
+  /**
+   * [object Object],[object Object],[object Object],[object Object],[object Object]
+   * @since 8.6.0
+   */
+  logoAnchor: $Values<typeof Anchor$1>;
+  -logoAnchor: any;
+
+  /**
+   * [object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]
+   * @since 8.6.0
+   */
+  logoOffset: PointWithUnit$1;
+  -logoOffset: any;
+  render(): React.JSX.Element;
+}
+/**
+ * [object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]
+ * @since 8.7.0
+ */
+declare interface BarcodeArAioViewProps {
+  /**
+   * [object Object],[object Object],[object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  symbologies?: $Values<typeof Symbology>[];
+
+  /**
+   * [object Object],[object Object],[object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  settings?: BarcodeArSettings | null;
+
+  /**
+   * [object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  viewSettings?: BarcodeArViewSettings | null;
+
+  /**
+   * [object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  cameraSettings?: CameraSettings | null;
+
+  /**
+   * [object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  didScan?: (
+    barcodes: TrackedBarcode[],
+    session: BarcodeArSession,
+    getFrameData: () => Promise<FrameData>
+  ) => void | Promise<void>;
+
+  /**
+   * [object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  didUpdateSession?: (
+    session: BarcodeArSession,
+    getFrameData: () => Promise<FrameData>
+  ) => void | Promise<void>;
+
+  /**
+   * Provider that supplies highlight information for barcodes in the view. If *null*, a default provider is used, which returns a predefined highlight for each barcode.
+   * @since 8.7.0
+   */
+  highlightProvider?: BarcodeArHighlightProvider | null;
+
+  /**
+   * Provider that supplies annotation information for barcodes in the view. If *null*, no annotation is displayed for any barcode.
+   * @since 8.7.0
+   */
+  annotationProvider?: BarcodeArAnnotationProvider | null;
+
+  /**
+   * Listener called whenever a barcode highlight is tapped in the view.
+   * @since 8.7.0
+   */
+  uiListener?: BarcodeArViewUiListener | null;
+
+  /**
+   * [object Object],[object Object],[object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  barcodeFilter?: BarcodeArFilter | null;
+
+  /**
+   * [object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  feedback?: BarcodeArFeedback;
+
+  /**
+   * Whether the torch control button is shown. Defaults to *false*.
+   * @since 8.7.0
+   */
+  shouldShowTorchControl?: boolean;
+
+  /**
+   * [object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  torchControlPosition?: $Values<typeof Anchor$1>;
+
+  /**
+   * Whether the zoom control button is shown.
+   * @since 8.7.0
+   */
+  shouldShowZoomControl?: boolean;
+
+  /**
+   * [object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  zoomControlPosition?: $Values<typeof Anchor$1>;
+
+  /**
+   * Whether the camera switch control button is shown.
+   * @since 8.7.0
+   */
+  shouldShowCameraSwitchControl?: boolean;
+
+  /**
+   * [object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  cameraSwitchControlPosition?: $Values<typeof Anchor$1>;
+
+  /**
+   * Whether the macro mode control button is shown.
+   * @since 8.7.0
+   */
+  shouldShowMacroModeControl?: boolean;
+
+  /**
+   * [object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  macroModeControlPosition?: $Values<typeof Anchor$1>;
+
+  /**
+   * [object Object],[object Object],[object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  navigation?: ScanditNavigationProp;
+
+  /**
+   * [object Object],[object Object],[object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  disabled?: boolean;
+
+  /**
+   * Turns off the automatic enabling and disabling of the mode in response to the application moving between foreground and background.
+   * @since 8.7.0
+   */
+  appStateHandlingDisabled?: boolean;
+
+  /**
+   * Style applied to the view, defaulting to `{ flex: 1 }`. This is the only React Native `View` prop the component forwards; it renders its own native view and passes nothing else through.
+   * @since 8.7.0
+   */
+  style?: StyleProp<ViewStyle>;
+
+  /**
+   * Content rendered on top of the scanning UI.
+   * @since 8.7.0
+   */
+  children?: Node;
+}
+declare type BarcodeArAioViewSettingsSource =
+  | {
+      symbologies: $Values<typeof Symbology>[],
+      ...
+    }
+  | {
+      settings: BarcodeArSettings,
+      ...
+    };
+declare type BarcodeArAioViewComponentProps = {
+  ...BarcodeArAioViewProps,
+  ...BarcodeArAioViewSettingsSource,
+};
+/**
+ * [object Object],[object Object],[object Object]
+ * @since 8.7.0
+ */
+declare interface BarcodeArAioViewHandle {
+  /**
+   * Starts the scanning process.
+   * @since 8.7.0
+   */
+  start(): Promise<void>;
+
+  /**
+   * Stops the scanning process.
+   * @since 8.7.0
+   */
+  stop(): Promise<void>;
+
+  /**
+   * Pauses the scanning process.
+   * @since 8.7.0
+   */
+  pause(): Promise<void>;
+
+  /**
+   * Removes all current highlights and annotations.
+   * @since 8.7.0
+   */
+  reset(): Promise<void>;
+
+  /**
+   * Turns scanning on now: enables the mode and turns the camera on. Automatic navigation and application-state handling may subsequently turn it off again.
+   * @since 8.7.0
+   */
+  enable(): Promise<void>;
+
+  /**
+   * Turns scanning off now: disables the mode and turns the camera off.
+   * @since 8.7.0
+   */
+  disable(): Promise<void>;
+}
+/**
+ * [object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]
+ * @since 8.7.0
+ */
+declare var BarcodeArAioView: React.ForwardRefExoticComponent<{
+  ...BarcodeArAioViewComponentProps,
+  ...React.RefAttributes<BarcodeArAioViewHandle>,
+}>;
+/**
+ * @since 6.16.0
+ */
+declare interface SparkScanViewUiListener {
+  /**
+   * Callback method that can be used to define an action that should be performed when barcode count button is tapped from the toolbar. Called from the main thread.
+   * @since 6.16.0
+   * @deprecated [object Object],[object Object],[object Object]
+   */
+  onBarcodeCountButtonTappedIn?: (view: SparkScanView) => void;
+
+  /**
+   * Callback method that can be used to define an action that should be performed when barcode find button is tapped from the toolbar. Called from the main thread.
+   * @since 6.16.0
+   * @deprecated [object Object],[object Object],[object Object]
+   */
+  onBarcodeFindButtonTappedIn?: (view: SparkScanView) => void;
+
+  /**
+   * Callback method that can be used to define an action that should be performed when label capture button is tapped from the toolbar. Called from the main thread.
+   * @since 7.4.0
+   * @deprecated [object Object],[object Object],[object Object]
+   */
+  onLabelCaptureButtonTappedIn?: (view: SparkScanView) => void;
+
+  /**
+   * Callback method that can be used to define an action that should be performed when barcode count button is tapped from the toolbar. Called from the main thread.
+   * @since 8.3.0
+   */
+  didTapBarcodeCountButton?: (view: SparkScanView) => void;
+
+  /**
+   * Callback method that can be used to define an action that should be performed when barcode find button is tapped from the toolbar. Called from the main thread.
+   * @since 8.3.0
+   */
+  didTapBarcodeFindButton?: (view: SparkScanView) => void;
+
+  /**
+   * Callback method that can be used to define an action that should be performed when label capture button is tapped from the toolbar. Called from the main thread.
+   * @since 8.3.0
+   */
+  didTapLabelCaptureButton?: (view: SparkScanView) => void;
+
+  /**
+   * [object Object],[object Object],[object Object]
+   * @since 7.0.0
+   */
+  didChangeViewState?: (newState: $Values<typeof SparkScanViewState>) => void;
+
+  /**
+   * Callback method that will be called when the currently used SparkScanScanningMode changes. Called from the main thread.
+   * @since 8.3.0
+   */
+  didChangeScanningMode?: (newScanningMode: SparkScanScanningMode) => void;
+}
+declare type SparkScanViewProps = {
+  style: StyleProp<ViewStyle>,
+  children?: React.ReactNode,
+  navigation?: NavigationProp<ParamListBase>,
+  onLayout?: (event: LayoutChangeEvent) => void,
+  ...
+} & BaseSparkScanViewProps;
+
+/**
+ * [object Object],[object Object],[object Object]
+ * @since 6.16.0
+ */
+declare class SparkScanView mixins React.Component<SparkScanViewProps> {
+  /**
+   * Sets the listener which is called whenever a barcode find button or barcode count button is tapped from the toolbar.
+   * @since 6.16.0
+   */
+  uiListener: SparkScanViewUiListener | null;
+  -uiListener: any;
+
+  /**
+   * Returns the default brush used by the overlay.
+   * @since 6.16.0
+   */
+  static defaultBrush: Brush$1;
+  constructor(props: SparkScanViewProps): this;
+  render(): React.JSX.Element;
+
+  /**
+   * Indicates whether the mini preview size control should be shown to the user.
+   *
+   * Default is *true*.
+   * @since 6.23.0
+   */
+  previewSizeControlVisible: boolean;
+  -previewSizeControlVisible: any;
+
+  /**
+   * Indicates whether the scanning behavior button should be shown to the user.
+   *
+   * Default is *false*.
+   * @since 6.16.0
+   */
+  scanningBehaviorButtonVisible: boolean;
+  -scanningBehaviorButtonVisible: any;
+
+  /**
+   * Indicates whether the barcode count button should be shown to the user.
+   *
+   * Default is *false*.
+   * @since 6.16.0
+   */
+  barcodeCountButtonVisible: boolean;
+  -barcodeCountButtonVisible: any;
+
+  /**
+   * Indicates whether the barcode find button should be shown to the user.
+   *
+   * Default is *false*.
+   * @since 6.26.0
+   */
+  barcodeFindButtonVisible: boolean;
+  -barcodeFindButtonVisible: any;
+
+  /**
+   * Indicates whether the target mode button should be shown to the user.
+   *
+   * Default is *false*.
+   * @since 6.16.0
+   */
+  targetModeButtonVisible: boolean;
+  -targetModeButtonVisible: any;
+
+  /**
+   * [object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]
+   * @since 8.5.0
+   */
+  selectionModeButtonVisible: boolean;
+  -selectionModeButtonVisible: any;
+
+  /**
+   * Indicates whether the label capture button should be shown to the user.
+   *
+   * Default is *false*.
+   * @since 7.4.0
+   */
+  labelCaptureButtonVisible: boolean;
+  -labelCaptureButtonVisible: any;
+
+  /**
+   * Sets the toolbar background color.
+   *
+   * Default is *null*.
+   * @since 6.16.0
+   */
+  toolbarBackgroundColor: Color | null;
+  -toolbarBackgroundColor: any;
+
+  /**
+   * Sets the toolbar icon active color.
+   *
+   * Default is *null*.
+   * @since 6.16.0
+   */
+  toolbarIconActiveTintColor: Color | null;
+  -toolbarIconActiveTintColor: any;
+
+  /**
+   * Sets the toolbar icon inactive color.
+   *
+   * Default is *null*.
+   * @since 6.16.0
+   */
+  toolbarIconInactiveTintColor: Color | null;
+  -toolbarIconInactiveTintColor: any;
+
+  /**
+   * Indicates whether the camera switch button should be shown to the user.
+   *
+   * Default is *false*.
+   *
+   * This API is still in beta and may change in future versions of Scandit Data Capture SDK.
+   * @since 6.24.0
+   */
+  cameraSwitchButtonVisible: boolean;
+  -cameraSwitchButtonVisible: any;
+
+  /**
+   * [object Object],[object Object],[object Object],[object Object],[object Object]
+   * @since 7.0.0
+   */
+  torchControlVisible: boolean;
+  -torchControlVisible: any;
+
+  /**
+   * Indicates whether the zoom switch control should be shown to the user.
+   *
+   * Default is *true*.
+   * @since 8.4.0
+   */
+  zoomSwitchControlVisible: boolean;
+  -zoomSwitchControlVisible: any;
+
+  /**
+   * Indicates whether the mini preview close control should be shown to the user.
+   *
+   * Default is *true*.
+   * @since 7.0.0
+   */
+  previewCloseControlVisible: boolean;
+  -previewCloseControlVisible: any;
+
+  /**
+   * Sets the color of the pulsing animation around the trigger button, which is shown when the scanner is active.
+   * @since 7.0.0
+   */
+  triggerButtonAnimationColor: Color | null;
+  -triggerButtonAnimationColor: any;
+
+  /**
+   * Sets the background color of the trigger button when button is expanded.
+   * @since 7.0.0
+   */
+  triggerButtonExpandedColor: Color | null;
+  -triggerButtonExpandedColor: any;
+
+  /**
+   * Sets the background color of the trigger button when button is collapsed.
+   * @since 7.0.0
+   */
+  triggerButtonCollapsedColor: Color | null;
+  -triggerButtonCollapsedColor: any;
+
+  /**
+   * Sets the trigger button tint color.
+   * @since 7.0.0
+   */
+  triggerButtonTintColor: Color | null;
+  -triggerButtonTintColor: any;
+
+  /**
+   * Indicates whether the trigger button should be shown to the user.
+   *
+   * Default is *true*.
+   * @since 7.0.0
+   */
+  triggerButtonVisible: boolean;
+  -triggerButtonVisible: any;
+
+  /**
+   * The image displayed in the trigger button.
+   * @since 7.0.0
+   */
+  triggerButtonImage: string | null;
+  -triggerButtonImage: any;
+
+  /**
+   * Method to call for preparing the mode for scanning. For instance, it can be called when the component containing SparkScanView is presented (i.e., Component’s componentDidMount).
+   *
+   * This method must be called before using the SparkScanView for scanning.
+   * @since 6.16.1
+   */
+  prepareScanning(): Promise<void>;
+
+  /**
+   * Starts the scanning process. You can call this method if you want to trigger the scanning process without any user interaction.
+   * @since 6.16.0
+   */
+  startScanning(): Promise<void>;
+
+  /**
+   * Pauses the scanning process. You can call this method if you want to trigger pausing the scanning process without any user interaction.
+   * @since 6.16.0
+   */
+  pauseScanning(): Promise<void>;
+
+  /**
+   * Stops the scanning process by putting the SparkScanView into an idle state and turning the camera off. This method should be called when the component containing SparkScanView is navigating away from the screen.
+   *
+   * This method is essential for proper resource management. It releases the camera and stops all scanning operations. If your workflow involves switching between different Scandit capture modes, always call this method before transitioning to another mode.
+   * @since 6.16.1
+   */
+  stopScanning(): Promise<void>;
+
+  /**
+   * [object Object],[object Object],[object Object]
+   * @since 7.6.2
+   */
+  onHostPause(): Promise<void>;
+
+  /**
+   * [object Object],[object Object],[object Object]
+   * @since 6.23.0
+   */
+  feedbackDelegate: SparkScanFeedbackDelegate | null;
+  -feedbackDelegate: any;
+
+  /**
+   * Shows a toast with text inside the mini preview.
+   * @since 6.23.0
+   */
+  showToast(text: string): Promise<void>;
+
+  /**
+   * Returns the currently used SparkScanScanningMode.
+   * @since 8.7.0
+   */
+  getScanningMode(): Promise<SparkScanScanningMode>;
+  componentDidMount(): void;
+  componentDidUpdate(prevProps: SparkScanViewProps): void;
+  componentWillUnmount(): void;
+}
+/**
+ * [object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]
+ * @since 8.7.0
+ */
+declare interface SparkScanAioViewUiListener {
+  /**
+   * Called when the barcode count button in the toolbar is tapped. Called from the main thread.
+   * @since 8.7.0
+   */
+  didTapBarcodeCountButton?: (view: SparkScanAioViewHandle) => void;
+
+  /**
+   * Called when the barcode find button in the toolbar is tapped. Called from the main thread.
+   * @since 8.7.0
+   */
+  didTapBarcodeFindButton?: (view: SparkScanAioViewHandle) => void;
+
+  /**
+   * Called when the label capture button in the toolbar is tapped. Called from the main thread.
+   * @since 8.7.0
+   */
+  didTapLabelCaptureButton?: (view: SparkScanAioViewHandle) => void;
+
+  /**
+   * [object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  didChangeViewState?: (newState: $Values<typeof SparkScanViewState>) => void;
+
+  /**
+   * [object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  didChangeScanningMode?: (newScanningMode: SparkScanScanningMode) => void;
+}
+/**
+ * [object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]
+ * @since 8.7.0
+ */
+declare interface SparkScanAioViewProps {
+  /**
+   * [object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  didScan?: (
+    barcodes: Barcode[],
+    session: SparkScanSession,
+    getFrameData: () => Promise<FrameData | null>
+  ) => void | Promise<void>;
+
+  /**
+   * [object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  didUpdateSession?: (
+    session: SparkScanSession,
+    getFrameData: () => Promise<FrameData | null>
+  ) => void | Promise<void>;
+
+  /**
+   * [object Object],[object Object],[object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  symbologies?: $Values<typeof Symbology>[];
+
+  /**
+   * [object Object],[object Object],[object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  scanIntention?: $Values<typeof ScanIntention$1>;
+
+  /**
+   * [object Object],[object Object],[object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  enabledCompositeTypes?: $Values<typeof CompositeType>[];
+
+  /**
+   * [object Object],[object Object],[object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  itemDefinitions?: ScanItemDefinition[];
+
+  /**
+   * [object Object],[object Object],[object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  codeDuplicateFilter?: number;
+
+  /**
+   * [object Object],[object Object],[object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  batterySaving?: $Values<typeof BatterySavingMode$1>;
+
+  /**
+   * [object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  sparkScanSettings?: SparkScanSettings | null;
+
+  /**
+   * [object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  sparkScanViewSettings?: SparkScanViewSettings | null;
+
+  /**
+   * [object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  uiListener?: SparkScanAioViewUiListener;
+
+  /**
+   * [object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  feedback?: SparkScanBarcodeFeedback;
+
+  /**
+   * [object Object],[object Object],[object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  navigation?: ScanditNavigationProp;
+
+  /**
+   * [object Object],[object Object],[object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  disabled?: boolean;
+
+  /**
+   * Turns off the automatic enabling and disabling of the mode in response to the application moving between foreground and background.
+   * @since 8.7.0
+   */
+  appStateHandlingDisabled?: boolean;
+
+  /**
+   * Whether the trigger button is shown. Defaults to *true*.
+   * @since 8.7.0
+   */
+  triggerButtonVisible?: boolean;
+
+  /**
+   * Whether the mini preview size control is shown. Defaults to *true*.
+   * @since 8.7.0
+   */
+  previewSizeControlVisible?: boolean;
+
+  /**
+   * Whether the mini preview close control is shown. Defaults to *true*.
+   * @since 8.7.0
+   */
+  previewCloseControlVisible?: boolean;
+
+  /**
+   * Whether the torch control is shown. Defaults to *true*.
+   * @since 8.7.0
+   */
+  torchControlVisible?: boolean;
+
+  /**
+   * Whether the zoom switch control is shown. Defaults to *true*.
+   * @since 8.7.0
+   */
+  zoomSwitchControlVisible?: boolean;
+
+  /**
+   * Whether the scanning behavior button is shown. Defaults to *false*.
+   * @since 8.7.0
+   */
+  scanningBehaviorButtonVisible?: boolean;
+
+  /**
+   * [object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  selectionModeButtonVisible?: boolean;
+
+  /**
+   * Whether the camera switch button is shown. Defaults to *false*.
+   * @since 8.7.0
+   */
+  cameraSwitchButtonVisible?: boolean;
+
+  /**
+   * Whether the barcode count button is shown. Defaults to *false*.
+   * @since 8.7.0
+   */
+  barcodeCountButtonVisible?: boolean;
+
+  /**
+   * Whether the barcode find button is shown. Defaults to *false*.
+   * @since 8.7.0
+   */
+  barcodeFindButtonVisible?: boolean;
+
+  /**
+   * Whether the label capture button is shown. Defaults to *false*.
+   * @since 8.7.0
+   */
+  labelCaptureButtonVisible?: boolean;
+
+  /**
+   * Whether the target mode button is shown. Defaults to *false*.
+   * @since 8.7.0
+   */
+  targetModeButtonVisible?: boolean;
+
+  /**
+   * The toolbar background color.
+   * @since 8.7.0
+   */
+  toolbarBackgroundColor?: Color | null;
+
+  /**
+   * The toolbar icon active color.
+   * @since 8.7.0
+   */
+  toolbarIconActiveTintColor?: Color | null;
+
+  /**
+   * The toolbar icon inactive color.
+   * @since 8.7.0
+   */
+  toolbarIconInactiveTintColor?: Color | null;
+
+  /**
+   * The color of the pulsing animation around the trigger button, shown while the scanner is active.
+   * @since 8.7.0
+   */
+  triggerButtonAnimationColor?: Color | null;
+
+  /**
+   * The background color of the trigger button when it is expanded.
+   * @since 8.7.0
+   */
+  triggerButtonExpandedColor?: Color | null;
+
+  /**
+   * The background color of the trigger button when it is collapsed.
+   * @since 8.7.0
+   */
+  triggerButtonCollapsedColor?: Color | null;
+
+  /**
+   * The trigger button tint color.
+   * @since 8.7.0
+   */
+  triggerButtonTintColor?: Color | null;
+
+  /**
+   * The image displayed in the trigger button.
+   * @since 8.7.0
+   */
+  triggerButtonImage?: string | null;
+
+  /**
+   * Whether the native Android view pauses and resumes itself with the host activity’s lifecycle. Android only; ignored on iOS.
+   * @since 8.7.0
+   */
+  shouldHandleAndroidLifecycleAutomatically?: boolean;
+
+  /**
+   * [object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  feedbackDelegate?: SparkScanFeedbackDelegate | null;
+
+  /**
+   * Style applied to the view, defaulting to `{ flex: 1 }`. This is the only React Native `View` prop the component forwards; it renders its own native view and passes nothing else through.
+   * @since 8.7.0
+   */
+  style?: StyleProp<ViewStyle>;
+
+  /**
+   * Content rendered on top of the scanning UI.
+   * @since 8.7.0
+   */
+  children?: Node;
+}
+declare type SparkScanAioViewSettingsSource =
+  | {
+      symbologies: $Values<typeof Symbology>[],
+      ...
+    }
+  | {
+      sparkScanSettings: SparkScanSettings,
+      ...
+    };
+declare type SparkScanAioViewComponentProps = {
+  ...SparkScanAioViewProps,
+  ...SparkScanAioViewSettingsSource,
+};
+/**
+ * [object Object],[object Object],[object Object]
+ * @since 8.7.0
+ */
+declare interface SparkScanAioViewHandle {
+  /**
+   * [object Object],[object Object],[object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  reset(): Promise<void>;
+
+  /**
+   * Shows a toast message over the scanning UI.
+   * @since 8.7.0
+   */
+  showToast(text: string): Promise<void>;
+
+  /**
+   * Starts the scanning process without user interaction.
+   * @since 8.7.0
+   */
+  startScanning(): Promise<void>;
+
+  /**
+   * Pauses the scanning process without user interaction.
+   * @since 8.7.0
+   */
+  pauseScanning(): Promise<void>;
+
+  /**
+   * Stops the scanning process: puts the view into an idle state and turns the camera off. Call it when the screen containing the component is navigated away from.
+   * @since 8.7.0
+   */
+  stopScanning(): Promise<void>;
+
+  /**
+   * Shows the scanning UI.
+   * @since 8.7.0
+   */
+  show(): Promise<void>;
+
+  /**
+   * Hides the scanning UI.
+   * @since 8.7.0
+   */
+  hide(): Promise<void>;
+
+  /**
+   * Turns scanning on now: enables the mode and turns the camera on. Automatic navigation and application-state handling may subsequently turn it off again.
+   * @since 8.7.0
+   */
+  enable(): Promise<void>;
+
+  /**
+   * Turns scanning off now: disables the mode and turns the camera off.
+   * @since 8.7.0
+   */
+  disable(): Promise<void>;
+}
+/**
+ * [object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]
+ * @since 8.7.0
+ */
+declare var SparkScanAioView: React.ForwardRefExoticComponent<{
+  ...SparkScanAioViewComponentProps,
+  ...React.RefAttributes<SparkScanAioViewHandle>,
+}>;
+/**
+ * [object Object],[object Object]
+ * @since 6.17.0
+ */
+
+declare var BarcodeCountViewStyle: {|
+  +Icon: "icon", // "icon"
+  +Dot: "dot", // "dot"
+|};
+declare type BarcodeCountViewProps = {
+  style: StyleProp<ViewStyle>,
+  navigation?: NavigationProp<ParamListBase>,
+  onLayout?: (event: LayoutChangeEvent) => void,
+  ...
+} & BaseBarcodeCountViewProps;
+
+/**
+ * [object Object],[object Object],[object Object],[object Object],[object Object]
+ * @since 6.17.0
+ */
+declare class BarcodeCountView mixins React.Component<BarcodeCountViewProps> {
+  /**
+   * [object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]
+   * @since 6.17.0
+   */
+  static defaultRecognizedBrush: Brush;
+
+  /**
+   * [object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]
+   * @since 6.17.0
+   */
+  static defaultNotInListBrush: Brush;
+
+  /**
+   * [object Object],[object Object],[object Object],[object Object],[object Object]
+   * @since 7.1.0
+   */
+  static defaultAcceptedBrush: Brush;
+
+  /**
+   * [object Object],[object Object],[object Object],[object Object],[object Object]
+   * @since 7.1.0
+   */
+  static defaultRejectedBrush: Brush;
+
+  /**
+   * [object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  static defaultRecognizedIcon: BarcodeCountIcon;
+
+  /**
+   * [object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  static defaultNotInListIcon: BarcodeCountIcon;
+
+  /**
+   * [object Object],[object Object],[object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  static defaultAcceptedIcon: BarcodeCountIcon;
+
+  /**
+   * [object Object],[object Object],[object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  static defaultRejectedIcon: BarcodeCountIcon;
+
+  /**
+   * Returns whether the device supports listening for hardware button events. This is true for devices with api >= 28.
+   *
+   * This method is only supported on Android devices.
+   * @since 7.1.0
+   */
+  static hardwareTriggerSupported: boolean;
+
+  /**
+   * The listener which is called whenever the exit or list button of the view did receive a tap.
+   *
+   * Using this listener requires the MatrixScan AR add-on.
+   * @since 6.17.0
+   */
+  uiListener: BarcodeCountViewUiListener | null;
+  -uiListener: any;
+
+  /**
+   * [object Object],[object Object],[object Object]
+   * @since 6.17.0
+   */
+  listener: BarcodeCountViewListener | null;
+  -listener: any;
+
+  /**
+   * When set to *true*, user guidance and the loading view will be shown to the user. The user guidance prompts the user to scan, and to move closer or further away from the target barcodes in order to scan them properly.
+   *
+   * By default this property is *true*.
+   * @since 6.17.0
+   */
+  shouldShowUserGuidanceView: boolean;
+  -shouldShowUserGuidanceView: any;
+
+  /**
+   * [object Object],[object Object],[object Object]
+   * @since 6.17.0
+   */
+  shouldShowListButton: boolean;
+  -shouldShowListButton: any;
+
+  /**
+   * When set to *true*, the mode will disable automatically when the default exit button is tapped.
+   *
+   * By default this property is *true*.
+   * @since 6.19.0
+   */
+  shouldDisableModeOnExitButtonTapped: boolean;
+  -shouldDisableModeOnExitButtonTapped: any;
+
+  /**
+   * When set to *true*, an exit button will be shown in the lower right hand corner of the screen. The behavior for this button is left entirely to the developer, and does nothing by default. When clicked, this button triggers a call to BarcodeCountViewUiListener.didTapExitButton().
+   *
+   * By default this property is *true*.
+   * @since 6.17.0
+   */
+  shouldShowExitButton: boolean;
+  -shouldShowExitButton: any;
+
+  /**
+   * [object Object],[object Object],[object Object]
+   * @since 6.17.0
+   */
+  shouldShowShutterButton: boolean;
+  -shouldShowShutterButton: any;
+
+  /**
+   * When set to *true*, this view will show some messages about currently scanned barcodes.
+   *
+   * By default this property is *true*.
+   * @since 6.17.0
+   */
+  shouldShowHints: boolean;
+  -shouldShowHints: any;
+
+  /**
+   * When set to *true*, a button will be shown above the default shutter button. This button clears all currently shown barcodes highlights.
+   * @since 6.17.0
+   */
+  shouldShowClearHighlightsButton: boolean;
+  -shouldShowClearHighlightsButton: any;
+
+  /**
+   * When set to *true*, a button will be shown to the user in the lower left corner of the preview. The behavior for this button is left entirely to the developer, and does nothing by default. When clicked, this button triggers a call to BarcodeCountViewUiListener.didTapSingleScanButton().
+   *
+   * By default this property is *false*.
+   * @since 6.17.0
+   */
+  shouldShowSingleScanButton: boolean;
+  -shouldShowSingleScanButton: any;
+
+  /**
+   * When set to *true*, a floating shutter button will be visible on screen. This button can be dragged to any position and, when tapped, will trigger the processing of the current video feed.
+   *
+   * By default this property is *false*.
+   * @since 6.17.0
+   */
+  shouldShowFloatingShutterButton: boolean;
+  -shouldShowFloatingShutterButton: any;
+
+  /**
+   * When set to *true*, a collapsable toolbar will be visible at the top of the preview. This toolbar contains a set of convenience buttons for easy preference setting during scanning.
+   *
+   * By default this property is *true*.
+   * @since 6.17.0
+   */
+  shouldShowToolbar: boolean;
+  -shouldShowToolbar: any;
+
+  /**
+   * When set to *true*, a button will be shown to the user in the lower right corner of the preview. This button toggles “status mode”, in which the normal barcode highlights will be replaced by status indicators for each barcode.
+   * @since 8.3.0
+   */
+  shouldShowStatusModeButton: boolean;
+  -shouldShowStatusModeButton: any;
+
+  /**
+   * When enabled, status icons will be loaded immediately after barcodes are scanned, without requiring manual activation of status mode.
+   * @since 8.3.0
+   */
+  shouldShowStatusIconsOnScan: boolean;
+  -shouldShowStatusIconsOnScan: any;
+
+  /**
+   * [object Object],[object Object],[object Object],[object Object],[object Object]
+   * @since 6.17.0
+   */
+  shouldShowScanAreaGuides: boolean;
+  -shouldShowScanAreaGuides: any;
+
+  /**
+   * [object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]
+   * @since 6.17.0
+   */
+  recognizedBrush: Brush | null;
+  -recognizedBrush: any;
+
+  /**
+   * [object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]
+   * @since 6.17.0
+   */
+  notInListBrush: Brush | null;
+  -notInListBrush: any;
+
+  /**
+   * [object Object],[object Object],[object Object],[object Object],[object Object]
+   * @since 7.1.0
+   */
+  acceptedBrush: Brush | null;
+  -acceptedBrush: any;
+
+  /**
+   * [object Object],[object Object],[object Object],[object Object],[object Object]
+   * @since 7.1.0
+   */
+  rejectedBrush: Brush | null;
+  -rejectedBrush: any;
+
+  /**
+   * [object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  logoStyle: $Values<typeof LogoStyle$1>;
+  -logoStyle: any;
+
+  /**
+   * [object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  logoAnchor: $Values<typeof Anchor$1>;
+  -logoAnchor: any;
+
+  /**
+   * Use this property to access or modify the current view settings for barcode filtering.
+   * @since 6.17.0
+   */
+  filterSettings: BarcodeFilterHighlightSettings | null;
+  -filterSettings: any;
+
+  /**
+   * [object Object],[object Object],[object Object]
+   * @since 6.17.0
+   */
+  style: $Values<typeof BarcodeCountViewStyle>;
+
+  /**
+   * Use this property to access or modify the accessibility hint for the list button provided by the view.
+   *
+   * Default value is “List button”.
+   *
+   * This property has effect only when running on iOS.
+   * @since 6.17.0
+   */
+  listButtonAccessibilityHint: string;
+  -listButtonAccessibilityHint: any;
+
+  /**
+   * Use this property to access or modify the accessibility label for the list button provided by the view.
+   *
+   * Default value is “List button”.
+   *
+   * This property has effect only when running on iOS.
+   * @since 6.17.0
+   */
+  listButtonAccessibilityLabel: string;
+  -listButtonAccessibilityLabel: any;
+
+  /**
+   * Use this property to access or modify the content description of the list button provided by the view.
+   *
+   * Default value is “List button”.
+   *
+   * This property has effect only when running on Android.
+   * @since 6.17.0
+   */
+  listButtonContentDescription: string;
+  -listButtonContentDescription: any;
+
+  /**
+   * Use this property to access or modify the accessibility hint for the exit button provided by the view.
+   *
+   * Default value is “Exit button”.
+   *
+   * This property has effect only when running on iOS.
+   * @since 6.17.0
+   */
+  exitButtonAccessibilityHint: string;
+  -exitButtonAccessibilityHint: any;
+
+  /**
+   * Use this property to access or modify the accessibility label for the exit button provided by the view.
+   *
+   * Default value is “Exit button”.
+   *
+   * This property has effect only when running on iOS.
+   * @since 6.17.0
+   */
+  exitButtonAccessibilityLabel: string;
+  -exitButtonAccessibilityLabel: any;
+
+  /**
+   * Use this property to access or modify the content description of the exit button provided by the view.
+   *
+   * Default value is “Exit button”.
+   *
+   * This property has effect only when running on Android.
+   * @since 6.17.0
+   */
+  exitButtonContentDescription: string;
+  -exitButtonContentDescription: any;
+
+  /**
+   * Use this property to access or modify the accessibility hint for the shutter button provided by the view.
+   *
+   * Default value is “Shutter button”.
+   *
+   * This property has effect only when running on iOS.
+   * @since 6.17.0
+   */
+  shutterButtonAccessibilityHint: string;
+  -shutterButtonAccessibilityHint: any;
+
+  /**
+   * Use this property to access or modify the accessibility label for the shutter button provided by the view.
+   *
+   * Default value is “Shutter button”.
+   *
+   * This property has effect only when running on iOS.
+   * @since 6.17.0
+   */
+  shutterButtonAccessibilityLabel: string;
+  -shutterButtonAccessibilityLabel: any;
+
+  /**
+   * Use this property to access or modify the content description of the shutter button provided by the view.
+   *
+   * Default value is “Shutter button”.
+   *
+   * This property has effect only when running on Android.
+   * @since 6.17.0
+   */
+  shutterButtonContentDescription: string;
+  -shutterButtonContentDescription: any;
+
+  /**
+   * Use this property to access or modify the accessibility hint for the floating shutter button provided by the view.
+   *
+   * Default value is “Floating shutter button”.
+   *
+   * This property has effect only when running on iOS.
+   * @since 6.17.0
+   */
+  floatingShutterButtonAccessibilityHint: string;
+  -floatingShutterButtonAccessibilityHint: any;
+
+  /**
+   * Use this property to access or modify the accessibility label for the floating shutter button provided by the view.
+   *
+   * Default value is “Floating shutter button”.
+   *
+   * This property has effect only when running on iOS.
+   * @since 6.17.0
+   */
+  floatingShutterButtonAccessibilityLabel: string;
+  -floatingShutterButtonAccessibilityLabel: any;
+
+  /**
+   * Use this property to access or modify the content description for the floating shutter button provided by the view.
+   *
+   * Default value is “Floating shutter button”.
+   *
+   * This property has effect only when running on Android.
+   * @since 6.17.0
+   */
+  floatingShutterButtonContentDescription: string;
+  -floatingShutterButtonContentDescription: any;
+
+  /**
+   * Use this property to access or modify the accessibility hint for the clear highlights button provided by the view.
+   *
+   * Default value is “Clear highlights button”.
+   *
+   * This property has effect only when running on iOS.
+   * @since 6.17.0
+   */
+  clearHighlightsButtonAccessibilityHint: string;
+  -clearHighlightsButtonAccessibilityHint: any;
+
+  /**
+   * Use this property to access or modify the accessibility label for the clear highlights button provided by the view.
+   *
+   * Default value is “Clear highlights button”.
+   *
+   * This property has effect only when running on iOS.
+   * @since 6.17.0
+   */
+  clearHighlightsButtonAccessibilityLabel: string;
+  -clearHighlightsButtonAccessibilityLabel: any;
+
+  /**
+   * Use this property to access or modify the content description of the “clear highlights” button provided by the view.
+   *
+   * Default value is “Clear highlights button”.
+   *
+   * This property has effect only when running on Android.
+   * @since 6.17.0
+   */
+  clearHighlightsButtonContentDescription: string;
+  -clearHighlightsButtonContentDescription: any;
+
+  /**
+   * Use this property to access or modify the accessibility hint for the single scan button provided by the view.
+   *
+   * Default value is “Single scan button”.
+   *
+   * This property has effect only when running on iOS.
+   * @since 6.17.0
+   */
+  singleScanButtonAccessibilityHint: string;
+  -singleScanButtonAccessibilityHint: any;
+
+  /**
+   * Use this property to access or modify the accessibility label for the single scan button provided by the view.
+   *
+   * Default value is “Single scan button”.
+   *
+   * This property has effect only when running on iOS.
+   * @since 6.17.0
+   */
+  singleScanButtonAccessibilityLabel: string;
+  -singleScanButtonAccessibilityLabel: any;
+
+  /**
+   * Use this property to access or modify the content description of the “single scan” button provided by the view.
+   *
+   * Default value is “Single scan button”.
+   *
+   * This property has effect only when running on Android.
+   * @since 6.17.0
+   */
+  singleScanButtonContentDescription: string;
+  -singleScanButtonContentDescription: any;
+
+  /**
+   * Use this property to access or modify the accessibility hint for the status mode button provided by the view.
+   *
+   * Default value is “Status mode button”.
+   * @since 8.3.0
+   */
+  statusModeButtonAccessibilityHint: string;
+  -statusModeButtonAccessibilityHint: any;
+
+  /**
+   * Use this property to access or modify the accessibility label for the single status mode button provided by the view.
+   *
+   * Default value is “Status mode button”.
+   *
+   * This property has effect only when running on iOS.
+   * @since 8.3.0
+   */
+  statusModeButtonAccessibilityLabel: string;
+  -statusModeButtonAccessibilityLabel: any;
+
+  /**
+   * Gets or sets the content description for the status mode button provided by the view.
+   *
+   * Default value is “Status mode button”.
+   *
+   * This property has effect only when running on Android.
+   * @since 8.3.0
+   */
+  statusModeButtonContentDescription: string;
+  -statusModeButtonContentDescription: any;
+
+  /**
+   * Use this property to access or modify the text of the clear button label provided by the view.
+   *
+   * Default value is “Clear screen”.
+   * @since 6.17.0
+   */
+  clearHighlightsButtonText: string;
+  -clearHighlightsButtonText: any;
+
+  /**
+   * Use this property to access or modify the text of the exit button label provided by the view.
+   *
+   * Default value is “Finish”.
+   * @since 6.17.0
+   */
+  exitButtonText: string;
+  -exitButtonText: any;
+
+  /**
+   * Use this property to access or modify the text of the hint which suggests to tap the shutter button.
+   *
+   * Default value is “Tap shutter to scan items”.
+   * @since 6.17.0
+   */
+  textForTapShutterToScanHint: string;
+  -textForTapShutterToScanHint: any;
+
+  /**
+   * Use this property to access or modify the text of the hint displayed while scanning is in progress.
+   *
+   * Default value is “Scanning”.
+   * @since 6.17.0
+   */
+  textForScanningHint: string;
+  -textForScanningHint: any;
+
+  /**
+   * Use this property to access or modify the text of the hint displayed when camera should be moved closer to rescan.
+   *
+   * Default value is “Move closer and tap shutter”.
+   * @since 6.17.0
+   */
+  textForMoveCloserAndRescanHint: string;
+  -textForMoveCloserAndRescanHint: any;
+
+  /**
+   * Use this property to access or modify the text of the hint displayed when camera should be further away to rescan.
+   *
+   * Default value is “Step back and tap shutter”.
+   * @since 6.17.0
+   */
+  textForMoveFurtherAndRescanHint: string;
+  -textForMoveFurtherAndRescanHint: any;
+
+  /**
+   * Use this property to access or modify the text of the hint displayed when a barcode not in list is scanned.
+   *
+   * Default value is “Wrong barcodes detected!”.
+   * @since 8.3.0
+   */
+  textForBarcodesNotInListDetectedHint: string;
+  -textForBarcodesNotInListDetectedHint: any;
+
+  /**
+   * Use this property to access or modify the text of the hint displayed when screen is cleaned.
+   *
+   * Default value is “Screen cleaned up. All items saved.”.
+   * @since 8.3.0
+   */
+  textForScreenCleanedUpHint: string;
+  -textForScreenCleanedUpHint: any;
+
+  /**
+   * [object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]
+   * @since 8.3.0
+   */
+  textForClusteringGestureHint: string;
+  -textForClusteringGestureHint: any;
+
+  /**
+   * [object Object],[object Object],[object Object]
+   * @since 6.25.0
+   */
+  shouldShowListProgressBar: boolean;
+  -shouldShowListProgressBar: any;
+
+  /**
+   * Indicates whether the torch control button should be shown to the user.
+   *
+   * Default is *false*.
+   * @since 6.26.0
+   */
+  shouldShowTorchControl: boolean;
+  -shouldShowTorchControl: any;
+
+  /**
+   * [object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]
+   * @since 6.26.0
+   */
+  torchControlPosition: $Values<typeof Anchor$1>;
+  -torchControlPosition: any;
+
+  /**
+   * Text of the hint displayed when the user deselects an item.
+   *
+   * Default value is “Barcode removed”.
+   * @since 7.0.0
+   */
+  textForTapToUncountHint: string;
+  -textForTapToUncountHint: any;
+
+  /**
+   * Enables this feature to be able to deselect items by tapping on the highlights.
+   *
+   * Default value is *false*.
+   * @since 7.0.0
+   */
+  tapToUncountEnabled: boolean;
+  -tapToUncountEnabled: any;
+
+  /**
+   * Use this object to customize barcode not in list actions.
+   * @since 7.1.0
+   */
+  barcodeNotInListActionSettings: BarcodeCountNotInListActionSettings;
+  -barcodeNotInListActionSettings: any;
+
+  /**
+   * [object Object],[object Object],[object Object]
+   * @since 7.1.0
+   */
+  hardwareTriggerEnabled: boolean;
+  -hardwareTriggerEnabled: any;
+  constructor(props: BarcodeCountViewProps): this;
+  componentDidMount(): void;
+  componentWillUnmount(): void;
+  componentDidUpdate(prevProps: BarcodeCountViewProps): void;
+
+  /**
+   * [object Object],[object Object],[object Object]
+   * @since 6.17.0
+   */
+  clearHighlights(): Promise<void>;
+
+  /**
+   * [object Object],[object Object],[object Object]
+   * @since 6.17.0
+   */
+  setToolbarSettings(settings: BarcodeCountToolbarSettings): void;
+
+  /**
+   * [object Object],[object Object],[object Object]
+   * @since 8.3.0
+   */
+  setStatusProvider(provider: BarcodeCountStatusProvider): void;
+
+  /**
+   * [object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]
+   * @since 7.1.0
+   */
+  setBrushForRecognizedBarcode(
+    trackedBarcode: TrackedBarcode,
+    brush: Brush | null
+  ): Promise<void>;
+
+  /**
+   * [object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]
+   * @since 7.1.0
+   */
+  setBrushForRecognizedBarcodeNotInList(
+    trackedBarcode: TrackedBarcode,
+    brush: Brush | null
+  ): Promise<void>;
+
+  /**
+   * [object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]
+   * @since 7.1.0
+   */
+  setBrushForAcceptedBarcode(
+    trackedBarcode: TrackedBarcode,
+    brush: Brush | null
+  ): Promise<void>;
+
+  /**
+   * [object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]
+   * @since 7.1.0
+   */
+  setBrushForRejectedBarcode(
+    trackedBarcode: TrackedBarcode,
+    brush: Brush | null
+  ): Promise<void>;
+
+  /**
+   * [object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  setIconForRecognizedBarcode(
+    trackedBarcode: TrackedBarcode,
+    icon: BarcodeCountIcon | null
+  ): Promise<void>;
+
+  /**
+   * [object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  setIconForRecognizedBarcodeNotInList(
+    trackedBarcode: TrackedBarcode,
+    icon: BarcodeCountIcon | null
+  ): Promise<void>;
+
+  /**
+   * [object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  setIconForAcceptedBarcode(
+    trackedBarcode: TrackedBarcode,
+    icon: BarcodeCountIcon | null
+  ): Promise<void>;
+
+  /**
+   * [object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  setIconForRejectedBarcode(
+    trackedBarcode: TrackedBarcode,
+    icon: BarcodeCountIcon | null
+  ): Promise<void>;
+
+  /**
+   * [object Object],[object Object],[object Object]
+   * @since 7.1.0
+   */
+  enableHardwareTrigger(hardwareTriggerKeyCode: number | null): Promise<void>;
+  render(): React.JSX.Element;
+}
+/**
+ * [object Object],[object Object],[object Object],[object Object],[object Object]
+ * @since 8.7.0
+ */
+declare interface BarcodeCountAioUiListener {
+  /**
+   * [object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  didTapListButton?: (snapshot: BarcodeCountSessionSnapshot | null) => void;
+
+  /**
+   * [object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  didTapExitButton?: (snapshot: BarcodeCountSessionSnapshot | null) => void;
+
+  /**
+   * Called when the single scan button is tapped. Called from the main thread.
+   * @since 8.7.0
+   */
+  didTapSingleScanButton?: () => void;
+}
+/**
+ * [object Object],[object Object],[object Object],[object Object],[object Object]
+ * @since 8.7.0
+ */
+declare interface BarcodeCountAioViewListener {
+  /**
+   * Returns the brush to draw for a recognized barcode, or *null* to draw nothing.
+   * @since 8.7.0
+   */
+  brushForRecognizedBarcode?: (trackedBarcode: TrackedBarcode) => Brush | null;
+
+  /**
+   * Returns the brush to draw for a recognized barcode that is not in the capture list, or *null* to draw nothing.
+   * @since 8.7.0
+   */
+  brushForRecognizedBarcodeNotInList?: (
+    trackedBarcode: TrackedBarcode
+  ) => Brush | null;
+
+  /**
+   * Returns the brush to draw for an accepted barcode, or *null* to draw nothing.
+   * @since 8.7.0
+   */
+  brushForAcceptedBarcode?: (trackedBarcode: TrackedBarcode) => Brush | null;
+
+  /**
+   * Returns the brush to draw for a rejected barcode, or *null* to draw nothing.
+   * @since 8.7.0
+   */
+  brushForRejectedBarcode?: (trackedBarcode: TrackedBarcode) => Brush | null;
+
+  /**
+   * Called when a recognized barcode is tapped.
+   * @since 8.7.0
+   */
+  didTapRecognizedBarcode?: (trackedBarcode: TrackedBarcode) => void;
+
+  /**
+   * Called when a filtered-out barcode is tapped.
+   * @since 8.7.0
+   */
+  didTapFilteredBarcode?: (filteredBarcode: TrackedBarcode) => void;
+
+  /**
+   * Called when a recognized barcode that is not in the capture list is tapped.
+   * @since 8.7.0
+   */
+  didTapRecognizedBarcodeNotInList?: (trackedBarcode: TrackedBarcode) => void;
+
+  /**
+   * Called when an accepted barcode is tapped.
+   * @since 8.7.0
+   */
+  didTapAcceptedBarcode?: (trackedBarcode: TrackedBarcode) => void;
+
+  /**
+   * Called when a rejected barcode is tapped.
+   * @since 8.7.0
+   */
+  didTapRejectedBarcode?: (trackedBarcode: TrackedBarcode) => void;
+
+  /**
+   * Called when a cluster of barcodes is tapped.
+   * @since 8.7.0
+   */
+  didTapCluster?: (cluster: Cluster) => void;
+
+  /**
+   * Called when every barcode in the capture list has been counted.
+   * @since 8.7.0
+   */
+  didCompleteCaptureList?: () => void;
+}
+/**
+ * [object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]
+ * @since 8.7.0
+ */
+declare interface BarcodeCountAioViewProps {
+  /**
+   * [object Object],[object Object],[object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  navigation?: ScanditNavigationProp;
+
+  /**
+   * [object Object],[object Object],[object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  disabled?: boolean;
+
+  /**
+   * Turns off the automatic enabling and disabling of the mode in response to the application moving between foreground and background.
+   * @since 8.7.0
+   */
+  appStateHandlingDisabled?: boolean;
+
+  /**
+   * [object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  didScan?: (
+    barcodes: Barcode[],
+    session: BarcodeCountSession,
+    getFrameData: () => Promise<FrameData | null>
+  ) => void | Promise<void>;
+
+  /**
+   * [object Object],[object Object],[object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  didUpdateSession?: (
+    session: BarcodeCountSession,
+    getFrameData: () => Promise<FrameData | null>
+  ) => void | Promise<void>;
+
+  /**
+   * [object Object],[object Object],[object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  symbologies?: $Values<typeof Symbology>[];
+
+  /**
+   * [object Object],[object Object],[object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  barcodeCountSettings?: BarcodeCountSettings | null;
+
+  /**
+   * Enables “Scanning against a list” mode, which provides additional functionality when looking for a specific set of Barcodes.
+   * @since 8.7.0
+   */
+  captureList?: BarcodeCountCaptureList | null;
+
+  /**
+   * Barcodes to count in addition to those recognized from the camera feed, such as ones entered by hand.
+   * @since 8.7.0
+   */
+  additionalBarcodes?: Barcode[] | null;
+
+  /**
+   * [object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  uiListener?: BarcodeCountAioUiListener;
+
+  /**
+   * [object Object],[object Object],[object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  listener?: BarcodeCountAioViewListener;
+
+  /**
+   * [object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  feedback?: BarcodeCountFeedback;
+
+  /**
+   * Text and accessibility overrides for the in-view toolbar toggle buttons.
+   * @since 8.7.0
+   */
+  toolbarSettings?: BarcodeCountToolbarSettings;
+
+  /**
+   * [object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  statusProvider?: BarcodeCountStatusProvider | null;
+
+  /**
+   * [object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  viewStyle?: $Values<typeof BarcodeCountViewStyle>;
+
+  /**
+   * Whether the view renders scan-area guides. Defaults to *false*. Useful during development to check that the scan area of the view is positioned correctly; not intended for production.
+   * @since 8.7.0
+   */
+  shouldShowScanAreaGuides?: boolean;
+
+  /**
+   * [object Object],[object Object],[object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  shouldShowListButton?: boolean;
+
+  /**
+   * [object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  shouldShowExitButton?: boolean;
+
+  /**
+   * [object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  shouldShowSingleScanButton?: boolean;
+
+  /**
+   * Whether the mode is disabled automatically when the exit button is tapped. Defaults to *true*.
+   * @since 8.7.0
+   */
+  shouldDisableModeOnExitButtonTapped?: boolean;
+
+  /**
+   * [object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  shouldShowShutterButton?: boolean;
+
+  /**
+   * Whether a floating shutter button is shown. It can be dragged to any position and, when tapped, triggers the processing of the current video feed. Defaults to *false*.
+   * @since 8.7.0
+   */
+  shouldShowFloatingShutterButton?: boolean;
+
+  /**
+   * Whether a button that clears all currently shown barcode highlights is shown above the shutter button.
+   * @since 8.7.0
+   */
+  shouldShowClearHighlightsButton?: boolean;
+
+  /**
+   * Whether a status mode button is shown in the lower right corner of the preview. It toggles “status mode”, in which the barcode highlights are replaced by status indicators for each barcode.
+   * @since 8.7.0
+   */
+  shouldShowStatusModeButton?: boolean;
+
+  /**
+   * Whether a collapsible toolbar is shown at the top of the preview, with convenience buttons for changing preferences during scanning. Defaults to *true*.
+   * @since 8.7.0
+   */
+  shouldShowToolbar?: boolean;
+
+  /**
+   * Whether the torch control button is shown. Defaults to *false*.
+   * @since 8.7.0
+   */
+  shouldShowTorchControl?: boolean;
+
+  /**
+   * [object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  torchControlPosition?: Anchor;
+
+  /**
+   * The style of the Scandit logo shown on the view.
+   * @since 8.7.0
+   */
+  logoStyle?: $Values<typeof LogoStyle$1>;
+
+  /**
+   * Where the Scandit logo is anchored in the view.
+   * @since 8.7.0
+   */
+  logoAnchor?: Anchor;
+
+  /**
+   * Whether the view reacts to presses of the volume button.
+   * @since 8.7.0
+   */
+  hardwareTriggerEnabled?: boolean;
+
+  /**
+   * Whether items can be uncounted by tapping their highlights. Defaults to *false*.
+   * @since 8.7.0
+   */
+  tapToUncountEnabled?: boolean;
+
+  /**
+   * Whether user guidance and the loading view are shown. The user guidance prompts the user to scan, and to move closer or further away from the target barcodes in order to scan them properly. Defaults to *true*.
+   * @since 8.7.0
+   */
+  shouldShowUserGuidanceView?: boolean;
+
+  /**
+   * Whether hints about the currently scanned barcodes are shown. Defaults to *true*.
+   * @since 8.7.0
+   */
+  shouldShowHints?: boolean;
+
+  /**
+   * Whether a progress bar is shown when a capture list is set, indicating how many of the barcodes in the list have been scanned.
+   * @since 8.7.0
+   */
+  shouldShowListProgressBar?: boolean;
+
+  /**
+   * [object Object],[object Object],[object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  recognizedBrush?: Brush | null;
+
+  /**
+   * [object Object],[object Object],[object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  notInListBrush?: Brush | null;
+
+  /**
+   * [object Object],[object Object],[object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  acceptedBrush?: Brush | null;
+
+  /**
+   * [object Object],[object Object],[object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  rejectedBrush?: Brush | null;
+
+  /**
+   * Settings for the highlights of filtered barcodes.
+   * @since 8.7.0
+   */
+  filterSettings?: BarcodeFilterHighlightSettings | null;
+
+  /**
+   * Settings for the actions offered for barcodes that are not in the capture list.
+   * @since 8.7.0
+   */
+  barcodeNotInListActionSettings?: BarcodeCountNotInListActionSettings;
+
+  /**
+   * Settings for the mapping flow, which pairs each counted barcode with a location.
+   * @since 8.7.0
+   */
+  mappingFlowSettings?: BarcodeCountMappingFlowSettings;
+
+  /**
+   * Whether status icons are shown immediately after barcodes are scanned, without manually activating status mode.
+   * @since 8.7.0
+   */
+  shouldShowStatusIconsOnScan?: boolean;
+
+  /**
+   * Text of the clear button label provided by the view. Defaults to “Clear screen”.
+   * @since 8.7.0
+   */
+  clearHighlightsButtonText?: string;
+
+  /**
+   * Text of the exit button label provided by the view. Defaults to “Finish”.
+   * @since 8.7.0
+   */
+  exitButtonText?: string;
+
+  /**
+   * Text of the hint suggesting to tap the shutter button. Defaults to “Tap shutter to scan items”.
+   * @since 8.7.0
+   */
+  textForTapShutterToScanHint?: string;
+
+  /**
+   * Text of the hint displayed while scanning is in progress. Defaults to “Scanning”.
+   * @since 8.7.0
+   */
+  textForScanningHint?: string;
+
+  /**
+   * Text of the hint displayed when the camera should be moved closer to rescan. Defaults to “Move closer and tap shutter”.
+   * @since 8.7.0
+   */
+  textForMoveCloserAndRescanHint?: string;
+
+  /**
+   * Text of the hint displayed when the camera should be moved further away to rescan. Defaults to “Step back and tap shutter”.
+   * @since 8.7.0
+   */
+  textForMoveFurtherAndRescanHint?: string;
+
+  /**
+   * Text of the hint displayed when a barcode not in list is scanned. Defaults to “Wrong barcodes detected!”.
+   * @since 8.7.0
+   */
+  textForBarcodesNotInListDetectedHint?: string;
+
+  /**
+   * Text of the hint displayed when the screen is cleaned up. Defaults to “Screen cleaned up. All items saved.”.
+   * @since 8.7.0
+   */
+  textForScreenCleanedUpHint?: string;
+
+  /**
+   * [object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  textForClusteringGestureHint?: string;
+
+  /**
+   * Text of the hint displayed when the user deselects an item. Defaults to “Barcode removed”.
+   * @since 8.7.0
+   */
+  textForTapToUncountHint?: string;
+
+  /**
+   * Accessibility hint for the list button. Defaults to “List button”.
+   * @since 8.7.0
+   */
+  listButtonAccessibilityHint?: string;
+
+  /**
+   * Accessibility label for the list button. Defaults to “List button”.
+   * @since 8.7.0
+   */
+  listButtonAccessibilityLabel?: string;
+
+  /**
+   * Content description for the list button. Defaults to “List button”.
+   * @since 8.7.0
+   */
+  listButtonContentDescription?: string;
+
+  /**
+   * Accessibility hint for the exit button. Defaults to “Exit button”.
+   * @since 8.7.0
+   */
+  exitButtonAccessibilityHint?: string;
+
+  /**
+   * Accessibility label for the exit button. Defaults to “Exit button”.
+   * @since 8.7.0
+   */
+  exitButtonAccessibilityLabel?: string;
+
+  /**
+   * Content description for the exit button. Defaults to “Exit button”.
+   * @since 8.7.0
+   */
+  exitButtonContentDescription?: string;
+
+  /**
+   * Accessibility hint for the shutter button. Defaults to “Shutter button”.
+   * @since 8.7.0
+   */
+  shutterButtonAccessibilityHint?: string;
+
+  /**
+   * Accessibility label for the shutter button. Defaults to “Shutter button”.
+   * @since 8.7.0
+   */
+  shutterButtonAccessibilityLabel?: string;
+
+  /**
+   * Content description for the shutter button. Defaults to “Shutter button”.
+   * @since 8.7.0
+   */
+  shutterButtonContentDescription?: string;
+
+  /**
+   * Accessibility hint for the floating shutter button. Defaults to “Floating shutter button”.
+   * @since 8.7.0
+   */
+  floatingShutterButtonAccessibilityHint?: string;
+
+  /**
+   * Accessibility label for the floating shutter button. Defaults to “Floating shutter button”.
+   * @since 8.7.0
+   */
+  floatingShutterButtonAccessibilityLabel?: string;
+
+  /**
+   * Content description for the floating shutter button. Defaults to “Floating shutter button”.
+   * @since 8.7.0
+   */
+  floatingShutterButtonContentDescription?: string;
+
+  /**
+   * Accessibility hint for the clear highlights button. Defaults to “Clear highlights button”.
+   * @since 8.7.0
+   */
+  clearHighlightsButtonAccessibilityHint?: string;
+
+  /**
+   * Accessibility label for the clear highlights button. Defaults to “Clear highlights button”.
+   * @since 8.7.0
+   */
+  clearHighlightsButtonAccessibilityLabel?: string;
+
+  /**
+   * Content description for the clear highlights button. Defaults to “Clear highlights button”.
+   * @since 8.7.0
+   */
+  clearHighlightsButtonContentDescription?: string;
+
+  /**
+   * Accessibility hint for the single scan button. Defaults to “Single scan button”.
+   * @since 8.7.0
+   */
+  singleScanButtonAccessibilityHint?: string;
+
+  /**
+   * Accessibility label for the single scan button. Defaults to “Single scan button”.
+   * @since 8.7.0
+   */
+  singleScanButtonAccessibilityLabel?: string;
+
+  /**
+   * Content description for the single scan button. Defaults to “Single scan button”.
+   * @since 8.7.0
+   */
+  singleScanButtonContentDescription?: string;
+
+  /**
+   * Accessibility hint for the status mode button. Defaults to “Status mode button”.
+   * @since 8.7.0
+   */
+  statusModeButtonAccessibilityHint?: string;
+
+  /**
+   * Accessibility label for the single status mode button. Defaults to “Status mode button”.
+   * @since 8.7.0
+   */
+  statusModeButtonAccessibilityLabel?: string;
+
+  /**
+   * Content description for the status mode button. Defaults to “Status mode button”.
+   * @since 8.7.0
+   */
+  statusModeButtonContentDescription?: string;
+
+  /**
+   * Style applied to the view, defaulting to `{ flex: 1 }`. This is the only React Native `View` prop the component forwards; it renders its own native view and passes nothing else through.
+   * @since 8.7.0
+   */
+  style?: StyleProp<ViewStyle>;
+
+  /**
+   * Content rendered on top of the scanning UI.
+   * @since 8.7.0
+   */
+  children?: Node;
+}
+declare type BarcodeCountAioViewSettingsSource =
+  | {
+      symbologies: $Values<typeof Symbology>[],
+      ...
+    }
+  | {
+      barcodeCountSettings: BarcodeCountSettings,
+      ...
+    };
+declare type BarcodeCountAioViewComponentProps = {
+  ...BarcodeCountAioViewProps,
+  ...BarcodeCountAioViewSettingsSource,
+};
+/**
+ * [object Object],[object Object],[object Object]
+ * @since 8.7.0
+ */
+declare interface BarcodeCountAioViewHandle {
+  /**
+   * Resets the session, clearing the history of tracked and unscanned barcodes.
+   * @since 8.7.0
+   */
+  reset(): Promise<void>;
+
+  /**
+   * [object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  clearHighlights(): Promise<void>;
+
+  /**
+   * [object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  setToolbarSettings(settings: BarcodeCountToolbarSettings): void;
+
+  /**
+   * [object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  setStatusProvider(provider: BarcodeCountStatusProvider): void;
+
+  /**
+   * [object Object],[object Object],[object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  setBrushForRecognizedBarcode(
+    trackedBarcode: TrackedBarcode,
+    brush: Brush | null
+  ): Promise<void>;
+
+  /**
+   * [object Object],[object Object],[object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  setBrushForRecognizedBarcodeNotInList(
+    trackedBarcode: TrackedBarcode,
+    brush: Brush | null
+  ): Promise<void>;
+
+  /**
+   * [object Object],[object Object],[object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  setBrushForAcceptedBarcode(
+    trackedBarcode: TrackedBarcode,
+    brush: Brush | null
+  ): Promise<void>;
+
+  /**
+   * [object Object],[object Object],[object Object],[object Object],[object Object]
+   * @since 8.7.0
+   */
+  setBrushForRejectedBarcode(
+    trackedBarcode: TrackedBarcode,
+    brush: Brush | null
+  ): Promise<void>;
+
+  /**
+   * Makes the view react to presses of the hardware button with the given key code. Pass *null* for the default button: the dedicated hardware button on XCover devices, `KeyEvent.KEYCODE_VOLUME_DOWN` elsewhere.
+   * @since 8.7.0
+   */
+  enableHardwareTrigger(hardwareTriggerKeyCode: number | null): Promise<void>;
+
+  /**
+   * Turns scanning on now: enables the mode and turns the camera on. Automatic navigation and application-state handling may subsequently turn it off again.
+   * @since 8.7.0
+   */
+  enable(): Promise<void>;
+
+  /**
+   * Turns scanning off now: disables the mode and turns the camera off.
+   * @since 8.7.0
+   */
+  disable(): Promise<void>;
+}
+/**
+ * [object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]
+ * @since 8.7.0
+ */
+declare var BarcodeCountAioView: React.ForwardRefExoticComponent<{
+  ...BarcodeCountAioViewComponentProps,
+  ...React.RefAttributes<BarcodeCountAioViewHandle>,
+}>;
+declare interface BarcodePickViewProps {
+  context: DataCaptureContext;
+  barcodePick: BarcodePick;
+  settings: BarcodePickViewSettings;
+  cameraSettings: CameraSettings;
+  style: StyleProp<ViewStyle>;
+  navigation?: NavigationProp<ParamListBase>;
+  onLayout?: (event: LayoutChangeEvent) => void;
+}
+/**
+ * BarcodePickView.
+ * @since 6.19.0
+ */
+declare class BarcodePickView mixins React.Component<BarcodePickViewProps> {
+  constructor(props: BarcodePickViewProps): this;
+
+  /**
+   * Sets the listener which is called whenever the finish button is tapped from the view.
+   * @since 6.23.0
+   */
+  uiListener: BarcodePickViewUiListener | null;
+  -uiListener: any;
+  componentDidMount(): void;
+  componentWillUnmount(): void;
+
+  /**
+   * [object Object],[object Object],[object Object]
+   * @since 6.19.0
+   */
+  start(): Promise<void>;
+
+  /**
+   * [object Object],[object Object],[object Object]
+   * @since 6.24.0
+   */
+  stop(): Promise<void>;
+
+  /**
+   * [object Object],[object Object],[object Object]
+   * @since 6.23.0
+   */
+  freeze(): Promise<void>;
+
+  /**
+   * Notifies the barcode pick view that the container has paused.
+   *
+   * For instance, this method could be called when the [AppState](https://reactnative.dev/docs/appstate) state changes to background or inactive.
+   * @since 6.24.0
+   */
+  pause(): Promise<void>;
+
+  /**
+   * Notifies the barcode pick view that the container has resumed.
+   *
+   * For instance, this method could be called when the [AppState](https://reactnative.dev/docs/appstate) state changes to active.
+   * @since 6.24.0
+   */
+  resume(): Promise<void>;
+
+  /**
+   * Resets the picking flow. This will clear all picked items and restore the initial state.
+   * @since 7.5.0
+   */
+  reset(): Promise<void>;
+
+  /**
+   * [object Object],[object Object],[object Object]
+   * @since 6.23.0
+   */
+  addListener(listener: BarcodePickViewListener): void;
+
+  /**
+   * [object Object],[object Object],[object Object]
+   * @since 6.23.0
+   */
+  removeListener(listener: BarcodePickViewListener): void;
+
+  /**
+   * [object Object],[object Object],[object Object]
+   * @since 6.19.0
+   */
+  addActionListener(listener: BarcodePickActionListener): void;
+
+  /**
+   * [object Object],[object Object],[object Object]
+   * @since 6.19.0
+   */
+  removeActionListener(listener: BarcodePickActionListener): void;
+  render(): React.JSX.Element;
+
+  /**
+   * Stops the camera and the scanning process. After this call the view should not be used anymore.
+   * @since 6.23.0
+   */
+  release(): void;
+}
+/**
+ * [object Object],[object Object],[object Object]
+ * @since 7.6.0
+ */
+declare interface BarcodeFindViewProps {
+  /**
+   * The data capture context that manages the camera and processing pipeline. This context coordinates the barcode find mode with other capture modes and provides access to the camera.
+   * @since 7.6.0
+   */
+  context: DataCaptureContext;
+
+  /**
+   * The barcode find mode instance that defines the scanning behavior and settings. This mode handles the barcode detection logic and manages the list of items to find.
+   * @since 7.6.0
+   */
+  barcodeFind: BarcodeFind;
+
+  /**
+   * Optional view settings that control the appearance and behavior of the barcode find view. If not provided, the view will use default settings for colors, sounds, haptic feedback, and UI elements.
+   * @since 7.6.0
+   */
+  viewSettings?: BarcodeFindViewSettings;
+
+  /**
+   * Optional camera settings to customize the camera behavior. If not provided, the view will use the recommended camera settings optimized for barcode find operations. These settings control aspects like resolution, frame rate, and focus behavior.
+   * @since 7.6.0
+   */
+  cameraSettings?: CameraSettings;
+
+  /**
+   * Optional style object for customizing the appearance of the BarcodeFind view component. This property allows you to apply custom styles and follows the styling conventions of the respective framework.
+   * @since 7.6.0
+   */
+  style?: StyleProp<ViewStyle>;
+
+  /**
+   * Navigation object from React Navigation library, used specifically in React Native applications. This property enables the BarcodeFind view to integrate with React Navigation’s navigation system for better handling camera access.
+   * @since 8.0.0
+   */
+  navigation?: NavigationProp<ParamListBase>;
+  onLayout?: (event: LayoutChangeEvent) => void;
+}
+/**
+ * [object Object],[object Object],[object Object]
+ * @since 6.22.0
+ */
+declare class BarcodeFindView mixins React.Component<BarcodeFindViewProps> {
+  constructor(props: BarcodeFindViewProps): this;
+
+  /**
+   * Returns whether the device supports listening for hardware button events. This is true for devices with api >= 28.
+   * @since 7.1.0
+   */
+  static hardwareTriggerSupported: boolean;
+
+  /**
+   * Sets the listener which is called whenever the finish button is tapped from the view.
+   * @since 6.22.0
+   */
+  barcodeFindViewUiListener: BarcodeFindViewUiListener | null;
+  -barcodeFindViewUiListener: any;
+
+  /**
+   * Indicates whether guidance should be shown to the user.
+   *
+   * Default is *true*.
+   * @since 6.22.0
+   */
+  shouldShowUserGuidanceView: boolean;
+  -shouldShowUserGuidanceView: any;
+
+  /**
+   * Indicates whether hints should be shown to the user.
+   *
+   * Default is *true*.
+   * @since 6.22.0
+   */
+  shouldShowHints: boolean;
+  -shouldShowHints: any;
+
+  /**
+   * Indicates whether the item carousel should be shown to the user.
+   *
+   * Default is *true*.
+   * @since 6.22.0
+   */
+  shouldShowCarousel: boolean;
+  -shouldShowCarousel: any;
+
+  /**
+   * Indicates whether the pause button should be shown to the user.
+   *
+   * Default is *true*.
+   * @since 6.22.0
+   */
+  shouldShowPauseButton: boolean;
+  -shouldShowPauseButton: any;
+
+  /**
+   * Indicates whether the finish button should be shown to the user.
+   *
+   * Default is *true*.
+   * @since 6.22.0
+   */
+  shouldShowFinishButton: boolean;
+  -shouldShowFinishButton: any;
+
+  /**
+   * Indicates whether the progress bar should be shown to the user.
+   *
+   * Default is *false*.
+   * @since 6.22.0
+   */
+  shouldShowProgressBar: boolean;
+  -shouldShowProgressBar: any;
+
+  /**
+   * Indicates whether the torch control button should be shown to the user.
+   *
+   * Default is *false*.
+   * @since 6.22.0
+   */
+  shouldShowTorchControl: boolean;
+  -shouldShowTorchControl: any;
+
+  /**
+   * Indicates whether the zoom control should be shown to the user, allowing them to switch between the normal and ultra-wide lenses.
+   *
+   * Default is *false*.
+   *
+   * The zoom control requires a device with an ultra-wide camera. On devices without an ultra-wide camera, setting this property to *true* has no effect.
+   * @since 7.1.0
+   */
+  shouldShowZoomControl: boolean;
+  -shouldShowZoomControl: any;
+
+  /**
+   * [object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]
+   * @since 6.22.0
+   */
+  torchControlPosition: $Values<typeof Anchor$1>;
+  -torchControlPosition: any;
+
+  /**
+   * Overrides the default text displayed in the button for collapsing the item carousel.
+   *
+   * Default is *null*.
+   * @since 6.22.0
+   */
+  textForCollapseCardsButton: string | null;
+  -textForCollapseCardsButton: any;
+
+  /**
+   * Overrides the default text displayed in the green confirmation view shown when all items have been found.
+   *
+   * Default is *null*.
+   * @since 6.22.0
+   */
+  textForAllItemsFoundSuccessfullyHint: string | null;
+  -textForAllItemsFoundSuccessfullyHint: any;
+
+  /**
+   * Overrides the default text displayed in the confirmation view shown when the item list has been updated.
+   *
+   * Default is *null*.
+   * @since 6.24.0
+   */
+  textForItemListUpdatedHint: string | null;
+  -textForItemListUpdatedHint: any;
+
+  /**
+   * Overrides the default text displayed in the confirmation view shown when the item list has been updated and search is paused.
+   *
+   * Default is *null*.
+   * @since 6.24.0
+   */
+  textForItemListUpdatedWhenPausedHint: string | null;
+  -textForItemListUpdatedWhenPausedHint: any;
+
+  /**
+   * Overrides the default text for the “Point at barcodes to search” hint.
+   *
+   * Default is *null*.
+   * @since 6.22.0
+   */
+  textForPointAtBarcodesToSearchHint: string | null;
+  -textForPointAtBarcodesToSearchHint: any;
+
+  /**
+   * Overrides the default text for the “Move closer” hint.
+   *
+   * Default is *null*.
+   * @since 6.22.0
+   */
+  textForMoveCloserToBarcodesHint: string | null;
+  -textForMoveCloserToBarcodesHint: any;
+
+  /**
+   * Overrides the default text for “Tap shutter to pause” hint.
+   *
+   * Default is *null*.
+   * @since 6.22.0
+   */
+  textForTapShutterToPauseScreenHint: string | null;
+  -textForTapShutterToPauseScreenHint: any;
+
+  /**
+   * Overrides the default text for “Tap shutter to resume” hint.
+   *
+   * Default is *null*.
+   * @since 6.22.0
+   */
+  textForTapShutterToResumeSearchHint: string | null;
+  -textForTapShutterToResumeSearchHint: any;
+
+  /**
+   * [object Object],[object Object],[object Object]
+   * @since 8.6.0
+   */
+  logoStyle: $Values<typeof LogoStyle$1>;
+  -logoStyle: any;
+
+  /**
+   * [object Object],[object Object],[object Object]
+   * @since 8.6.0
+   */
+  logoAnchor: $Values<typeof Anchor$1>;
+  -logoAnchor: any;
+
+  /**
+   * [object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]
+   * @since 8.6.0
+   */
+  cameraStateOnStop: $Values<typeof FrameSourceState>;
+  -cameraStateOnStop: any;
+
+  /**
+   * Method to call for stopping the mode. For instance, it can be called when the view controller containing BarcodeFindView is about to disappear (i.e., UIViewController’s viewWillDisappear).
+   * @since 6.22.0
+   */
+  stopSearching(): Promise<void>;
+
+  /**
+   * Starts the searching process. You can call this method if you want to trigger the searching process without any user interaction.
+   * @since 6.22.0
+   */
+  startSearching(): Promise<void>;
+
+  /**
+   * Pauses the searching process. You can call this method if you want to trigger pausing the searching process without any user interaction.
+   * @since 6.22.0
+   */
+  pauseSearching(): Promise<void>;
+  render(): React.JSX.Element;
+  componentWillUnmount(): void;
+  componentDidMount(): void;
+}
+declare type BarcodeSelectionViewProps = {
+  context: DataCaptureContext$1,
+  isEnabled: boolean,
+  barcodeSelectionSettings?: BarcodeSelectionSettings | null,
+  aimedBrush?: Brush | null,
+  selectedBrush?: Brush | null,
+  selectingBrush?: Brush | null,
+  trackedBrush?: Brush | null,
+  aimedBarcodeBrushProvider?: BarcodeSelectionBrushProvider | null,
+  trackedBarcodeBrushProvider?: BarcodeSelectionBrushProvider | null,
+  basicOverlayStyle?: $Values<typeof BarcodeSelectionBasicOverlayStyle> | null,
+  cameraSettings?: CameraSettings$1 | null,
+  desiredCameraState?: FrameSourceState$1 | null,
+  desiredCameraPosition?: CameraPosition | null,
+  desiredTorchState?: TorchState | null,
+  torchSwitchControl?: TorchSwitchControl | null,
+  zoomSwitchControl?: ZoomSwitchControl | null,
+  pointOfInterest?: PointWithUnit | null,
+  feedback?: BarcodeSelectionFeedback,
+  navigation?: NavigationProp<ParamListBase>,
+  shouldUnfreezeCamera?: boolean | null,
+  didUpdateSelection?: (
+    barcodeSelection: BarcodeSelection,
+    session: BarcodeSelectionSession,
+    getFrameData: () => Promise<FrameData$1>
+  ) => Promise<void>,
+  ...
+} & ViewProps;
+
+/**
+ * Precursor component from SDC-21451, never documented or supported. No longer
+ * re-exported from the package root; kept internal rather than part of the API.
+ * @internal
+ */
+declare var BarcodeSelectionView: React.ForwardRefExoticComponent<{
+  ...BarcodeSelectionViewProps,
+  ...React.RefAttributes<mixed>,
+}>;
+declare var internal_d_BarcodeArDefaults: typeof BarcodeArDefaults;
+declare var internal_d_BarcodeBatchDefaults: typeof BarcodeBatchDefaults;
+declare var internal_d_BarcodeCountDefaults: typeof BarcodeCountDefaults;
+declare var internal_d_BarcodeCountViewSettingsDefaults: typeof BarcodeCountViewSettingsDefaults;
+declare var internal_d_BarcodeSelectionView: typeof BarcodeSelectionView;
+declare var internal_d_getBarcodeArDefaults: typeof getBarcodeArDefaults;
+declare var internal_d_getBarcodeBatchDefaults: typeof getBarcodeBatchDefaults;
+declare var internal_d_getBarcodeCountDefaults: typeof getBarcodeCountDefaults;
+declare export {
+  internal_d_BarcodeArDefaults as BarcodeArDefaults,
+  internal_d_BarcodeBatchDefaults as BarcodeBatchDefaults,
+  internal_d_BarcodeCountDefaults as BarcodeCountDefaults,
+  internal_d_BarcodeCountViewSettingsDefaults as BarcodeCountViewSettingsDefaults,
+  internal_d_BarcodeSelectionView as BarcodeSelectionView,
+  internal_d_getBarcodeArDefaults as getBarcodeArDefaults,
+  internal_d_getBarcodeBatchDefaults as getBarcodeBatchDefaults,
+  internal_d_getBarcodeCountDefaults as getBarcodeCountDefaults,
+};
+declare export {
+  BarcodeArAioView,
+  BarcodeArCustomAnnotation,
+  BarcodeArCustomHighlight,
+  BarcodeArView,
+  BarcodeBatchAdvancedOverlay,
+  BarcodeBatchAdvancedOverlayView,
+  BarcodeBatchAioView,
+  BarcodeCaptureAioView,
+  BarcodeCountAioView,
+  BarcodeCountView,
+  BarcodeCountViewStyle,
+  BarcodeFindView,
+  BarcodePickView,
+  SparkScanAioView,
+  SparkScanView,
+  internal_d as _internal,
+};
+export type {
+  BarcodeArAioViewHandle,
+  BarcodeArAioViewProps,
+  BarcodeArCustomAnnotationConfig,
+  BarcodeArCustomHighlightConfig,
+  BarcodeBatchAdvancedOverlayListener,
+  BarcodeBatchAioAdvancedOverlayHandle,
+  BarcodeBatchAioAdvancedOverlayProps,
+  BarcodeBatchAioBasicOverlayHandle,
+  BarcodeBatchAioBasicOverlayProps,
+  BarcodeBatchAioViewHandle,
+  BarcodeBatchAioViewProps,
+  BarcodeCaptureAioBasicOverlayProps,
+  BarcodeCaptureAioViewHandle,
+  BarcodeCaptureAioViewProps,
+  BarcodeCountAioUiListener,
+  BarcodeCountAioViewHandle,
+  BarcodeCountAioViewListener,
+  BarcodeCountAioViewProps,
+  SparkScanAioViewHandle,
+  SparkScanAioViewProps,
+  SparkScanAioViewUiListener,
+  SparkScanViewUiListener,
+};

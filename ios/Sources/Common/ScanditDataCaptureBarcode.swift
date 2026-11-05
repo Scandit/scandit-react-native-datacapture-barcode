@@ -133,19 +133,20 @@ public class ScanditDataCaptureBarcodeImpl: NSObject {
     }
 
     private func initializeModules(with reactEmitter: ReactNativeEmitter) {
+        let registryEmitter = RegistryEmitter(platformEmitter: reactEmitter)
 
-        barcodeCaptureModule = BarcodeCaptureModule(emitter: reactEmitter)
+        barcodeCaptureModule = BarcodeCaptureModule(emitter: registryEmitter)
         barcodeCaptureModule.didStart()
 
         let aimedBrushProvider = FrameworksBarcodeSelectionAimedBrushProvider(
-            emitter: reactEmitter
+            emitter: registryEmitter
         )
         let trackedBrushProvider = FrameworksBarcodeSelectionTrackedBrushProvider(
-            emitter: reactEmitter
+            emitter: registryEmitter
         )
 
         barcodeSelectionModule = BarcodeSelectionModule(
-            emitter: reactEmitter,
+            emitter: registryEmitter,
             aimedBrushProvider: aimedBrushProvider,
             trackedBrushProvider: trackedBrushProvider
         )
@@ -153,13 +154,13 @@ public class ScanditDataCaptureBarcodeImpl: NSObject {
 
         let viewResolver = AdvancedOverlayViewCreatorFactory.create(emitter: emitter)
             .map { ReactViewFromJsonResolver(creator: $0) }
-        barcodeBatchModule = BarcodeBatchModule(emitter: reactEmitter, viewFromJsonResolver: viewResolver)
+        barcodeBatchModule = BarcodeBatchModule(emitter: registryEmitter, viewFromJsonResolver: viewResolver)
         barcodeBatchModule.didStart()
 
         sparkScanModule = SparkScanModule(emitter: reactEmitter)
         sparkScanModule.didStart()
 
-        barcodeCountModule = BarcodeCountModule(emitter: reactEmitter)
+        barcodeCountModule = BarcodeCountModule(emitter: registryEmitter)
         barcodeCountModule.didStart()
 
         barcodePickModule = BarcodePickModule(emitter: reactEmitter)
@@ -213,6 +214,7 @@ public class ScanditDataCaptureBarcodeImpl: NSObject {
         events += BarcodeArAnnotationProviderEvents.allCases.map { $0.rawValue }
         events += BarcodeArHighlightProviderEvents.allCases.map { $0.rawValue }
         events += FrameworksBarcodeArAnnotationEvents.allCases.map { $0.rawValue }
+        events += BarcodeArAugmentationsEvents.allCases.map { $0.rawValue }
         events += FrameworksBarcodeDataTransformerEvent.allCases.map { $0.rawValue }
 
         return events
@@ -220,7 +222,7 @@ public class ScanditDataCaptureBarcodeImpl: NSObject {
 
     public func getConstants() -> [AnyHashable: Any] {
         [
-            "Defaults": barcodeModule.getDefaults()
+            "DynamicDefaults": barcodeModule.getDynamicDefaults()
         ]
     }
 

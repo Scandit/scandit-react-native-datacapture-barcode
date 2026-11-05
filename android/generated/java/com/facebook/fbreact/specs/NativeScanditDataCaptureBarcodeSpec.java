@@ -51,7 +51,7 @@ public abstract class NativeScanditDataCaptureBarcodeSpec extends ReactContextBa
     Map<String, Object> constants = getTypedExportedConstants();
     if (ReactBuildConfig.DEBUG || ReactBuildConfig.IS_INTERNAL_BUILD) {
       Set<String> obligatoryFlowConstants = new HashSet<>(Arrays.asList(
-          "Defaults"
+          "DynamicDefaults"
       ));
       Set<String> optionalFlowConstants = new HashSet<>();
       Set<String> undeclaredConstants = new HashSet<>(constants.keySet());
