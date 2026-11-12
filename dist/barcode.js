@@ -16924,16 +16924,11 @@ class BarcodeCountViewEventHandlers {
             const listener = this.view.listener;
             if (listener && typeof listener.iconForRecognizedBarcode === 'function') {
                 // Opted in, so the listener's answer stands -- null included, which clears the icon.
-                icon = listener.iconForRecognizedBarcode(this.view.platformView, trackedBarcode);
+                icon = BarcodeCountViewEventHandlers.iconOrDefault(() => listener.iconForRecognizedBarcode(this.view.platformView, trackedBarcode), getBarcodeCountDefaults().BarcodeCountView.defaultRecognizedIcon);
             }
             else {
-                // Not opted in. Answer with the default: the controller subscribes every event in
-                // BarcodeCountViewListenerEvents as soon as any listener is registered, so a listener
-                // that only wants taps or brushes lands here for every tracked barcode. Since the
-                // bridge now forwards a null icon as a removal, answering null would silently strip
-                // icons from apps that never asked to control them. Mirrors Flutter, which substitutes
-                // the default for a listener that is not a BarcodeCountViewExtendedListener
-                // (barcode_count_view.dart:1309-1311).
+                // Not opted in: answer with the default. The controller registers only the
+                // implemented iconFor* events, so this runs while a listener swap is in flight.
                 icon = getBarcodeCountDefaults().BarcodeCountView.defaultRecognizedIcon;
             }
             const finishPayload = buildTrackedBarcodeIconPayload(trackedBarcode, icon);
@@ -16962,16 +16957,11 @@ class BarcodeCountViewEventHandlers {
             const listener = this.view.listener;
             if (listener && typeof listener.iconForRecognizedBarcodeNotInList === 'function') {
                 // Opted in, so the listener's answer stands -- null included, which clears the icon.
-                icon = listener.iconForRecognizedBarcodeNotInList(this.view.platformView, trackedBarcode);
+                icon = BarcodeCountViewEventHandlers.iconOrDefault(() => listener.iconForRecognizedBarcodeNotInList(this.view.platformView, trackedBarcode), getBarcodeCountDefaults().BarcodeCountView.defaultNotInListIcon);
             }
             else {
-                // Not opted in. Answer with the default: the controller subscribes every event in
-                // BarcodeCountViewListenerEvents as soon as any listener is registered, so a listener
-                // that only wants taps or brushes lands here for every tracked barcode. Since the
-                // bridge now forwards a null icon as a removal, answering null would silently strip
-                // icons from apps that never asked to control them. Mirrors Flutter, which substitutes
-                // the default for a listener that is not a BarcodeCountViewExtendedListener
-                // (barcode_count_view.dart:1309-1311).
+                // Not opted in: answer with the default. The controller registers only the
+                // implemented iconFor* events, so this runs while a listener swap is in flight.
                 icon = getBarcodeCountDefaults().BarcodeCountView.defaultNotInListIcon;
             }
             const finishPayload = buildTrackedBarcodeIconPayload(trackedBarcode, icon);
@@ -17000,16 +16990,11 @@ class BarcodeCountViewEventHandlers {
             const listener = this.view.listener;
             if (listener && typeof listener.iconForAcceptedBarcode === 'function') {
                 // Opted in, so the listener's answer stands -- null included, which clears the icon.
-                icon = listener.iconForAcceptedBarcode(this.view.platformView, trackedBarcode);
+                icon = BarcodeCountViewEventHandlers.iconOrDefault(() => listener.iconForAcceptedBarcode(this.view.platformView, trackedBarcode), getBarcodeCountDefaults().BarcodeCountView.defaultAcceptedIcon);
             }
             else {
-                // Not opted in. Answer with the default: the controller subscribes every event in
-                // BarcodeCountViewListenerEvents as soon as any listener is registered, so a listener
-                // that only wants taps or brushes lands here for every tracked barcode. Since the
-                // bridge now forwards a null icon as a removal, answering null would silently strip
-                // icons from apps that never asked to control them. Mirrors Flutter, which substitutes
-                // the default for a listener that is not a BarcodeCountViewExtendedListener
-                // (barcode_count_view.dart:1309-1311).
+                // Not opted in: answer with the default. The controller registers only the
+                // implemented iconFor* events, so this runs while a listener swap is in flight.
                 icon = getBarcodeCountDefaults().BarcodeCountView.defaultAcceptedIcon;
             }
             const finishPayload = buildTrackedBarcodeIconPayload(trackedBarcode, icon);
@@ -17038,16 +17023,11 @@ class BarcodeCountViewEventHandlers {
             const listener = this.view.listener;
             if (listener && typeof listener.iconForRejectedBarcode === 'function') {
                 // Opted in, so the listener's answer stands -- null included, which clears the icon.
-                icon = listener.iconForRejectedBarcode(this.view.platformView, trackedBarcode);
+                icon = BarcodeCountViewEventHandlers.iconOrDefault(() => listener.iconForRejectedBarcode(this.view.platformView, trackedBarcode), getBarcodeCountDefaults().BarcodeCountView.defaultRejectedIcon);
             }
             else {
-                // Not opted in. Answer with the default: the controller subscribes every event in
-                // BarcodeCountViewListenerEvents as soon as any listener is registered, so a listener
-                // that only wants taps or brushes lands here for every tracked barcode. Since the
-                // bridge now forwards a null icon as a removal, answering null would silently strip
-                // icons from apps that never asked to control them. Mirrors Flutter, which substitutes
-                // the default for a listener that is not a BarcodeCountViewExtendedListener
-                // (barcode_count_view.dart:1309-1311).
+                // Not opted in: answer with the default. The controller registers only the
+                // implemented iconFor* events, so this runs while a listener swap is in flight.
                 icon = getBarcodeCountDefaults().BarcodeCountView.defaultRejectedIcon;
             }
             const finishPayload = buildTrackedBarcodeIconPayload(trackedBarcode, icon);
@@ -17057,6 +17037,16 @@ class BarcodeCountViewEventHandlers {
                 trackedBarcodeId: finishPayload.trackedBarcodeID,
             });
         });
+    }
+    // A throwing app callback still gets a finish call, or native would keep no icon at all.
+    static iconOrDefault(callback, fallback) {
+        try {
+            return callback();
+        }
+        catch (error) {
+            console.error(`BarcodeCountView iconFor* listener failed: ${String(error)}`);
+            return fallback;
+        }
     }
     // Fire-and-forget ARE events are parsed strictly: a payload that fails the generated schema
     // parse is logged once and dropped, so a value outside the schema (for example an unknown error
@@ -17191,7 +17181,8 @@ var BarcodeCountAdaptiveRecognitionEvents;
 class BarcodeCountViewController extends BaseController {
     constructor(view, barcodeCount) {
         super('BarcodeCountViewProxy');
-        this.areIconEventsSubscribed = false;
+        this.iconListener = null;
+        this.iconListenerViewId = null;
         this.isViewListenerRegistered = false;
         this.isModeListenerRegistered = false;
         this.isStatusProviderRegistered = false;
@@ -17217,18 +17208,6 @@ class BarcodeCountViewController extends BaseController {
         };
         this.handleBrushForRejectedBarcodeWrapper = (ev) => {
             return this.eventHandlers.handleBrushForRejectedBarcode(ev);
-        };
-        this.handleIconForRecognizedBarcodeWrapper = (ev) => {
-            return this.eventHandlers.handleIconForRecognizedBarcode(ev);
-        };
-        this.handleIconForRecognizedBarcodeNotInListWrapper = (ev) => {
-            return this.eventHandlers.handleIconForRecognizedBarcodeNotInList(ev);
-        };
-        this.handleIconForAcceptedBarcodeWrapper = (ev) => {
-            return this.eventHandlers.handleIconForAcceptedBarcode(ev);
-        };
-        this.handleIconForRejectedBarcodeWrapper = (ev) => {
-            return this.eventHandlers.handleIconForRejectedBarcode(ev);
         };
         this.handleFilteredBarcodeTappedWrapper = (ev) => {
             this.eventHandlers.handleFilteredBarcodeTapped(ev);
@@ -17380,21 +17359,14 @@ class BarcodeCountViewController extends BaseController {
             if (!this.isViewCreated) {
                 return;
             }
-            // SDC-33589: subscribe everything EXCEPT the four iconFor* events, then add those only if
-            // the assigned listener actually implements one. Native emits an event only when something
-            // is subscribed to it, so a blanket subscription would make every existing app that
-            // registers any view listener pay four native->JS->native round trips per tracked barcode
-            // just to hand back the default icon native had already drawn.
+            // The iconFor* events are not subscribed here: syncIconEventRegistration puts them in the
+            // ListenerRegistry for the callbacks the listener implements.
             this._proxy.subscribeForEvents(BarcodeCountViewController.nonIconViewListenerEvents);
-            this.syncIconEventSubscription();
+            yield this.syncIconEventRegistration(this.view.listener);
             this._proxy.eventEmitter.on(BarcodeCountViewListenerEvents.brushForRecognizedBarcode, this.handleBrushForRecognizedBarcodeWrapper);
             this._proxy.eventEmitter.on(BarcodeCountViewListenerEvents.brushForRecognizedBarcodeNotInList, this.handleBrushForRecognizedBarcodeNotInListWrapper);
             this._proxy.eventEmitter.on(BarcodeCountViewListenerEvents.brushForAcceptedBarcode, this.handleBrushForAcceptedBarcodeWrapper);
             this._proxy.eventEmitter.on(BarcodeCountViewListenerEvents.brushForRejectedBarcode, this.handleBrushForRejectedBarcodeWrapper);
-            this._proxy.eventEmitter.on(BarcodeCountViewListenerEvents.iconForRecognizedBarcode, this.handleIconForRecognizedBarcodeWrapper);
-            this._proxy.eventEmitter.on(BarcodeCountViewListenerEvents.iconForRecognizedBarcodeNotInList, this.handleIconForRecognizedBarcodeNotInListWrapper);
-            this._proxy.eventEmitter.on(BarcodeCountViewListenerEvents.iconForAcceptedBarcode, this.handleIconForAcceptedBarcodeWrapper);
-            this._proxy.eventEmitter.on(BarcodeCountViewListenerEvents.iconForRejectedBarcode, this.handleIconForRejectedBarcodeWrapper);
             this._proxy.eventEmitter.on(BarcodeCountViewListenerEvents.filteredBarcodeTapped, this.handleFilteredBarcodeTappedWrapper);
             this._proxy.eventEmitter.on(BarcodeCountViewListenerEvents.recognizedBarcodeNotInListTapped, this.handleRecognizedBarcodeNotInListTappedWrapper);
             this._proxy.eventEmitter.on(BarcodeCountViewListenerEvents.recognizedBarcodeTapped, this.handleRecognizedBarcodeTappedWrapper);
@@ -17443,8 +17415,10 @@ class BarcodeCountViewController extends BaseController {
             if (listener != null) {
                 yield this.registerViewListener();
                 // registerViewListener returns early once registered, so a listener swapped in later
-                // would otherwise keep the icon subscription the FIRST listener decided on.
-                this.syncIconEventSubscription();
+                // would otherwise keep the icon registration the FIRST listener decided on.
+                if (this.isViewListenerRegistered) {
+                    yield this.syncIconEventRegistration(listener);
+                }
             }
             else {
                 yield this.unregisterViewListener();
@@ -17734,32 +17708,54 @@ class BarcodeCountViewController extends BaseController {
             hasTransformer: hasTransformer,
         });
     }
-    // True when the assigned listener implements at least one iconFor* callback. The callbacks are
-    // optional members, so a plain listener answers false and native never emits the icon events.
-    listenerWantsIconEvents() {
-        const listener = this.view.listener;
-        if (listener == null) {
-            return false;
-        }
-        return BarcodeCountViewController.iconViewListenerEvents.some(event => {
-            const callbackName = event.substring(event.indexOf('.') + 1);
-            return typeof listener[callbackName] === 'function';
-        });
+    static listenerImplements(listener, eventName) {
+        const callbackName = eventName.substring(eventName.indexOf('.') + 1);
+        return typeof listener[callbackName] === 'function';
     }
-    // Idempotent: brings the icon subscription in line with the current listener, so it is safe to
-    // call on first registration and again on every listener swap.
-    syncIconEventSubscription() {
-        const wanted = this.listenerWantsIconEvents();
-        if (wanted === this.areIconEventsSubscribed) {
-            return;
+    iconEventHandler(eventName) {
+        switch (eventName) {
+            case BarcodeCountViewListenerEvents.iconForRecognizedBarcodeNotInList:
+                return ev => this.eventHandlers.handleIconForRecognizedBarcodeNotInList(ev);
+            case BarcodeCountViewListenerEvents.iconForAcceptedBarcode:
+                return ev => this.eventHandlers.handleIconForAcceptedBarcode(ev);
+            case BarcodeCountViewListenerEvents.iconForRejectedBarcode:
+                return ev => this.eventHandlers.handleIconForRejectedBarcode(ev);
+            default:
+                return ev => this.eventHandlers.handleIconForRecognizedBarcode(ev);
         }
-        if (wanted) {
-            this._proxy.subscribeForEvents(BarcodeCountViewController.iconViewListenerEvents);
-        }
-        else {
-            this._proxy.unsubscribeFromEvents(BarcodeCountViewController.iconViewListenerEvents);
-        }
-        this.areIconEventsSubscribed = wanted;
+    }
+    // Registers each iconFor* event only for a callback the listener implements. Add before remove:
+    // an event both listeners share never leaves the native registry, so an iconFor* event in flight
+    // during a swap still reaches a handler and gets its finish call.
+    syncIconEventRegistration(next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const previous = this.iconListener;
+            const previousViewId = this.iconListenerViewId;
+            const viewId = this.view.viewId;
+            if (previous === next && (next === null || previousViewId === viewId)) {
+                return;
+            }
+            this.iconListener = next;
+            this.iconListenerViewId = next ? viewId : null;
+            const pending = [];
+            if (next) {
+                for (const eventName of BarcodeCountViewController.iconViewListenerEvents) {
+                    if (BarcodeCountViewController.listenerImplements(next, eventName)) {
+                        const handle = this.iconEventHandler(eventName);
+                        pending.push(ListenerRegistry.addListener(eventName, { viewId }, next, (_listeners, ev) => handle(ev)));
+                    }
+                }
+            }
+            if (previous && previousViewId !== null) {
+                const previousTarget = { viewId: previousViewId };
+                for (const eventName of BarcodeCountViewController.iconViewListenerEvents) {
+                    if (ListenerRegistry.listenersFor(eventName, previousTarget).includes(previous)) {
+                        pending.push(ListenerRegistry.removeListener(eventName, previousTarget, previous));
+                    }
+                }
+            }
+            yield Promise.all(pending);
+        });
     }
     unregisterViewScopedListeners(viewId) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -17785,16 +17781,12 @@ class BarcodeCountViewController extends BaseController {
             if (!this.isViewListenerRegistered) {
                 return;
             }
-            this._proxy.unsubscribeFromEvents(Object.values(BarcodeCountViewListenerEvents));
-            this.areIconEventsSubscribed = false;
+            this._proxy.unsubscribeFromEvents(BarcodeCountViewController.nonIconViewListenerEvents);
+            yield this.syncIconEventRegistration(null);
             this._proxy.eventEmitter.off(BarcodeCountViewListenerEvents.brushForRecognizedBarcode, this.handleBrushForRecognizedBarcodeWrapper);
             this._proxy.eventEmitter.off(BarcodeCountViewListenerEvents.brushForRecognizedBarcodeNotInList, this.handleBrushForRecognizedBarcodeNotInListWrapper);
             this._proxy.eventEmitter.off(BarcodeCountViewListenerEvents.brushForAcceptedBarcode, this.handleBrushForAcceptedBarcodeWrapper);
             this._proxy.eventEmitter.off(BarcodeCountViewListenerEvents.brushForRejectedBarcode, this.handleBrushForRejectedBarcodeWrapper);
-            this._proxy.eventEmitter.off(BarcodeCountViewListenerEvents.iconForRecognizedBarcode, this.handleIconForRecognizedBarcodeWrapper);
-            this._proxy.eventEmitter.off(BarcodeCountViewListenerEvents.iconForRecognizedBarcodeNotInList, this.handleIconForRecognizedBarcodeNotInListWrapper);
-            this._proxy.eventEmitter.off(BarcodeCountViewListenerEvents.iconForAcceptedBarcode, this.handleIconForAcceptedBarcodeWrapper);
-            this._proxy.eventEmitter.off(BarcodeCountViewListenerEvents.iconForRejectedBarcode, this.handleIconForRejectedBarcodeWrapper);
             this._proxy.eventEmitter.off(BarcodeCountViewListenerEvents.filteredBarcodeTapped, this.handleFilteredBarcodeTappedWrapper);
             this._proxy.eventEmitter.off(BarcodeCountViewListenerEvents.recognizedBarcodeNotInListTapped, this.handleRecognizedBarcodeNotInListTappedWrapper);
             this._proxy.eventEmitter.off(BarcodeCountViewListenerEvents.recognizedBarcodeTapped, this.handleRecognizedBarcodeTappedWrapper);
@@ -17834,9 +17826,8 @@ class BarcodeCountViewController extends BaseController {
         return data;
     }
 }
-// SDC-33589: the four iconFor* events are subscribed separately from the rest, so only a
-// listener that implements at least one of them makes native emit them. See
-// registerViewListener.
+// The four iconFor* events go through the ListenerRegistry, one per implemented callback, so
+// native answers nil (no default flash) only for an event the app will reply to.
 BarcodeCountViewController.iconViewListenerEvents = [
     BarcodeCountViewListenerEvents.iconForRecognizedBarcode,
     BarcodeCountViewListenerEvents.iconForRecognizedBarcodeNotInList,
