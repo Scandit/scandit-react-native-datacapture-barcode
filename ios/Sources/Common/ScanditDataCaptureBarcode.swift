@@ -133,20 +133,19 @@ public class ScanditDataCaptureBarcodeImpl: NSObject {
     }
 
     private func initializeModules(with reactEmitter: ReactNativeEmitter) {
-        let registryEmitter = RegistryEmitter(platformEmitter: reactEmitter)
 
-        barcodeCaptureModule = BarcodeCaptureModule(emitter: registryEmitter)
+        barcodeCaptureModule = BarcodeCaptureModule(emitter: reactEmitter)
         barcodeCaptureModule.didStart()
 
         let aimedBrushProvider = FrameworksBarcodeSelectionAimedBrushProvider(
-            emitter: registryEmitter
+            emitter: reactEmitter
         )
         let trackedBrushProvider = FrameworksBarcodeSelectionTrackedBrushProvider(
-            emitter: registryEmitter
+            emitter: reactEmitter
         )
 
         barcodeSelectionModule = BarcodeSelectionModule(
-            emitter: registryEmitter,
+            emitter: reactEmitter,
             aimedBrushProvider: aimedBrushProvider,
             trackedBrushProvider: trackedBrushProvider
         )
@@ -154,13 +153,13 @@ public class ScanditDataCaptureBarcodeImpl: NSObject {
 
         let viewResolver = AdvancedOverlayViewCreatorFactory.create(emitter: emitter)
             .map { ReactViewFromJsonResolver(creator: $0) }
-        barcodeBatchModule = BarcodeBatchModule(emitter: registryEmitter, viewFromJsonResolver: viewResolver)
+        barcodeBatchModule = BarcodeBatchModule(emitter: reactEmitter, viewFromJsonResolver: viewResolver)
         barcodeBatchModule.didStart()
 
         sparkScanModule = SparkScanModule(emitter: reactEmitter)
         sparkScanModule.didStart()
 
-        barcodeCountModule = BarcodeCountModule(emitter: registryEmitter)
+        barcodeCountModule = BarcodeCountModule(emitter: reactEmitter)
         barcodeCountModule.didStart()
 
         barcodePickModule = BarcodePickModule(emitter: reactEmitter)
@@ -222,7 +221,7 @@ public class ScanditDataCaptureBarcodeImpl: NSObject {
 
     public func getConstants() -> [AnyHashable: Any] {
         [
-            "DynamicDefaults": barcodeModule.getDynamicDefaults()
+            "Defaults": barcodeModule.getDefaults()
         ]
     }
 

@@ -18,7 +18,7 @@ export interface Spec extends TurboModule {
 
   readonly getConstants: () => {
     // eslint-disable-next-line @typescript-eslint/no-wrapper-object-types
-    DynamicDefaults: Object;
+    Defaults: Object;
   };
 
   // Single entry point for all Barcode operations - use Object so codegen produces NSDictionary on iOS
