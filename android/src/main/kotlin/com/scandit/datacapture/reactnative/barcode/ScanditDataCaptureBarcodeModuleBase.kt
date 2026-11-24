@@ -26,6 +26,7 @@ import com.scandit.datacapture.frameworks.core.FrameworkModule
 import com.scandit.datacapture.frameworks.core.errors.ModuleNotStartedError
 import com.scandit.datacapture.frameworks.core.errors.ParameterNullError
 import com.scandit.datacapture.frameworks.core.events.Emitter
+import com.scandit.datacapture.frameworks.core.listeners.registry.RegistryEmitter
 import com.scandit.datacapture.frameworks.core.locator.ServiceLocator
 import com.scandit.datacapture.reactnative.barcode.ui.BarcodeArViewManager
 import com.scandit.datacapture.reactnative.barcode.ui.BarcodeCountViewManager
@@ -46,7 +47,7 @@ class ScanditDataCaptureBarcodeModuleBase(
 ) {
     companion object {
         const val NAME = "ScanditDataCaptureBarcode"
-        private const val DEFAULTS_KEY = "Defaults"
+        private const val DYNAMIC_DEFAULTS_KEY = "DynamicDefaults"
 
         private fun viewManagerNullError(viewManagerName: String) = Error(
             "Unable to add the $viewManagerName on Android. " +
@@ -56,7 +57,7 @@ class ScanditDataCaptureBarcodeModuleBase(
 
     fun getDefaults(): MutableMap<String, Any> {
         return mutableMapOf(
-            DEFAULTS_KEY to barcodeModule.getDefaults()
+            DYNAMIC_DEFAULTS_KEY to barcodeModule.getDynamicDefaults()
         )
     }
 
@@ -76,7 +77,9 @@ class ScanditDataCaptureBarcodeModuleBase(
         }
         serviceLocator.register(barcodeModule)
 
-        val captureModule = BarcodeCaptureModule.create(emitter).also {
+        val registryEmitter = RegistryEmitter(emitter)
+
+        val captureModule = BarcodeCaptureModule.create(registryEmitter).also {
             it.onCreate(reactContext)
         }
         serviceLocator.register(captureModule)
@@ -87,14 +90,14 @@ class ScanditDataCaptureBarcodeModuleBase(
         serviceLocator.register(arModule)
 
         val batchModule = BarcodeBatchModule.create(
-            emitter,
+            registryEmitter,
             ReactViewFromJsonResolver(reactContext)
         ).also {
             it.onCreate(reactContext)
         }
         serviceLocator.register(batchModule)
 
-        val selectionModule = BarcodeSelectionModule.create(emitter).also {
+        val selectionModule = BarcodeSelectionModule.create(registryEmitter).also {
             it.onCreate(reactContext)
         }
         serviceLocator.register(selectionModule)
@@ -104,7 +107,7 @@ class ScanditDataCaptureBarcodeModuleBase(
         }
         serviceLocator.register(sparkScanModule)
 
-        val countModule = BarcodeCountModule.create(emitter).also {
+        val countModule = BarcodeCountModule.create(registryEmitter).also {
             it.onCreate(reactContext)
         }
         serviceLocator.register(countModule)
